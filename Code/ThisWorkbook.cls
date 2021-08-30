@@ -32,6 +32,7 @@ Private Sub Workbook_BeforeSave(ByVal SaveAsUI As Boolean, Cancel As Boolean)
     If ThisWorkbook.Name <> "Test_File.xlsm" Then
         'Extract out Modules, sheet code and forms into code folder
         Call Source_Control.ExportCode
+        DoEvents
         
         'Create copy of file in same folder
         Set wb = ThisWorkbook
