@@ -103,6 +103,13 @@ Private Sub tglStudyDetail_Click()
     form01_StudyDetail.Show False
 End Sub
 
+Private Sub tglCDA_FS_Click()
+    'PURPOSE: Closes current form and open CDA / FS form
+    Unload form042_Ethics
+    
+    form02_CDA_FS.Show False
+End Sub
+
 Private Sub tglSiteSelect_Click()
     'PURPOSE: Closes current form and open Site Select form
     Unload form042_Ethics
