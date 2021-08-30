@@ -90,6 +90,13 @@ Private Sub tglCDA_FS_Click()
     form02_CDA_FS.Show False
 End Sub
 
+Private Sub tglSiteSelect_Click()
+    'PURPOSE: Closes current form and open Site Select form
+    Unload form07_SIV
+    
+    form03_SiteSelect.Show False
+End Sub
+
 Private Sub tglReviews_Click()
     'PURPOSE: Closes current form and open Reviews form - Recruitment tab
     Unload form07_SIV
