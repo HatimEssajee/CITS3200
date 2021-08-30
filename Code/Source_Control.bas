@@ -11,6 +11,12 @@ Sub ImportCode()
     Dim codeFolder As String, codeFiles As String, frmFiles As String
     Dim code_file As String, filename As String
     
+    Call ActivateReferenceLibrary
+    Call RemoveCode
+    
+    'Close VB Editor
+    Application.VBE.MainWindow.Visible = False
+    
     codeFolder = CombinePaths(GetWorkbookPath, "Code") & "\"
     code_file = Dir(codeFolder)
     
@@ -28,6 +34,13 @@ Sub ImportCode()
         Exit Sub
     End If
     
+    'Check if vb project already has other modules
+    If ThisWorkbook.VBProject.VBComponents.Count > 10 Then
+        MsgBox "Can't continue--already have code imported!"
+        Exit Sub
+    End If
+    
+    
     'Loop through .bas files
     While code_file <> ""
         
@@ -39,6 +52,9 @@ Sub ImportCode()
         
         code_file = Dir
     Wend
+    
+    'Open VB Editor
+    Application.VBE.MainWindow.Visible = True
     
 End Sub
 
@@ -63,13 +79,15 @@ Sub ExportCode()
     'PURPOSE: Export out all VBA Poject components from workbook into "Code" folder
     'SOURCE: https://stackoverflow.com/questions/49724/programmatically-extract-macro-vba-code-from-word-2007-docs/49796#49796
     
-    If Not CanAccessVBOM Then Exit Sub ' Exit if access to VB object model is not allowed
-    If (ThisWorkbook.VBProject.VBE.ActiveWindow Is Nothing) Then
-        Exit Sub ' Exit if VBA window is not open
-    End If
+'    If Not CanAccessVBOM Then Exit Sub ' Exit if access to VB object model is not allowed
+'    If (ThisWorkbook.VBProject.VBE.ActiveWindow Is Nothing) Then
+'        Exit Sub ' Exit if VBA window is not open
+'    End If
+
     Dim comp As VBComponent
     Dim codeFolder As String
-
+    Dim myForm As UserForm
+    
     codeFolder = CombinePaths(GetWorkbookPath, "Code")
     On Error Resume Next
     MkDir codeFolder
@@ -103,8 +121,43 @@ Sub ExportCode()
                 DoEvents
         End Select
     Next
-
+    
+    'Unload all user forms
+    For Each myForm In UserForms
+        Unload myForm
+    Next
+    
+    'Save backup file
+    If ThisWorkbook.Name <> "Backup_File.xlsm" Then
+        Call Save_Backup
+    End If
+    
 End Sub
+
+Sub Save_Backup()
+    'PURPOSE: Save a copy of workbook
+    
+    Dim BackupFile As String
+    
+    On Error GoTo ErrHandler
+    
+    Application.EnableEvents = False
+    Application.ScreenUpdating = False
+    Application.DisplayAlerts = False
+    
+    BackupFile = Source_Control.GetWorkbookPath & "Backup_File.xlsm"
+    
+    If Len(Dir(BackupFile)) <> 0 Then Kill (BackupFile)
+        ThisWorkbook.SaveCopyAs BackupFile
+        DoEvents
+    
+ErrHandler:
+    Application.EnableEvents = True
+    Application.ScreenUpdating = True
+    Application.DisplayAlerts = True
+    
+End Sub
+
 Function CanAccessVBOM() As Boolean
     
     'PURPOSE: Check resgistry to see if we can access the VB object model
@@ -206,10 +259,6 @@ Public Function GetWorkbook(ByVal sFullName As String) As Workbook
     Set GetWorkbook = wbReturn
 
 End Function
-
-
-
-
 
 Sub ActivateReferenceLibrary()
 
