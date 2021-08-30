@@ -53,8 +53,13 @@ Sub ImportCode()
         code_file = Dir
     Wend
     
-    'Open VB Editor
-    Application.VBE.MainWindow.Visible = True
+    'Open VB Editor with Immediate, Locals, Properties windows open
+    With Application.VBE
+        .MainWindow.Visible = True
+        .Windows("Immediate").Visible = True
+        .Windows("Locals").Visible = True
+        .Windows("Properties").Visible = True
+    End With
     
 End Sub
 
