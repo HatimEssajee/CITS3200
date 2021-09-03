@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form043_Governance 
    Caption         =   "Ethics Review"
-   ClientHeight    =   6672
-   ClientLeft      =   -300
-   ClientTop       =   -1476
-   ClientWidth     =   8280.001
+   ClientHeight    =   4260
+   ClientLeft      =   -312
+   ClientTop       =   -1572
+   ClientWidth     =   6624
    OleObjectBlob   =   "form043_Governance.frx":0000
 End
 Attribute VB_Name = "form043_Governance"
@@ -12,6 +12,21 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Option Explicit
 
 

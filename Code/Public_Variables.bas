@@ -3,9 +3,13 @@ Option Explicit
 
 'List of public variables to share between userforms
 '---------------------------------------------------
-Public StudyID As String
 Public StudyName As String
-Public ReadRow As Long
+Public RowIndex As Long
+Public Username As String
+Public LastUpdate As Date
+
+Public RegTable As ListObject
+Public ReadRow As ListRow
 
 'List of fixed value constants to set fixed values
 '-------------------------------------------------
@@ -16,11 +20,33 @@ Public Const UWidth As Long = 500
 'list of public functions to share between userforms
 '---------------------------------------------------
 
-Public Sub Read_Register()
-
+Sub LogLastAccess()
+    
+    'PURPOSE: Log last time entry was accessed
+    
+    If RowIndex > 0 Then
+        With RegTable.ListRows(RowIndex)
+            .Range(5) = Now
+            .Range(6) = Username
+        End With
+    End If
 End Sub
 
-Public Sub Write_Register()
 
+Public Sub TurnEvents_ON()
+
+    Application.EnableEvents = True
+    Application.ScreenUpdating = True
+    Application.DisplayAlerts = True
+    Application.Calculation = xlCalculationAutomatic
+    
 End Sub
 
+Public Sub TurnEvents_OFF()
+
+    Application.EnableEvents = False
+    Application.ScreenUpdating = False
+    Application.DisplayAlerts = False
+    Application.Calculation = xlCalculationManual
+    
+End Sub

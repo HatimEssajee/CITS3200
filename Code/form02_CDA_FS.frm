@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form02_CDA_FS 
    Caption         =   "CDA & Feasibility"
-   ClientHeight    =   6792
-   ClientLeft      =   -276
-   ClientTop       =   -1248
-   ClientWidth     =   8016
+   ClientHeight    =   5424
+   ClientLeft      =   -300
+   ClientTop       =   -1332
+   ClientWidth     =   6408
    OleObjectBlob   =   "form02_CDA_FS.frx":0000
 End
 Attribute VB_Name = "form02_CDA_FS"
@@ -12,9 +12,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
 Option Explicit
-
 
 Private Sub UserForm_Activate()
     'PURPOSE: Reposition userform to Top Left of application Window and fix size

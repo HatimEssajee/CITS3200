@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form05_CTRA 
    Caption         =   "Project Form"
-   ClientHeight    =   6480
-   ClientLeft      =   -240
-   ClientTop       =   -1188
-   ClientWidth     =   7992
+   ClientHeight    =   4140
+   ClientLeft      =   -264
+   ClientTop       =   -1284
+   ClientWidth     =   6384
    OleObjectBlob   =   "form05_CTRA.frx":0000
 End
 Attribute VB_Name = "form05_CTRA"
@@ -12,6 +12,17 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
+
+
+
+
+
+
+
+
+
 Option Explicit
 
 Private Sub UserForm_Activate()

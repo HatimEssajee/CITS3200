@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form07_SIV 
    Caption         =   "Project Form"
-   ClientHeight    =   6708
-   ClientLeft      =   -312
-   ClientTop       =   -1368
-   ClientWidth     =   7980
+   ClientHeight    =   6288
+   ClientLeft      =   -336
+   ClientTop       =   -1452
+   ClientWidth     =   8448.001
    OleObjectBlob   =   "form07_SIV.frx":0000
 End
 Attribute VB_Name = "form07_SIV"
@@ -12,6 +12,21 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Option Explicit
 
 Private Sub UserForm_Activate()
