@@ -1,36 +1,20 @@
 VERSION 5.00
-Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form043_Governance 
-   Caption         =   "Ethics Review"
-   ClientHeight    =   3408
-   ClientLeft      =   -312
-   ClientTop       =   -1572
-   ClientWidth     =   6624
-   OleObjectBlob   =   "form043_Governance.frx":0000
+Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form08_ChangeLog 
+   Caption         =   "Study Details"
+   ClientHeight    =   4296
+   ClientLeft      =   -336
+   ClientTop       =   -1464
+   ClientWidth     =   6660
+   OleObjectBlob   =   "form08_ChangeLog.frx":0000
 End
-Attribute VB_Name = "form043_Governance"
+Attribute VB_Name = "form08_ChangeLog"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Option Explicit
-
 
 Private Sub UserForm_Activate()
     'PURPOSE: Reposition userform to Top Left of application Window and fix size
@@ -48,10 +32,9 @@ Private Sub UserForm_Initialize()
     'Source: https://www.contextures.com/xlUserForm02.html
     'Source: https://www.contextures.com/Excel-VBA-ComboBox-Lists.html
     Dim ctrl As MSForms.Control
-    Dim pPage As MSForms.Page
-       
+
     'Clear user form
-    'SOURCE: https://www.mrexcel.com/board/threads/loop-through-controls-on-a-userform.427103/
+    'source: https://www.mrexcel.com/board/threads/loop-through-controls-on-a-userform.427103/
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
@@ -67,32 +50,19 @@ Private Sub UserForm_Initialize()
             End Select
     Next ctrl
     
-    For Each pPage In Me.multiGov.Pages
-        For Each ctrl In pPage.Controls
-            Select Case True
-                Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = False
-                Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.Value = ""
-                Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.Value = ""
-                Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.Value = ""
-            End Select
-                
-        Next ctrl
-    Next pPage
-    
-    Me.tglReviews.Value = True
-    Me.tglReviews.BackColor = vbGreen
-    Me.tglGovernance.Value = True
-    Me.tglGovernance.BackColor = vbGreen
+    'Highlight tab selected
+    Me.tglStudyDetail.Value = True
+    Me.tglStudyDetail.BackColor = vbGreen
     
 End Sub
 
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form
     Unload Me
+    
+    'Edit LastAccess log
+    Call LogLastAccess
+    
 End Sub
 
 Private Sub cmdEdit_Click()
@@ -101,82 +71,60 @@ Private Sub cmdEdit_Click()
 End Sub
 
 
-
 '----------------- Navigation section Toggles ----------------
 
 Private Sub tglNav_Click()
     'PURPOSE: Closes current form and open Nav form
-    Unload form043_Governance
+    Unload form01_StudyDetail
     
     form00_Nav.Show False
-End Sub
-
-Private Sub tglStudyDetail_Click()
-    'PURPOSE: Closes current form and open Study Details form
-    Unload form043_Governance
     
-    form01_StudyDetail.Show False
+    'Edit LastAccess log
+    Call LogLastAccess
+    
 End Sub
 
 Private Sub tglCDA_FS_Click()
     'PURPOSE: Closes current form and open CDA / FS form
-    Unload form043_Governance
+    Unload form01_StudyDetail
     
     form02_CDA_FS.Show False
 End Sub
 
 Private Sub tglSiteSelect_Click()
     'PURPOSE: Closes current form and open Site Select form
-    Unload form043_Governance
+    Unload form01_StudyDetail
     
     form03_SiteSelect.Show False
 End Sub
 
-Private Sub tglRecruitment_Click()
-    'PURPOSE: Closes current form and open Recruitment form
-    Unload form043_Governance
+Private Sub tglReviews_Click()
+    'PURPOSE: Closes current form and open Reviews form - Recruitment tab
+    Unload form01_StudyDetail
     
     form041_Recruitment.Show False
 End Sub
 
-Private Sub tglEthics_Click()
-    'PURPOSE: Closes current form and open Ethics form
-    Unload form043_Governance
-    
-    form042_Ethics.Show False
-End Sub
-
-Private Sub tglBudget_Click()
-    'PURPOSE: Closes current form and open Budget form
-    Unload form043_Governance
-    
-    form044_Budget.Show False
-End Sub
-
-Private Sub tglIndemnity_Click()
-    'PURPOSE: Closes current form and open Indemnity form
-    Unload form043_Governance
-    
-    form045_Indemnity.Show False
-End Sub
-
 Private Sub tglCTRA_Click()
     'PURPOSE: Closes current form and open CTRA form
-    Unload form043_Governance
+    Unload form01_StudyDetail
     
     form05_CTRA.Show False
 End Sub
 
 Private Sub tglFinDisc_Click()
     'PURPOSE: Closes current form and open Fin. Disc. form
-    Unload form043_Governance
+    Unload form01_StudyDetail
     
     form06_FinDisc.Show False
 End Sub
 
 Private Sub tglSIV_Click()
     'PURPOSE: Closes current form and open SIV form
-    Unload form043_Governance
+    Unload form01_StudyDetail
     
     form07_SIV.Show False
 End Sub
+
+
+

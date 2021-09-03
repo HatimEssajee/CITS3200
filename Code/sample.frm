@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} sample 
    Caption         =   "Project Form"
-   ClientHeight    =   4260
+   ClientHeight    =   3408
    ClientLeft      =   -204
    ClientTop       =   -1092
    ClientWidth     =   4860
@@ -12,6 +12,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
 
 Option Explicit
 
@@ -213,7 +215,7 @@ Private Sub cmdSearch_Click()
     On Error GoTo ErrHandler:
 
     'find cell with Project ID in register range
-    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").Find(What:=strSearch, LookIn:=xlValues)
+    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").find(What:=strSearch, LookIn:=xlValues)
 
     'Read values from register sheet
     '--------------------------------------------
@@ -230,7 +232,7 @@ End Sub
 Private Sub cmdJumpBack_Click()
 
     Dim RowSearch As Range
-    Dim cnt As Integer
+    Dim Cnt As Integer
     Dim strSearch As String
     Dim Jump As Integer
     Dim TopRow As Long
@@ -240,7 +242,7 @@ Private Sub cmdJumpBack_Click()
 
     'Set Toggle interval and variables
     Jump = 5
-    cnt = 0
+    Cnt = 0
     TopRow = Sheets("Register").Range("Register[[#Headers],[PROJECT ID]]").Row + 1
 
     'error block
@@ -259,28 +261,28 @@ Private Sub cmdJumpBack_Click()
     End If
 
     'find cell with Project ID in register range
-    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").Find(What:=strSearch, LookIn:=xlValues)
+    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").find(What:=strSearch, LookIn:=xlValues)
 
     'Loop back counting rows until Jump interval
     cRow = RowSearch.Row
     While cRow > (TopRow - 1) And nRow <= Jump:
 
-        cRow = RowSearch.Offset(-cnt, 0).Row
-        If Not (IsEmpty(RowSearch.Offset(-cnt, 0))) Then
+        cRow = RowSearch.Offset(-Cnt, 0).Row
+        If Not (IsEmpty(RowSearch.Offset(-Cnt, 0))) Then
             nRow = nRow + 1
         End If
 
         'Break out of loop if Top Row reached
         If cRow = TopRow Then
-            cnt = RowSearch.Row - TopRow + 1
+            Cnt = RowSearch.Row - TopRow + 1
             nRow = Jump + 1
         Else
-            cnt = cnt + 1
+            Cnt = Cnt + 1
         End If
     Wend
 
     'Redefine range selected from register
-    Set RowSearch = RowSearch.Offset(-cnt + 1, 0)
+    Set RowSearch = RowSearch.Offset(-Cnt + 1, 0)
 
 
     'Read values from register sheet
@@ -299,7 +301,7 @@ End Sub
 Private Sub cmdJumpForw_Click()
 
     Dim RowSearch As Range
-    Dim cnt As Integer
+    Dim Cnt As Integer
     Dim strSearch As String
     Dim Jump As Integer
     Dim BtmRow As Long
@@ -309,7 +311,7 @@ Private Sub cmdJumpForw_Click()
 
     'Set Toggle interval and variables
     Jump = 5
-    cnt = 0
+    Cnt = 0
 
     'Find last used Row in register sheet
     'Source: https://www.contextures.com/rickrothsteinexcelvbasheet.html
@@ -331,28 +333,28 @@ Private Sub cmdJumpForw_Click()
     End If
 
     'find cell with Project ID in register range
-    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").Find(What:=strSearch, LookIn:=xlValues)
+    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").find(What:=strSearch, LookIn:=xlValues)
 
     'Loop back counting rows until Jump interval
     cRow = RowSearch.Row
     While cRow < (BtmRow + 1) And nRow <= Jump:
 
-        cRow = RowSearch.Offset(cnt, 0).Row
-        If Not (IsEmpty(RowSearch.Offset(cnt, 0))) Then
+        cRow = RowSearch.Offset(Cnt, 0).Row
+        If Not (IsEmpty(RowSearch.Offset(Cnt, 0))) Then
             nRow = nRow + 1
         End If
 
         'Break out of loop if Bottom Row Reached
         If cRow = BtmRow Then
-            cnt = BtmRow + 1 - RowSearch.Row
+            Cnt = BtmRow + 1 - RowSearch.Row
             nRow = Jump + 1
         Else
-            cnt = cnt + 1
+            Cnt = Cnt + 1
         End If
     Wend
 
     'Redefine range selected from register
-    Set RowSearch = RowSearch.Offset(cnt - 1, 0)
+    Set RowSearch = RowSearch.Offset(Cnt - 1, 0)
 
 
     'Read values from register sheet
@@ -370,7 +372,7 @@ End Sub
 Private Sub cmdPrevious_Click()
 
     Dim RowSearch As Range
-    Dim cnt As Integer
+    Dim Cnt As Integer
     Dim strSearch As String
     Dim Jump As Integer
     Dim TopRow As Long
@@ -380,7 +382,7 @@ Private Sub cmdPrevious_Click()
 
     'Set Toggle interval and variables
     Jump = 1
-    cnt = 0
+    Cnt = 0
     TopRow = Sheets("Register").Range("Register[[#Headers],[PROJECT ID]]").Row + 1
 
     'error block
@@ -399,28 +401,28 @@ Private Sub cmdPrevious_Click()
     End If
 
     'find cell with Project ID in register range
-    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").Find(What:=strSearch, LookIn:=xlValues)
+    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").find(What:=strSearch, LookIn:=xlValues)
 
     'Loop back counting rows until Jump interval
     cRow = RowSearch.Row
     While cRow > (TopRow - 1) And nRow <= Jump:
 
-        cRow = RowSearch.Offset(-cnt, 0).Row
-        If Not (IsEmpty(RowSearch.Offset(-cnt, 0))) Then
+        cRow = RowSearch.Offset(-Cnt, 0).Row
+        If Not (IsEmpty(RowSearch.Offset(-Cnt, 0))) Then
             nRow = nRow + 1
         End If
 
         'Break out of loop if Top Row reached
         If cRow = TopRow Then
-            cnt = RowSearch.Row - TopRow + 1
+            Cnt = RowSearch.Row - TopRow + 1
             nRow = Jump + 1
         Else
-            cnt = cnt + 1
+            Cnt = Cnt + 1
         End If
     Wend
 
     'Redefine range selected from register
-    Set RowSearch = RowSearch.Offset(-cnt + 1, 0)
+    Set RowSearch = RowSearch.Offset(-Cnt + 1, 0)
 
 
     'Read values from register sheet
@@ -438,7 +440,7 @@ End Sub
 Private Sub cmdNext_Click()
 
     Dim RowSearch As Range
-    Dim cnt As Integer
+    Dim Cnt As Integer
     Dim strSearch As String
     Dim Jump As Integer
     Dim BtmRow As Long
@@ -448,7 +450,7 @@ Private Sub cmdNext_Click()
 
     'Set Toggle interval and variables
     Jump = 1
-    cnt = 0
+    Cnt = 0
 
     'Find last used Row in register sheet
     'Source: https://www.contextures.com/rickrothsteinexcelvbasheet.html
@@ -470,28 +472,28 @@ Private Sub cmdNext_Click()
     End If
 
     'find cell with Project ID in register range
-    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").Find(What:=strSearch, LookIn:=xlValues)
+    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").find(What:=strSearch, LookIn:=xlValues)
 
     'Loop back counting rows until Jump interval
     cRow = RowSearch.Row
     While cRow < (BtmRow + 1) And nRow <= Jump:
 
-        cRow = RowSearch.Offset(cnt, 0).Row
-        If Not (IsEmpty(RowSearch.Offset(cnt, 0))) Then
+        cRow = RowSearch.Offset(Cnt, 0).Row
+        If Not (IsEmpty(RowSearch.Offset(Cnt, 0))) Then
             nRow = nRow + 1
         End If
 
         'Break out of loop if Bottom Row Reached
         If cRow = BtmRow Then
-            cnt = BtmRow + 1 - RowSearch.Row
+            Cnt = BtmRow + 1 - RowSearch.Row
             nRow = Jump + 1
         Else
-            cnt = cnt + 1
+            Cnt = Cnt + 1
         End If
     Wend
 
     'Redefine range selected from register
-    Set RowSearch = RowSearch.Offset(cnt - 1, 0)
+    Set RowSearch = RowSearch.Offset(Cnt - 1, 0)
 
 
     'Read values from register sheet
@@ -689,7 +691,7 @@ Private Sub cmdChange_Click()
 
     'find cell with Project ID in register range
     strSearch = Me.txtPrjID.Value
-    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").Find(What:=strSearch, LookIn:=xlValues)
+    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").find(What:=strSearch, LookIn:=xlValues)
     
     'Write values from register sheet
     '--------------------------------------------
@@ -750,7 +752,7 @@ Private Sub cmdDelete_Click()
 
     'find cell with Project ID in register range
     strSearch = Me.txtPrjID.Value
-    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").Find(What:=strSearch, LookIn:=xlValues)
+    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").find(What:=strSearch, LookIn:=xlValues)
     
     DelRow = RowSearch.Row - 1
 

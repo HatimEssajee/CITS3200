@@ -7,6 +7,9 @@ Public StudyName As String
 Public RowIndex As Long
 Public Username As String
 Public LastUpdate As Date
+Public Tick As Boolean
+Public StudyStatus As Variant
+Public DisplayArr() As Variant
 
 Public RegTable As ListObject
 Public ReadRow As ListRow
@@ -26,8 +29,8 @@ Sub LogLastAccess()
     
     If RowIndex > 0 Then
         With RegTable.ListRows(RowIndex)
-            .Range(5) = Now
-            .Range(6) = Username
+            .Range(6) = Now
+            .Range(7) = Username
         End With
     End If
 End Sub

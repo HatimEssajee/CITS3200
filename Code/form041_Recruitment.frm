@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form041_Recruitment 
    Caption         =   "Recruitment Plan"
-   ClientHeight    =   4296
+   ClientHeight    =   3432
    ClientLeft      =   -432
    ClientTop       =   -1776
    ClientWidth     =   6372
@@ -12,6 +12,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
 
 
 

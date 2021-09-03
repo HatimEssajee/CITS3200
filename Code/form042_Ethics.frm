@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form042_Ethics 
    Caption         =   "Ethics Review"
-   ClientHeight    =   4416
+   ClientHeight    =   3528
    ClientLeft      =   -312
    ClientTop       =   -1560
    ClientWidth     =   6360
@@ -12,6 +12,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
 
 
 

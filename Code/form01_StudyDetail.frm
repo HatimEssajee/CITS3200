@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form01_StudyDetail 
    Caption         =   "Study Details"
-   ClientHeight    =   5376
+   ClientHeight    =   4296
    ClientLeft      =   -336
    ClientTop       =   -1464
    ClientWidth     =   6660
@@ -12,6 +12,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -52,6 +54,12 @@ Private Sub UserForm_Initialize()
     Me.tglStudyDetail.Value = True
     Me.tglStudyDetail.BackColor = vbGreen
     
+    'Read information from register table
+'    Me.txtSponsor
+'    Me.txtCRO
+'    Me.txtStudyName
+'    Me.
+    
 End Sub
 
 Private Sub cmdClose_Click()
@@ -65,7 +73,18 @@ End Sub
 
 Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
-
+    With RegTable.ListRows(RowIndex)
+        .Range(1) = RowIndex
+        .Range(2) = Now
+        .Range(3) = Username
+        .Range(8) = "Current"
+        .Range(9) = Me.txtProtocolNum.Value
+        .Range(10) = StudyName
+        .Range(11) = Me.txtSponsor.Value
+        .Range(14) = .Range(2).Value
+        .Range(15) = .Range(3).Value
+    End With
+    
 End Sub
 
 

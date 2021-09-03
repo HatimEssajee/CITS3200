@@ -17,8 +17,9 @@ Sub OpenForm()
     'Source: https://officetricks.com/excel-vba-get-username-windows-system/
     Username = ThisWorkbook.BuiltinDocumentProperties("Author")
     
-    'Force default starting rowIndex for empty form
+    'Force default starting rowIndex for empty form and tickbox checked
     RowIndex = -1
+    Tick = True
     
     'Display Project Form UserForm
     'Source: https://www.contextures.com/xlUserForm02.html
