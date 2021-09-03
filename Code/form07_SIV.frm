@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form07_SIV 
    Caption         =   "Project Form"
-   ClientHeight    =   7872
-   ClientLeft      =   -312
-   ClientTop       =   -1368
-   ClientWidth     =   10572
+   ClientHeight    =   6288
+   ClientLeft      =   -336
+   ClientTop       =   -1452
+   ClientWidth     =   8448.001
    OleObjectBlob   =   "form07_SIV.frx":0000
 End
 Attribute VB_Name = "form07_SIV"

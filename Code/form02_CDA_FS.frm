@@ -14,7 +14,6 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-
 Private Sub UserForm_Activate()
     'PURPOSE: Reposition userform to Top Left of application Window and fix size
     'source: https://www.mrexcel.com/board/threads/userform-startup-position.671108/
