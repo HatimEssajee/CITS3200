@@ -736,7 +736,7 @@ Private Sub cmdDelete_Click()
     Dim rowsearch As Range
     Dim strSearch As String
     Dim nCol As Long
-    Dim Confirm As Integer
+    Dim confirm As Integer
     Dim ws As Worksheet
     Dim myerror As Integer
     Dim DelRow As Long
@@ -750,10 +750,10 @@ Private Sub cmdDelete_Click()
     On Error GoTo ErrHandler:
 
     'Confirm deletion
-    Confirm = MsgBox("Are you sure you want to delete Project data?", vbYesNo, "WARNING!")
+    confirm = MsgBox("Are you sure you want to delete Project data?", vbYesNo, "WARNING!")
 
     'If select no then cancel deletion
-    If Confirm = vbNo Then
+    If confirm = vbNo Then
         Exit Sub
     End If
     

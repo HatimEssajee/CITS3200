@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form00_Nav 
    Caption         =   "Vaccine Trial Study Start-up Tracker"
-   ClientHeight    =   6720
-   ClientLeft      =   60
-   ClientTop       =   120
-   ClientWidth     =   14580
+   ClientHeight    =   5784
+   ClientLeft      =   36
+   ClientTop       =   -72
+   ClientWidth     =   6444
    OleObjectBlob   =   "form00_Nav.frx":0000
 End
 Attribute VB_Name = "form00_Nav"
@@ -12,20 +12,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -69,21 +55,97 @@ Private Sub UserForm_Initialize()
     For Each item In cboList_StudyStatus
         cboStudyStatus.AddItem item
     Next item
-
+    
+    cboStudyStatus.TextAlign = fmTextAlignCenter
+        
 End Sub
 
 
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form
     Unload Me
-    
+        
 End Sub
 
 Private Sub cmdNew_Click()
     'PURPOSE: Closes current form and open Study Detail form
+    
+    On Error GoTo ErrHandler:
+    
+    Call TurnEvents_OFF
+    
+    'Set Public Variable
+    StudyName = Me.txtStudyName.Value
+    
+    'Add Row to register table and repoint row references
+    'Source: https://www.bluepecantraining.com/portfolio/excel-vba-how-to-add-rows-and-columns-to-excel-table-with-vba-macro/
+    Set ReadRow = RegTable.ListRows.Add
+    
+    RowIndex = RegTable.ListRows.Count
+    
+    With ReadRow
+        .Range(1) = Now
+        .Range(2) = Username
+        .Range(7) = Me.cboStudyStatus.Value
+        .Range(8) = Me.txtProtocolNum
+        .Range(9) = StudyName
+        .Range(13) = .Range(1).Value
+        .Range(14) = .Range(2).Value
+    End With
+    
     Unload form00_Nav
     
     form01_StudyDetail.Show False
+    
+ErrHandler:
+     Call TurnEvents_ON
+     
+End Sub
+
+Private Sub cboStudyStatus_Change()
+    
+    Select Case (Me.cboStudyStatus.Value):
+        Case "Current"
+            Me.cboStudyStatus.ForeColor = vbBlack
+        Case "Commenced"
+            Me.cboStudyStatus.ForeColor = RGB(0, 128, 0)
+        
+        Case "Halted"
+            Me.cboStudyStatus.ForeColor = vbMagenta
+    End Select
+    
+End Sub
+Private Sub cmdDelete_Click()
+    'PURPOSE: Non-permanent delete of entry
+    
+    Dim confirm As Integer
+    
+    'Confirm deletion
+    confirm = MsgBox("Are you sure you want to delete Project data?", vbYesNo, "WARNING!")
+
+    'If select no then cancel deletion
+    If confirm = vbNo Then
+        Exit Sub
+    End If
+
+    'Change entry if RowIndex was found via search or new entry
+    If RowIndex > 0 Then
+        
+        'Update deletion log
+        With RegTable.ListRows(RowIndex)
+            .Range(3) = Now
+            .Range(4) = Username
+            .Range(7) = "DELETED"
+        End With
+    
+    
+        'Change status
+        With Me.cboStudyStatus
+            .Value = "DELETED"
+            .ForeColor = vbRed
+        End With
+        
+    End If
 End Sub
 
 Private Sub cmdEdit_Click()
@@ -91,44 +153,74 @@ Private Sub cmdEdit_Click()
     Unload form00_Nav
     
     form01_StudyDetail.Show False
+    
 End Sub
 
 
+Private Sub cmdNext_Click()
+
+    Dim rowsearch As Range
+    Dim cnt As Integer
+    Dim strSearch As String
+    Dim Jump As Integer
+    Dim BtmRow As Long
+    Dim cRow As Long
+    Dim nRow As Long
+    Dim myerror As Integer
+
+    'Set Toggle interval and variables
+    Jump = 1
+    cnt = 0
+
+    'Find last used Row in register sheet
+    'Source: https://www.contextures.com/rickrothsteinexcelvbasheet.html
+    BtmRow = RegTable.ListRows.Count
+
+'    'error block
+'    On Error GoTo ErrHandler:
+    
+    'Check if
+    'find cell with Project ID in register range
+    Set rowsearch = Sheets("Register").Range("Register[PROJECT ID]").Find(What:=strSearch, LookIn:=xlValues)
+
+    'Loop back counting rows until Jump interval
+    cRow = rowsearch.Row
+    While cRow < (BtmRow + 1) And nRow <= Jump:
+
+        cRow = rowsearch.Offset(cnt, 0).Row
+        If Not (IsEmpty(rowsearch.Offset(cnt, 0))) Then
+            nRow = nRow + 1
+        End If
+
+        'Break out of loop if Bottom Row Reached
+        If cRow = BtmRow Then
+            cnt = BtmRow + 1 - rowsearch.Row
+            nRow = Jump + 1
+        Else
+            cnt = cnt + 1
+        End If
+    Wend
+
+    'Redefine range selected from register
+    Set rowsearch = rowsearch.Offset(cnt - 1, 0)
+
+
+    'Read values from register sheet
+    '--------------------------------------------
+    Call Read_from_sheet(rowsearch)
+
+    Exit Sub
+
+'    'error block
+'ErrHandler:
+'        Me.errSearch.Value MsgBox("Error! Project Not Found - Check Project ID", vbOKOnly, "WARNING!")
+
+End Sub
+
+    
 
 
 
-
-'Private Sub cboPrjChampTeam_AfterUpdate()
-'    'Fill dependent combo box for project champion team members
-'    Dim cPrjChamp As Range
-'    Dim ws As Worksheet
-'    Dim cboIndex As Integer
-'    Dim strPrjChamp As String
-'    Set ws = Worksheets("Lookup Lists")
-'
-'    'Fill Project Champion Team Persons combo box
-'    'source: https://www.excel-easy.com/vba/examples/dependent-combo-boxes.html
-'    cboIndex = cboPrjChampTeam.ListIndex
-'
-'    If cboIndex = 0 Then strPrjChamp = "TS_Team" Else strPrjChamp = "GI_Team"
-'
-'    cboPrjChamp.Clear
-'
-'    For Each cPrjChamp In ws.Range(strPrjChamp)
-'      With Me.MultiPage1.tbPage3.cboPrjChamp
-'        .AddItem cPrjChamp.Value
-'      End With
-'    Next cPrjChamp
-'
-'End Sub
-'
-'Private Sub cboPrjStatus_AfterUpdate()
-'    'Copy Project Status to Main Page label
-'    lblPrjStatusCapt.Caption = cboPrjStatus.Value
-'
-'End Sub
-'
-'
 'Private Sub txtSF_Change()
 ''PURPOSE: Limit TextBox inputs to Postive Whole Numbers
 ''SOURCE: www.TheSpreadsheetGuru.com/the-code-vault

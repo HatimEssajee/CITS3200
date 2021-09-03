@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form044_Budget 
    Caption         =   "Ethics Review"
-   ClientHeight    =   6828
+   ClientHeight    =   5460
    ClientLeft      =   -288
    ClientTop       =   -1476
    ClientWidth     =   8280.001

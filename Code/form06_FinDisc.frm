@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form06_FinDisc 
    Caption         =   "Project Form"
-   ClientHeight    =   6768
+   ClientHeight    =   5412
    ClientLeft      =   -288
    ClientTop       =   -1260
    ClientWidth     =   8100

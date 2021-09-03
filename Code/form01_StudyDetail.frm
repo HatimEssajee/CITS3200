@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form01_StudyDetail 
    Caption         =   "Study Details"
-   ClientHeight    =   6732
-   ClientLeft      =   -312
-   ClientTop       =   -1368
-   ClientWidth     =   8328.001
+   ClientHeight    =   5376
+   ClientLeft      =   -336
+   ClientTop       =   -1464
+   ClientWidth     =   6660
    OleObjectBlob   =   "form01_StudyDetail.frx":0000
 End
 Attribute VB_Name = "form01_StudyDetail"
@@ -12,21 +12,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -72,6 +57,10 @@ End Sub
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form
     Unload Me
+    
+    'Edit LastAccess log
+    Call LogLastAccess
+    
 End Sub
 
 Private Sub cmdEdit_Click()
@@ -87,6 +76,10 @@ Private Sub tglNav_Click()
     Unload form01_StudyDetail
     
     form00_Nav.Show False
+    
+    'Edit LastAccess log
+    Call LogLastAccess
+    
 End Sub
 
 Private Sub tglCDA_FS_Click()
@@ -130,4 +123,6 @@ Private Sub tglSIV_Click()
     
     form07_SIV.Show False
 End Sub
+
+
 

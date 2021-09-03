@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form041_Recruitment 
    Caption         =   "Recruitment Plan"
-   ClientHeight    =   6720
+   ClientHeight    =   5376
    ClientLeft      =   -408
    ClientTop       =   -1692
    ClientWidth     =   7968

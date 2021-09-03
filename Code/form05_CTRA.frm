@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form05_CTRA 
    Caption         =   "Project Form"
-   ClientHeight    =   6480
+   ClientHeight    =   5184
    ClientLeft      =   -240
    ClientTop       =   -1188
    ClientWidth     =   7992
@@ -12,10 +12,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
-
-
 
 
 

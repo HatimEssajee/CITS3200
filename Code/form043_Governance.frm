@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form043_Governance 
    Caption         =   "Ethics Review"
-   ClientHeight    =   6672
+   ClientHeight    =   5328
    ClientLeft      =   -300
    ClientTop       =   -1476
    ClientWidth     =   8280.001

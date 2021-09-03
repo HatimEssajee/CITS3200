@@ -2,30 +2,23 @@ Attribute VB_Name = "OpenForm"
 Option Explicit
 
 Sub OpenForm()
+    'PURPOSE: Determines dimensions of register table and loads first userform
+        
+'    'Find first and last used Row in register table
+'    'Source: https://www.thespreadsheetguru.com/blog/2014/6/20/the-vba-guide-to-listobject-excel-tables
+'    HeaderRow = Sheets("Register").Range("Register[[#Headers],[Study UID]]").Row
+'    TopRow = HeaderRow + 1
+'    BtmRow = RegTable.ListRows.Count
     
-'    'Create combined team supporters list
-'    Dim ws As Worksheet
-'    Dim lGI As Long
-'    Dim lTS As Long
-'    Dim i As Integer
-'    Dim j As Integer
-'    Set ws = Sheets("Lookup Lists")
-'
-'    lGI = ws.Range("GI_Team").Rows.Count
-'    lTS = ws.Range("TS_Team").Rows.Count
-'
-'    'Clear Team Supporters list
-'    ws.Unprotect
-'
-'    ws.Range("K3").End(xlDown).ClearContents
-'
-'    'Copy ranges and alphabetize
-'    ws.Range("K3").Resize(lGI, 1).Value = ws.Range("GI_Team").Value
-'    ws.Range("K3").Offset(lGI, 0).Resize(lTS, 1).Value = ws.Range("TS_Team").Value
-'
-'    ws.Range("K3").Resize(lGI + lTS, 1).Sort key1:=ws.Range("K3"), order1:=xlAscending
-'
-'    ws.Protect
+    'Reference register table
+    Set RegTable = ThisWorkbook.Sheets("Register").ListObjects("Register")
+    
+    'Store current username in memory
+    'Source: https://officetricks.com/excel-vba-get-username-windows-system/
+    Username = ThisWorkbook.BuiltinDocumentProperties("Author")
+    
+    'Force default starting rowIndex for empty form
+    RowIndex = -1
     
     'Display Project Form UserForm
     'Source: https://www.contextures.com/xlUserForm02.html
