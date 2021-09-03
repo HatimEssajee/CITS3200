@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form00_Nav 
    Caption         =   "Vaccine Trial Study Start-up Tracker"
    ClientHeight    =   8040
-   ClientLeft      =   0
-   ClientTop       =   -264
-   ClientWidth     =   10092
+   ClientLeft      =   -24
+   ClientTop       =   -360
+   ClientWidth     =   8064
    OleObjectBlob   =   "form00_Nav.frx":0000
 End
 Attribute VB_Name = "form00_Nav"
@@ -17,12 +17,21 @@ Option Explicit
 Private Sub UserForm_Activate()
     'PURPOSE: Reposition userform to Top Left of application Window and fix size
     'source: https://www.mrexcel.com/board/threads/userform-startup-position.671108/
-    Me.StartUpPosition = 0
-    Me.Top = Application.Top + 25
-    Me.Left = Application.Left + 25
+    'Me.StartUpPosition = 0
+    'Me.Top = Application.Top + 25
+    'Me.Left = Application.Left + 25
+    Me.Top = UserFormTopPos
+    Me.Left = UserFormLeftPos
     Me.Height = UHeight
     Me.Width = UWidth
 
+End Sub
+
+Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
+    'PURPOSE: On Close Userform this code saves the last Userform position to Defined Names
+    'SOURCE: https://answers.microsoft.com/en-us/msoffice/forum/all/saving-last-position-of-userform/9399e735-9a9e-47c4-a1e0-e0d5cedd15ca
+    UserFormTopPos = Me.Top
+    UserFormLeftPos = Me.Left
 End Sub
 
 Private Sub UserForm_Initialize()
@@ -186,6 +195,13 @@ Private Sub cmdDelete_Click()
         End With
         
     End If
+    
+End Sub
+
+Private Sub cmdChangeLog_Click()
+    'PURPOSE: Open change log form
+    
+    form08_ChangeLog.Show False
     
 End Sub
 

@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form05_CTRA 
    Caption         =   "Project Form"
-   ClientHeight    =   3312
-   ClientLeft      =   -264
-   ClientTop       =   -1284
-   ClientWidth     =   6384
+   ClientHeight    =   2640
+   ClientLeft      =   -276
+   ClientTop       =   -1368
+   ClientWidth     =   5100
    OleObjectBlob   =   "form05_CTRA.frx":0000
 End
 Attribute VB_Name = "form05_CTRA"
@@ -12,30 +12,26 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
-
-
-
-
-
-
-
-
-
-
-
 Option Explicit
 
 Private Sub UserForm_Activate()
     'PURPOSE: Reposition userform to Top Left of application Window and fix size
     'source: https://www.mrexcel.com/board/threads/userform-startup-position.671108/
-    Me.StartUpPosition = 0
-    Me.Top = Application.Top + 25
-    Me.Left = Application.Left + 25
+    'Me.StartUpPosition = 0
+    'Me.Top = Application.Top + 25
+    'Me.Left = Application.Left + 25
+    Me.Top = UserFormTopPos
+    Me.Left = UserFormLeftPos
     Me.Height = UHeight
     Me.Width = UWidth
 
+End Sub
+
+Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
+    'PURPOSE: On Close Userform this code saves the last Userform position to Defined Names
+    'SOURCE: https://answers.microsoft.com/en-us/msoffice/forum/all/saving-last-position-of-userform/9399e735-9a9e-47c4-a1e0-e0d5cedd15ca
+    UserFormTopPos = Me.Top
+    UserFormLeftPos = Me.Left
 End Sub
 
 Private Sub UserForm_Initialize()

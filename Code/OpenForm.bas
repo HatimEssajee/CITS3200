@@ -21,6 +21,10 @@ Sub OpenForm()
     RowIndex = -1
     Tick = True
     
+    'Set initial location
+    UserFormLeftPos = Application.Top + 25
+    UserFormTopPos = Application.Left + 25
+    
     'Display Project Form UserForm
     'Source: https://www.contextures.com/xlUserForm02.html
     form00_Nav.Show False

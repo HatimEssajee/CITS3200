@@ -13,6 +13,9 @@ Public DisplayArr() As Variant
 
 Public RegTable As ListObject
 Public ReadRow As ListRow
+Public UserFormLeftPos As Long
+Public UserFormTopPos As Long
+
 
 'List of fixed value constants to set fixed values
 '-------------------------------------------------

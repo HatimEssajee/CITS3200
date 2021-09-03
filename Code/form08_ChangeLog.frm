@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form08_ChangeLog 
-   Caption         =   "Study Details"
-   ClientHeight    =   4296
-   ClientLeft      =   -336
-   ClientTop       =   -1464
-   ClientWidth     =   6660
+   Caption         =   "Change Log"
+   ClientHeight    =   10320
+   ClientLeft      =   -360
+   ClientTop       =   -1560
+   ClientWidth     =   8760.001
    OleObjectBlob   =   "form08_ChangeLog.frx":0000
 End
 Attribute VB_Name = "form08_ChangeLog"
@@ -12,20 +12,21 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
 Option Explicit
 
 Private Sub UserForm_Activate()
     'PURPOSE: Reposition userform to Top Left of application Window and fix size
     'source: https://www.mrexcel.com/board/threads/userform-startup-position.671108/
-    Me.StartUpPosition = 0
-    Me.Top = Application.Top + 25
-    Me.Left = Application.Left + 25
-    Me.Height = UHeight
-    Me.Width = UWidth
+    'Me.StartUpPosition = 0
+    'Me.Top = Application.Top + 25
+    'Me.Left = Application.Left + 25
+    Me.Top = UserFormTopPos
+    Me.Left = UserFormLeftPos
+    Me.Height = UHeight + 110
+    Me.Width = UWidth - 50
 
 End Sub
+
 
 Private Sub UserForm_Initialize()
     'PURPOSE: Clear form on initialization
@@ -50,81 +51,13 @@ Private Sub UserForm_Initialize()
             End Select
     Next ctrl
     
-    'Highlight tab selected
-    Me.tglStudyDetail.Value = True
-    Me.tglStudyDetail.BackColor = vbGreen
-    
+    'Load data into Change Log
 End Sub
 
-Private Sub cmdClose_Click()
+Private Sub cmdCloseLog_Click()
     'PURPOSE: Closes current form
-    Unload Me
-    
-    'Edit LastAccess log
-    Call LogLastAccess
+    Unload form08_ChangeLog
     
 End Sub
-
-Private Sub cmdEdit_Click()
-    'PURPOSE: Apply changes into Register table
-
-End Sub
-
-
-'----------------- Navigation section Toggles ----------------
-
-Private Sub tglNav_Click()
-    'PURPOSE: Closes current form and open Nav form
-    Unload form01_StudyDetail
-    
-    form00_Nav.Show False
-    
-    'Edit LastAccess log
-    Call LogLastAccess
-    
-End Sub
-
-Private Sub tglCDA_FS_Click()
-    'PURPOSE: Closes current form and open CDA / FS form
-    Unload form01_StudyDetail
-    
-    form02_CDA_FS.Show False
-End Sub
-
-Private Sub tglSiteSelect_Click()
-    'PURPOSE: Closes current form and open Site Select form
-    Unload form01_StudyDetail
-    
-    form03_SiteSelect.Show False
-End Sub
-
-Private Sub tglReviews_Click()
-    'PURPOSE: Closes current form and open Reviews form - Recruitment tab
-    Unload form01_StudyDetail
-    
-    form041_Recruitment.Show False
-End Sub
-
-Private Sub tglCTRA_Click()
-    'PURPOSE: Closes current form and open CTRA form
-    Unload form01_StudyDetail
-    
-    form05_CTRA.Show False
-End Sub
-
-Private Sub tglFinDisc_Click()
-    'PURPOSE: Closes current form and open Fin. Disc. form
-    Unload form01_StudyDetail
-    
-    form06_FinDisc.Show False
-End Sub
-
-Private Sub tglSIV_Click()
-    'PURPOSE: Closes current form and open SIV form
-    Unload form01_StudyDetail
-    
-    form07_SIV.Show False
-End Sub
-
 
 
