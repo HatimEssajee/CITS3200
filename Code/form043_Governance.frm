@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form043_Governance 
    Caption         =   "Governance Review"
-   ClientHeight    =   2172
-   ClientLeft      =   -360
-   ClientTop       =   -1764
-   ClientWidth     =   4224
+   ClientHeight    =   1728
+   ClientLeft      =   -384
+   ClientTop       =   -1860
+   ClientWidth     =   3372
    OleObjectBlob   =   "form043_Governance.frx":0000
 End
 Attribute VB_Name = "form043_Governance"

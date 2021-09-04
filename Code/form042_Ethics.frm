@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form042_Ethics 
    Caption         =   "Ethics Review"
-   ClientHeight    =   2256
-   ClientLeft      =   -360
-   ClientTop       =   -1752
-   ClientWidth     =   4068
+   ClientHeight    =   1800
+   ClientLeft      =   -384
+   ClientTop       =   -1848
+   ClientWidth     =   3252
    OleObjectBlob   =   "form042_Ethics.frx":0000
 End
 Attribute VB_Name = "form042_Ethics"
