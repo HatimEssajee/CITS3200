@@ -38,27 +38,39 @@ Public Sub LogLastAccess()
 End Sub
 
 Public Function String_to_Date(Txt As String)
-    'PURPOSE: Convert string input to date value
-    If Txt = vbNullString Then
-       String_to_Date = ""
-    Else
+    'PURPOSE: Convert string input to date value if it is a valid date
+    
+    If IsDate(Txt) Then
         String_to_Date = DateValue(Txt)
+    Else
+        String_to_Date = Txt
     End If
-       
+    
 End Function
 
-Public Function Date_Validation(Txt As String) As String
+Public Function Date_Validation(CurrDate As String, Optional PrevDate As String = "", Optional err2 As String = "") As String
     'PURPOSE: Assess data input is in correct format and output error message string
     
     Dim err As String
+    Dim d1 As Variant
+    Dim d2 As Variant
     
     err = vbNullString
     
-    If Txt <> vbNullString And Not IsDate(Txt) Then
+    If CurrDate <> vbNullString And Not IsDate(CurrDate) Then
         err = "Please enter a valid date:" & Chr(10) & "DD-MMM-YYYY"
     End If
     
+    d1 = String_to_Date(PrevDate)
+    d2 = String_to_Date(CurrDate)
+    
+    'If no date entry issue, check date for chronology
+    If err = "" And d1 <> "" And d2 <> "" And d2 < d1 Then
+        err = err2
+    End If
+    
     Date_Validation = err
+    
 End Function
 
 Public Sub TurnEvents_ON()

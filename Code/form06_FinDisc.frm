@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form06_FinDisc 
    Caption         =   "Financial Disclosure"
-   ClientHeight    =   6096
-   ClientLeft      =   -408
-   ClientTop       =   -1728
-   ClientWidth     =   8832.001
+   ClientHeight    =   7848
+   ClientLeft      =   -432
+   ClientTop       =   -1812
+   ClientWidth     =   11448
    OleObjectBlob   =   "form06_FinDisc.frx":0000
 End
 Attribute VB_Name = "form06_FinDisc"
@@ -76,6 +76,9 @@ Private Sub UserForm_Initialize()
     Me.tglFinDisc.value = True
     Me.tglFinDisc.BackColor = vbGreen
     
+    'Run date validation on data entered
+    Call txtFinDisc_Complete_AfterUpdate
+    
 End Sub
 
 Private Sub txtFinDisc_Complete_AfterUpdate()
@@ -84,7 +87,13 @@ Private Sub txtFinDisc_Complete_AfterUpdate()
     
     err = Date_Validation(Me.txtFinDisc_Complete)
     
+    'Display error message
     Me.errFinDisc_Complete.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtFinDisc_Complete.value) Then
+        Me.txtFinDisc_Complete.value = Format(Me.txtFinDisc_Complete.value, "dd-mmm-yyyy")
+    End If
     
 End Sub
 

@@ -81,6 +81,61 @@ Private Sub UserForm_Initialize()
     Me.tglIndemnity.value = True
     Me.tglIndemnity.BackColor = vbGreen
     
+    'Run date validation on data entered
+    Call txtDate_Recv_AfterUpdate
+    Call txtDate_Sent_Contracts_AfterUpdate
+    Call txtDate_Comp_AfterUpdate
+    
+End Sub
+
+Private Sub txtDate_Recv_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtDate_Recv.value)
+    
+    'Display error message
+    Me.errDate_Recv.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtDate_Recv.value) Then
+        Me.txtDate_Recv.value = Format(Me.txtDate_Recv.value, "dd-mmm-yyyy")
+    End If
+    
+End Sub
+
+Private Sub txtDate_Sent_Contracts_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtDate_Sent_Contracts.value, Me.txtDate_Recv.value, _
+            "Date entered earlier than date received")
+    
+    'Display error message
+    Me.errDate_Sent_Contracts.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtDate_Sent_Contracts.value) Then
+        Me.txtDate_Sent_Contracts.value = Format(Me.txtDate_Sent_Contracts.value, "dd-mmm-yyyy")
+    End If
+    
+End Sub
+
+Private Sub txtDate_Comp_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtDate_Comp.value, Me.txtDate_Sent_Contracts.value, _
+            "Date entered earlier than date sent")
+    
+    'Display error message
+    Me.errDate_Comp.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtDate_Comp.value) Then
+        Me.txtDate_Comp.value = Format(Me.txtDate_Comp.value, "dd-mmm-yyyy")
+    End If
+    
 End Sub
 
 Private Sub cmdClose_Click()

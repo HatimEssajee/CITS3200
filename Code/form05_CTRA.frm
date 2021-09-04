@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form05_CTRA 
    Caption         =   "CTRA"
-   ClientHeight    =   6960
-   ClientLeft      =   -324
-   ClientTop       =   -1704
-   ClientWidth     =   6960
+   ClientHeight    =   8064
+   ClientLeft      =   -360
+   ClientTop       =   -1896
+   ClientWidth     =   10404
    OleObjectBlob   =   "form05_CTRA.frx":0000
 End
 Attribute VB_Name = "form05_CTRA"
@@ -82,6 +82,15 @@ Private Sub UserForm_Initialize()
     Me.tglCTRA.value = True
     Me.tglCTRA.BackColor = vbGreen
     
+    'Run date validation on data entered
+    Call txtDate_RGC_AfterUpdate
+    Call txtDate_UWA_AfterUpdate
+    Call txtDate_Finance_AfterUpdate
+    Call txtDate_COO_AfterUpdate
+    Call txtDate_VTG_AfterUpdate
+    Call txtDate_Company_AfterUpdate
+    Call txtDate_Finalised_AfterUpdate
+    
 End Sub
 
 Private Sub txtDate_RGC_AfterUpdate()
@@ -90,7 +99,13 @@ Private Sub txtDate_RGC_AfterUpdate()
     
     err = Date_Validation(Me.txtDate_RGC.value)
     
+    'Display error message
     Me.errDate_RGC.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtDate_RGC.value) Then
+        Me.txtDate_RGC.value = Format(Me.txtDate_RGC.value, "dd-mmm-yyyy")
+    End If
     
 End Sub
 
@@ -100,7 +115,13 @@ Private Sub txtDate_UWA_AfterUpdate()
     
     err = Date_Validation(Me.txtDate_UWA.value)
     
+    'Display error message
     Me.errDate_UWA.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtDate_UWA.value) Then
+        Me.txtDate_UWA.value = Format(Me.txtDate_UWA.value, "dd-mmm-yyyy")
+    End If
     
 End Sub
 
@@ -110,45 +131,47 @@ Private Sub txtDate_Finance_AfterUpdate()
     
     err = Date_Validation(Me.txtDate_Finance.value)
     
-    Me.errFinance_RGC.Caption = err
+    'Display error message
+    Me.errDate_Finance.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtDate_Finance.value) Then
+        Me.txtDate_Finance.value = Format(Me.txtDate_Finance.value, "dd-mmm-yyyy")
+    End If
     
 End Sub
 
 Private Sub txtDate_COO_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
-    Dim d1 As Variant
-    Dim d2 As Variant
     
-    err = Date_Validation(Me.txtDate_COO.value)
-    d1 = String_to_Date(Me.txtDate_Finance.value)
-    d2 = String_to_Date(Me.txtDate_COO.value)
+    err = Date_Validation(Me.txtDate_COO.value, Me.txtDate_Finance.value, _
+            "Date entered earlier than finance signoff")
     
-    'If no date entry issue, check date for chronology
-    If err = "" And d1 <> "" And d2 <> "" And d2 < d1 Then
-        err = "Date entered earlier than finance signoff"
-    End If
-    
+    'Display error message
     Me.errDate_COO.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtDate_COO.value) Then
+        Me.txtDate_COO.value = Format(Me.txtDate_COO.value, "dd-mmm-yyyy")
+    End If
     
 End Sub
 
 Private Sub txtDate_VTG_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
-    Dim d1 As Variant
-    Dim d2 As Variant
     
-    err = Date_Validation(Me.txtDate_VTG.value)
-    d1 = String_to_Date(Me.txtDate_COO.value)
-    d2 = String_to_Date(Me.txtDate_VTG.value)
+    err = Date_Validation(Me.txtDate_VTG.value, Me.txtDate_COO.value, _
+            "Date entered earlier than COO signoff")
     
-    'If no date entry issue, check date for chronology
-    If err = "" And d1 <> "" And d2 <> "" And d2 < d1 Then
-        err = "Date entered earlier than COO signoff"
-    End If
-    
+    'Display error message
     Me.errDate_VTG.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtDate_VTG.value) Then
+        Me.txtDate_VTG.value = Format(Me.txtDate_VTG.value, "dd-mmm-yyyy")
+    End If
     
 End Sub
 
@@ -158,16 +181,16 @@ Private Sub txtDate_Company_AfterUpdate()
     Dim d1 As Variant
     Dim d2 As Variant
     
-    err = Date_Validation(Me.txtDate_Company.value)
-    d1 = String_to_Date(Me.txtDate_VTG.value)
-    d2 = String_to_Date(Me.txtDate_Company.value)
+    err = Date_Validation(Me.txtDate_Company.value, Me.txtDate_VTG.value, _
+            "Date entered earlier than VTG sign-off")
     
-    'If no date entry issue, check date for chronology
-    If err = "" And d1 <> "" And d2 <> "" And d2 < d1 Then
-        err = "Date entered earlier than VTG sign-off"
-    End If
-    
+    'Display error message
     Me.errDate_Company.Caption = err
+    
+    'Change date format displayed
+    If err = vbNullString Then
+        Me.txtDate_Company.value = Format(Me.txtDate_Company.value, "dd-mmm-yyyy")
+    End If
     
 End Sub
 
@@ -177,16 +200,16 @@ Private Sub txtDate_Finalised_AfterUpdate()
     Dim d1 As Variant
     Dim d2 As Variant
     
-    err = Date_Validation(Me.txtDate_Finalised.value)
-    d1 = String_to_Date(Me.txtDate_Company.value)
-    d2 = String_to_Date(Me.txtDate_Finalised.value)
+    err = Date_Validation(Me.txtDate_Finalised.value, Me.txtDate_Company.value, _
+            "Date entered earlier than company submission")
     
-    'If no date entry issue, check date for chronology
-    If err = "" And d1 <> "" And d2 <> "" And d2 < d1 Then
-        err = "Date entered earlier than company submission"
-    End If
-    
+    'Display error message
     Me.errDate_Finalised.Caption = err
+    
+    'Change date format displayed
+    If err = vbNullString Then
+        Me.txtDate_Finalised.value = Format(Me.txtDate_Finalised.value, "dd-mmm-yyyy")
+    End If
     
 End Sub
 

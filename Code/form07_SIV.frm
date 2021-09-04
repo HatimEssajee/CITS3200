@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form07_SIV 
    Caption         =   "Financial Disclosure"
-   ClientHeight    =   6768
-   ClientLeft      =   -384
-   ClientTop       =   -1620
-   ClientWidth     =   8928.001
+   ClientHeight    =   7848
+   ClientLeft      =   -408
+   ClientTop       =   -1716
+   ClientWidth     =   11520
    OleObjectBlob   =   "form07_SIV.frx":0000
 End
 Attribute VB_Name = "form07_SIV"
@@ -39,10 +39,7 @@ Private Sub UserForm_Initialize()
     'PURPOSE: Clear form on initialization
     'Source: https://www.contextures.com/xlUserForm02.html
     'Source: https://www.contextures.com/Excel-VBA-ComboBox-Lists.html
-    Dim ws As Worksheet
     Dim ctrl As MSForms.Control
-
-    Set ws = Worksheets("Lookup Lists")
     
     'Clear user form
     'source: https://www.mrexcel.com/board/threads/loop-through-controls-on-a-userform.427103/
@@ -80,6 +77,9 @@ Private Sub UserForm_Initialize()
     Me.tglSIV.value = True
     Me.tglSIV.BackColor = vbGreen
     
+    'Run date validation on data entered
+    Call txtSIV_date_AfterUpdate
+    
 End Sub
 Private Sub txtSIV_date_AfterUpdate()
     'PURPOSE: Validate date entered
@@ -87,7 +87,13 @@ Private Sub txtSIV_date_AfterUpdate()
     
     err = Date_Validation(Me.txtSIV_Date.value)
     
+    'Display error message
     Me.errSIV_Date.Caption = err
+    
+    'Change date format displayed
+    If err = vbNullString Then
+        Me.txtSIV_Date.value = Format(Me.txtSIV_Date.value, "dd-mmm-yyyy")
+    End If
     
 End Sub
 
@@ -105,7 +111,7 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(112) = DateValue(Me.txtSIV_Date.value)
+        .Range(112) = String_to_Date(Me.txtSIV_Date.value)
         .Range(113) = Me.txtReminder.value
         
         'Update version control
