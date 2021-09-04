@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form041_Recruitment 
    Caption         =   "Recruitment Plan"
-   ClientHeight    =   2736
-   ClientLeft      =   -444
-   ClientTop       =   -1860
-   ClientWidth     =   5088
+   ClientHeight    =   1740
+   ClientLeft      =   -480
+   ClientTop       =   -2112
+   ClientWidth     =   2592
    OleObjectBlob   =   "form041_Recruitment.frx":0000
 End
 Attribute VB_Name = "form041_Recruitment"
@@ -52,14 +52,19 @@ Private Sub UserForm_Initialize()
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = False
+                    ctrl.value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
+                Case TypeOf ctrl Is MSForms.Label
+                    'Empty error captions
+                    If Left(ctrl.Name, 3) = "err" Then
+                        ctrl.Caption = ""
+                    End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
             End Select
     Next ctrl
@@ -69,21 +74,52 @@ Private Sub UserForm_Initialize()
         cboRecruitStatus.AddItem item
     Next item
     
-    'Highlight tab selected
-    Me.tglReviews.Value = True
+    'Read information from register table
+    With RegTable.ListRows(RowIndex)
+        Me.txtStudyName.value = .Range(10).value
+        Me.txtDate_Plan.value = Format(.Range(36).value, "dd-mmm-yyyy")
+        Me.cboRecruitStatus.value = .Range(37).value
+        Me.txtReminder = .Range(38).value
+    End With
+    
+    'Access version control
+    Call LogLastAccess
+    
+    'Depress and make toggle green on nav bar
+    Me.tglReviews.value = True
     Me.tglReviews.BackColor = vbGreen
-    Me.tglRecruitment.Value = True
+    Me.tglRecruitment.value = True
     Me.tglRecruitment.BackColor = vbGreen
     
 End Sub
 
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form
+    
+    'Access version control
+    Call LogLastAccess
+    
     Unload Me
+    
 End Sub
 
 Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
+    With RegTable.ListRows(RowIndex)
+        
+        .Range(36) = String_to_Date(Me.txtDate_Plan)
+        .Range(37) = Me.cboRecruitStatus
+        .Range(38) = Me.txtReminder
+        
+        'Update version control
+        .Range(39) = Now
+        .Range(40) = Username
+    End With
+    
+    'Access version control
+    Call LogLastAccess
+    
+    Call UserForm_Initialize
 
 End Sub
 

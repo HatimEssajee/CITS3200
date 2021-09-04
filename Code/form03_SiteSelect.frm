@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form03_SiteSelect 
    Caption         =   "Site Selection"
-   ClientHeight    =   3360
-   ClientLeft      =   -360
-   ClientTop       =   -1560
-   ClientWidth     =   5112
+   ClientHeight    =   2688
+   ClientLeft      =   -408
+   ClientTop       =   -1752
+   ClientWidth     =   3264
    OleObjectBlob   =   "form03_SiteSelect.frx":0000
 End
 Attribute VB_Name = "form03_SiteSelect"
@@ -48,14 +48,19 @@ Private Sub UserForm_Initialize()
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = False
+                    ctrl.value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
+                Case TypeOf ctrl Is MSForms.Label
+                    'Empty error captions
+                    If Left(ctrl.Name, 3) = "err" Then
+                        ctrl.Caption = ""
+                    End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
             End Select
     Next ctrl
@@ -66,20 +71,56 @@ Private Sub UserForm_Initialize()
         cboValidation_Type.AddItem item
     Next item
     
-    'Highlight tab selected
-    Me.tglSiteSelect.Value = True
+    'Read information from register table
+    With RegTable.ListRows(RowIndex)
+        Me.txtStudyName = .Range(10).value
+        Me.txtPrestudy_Date.value = Format(.Range(28).value, "dd-mmm-yyyy")
+        Me.cboPrestudy_Type.value = .Range(29).value
+        Me.txtValidation_Date.value = Format(.Range(30).value, "dd-mmm-yyyy")
+        Me.cboValidation_Type.value = .Range(31).value
+        Me.txtSiteSelect.value = Format(.Range(32).value, "dd-mmm-yyyy")
+        
+        Me.txtReminder = .Range(25).value
+    End With
+    
+    'Access version control
+    Call LogLastAccess
+    
+    'Depress and make toggle green on nav bar
+    Me.tglSiteSelect.value = True
     Me.tglSiteSelect.BackColor = vbGreen
     
 End Sub
 
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form
+    
+    'Access version control
+    Call LogLastAccess
+    
     Unload Me
 End Sub
 
 Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
-
+    With RegTable.ListRows(RowIndex)
+        
+        .Range(28) = String_to_Date(Me.txtPrestudy_Date.value)
+        .Range(29) = Me.cboPrestudy_Type.value
+        .Range(30) = String_to_Date(Me.txtValidation_Date.value)
+        .Range(31) = Me.cboValidation_Type.value
+        .Range(32) = String_to_Date(Me.txtSiteSelect.value)
+        .Range(33) = Me.txtReminder.value
+        
+        'Update version control
+        .Range(34) = Now
+        .Range(35) = Username
+    End With
+    
+    'Access version control
+    Call LogLastAccess
+    
+    Call UserForm_Initialize
 End Sub
 
 

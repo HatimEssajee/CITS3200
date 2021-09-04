@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form02_CDA_FS 
    Caption         =   "CDA & Feasibility"
-   ClientHeight    =   3456
-   ClientLeft      =   -348
-   ClientTop       =   -1500
-   ClientWidth     =   4092
+   ClientHeight    =   7020
+   ClientLeft      =   -372
+   ClientTop       =   -1584
+   ClientWidth     =   8880.001
    OleObjectBlob   =   "form02_CDA_FS.frx":0000
 End
 Attribute VB_Name = "form02_CDA_FS"
@@ -12,8 +12,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -42,20 +40,25 @@ Private Sub UserForm_Initialize()
     'Source: https://www.contextures.com/Excel-VBA-ComboBox-Lists.html
     Dim ctrl As MSForms.Control
     Dim pPage As MSForms.Page
-       
+    
     'Clear user form
     'SOURCE: https://www.mrexcel.com/board/threads/loop-through-controls-on-a-userform.427103/
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = False
+                    ctrl.value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
+                Case TypeOf ctrl Is MSForms.Label
+                    'Empty error captions
+                    If Left(ctrl.Name, 3) = "err" Then
+                        ctrl.Caption = ""
+                    End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
             End Select
     Next ctrl
@@ -64,34 +67,86 @@ Private Sub UserForm_Initialize()
         For Each ctrl In pPage.Controls
             Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = False
+                    ctrl.value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
+                    
+                    'Empty error captions
+                    If Left(ctrl.Name, 3) = "err" Then
+                        ctrl.Caption = ""
+                    End If
+                    
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
             End Select
                 
         Next ctrl
     Next pPage
     
-    'Highlight tab selected
-    Me.tglCDA_FS.Value = True
+    'Read information from register table
+    With RegTable.ListRows(RowIndex)
+        Me.txtStudyName.value = .Range(10).value
+        Me.txtCDA_Recv_Sponsor.value = Format(.Range(17).value, "dd-mmm-yyyy")
+        Me.txtCDA_Sent_Contracts.value = Format(.Range(18).value, "dd-mmm-yyyy")
+        Me.txtCDA_Recv_Contracts.value = Format(.Range(19).value, "dd-mmm-yyyy")
+        Me.txtCDA_Sent_Sponsor.value = Format(.Range(20).value, "dd-mmm-yyyy")
+        Me.txtCDA_Finalised.value = Format(.Range(21).value, "dd-mmm-yyyy")
+        
+        Me.txtFS_Recv.value = Format(.Range(22).value, "dd-mmm-yyyy")
+        Me.txtFS_Comp.value = Format(.Range(23).value, "dd-mmm-yyyy")
+        Me.txtFS_Initials.value = .Range(24).value
+        
+        Me.txtReminder = .Range(25).value
+    End With
+    
+    'Access version control
+    Call LogLastAccess
+    
+    'Depress and make toggle green on nav bar
+    Me.tglCDA_FS.value = True
     Me.tglCDA_FS.BackColor = vbGreen
     
 End Sub
 
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form
+    
+    'Access version control
+    Call LogLastAccess
+    
     Unload Me
+    
 End Sub
 
 Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
-
+    With RegTable.ListRows(RowIndex)
+        
+        .Range(17) = String_to_Date(Me.txtCDA_Recv_Sponsor.value)
+        .Range(18) = String_to_Date(Me.txtCDA_Sent_Contracts.value)
+        .Range(19) = String_to_Date(Me.txtCDA_Recv_Contracts.value)
+        .Range(20) = String_to_Date(Me.txtCDA_Sent_Sponsor.value)
+        .Range(21) = String_to_Date(Me.txtCDA_Finalised.value)
+        
+        .Range(22) = String_to_Date(Me.txtFS_Recv.value)
+        .Range(23) = String_to_Date(Me.txtFS_Comp.value)
+        .Range(24) = Me.txtFS_Initials.value
+        
+        .Range(25) = Me.txtReminder.value
+        
+        'Update version control
+        .Range(26) = Now
+        .Range(27) = Username
+    End With
+    
+    'Access version control
+    Call LogLastAccess
+    
+    Call UserForm_Initialize
+    
 End Sub
-
 
 '----------------- Navigation section Toggles ----------------
 

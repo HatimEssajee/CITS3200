@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form06_FinDisc 
-   Caption         =   "Project Form"
-   ClientHeight    =   2760
-   ClientLeft      =   -336
-   ClientTop       =   -1440
-   ClientWidth     =   5184
+   Caption         =   "Financial Disclosure"
+   ClientHeight    =   6096
+   ClientLeft      =   -384
+   ClientTop       =   -1632
+   ClientWidth     =   11052
    OleObjectBlob   =   "form06_FinDisc.frx":0000
 End
 Attribute VB_Name = "form06_FinDisc"
@@ -38,40 +38,82 @@ Private Sub UserForm_Initialize()
     'PURPOSE: Clear form on initialization
     'Source: https://www.contextures.com/xlUserForm02.html
     'Source: https://www.contextures.com/Excel-VBA-ComboBox-Lists.html
-    Dim ws As Worksheet
     Dim ctrl As MSForms.Control
-
-    Set ws = Worksheets("Lookup Lists")
     
     'Clear user form
     'source: https://www.mrexcel.com/board/threads/loop-through-controls-on-a-userform.427103/
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = False
+                    ctrl.value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
+                Case TypeOf ctrl Is MSForms.Label
+                    'Empty error captions
+                    If Left(ctrl.Name, 3) = "err" Then
+                        ctrl.Caption = ""
+                    End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
             End Select
     Next ctrl
     
-    Me.tglFinDisc.Value = True
+    'Read information from register table
+    With RegTable.ListRows(RowIndex)
+        Me.txtStudyName.value = .Range(10).value
+        Me.txtFinDisc_Complete.value = Format(.Range(108).value, "dd-mmm-yyyy")
+        Me.txtReminder.value = .Range(109).value
+    End With
+    
+    'Access version control
+    Call LogLastAccess
+    
+    'Depress and make toggle green on nav bar
+    Me.tglFinDisc.value = True
     Me.tglFinDisc.BackColor = vbGreen
+    
+End Sub
+
+Private Sub txtFinDisc_Complete_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtFinDisc_Complete)
+    
+    Me.errFinDisc_Complete.Caption = err
     
 End Sub
 
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form
+    
+    'Access version control
+    Call LogLastAccess
+    
     Unload Me
+    
 End Sub
 
 Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
+    With RegTable.ListRows(RowIndex)
+        
+        .Range(108) = String_to_Date(Me.txtFinDisc_Complete.value)
+        .Range(109) = Me.txtReminder.value
+        
+        'Update version control
+        .Range(110) = Now
+        .Range(111) = Username
+    End With
+    
+    'Access version control
+    Call LogLastAccess
+    
+    Call UserForm_Initialize
 
 End Sub
 

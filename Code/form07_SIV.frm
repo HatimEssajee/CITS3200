@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form07_SIV 
-   Caption         =   "Site Initiation Visit"
-   ClientHeight    =   4020
+   Caption         =   "Financial Disclosure"
+   ClientHeight    =   6768
    ClientLeft      =   -360
-   ClientTop       =   -1548
-   ClientWidth     =   6756
+   ClientTop       =   -1536
+   ClientWidth     =   11172
    OleObjectBlob   =   "form07_SIV.frx":0000
 End
 Attribute VB_Name = "form07_SIV"
@@ -12,6 +12,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -48,30 +49,74 @@ Private Sub UserForm_Initialize()
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = False
+                    ctrl.value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
+                Case TypeOf ctrl Is MSForms.Label
+                    'Empty error captions
+                    If Left(ctrl.Name, 3) = "err" Then
+                        ctrl.Caption = ""
+                    End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
             End Select
     Next ctrl
     
-    Me.tglSIV.Value = True
+    'Read information from register table
+    With RegTable.ListRows(RowIndex)
+        Me.txtStudyName.value = .Range(10).value
+        Me.txtSIV_Date.value = Format(.Range(112).value, "dd-mmm-yyyy")
+        Me.txtReminder.value = .Range(113).value
+    End With
+    
+    'Access version control
+    Call LogLastAccess
+    
+    'Depress and make toggle green on nav bar
+    Me.tglSIV.value = True
     Me.tglSIV.BackColor = vbGreen
+    
+End Sub
+Private Sub txtSIV_date_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtSIV_Date.value)
+    
+    Me.errSIV_Date.Caption = err
     
 End Sub
 
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form
+    
+    'Access version control
+    Call LogLastAccess
+    
     Unload Me
+    
 End Sub
 
 Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
+    With RegTable.ListRows(RowIndex)
+        
+        .Range(112) = DateValue(Me.txtSIV_Date.value)
+        .Range(113) = Me.txtReminder.value
+        
+        'Update version control
+        .Range(114) = Now
+        .Range(115) = Username
+    End With
+    
+    'Access version control
+    Call LogLastAccess
+    
+    Call UserForm_Initialize
 
 End Sub
 
@@ -100,7 +145,7 @@ Private Sub tglCDA_FS_Click()
 End Sub
 
 Private Sub tglSiteSelect_Click()
-    'PURPOSE: Closes current form and open Site Select form
+    'PURPOSE: Closes current form and open Site Selection form
     Unload form07_SIV
     
     form03_SiteSelect.Show False
@@ -121,7 +166,7 @@ Private Sub tglCTRA_Click()
 End Sub
 
 Private Sub tglFinDisc_Click()
-    'PURPOSE: Closes current form and open Fin. Disc. form
+    'PURPOSE: Closes current form and open SIV form
     Unload form07_SIV
     
     form06_FinDisc.Show False

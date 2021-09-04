@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form044_Budget 
-   Caption         =   "Ethics Review"
-   ClientHeight    =   2784
-   ClientLeft      =   -336
-   ClientTop       =   -1656
-   ClientWidth     =   5292
+   Caption         =   "Budget Review"
+   ClientHeight    =   8388.001
+   ClientLeft      =   -384
+   ClientTop       =   -1824
+   ClientWidth     =   9960.001
    OleObjectBlob   =   "form044_Budget.frx":0000
 End
 Attribute VB_Name = "form044_Budget"
@@ -47,14 +47,19 @@ Private Sub UserForm_Initialize()
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = False
+                    ctrl.value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
+                Case TypeOf ctrl Is MSForms.Label
+                    'Empty error captions
+                    If Left(ctrl.Name, 3) = "err" Then
+                        ctrl.Caption = ""
+                    End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
             End Select
     Next ctrl
@@ -63,32 +68,72 @@ Private Sub UserForm_Initialize()
         For Each ctrl In pPage.Controls
             Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = False
+                    ctrl.value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
             End Select
                 
         Next ctrl
     Next pPage
     
-    Me.tglReviews.Value = True
+    'Read information from register table
+    With RegTable.ListRows(RowIndex)
+        Me.txtStudyName.value = .Range(10).value
+        Me.txtVTG_Date_Submitted.value = Format(.Range(83).value, "dd-mmm-yyyy")
+        Me.txtVTG_Date_Finalised.value = Format(.Range(84).value, "dd-mmm-yyyy")
+        Me.txtVTG_Date_Approved.value = Format(.Range(85).value, "dd-mmm-yyyy")
+        Me.txtTKI_Date_Approved.value = Format(.Range(86).value, "dd-mmm-yyyy")
+        Me.txtPharm_Date_Quote.value = Format(.Range(87).value, "dd-mmm-yyyy")
+        Me.txtPharm_Date_Finalised.value = Format(.Range(88).value, "dd-mmm-yyyy")
+        Me.txtReminder = .Range(89).value
+    End With
+    
+    'Access version control
+    Call LogLastAccess
+    
+    'Depress and make toggle green on nav bar
+    Me.tglReviews.value = True
     Me.tglReviews.BackColor = vbGreen
-    Me.tglBudget.Value = True
+    Me.tglBudget.value = True
     Me.tglBudget.BackColor = vbGreen
     
 End Sub
 
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form
+    
+    'Access version control
+    Call LogLastAccess
+    
     Unload Me
+    
 End Sub
 
 Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
+    With RegTable.ListRows(RowIndex)
+        
+        .Range(83) = String_to_Date(Me.txtVTG_Date_Submitted.value)
+        .Range(84) = String_to_Date(Me.txtVTG_Date_Finalised.value)
+        .Range(85) = String_to_Date(Me.txtVTG_Date_Approved.value)
+        .Range(86) = String_to_Date(Me.txtTKI_Date_Approved.value)
+        .Range(87) = String_to_Date(Me.txtPharm_Date_Quote.value)
+        .Range(88) = String_to_Date(Me.txtPharm_Date_Finalised.value)
+        .Range(89) = Me.txtReminder.value
+        
+        'Update version control
+        .Range(90) = Now
+        .Range(91) = Username
+    End With
+    
+    'Access version control
+    Call LogLastAccess
+    
+    Call UserForm_Initialize
 
 End Sub
 

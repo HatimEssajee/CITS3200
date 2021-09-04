@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form05_CTRA 
-   Caption         =   "Project Form"
-   ClientHeight    =   2640
-   ClientLeft      =   -276
-   ClientTop       =   -1368
-   ClientWidth     =   5100
+   Caption         =   "CTRA"
+   ClientHeight    =   6960
+   ClientLeft      =   -312
+   ClientTop       =   -1620
+   ClientWidth     =   8712.001
    OleObjectBlob   =   "form05_CTRA.frx":0000
 End
 Attribute VB_Name = "form05_CTRA"
@@ -38,40 +38,190 @@ Private Sub UserForm_Initialize()
     'PURPOSE: Clear form on initialization
     'Source: https://www.contextures.com/xlUserForm02.html
     'Source: https://www.contextures.com/Excel-VBA-ComboBox-Lists.html
-    Dim ws As Worksheet
     Dim ctrl As MSForms.Control
-
-    Set ws = Worksheets("Lookup Lists")
     
     'Clear user form
     'source: https://www.mrexcel.com/board/threads/loop-through-controls-on-a-userform.427103/
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = False
+                    ctrl.value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
+                Case TypeOf ctrl Is MSForms.Label
+                    'Empty error captions
+                    If Left(ctrl.Name, 3) = "err" Then
+                        ctrl.Caption = ""
+                    End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
             End Select
     Next ctrl
     
-    Me.tglCTRA.Value = True
+    'Read information from register table
+    With RegTable.ListRows(RowIndex)
+        Me.txtStudyName.value = .Range(10).value
+        Me.txtDate_RGC.value = Format(.Range(98).value, "dd-mmm-yyyy")
+        Me.txtDate_UWA.value = Format(.Range(99).value, "dd-mmm-yyyy")
+        Me.txtDate_Finance.value = Format(.Range(100).value, "dd-mmm-yyyy")
+        Me.txtDate_COO.value = Format(.Range(101).value, "dd-mmm-yyyy")
+        Me.txtDate_VTG.value = Format(.Range(102).value, "dd-mmm-yyyy")
+        Me.txtDate_Company.value = Format(.Range(103).value, "dd-mmm-yyyy")
+        Me.txtDate_Finalised.value = Format(.Range(104).value, "dd-mmm-yyyy")
+        Me.txtReminder = .Range(105).value
+    End With
+    
+    'Access version control
+    Call LogLastAccess
+    
+    'Depress and make toggle green on nav bar
+    Me.tglCTRA.value = True
     Me.tglCTRA.BackColor = vbGreen
+    
+End Sub
+
+Private Sub txtDate_RGC_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtDate_RGC.value)
+    
+    Me.errDate_RGC.Caption = err
+    
+End Sub
+
+Private Sub txtDate_UWA_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtDate_UWA.value)
+    
+    Me.errDate_UWA.Caption = err
+    
+End Sub
+
+Private Sub txtDate_Finance_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtDate_Finance.value)
+    
+    Me.errFinance_RGC.Caption = err
+    
+End Sub
+
+Private Sub txtDate_COO_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    Dim d1 As Variant
+    Dim d2 As Variant
+    
+    err = Date_Validation(Me.txtDate_COO.value)
+    d1 = String_to_Date(Me.txtDate_Finance.value)
+    d2 = String_to_Date(Me.txtDate_COO.value)
+    
+    'If no date entry issue, check date for chronology
+    If err = "" And d1 <> "" And d2 <> "" And d2 < d1 Then
+        err = "Date entered earlier than finance signoff"
+    End If
+    
+    Me.errDate_COO.Caption = err
+    
+End Sub
+
+Private Sub txtDate_VTG_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    Dim d1 As Variant
+    Dim d2 As Variant
+    
+    err = Date_Validation(Me.txtDate_VTG.value)
+    d1 = String_to_Date(Me.txtDate_COO.value)
+    d2 = String_to_Date(Me.txtDate_VTG.value)
+    
+    'If no date entry issue, check date for chronology
+    If err = "" And d1 <> "" And d2 <> "" And d2 < d1 Then
+        err = "Date entered earlier than COO signoff"
+    End If
+    
+    Me.errDate_VTG.Caption = err
+    
+End Sub
+
+Private Sub txtDate_Company_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    Dim d1 As Variant
+    Dim d2 As Variant
+    
+    err = Date_Validation(Me.txtDate_Company.value)
+    d1 = String_to_Date(Me.txtDate_VTG.value)
+    d2 = String_to_Date(Me.txtDate_Company.value)
+    
+    'If no date entry issue, check date for chronology
+    If err = "" And d1 <> "" And d2 <> "" And d2 < d1 Then
+        err = "Date entered earlier than VTG sign-off"
+    End If
+    
+    Me.errDate_Company.Caption = err
+    
+End Sub
+
+Private Sub txtDate_Finalised_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    Dim d1 As Variant
+    Dim d2 As Variant
+    
+    err = Date_Validation(Me.txtDate_Finalised.value)
+    d1 = String_to_Date(Me.txtDate_Company.value)
+    d2 = String_to_Date(Me.txtDate_Finalised.value)
+    
+    'If no date entry issue, check date for chronology
+    If err = "" And d1 <> "" And d2 <> "" And d2 < d1 Then
+        err = "Date entered earlier than company submission"
+    End If
+    
+    Me.errDate_Finalised.Caption = err
     
 End Sub
 
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form
+    
+    'Access version control
+    Call LogLastAccess
+    
     Unload Me
+    
 End Sub
 
 Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
+    With RegTable.ListRows(RowIndex)
+        
+        .Range(98) = String_to_Date(Me.txtDate_RGC.value)
+        .Range(99) = String_to_Date(Me.txtDate_UWA.value)
+        .Range(100) = String_to_Date(Me.txtDate_Finance.value)
+        .Range(101) = String_to_Date(Me.txtDate_COO.value)
+        .Range(102) = String_to_Date(Me.txtDate_VTG.value)
+        .Range(103) = String_to_Date(Me.txtDate_Company.value)
+        .Range(104) = String_to_Date(Me.txtDate_Finalised.value)
+        .Range(105) = Me.txtReminder.value
+        
+        'Update version control
+        .Range(106) = Now
+        .Range(107) = Username
+    End With
+    
+    'Access version control
+    Call LogLastAccess
+    
+    Call UserForm_Initialize
 
 End Sub
 

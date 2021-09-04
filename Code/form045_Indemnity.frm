@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form045_Indemnity 
-   Caption         =   "Recruitment Plan"
-   ClientHeight    =   2760
-   ClientLeft      =   -456
-   ClientTop       =   -1884
-   ClientWidth     =   5100
+   Caption         =   "Indemnity Review"
+   ClientHeight    =   2208
+   ClientLeft      =   -480
+   ClientTop       =   -1980
+   ClientWidth     =   4080
    OleObjectBlob   =   "form045_Indemnity.frx":0000
 End
 Attribute VB_Name = "form045_Indemnity"
@@ -46,33 +46,71 @@ Private Sub UserForm_Initialize()
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = False
+                    ctrl.value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
+                Case TypeOf ctrl Is MSForms.Label
+                    'Empty error captions
+                    If Left(ctrl.Name, 3) = "err" Then
+                        ctrl.Caption = ""
+                    End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
             End Select
     Next ctrl
     
-    'Highlight tab selected
-    Me.tglReviews.Value = True
+    'Read information from register table
+    With RegTable.ListRows(RowIndex)
+        Me.txtStudyName.value = .Range(10).value
+        Me.txtDate_Recv.value = Format(.Range(92).value, "dd-mmm-yyyy")
+        Me.txtDate_Sent_Contracts.value = Format(.Range(93).value, "dd-mmm-yyyy")
+        Me.txtDate_Comp.value = Format(.Range(94).value, "dd-mmm-yyyy")
+        Me.txtReminder = .Range(95).value
+    End With
+    
+    'Access version control
+    Call LogLastAccess
+    
+    'Depress and make toggle green on nav bar
+    Me.tglReviews.value = True
     Me.tglReviews.BackColor = vbGreen
-    Me.tglIndemnity.Value = True
+    Me.tglIndemnity.value = True
     Me.tglIndemnity.BackColor = vbGreen
     
 End Sub
 
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form
+    
+    'Access version control
+    Call LogLastAccess
+    
     Unload Me
+    
 End Sub
 
 Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
+    With RegTable.ListRows(RowIndex)
+        
+        .Range(92) = String_to_Date(Me.txtDate_Recv.value)
+        .Range(93) = String_to_Date(Me.txtDate_Sent_Contracts.value)
+        .Range(94) = String_to_Date(Me.txtDate_Comp.value)
+        .Range(95) = Me.txtReminder.value
+        
+        'Update version control
+        .Range(96) = Now
+        .Range(97) = Username
+    End With
+    
+    'Access version control
+    Call LogLastAccess
+    
+    Call UserForm_Initialize
 
 End Sub
 

@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form00_Nav 
    Caption         =   "Vaccine Trial Study Start-up Tracker"
-   ClientHeight    =   8040
+   ClientHeight    =   9096.001
    ClientLeft      =   -24
    ClientTop       =   -360
-   ClientWidth     =   8064
+   ClientWidth     =   10920
    OleObjectBlob   =   "form00_Nav.frx":0000
 End
 Attribute VB_Name = "form00_Nav"
@@ -17,9 +17,6 @@ Option Explicit
 Private Sub UserForm_Activate()
     'PURPOSE: Reposition userform to Top Left of application Window and fix size
     'source: https://www.mrexcel.com/board/threads/userform-startup-position.671108/
-    'Me.StartUpPosition = 0
-    'Me.Top = Application.Top + 25
-    'Me.Left = Application.Left + 25
     Me.Top = UserFormTopPos
     Me.Left = UserFormLeftPos
     Me.Height = UHeight
@@ -50,14 +47,19 @@ Private Sub UserForm_Initialize()
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = Tick
+                    ctrl.value = Tick
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
+                Case TypeOf ctrl Is MSForms.Label
+                    'Empty error captions
+                    If Left(ctrl.Name, 3) = "err" Then
+                        ctrl.Caption = ""
+                    End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
             End Select
     Next ctrl
@@ -72,21 +74,29 @@ Private Sub UserForm_Initialize()
     Me.txtStudyName.TextAlign = fmTextAlignLeft
     Me.txtProtocolNum.TextAlign = fmTextAlignLeft
     Me.errSearch.TextAlign = fmTextAlignCenter
-    Me.errSearch.Caption = vbNullString
     
     If RowIndex > 0 Then
         Call Read_Table
+        Me.cboStudyStatus.ForeColor = StudyStatus_Colour(Me.cboStudyStatus.value)
     End If
+    
+    'Unload search display
+    Erase DisplayArr
     
 End Sub
 
 
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form
+    
+    'Access version control
+    Call LogLastAccess
+        
     Unload Me
     
     'Empty Array as no longer needed
     Erase StudyStatus
+    Erase DisplayArr
     
 End Sub
 
@@ -105,9 +115,10 @@ Private Sub cmdNew_Click()
     'PURPOSE: Closes current form and open Study Detail form
     
     Dim FoundCell As Range
+    Dim StudyName As String
     
     'Set Public Variable
-    StudyName = Me.txtStudyName.Value
+    StudyName = Me.txtStudyName.value
     
     'Check if study name is entered
     If StudyName = vbNullString Then
@@ -134,34 +145,43 @@ Private Sub cmdNew_Click()
     RowIndex = RegTable.ListRows.Count
     
     With ReadRow
+    
         .Range(1) = RowIndex
+        
+        'Creation version control
         .Range(2) = Now
         .Range(3) = Username
+        
         .Range(8) = "Current"
-        .Range(9) = Me.txtProtocolNum.Value
+        .Range(9) = Me.txtProtocolNum.value
         .Range(10) = StudyName
-        .Range(11) = Me.txtSponsor.Value
-        .Range(14) = .Range(2).Value
-        .Range(15) = .Range(3).Value
+        .Range(11) = Me.txtSponsor.value
+        
+        'Update version control
+        .Range(15) = .Range(2).value
+        .Range(16) = .Range(3).value
     End With
-    
+        
     Unload form00_Nav
     
     form01_StudyDetail.Show False
     
     'Empty Array as no longer needed
     Erase StudyStatus
+    Erase DisplayArr
     
 End Sub
 
 Private Sub cbOnlyCurrent_Click()
     'PURPOSE: Change value of Tick variable
-    Tick = Me.cbOnlyCurrent.Value
+    Tick = Me.cbOnlyCurrent.value
 End Sub
 
-Private Sub cboStudyStatus_Change()
+Private Sub cboStudyStatus_AfterUpdate()
     'PURPOSE: Change text color of combo box status based on value
-    Me.cboStudyStatus.ForeColor = StudyStatus_Colour(Me.cboStudyStatus.Value)
+    Me.cboStudyStatus.ForeColor = StudyStatus_Colour(Me.cboStudyStatus.value)
+    RegTable.DataBodyRange.Cells(RowIndex, 8).value = Me.cboStudyStatus.value
+    StudyStatus = RegTable.DataBodyRange.Columns(8)
 End Sub
 
 Private Sub cmdDelete_Click()
@@ -182,15 +202,21 @@ Private Sub cmdDelete_Click()
         
         'Update deletion log
         With RegTable.ListRows(RowIndex)
+            
+            'Deletion version control
             .Range(4) = Now
             .Range(5) = Username
             .Range(8) = "DELETED"
+            
+            'Update version control
+            .Range(15) = .Range(4).value
+            .Range(16) = .Range(5).value
         End With
     
     
         'Change status
         With Me.cboStudyStatus
-            .Value = "DELETED"
+            .value = "DELETED"
             .ForeColor = vbRed
         End With
         
@@ -201,18 +227,51 @@ End Sub
 Private Sub cmdChangeLog_Click()
     'PURPOSE: Open change log form
     
-    form08_ChangeLog.Show False
+    If RowIndex < 0 Then
+        errSearch.Caption = "Need study entry identified to view log"
+    Else
+        form08_ChangeLog.Show False
+    End If
+    
+End Sub
+
+Private Sub cmdReminders_Click()
+    'PURPOSE: Open reminder log form
+    
+    If RowIndex < 0 Then
+        errSearch.Caption = "Need study entry identified to view log"
+    Else
+        form09_ReminderLog.Show False
+    End If
     
 End Sub
 
 Private Sub cmdEdit_Click()
     'PURPOSE: Closes current form and open Study Detail form
-    Unload form00_Nav
     
-    form01_StudyDetail.Show False
+    If RowIndex < 0 Then
+        errSearch.Caption = "Need study entry identified to proceed"
+    Else
+        
+        'Write changes to register table
+        With RegTable.ListRows(RowIndex)
+            .Range(9) = Me.txtProtocolNum.value
+            .Range(10) = Me.txtStudyName.value
+            .Range(11) = Me.txtSponsor.value
+            
+            'Update version control
+            .Range(15) = Now
+            .Range(16) = Username
+        End With
     
-    'Empty Array as no longer needed
-    Erase StudyStatus
+        Unload form00_Nav
+        
+        form01_StudyDetail.Show False
+        
+        'Empty Array as no longer needed
+        Erase StudyStatus
+        Erase DisplayArr
+    End If
     
 End Sub
 
@@ -231,9 +290,9 @@ Private Sub cmdSearch_Click()
     
     j = 1
     
-    Sponsor = Me.txtSponsor.Value
-    ProtocolNum = Me.txtProtocolNum.Value
-    StudyName = Me.txtStudyName.Value
+    Sponsor = Me.txtSponsor.value
+    ProtocolNum = Me.txtProtocolNum.value
+    StudyName = Me.txtStudyName.value
     
     
     For i = 1 To UBound(SearchArr)
@@ -264,7 +323,6 @@ Private Sub cmdSearch_Click()
     Erase SearchArr
     Erase TempArr
     
-    SearchArr = DisplayArr
     Me.lstSearch.List = DisplayArr
     
 End Sub
@@ -294,18 +352,18 @@ End Sub
 Private Sub cmdJumpForw_Click()
     'PURPOSE: Redirect to newest
     
-    Dim SearchStr As String
-    
-    If Not IsArray(StudyStatus) Then Exit Sub
+    'Check if got StudyStatus is a valid array and in the case of checkbox if it contains current
+    If Not IsArray(StudyStatus) Or (Tick And Not Contains(StudyStatus, "Current")) Then
+        errSearch.Caption = "No data found in register"
+        Exit Sub
+    End If
     
     RowIndex = UBound(StudyStatus)
     
     'Conditional stepping
     If Tick Then
-        
-        SearchStr = "Current"
         'Loop through study status array
-        Do While InStr(1, StudyStatus(RowIndex, 1), SearchStr) = 0 And RowIndex > 1
+        Do While InStr(1, StudyStatus(RowIndex, 1), "Current") = 0 And RowIndex > 1
             RowIndex = RowIndex - 1
         Loop
     End If
@@ -320,9 +378,11 @@ End Sub
 Private Sub cmdNext_Click()
     'PURPOSE: Determine next entry row in register table depending on check box value
 
-    Dim SearchStr As String
-    
-    If Not IsArray(StudyStatus) Then Exit Sub
+    'Check if got StudyStatus is a valid array and in the case of checkbox if it contains current
+    If Not IsArray(StudyStatus) Or (Tick And Not Contains(StudyStatus, "Current")) Then
+        errSearch.Caption = "No data found in register"
+        Exit Sub
+    End If
     
     'Repoint to RowIndex
     If RowIndex < 0 Or RowIndex = UBound(StudyStatus) Then
@@ -333,10 +393,12 @@ Private Sub cmdNext_Click()
     
     'Conditional stepping
     If Tick Then
-        SearchStr = "Current"
         'Loop through study status array
-        Do While InStr(1, StudyStatus(RowIndex, 1), SearchStr) = 0
+        Do While InStr(1, StudyStatus(RowIndex, 1), "Current") = 0
             RowIndex = RowIndex + 1
+            If RowIndex > UBound(StudyStatus) Then
+                RowIndex = 1
+            End If
         Loop
     End If
         
@@ -350,17 +412,18 @@ End Sub
 Private Sub cmdJumpBack_Click()
     'PURPOSE: Redirect to newest
     
-    Dim SearchStr As String
-    
-    If Not IsArray(StudyStatus) Then Exit Sub
+    'Check if got StudyStatus is a valid array and in the case of checkbox if it contains current
+    If Not IsArray(StudyStatus) Or (Tick And Not Contains(StudyStatus, "Current")) Then
+        errSearch.Caption = "No data found in register"
+        Exit Sub
+    End If
     
     RowIndex = LBound(StudyStatus)
     
     'Conditional stepping
     If Tick Then
-        SearchStr = "Current"
         'Loop through study status array
-        Do While InStr(1, StudyStatus(RowIndex, 1), SearchStr) = 0 And RowIndex < UBound(StudyStatus)
+        Do While InStr(1, StudyStatus(RowIndex, 1), "Current") = 0 And RowIndex < UBound(StudyStatus)
             RowIndex = RowIndex + 1
         Loop
     End If
@@ -374,10 +437,12 @@ End Sub
 
 Private Sub cmdPrevious_Click()
     'PURPOSE: Determine next entry row in register table depending on check box value
-
-    Dim SearchStr As String
     
-    If Not IsArray(StudyStatus) Then Exit Sub
+    'Check if got StudyStatus is a valid array and in the case of checkbox if it contains current
+    If Not IsArray(StudyStatus) Or (Tick And Not Contains(StudyStatus, "Current")) Then
+        errSearch.Caption = "No data found in register"
+        Exit Sub
+    End If
     
     'Repoint to RowIndex
     If RowIndex < 0 Or RowIndex = LBound(StudyStatus) Then
@@ -386,12 +451,16 @@ Private Sub cmdPrevious_Click()
         RowIndex = RowIndex - 1
     End If
     
-    'Conditional stepping
+    'Conditional stepping if check box ticked and Current status in register
+    'source: https://stackoverflow.com/questions/38267950/check-if-a-value-is-in-an-array-or-not-with-excel-vba
     If Tick Then
-        SearchStr = "Current"
         'Loop through study status array
-        Do While InStr(1, StudyStatus(RowIndex, 1), SearchStr) = 0
+        Do While InStr(1, StudyStatus(RowIndex, 1), "Current") = 0
             RowIndex = RowIndex - 1
+            
+            If RowIndex < 1 Then
+                RowIndex = UBound(StudyStatus)
+            End If
         Loop
     End If
     
@@ -402,20 +471,37 @@ Private Sub cmdPrevious_Click()
 End Sub
 
 Private Sub Read_Table()
-    
+
     With RegTable.ListRows(RowIndex)
-        Me.txtStudyName.Value = .Range(10).Value
-        Me.txtProtocolNum.Value = .Range(9).Value
-        Me.cboStudyStatus.Value = .Range(8).Value
-        Me.txtSponsor.Value = .Range(11).Value
-        Me.cboStudyStatus.ForeColor = StudyStatus_Colour(.Range(8).Value)
+    
+        Me.txtStudyName.value = .Range(10).value
+        Me.txtProtocolNum.value = .Range(9).value
+            
+        'Check if site initiation visit passed and automatically reallocated status to commenced
+        If .Range(112).value <> vbNullString And .Range(112).value < Now And .Range(8).value = "Current" Then
+            .Range(8).value = "Commenced"
+            
+            'Update version control
+            .Range(15).value = Now
+            .Range(16).value = Username
+            
+            StudyStatus = RegTable.DataBodyRange.Columns(8)
+        End If
+            
+        Me.txtSponsor.value = .Range(11).value
+        Me.cboStudyStatus.value = .Range(8).value
+        Me.cboStudyStatus.ForeColor = StudyStatus_Colour(.Range(10).value)
+        
+        'Access version control
+        Call LogLastAccess
+        
     End With
     
 End Sub
 
-Private Function StudyStatus_Colour(status As String) As Long
+Private Function StudyStatus_Colour(Status As String) As Long
     'PURPOSE: assigns RGB colour value depending on the Study Status
-    Select Case (status):
+    Select Case (Status):
         Case "Current"
             StudyStatus_Colour = RGB(0, 0, 0)
         Case "Commenced"
@@ -464,24 +550,24 @@ Private Function TransposeArray(InputArr As Variant, OutputArr As Variant) As Bo
 
 End Function
 
-Private Function IsArrayEmpty(Arr As Variant) As Boolean
+Private Function IsArrayEmpty(arr As Variant) As Boolean
 'PURPOSE: Check if Array is empty
 'SOURCE: http://www.cpearson.com/excel/vbaarrays.htm
 
-Dim LB As Long
-Dim UB As Long
+Dim lb As Long
+Dim ub As Long
 
-Err.Clear
+err.Clear
 On Error Resume Next
-If IsArray(Arr) = False Then
+If IsArray(arr) = False Then
     ' we weren't passed an array, return True
     IsArrayEmpty = True
 End If
 
 ' Attempt to get the UBound of the array. If the array is
 ' unallocated, an error will occur.
-UB = UBound(Arr, 1)
-If (Err.Number <> 0) Then
+ub = UBound(arr, 1)
+If (err.Number <> 0) Then
     IsArrayEmpty = True
 Else
     ''''''''''''''''''''''''''''''''''''''''''
@@ -494,13 +580,35 @@ Else
     ' see if LB > UB. If so, the array is not
     ' allocated.
     ''''''''''''''''''''''''''''''''''''''''''
-    Err.Clear
-    LB = LBound(Arr)
-    If LB > UB Then
+    err.Clear
+    lb = LBound(arr)
+    If lb > ub Then
         IsArrayEmpty = True
     Else
         IsArrayEmpty = False
     End If
 End If
 
+End Function
+
+
+Private Function Contains(arr, v) As Boolean
+'PURPOSE: Check if value is found in array
+'Source: https://stackoverflow.com/questions/18754096/matching-values-in-string-array/18769246#18769246
+Dim rv As Boolean, lb As Long, ub As Long, i As Long
+    
+    If IsArray(arr) Then
+        lb = LBound(arr)
+        ub = UBound(arr)
+        For i = lb To ub
+            If arr(i, 1) = v Then
+                rv = True
+                Exit For
+            End If
+        Next i
+    Else
+        rv = False
+    End If
+    
+    Contains = rv
 End Function
