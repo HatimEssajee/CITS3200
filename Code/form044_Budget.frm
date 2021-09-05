@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form044_Budget 
    Caption         =   "Budget Review"
-   ClientHeight    =   6708
-   ClientLeft      =   -384
-   ClientTop       =   -1824
-   ClientWidth     =   9960.001
+   ClientHeight    =   5364
+   ClientLeft      =   -408
+   ClientTop       =   -1992
+   ClientWidth     =   6372
    OleObjectBlob   =   "form044_Budget.frx":0000
 End
 Attribute VB_Name = "form044_Budget"
@@ -116,35 +116,35 @@ Private Sub UserForm_Initialize()
     
 End Sub
 
-Private Sub txtVTG_Date_Submitted_AfterUpdate()
-    'PURPOSE: Validate date entered
-    Dim err As String
-    
-    err = Date_Validation(Me.txtVTG_Date_Submitted.value)
-    
-    'Display error message
-    Me.errVTG_Date_Submitted.Caption = err
-    
-    'Change date format displayed
-    If IsDate(Me.txtVTG_Date_Submitted.value) Then
-        Me.txtVTG_Date_Submitted.value = Format(Me.txtVTG_Date_Submitted.value, "dd-mmm-yyyy")
-    End If
-    
-End Sub
-
 Private Sub txtVTG_Date_Finalised_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtVTG_Date_Finalised.value, Me.txtVTG_Date_Submitted.value, _
-            "Date entered earlier than date submitted")
-
+    err = Date_Validation(Me.txtVTG_Date_Finalised.value)
+    
     'Display error message
     Me.errVTG_Date_Finalised.Caption = err
     
     'Change date format displayed
     If IsDate(Me.txtVTG_Date_Finalised.value) Then
         Me.txtVTG_Date_Finalised.value = Format(Me.txtVTG_Date_Finalised.value, "dd-mmm-yyyy")
+    End If
+    
+End Sub
+
+Private Sub txtVTG_Date_Submitted_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtVTG_Date_Submitted.value, Me.txtVTG_Date_Finalised.value, _
+            "Date entered earlier than date Finalised")
+
+    'Display error message
+    Me.errVTG_Date_Submitted.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtVTG_Date_Submitted.value) Then
+        Me.txtVTG_Date_Submitted.value = Format(Me.txtVTG_Date_Submitted.value, "dd-mmm-yyyy")
     End If
      
 End Sub
@@ -153,8 +153,8 @@ Private Sub txtVTG_Date_Approved_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtVTG_Date_Approved.value, Me.txtVTG_Date_Finalised.value, _
-            "Date entered earlier than date finalised")
+    err = Date_Validation(Me.txtVTG_Date_Approved.value, Me.txtVTG_Date_Submitted.value, _
+            "Date entered earlier than date Submitted")
 
     'Display error message
     Me.errVTG_Date_Approved.Caption = err

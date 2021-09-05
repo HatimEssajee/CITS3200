@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form05_CTRA 
    Caption         =   "CTRA"
-   ClientHeight    =   6444
-   ClientLeft      =   -360
-   ClientTop       =   -1896
-   ClientWidth     =   10404
+   ClientHeight    =   5148
+   ClientLeft      =   -408
+   ClientTop       =   -2088
+   ClientWidth     =   6648
    OleObjectBlob   =   "form05_CTRA.frx":0000
 End
 Attribute VB_Name = "form05_CTRA"
@@ -146,7 +146,7 @@ Private Sub txtDate_COO_AfterUpdate()
     Dim err As String
     
     err = Date_Validation(Me.txtDate_COO.value, Me.txtDate_Finance.value, _
-            "Date entered earlier than finance signoff")
+            "Date entered earlier than" & Chr(10) & "Finance Sign-off")
     
     'Display error message
     Me.errDate_COO.Caption = err
@@ -163,7 +163,7 @@ Private Sub txtDate_VTG_AfterUpdate()
     Dim err As String
     
     err = Date_Validation(Me.txtDate_VTG.value, Me.txtDate_COO.value, _
-            "Date entered earlier than COO signoff")
+            "Date entered earlier than" & Chr(10) & "COO sign-off")
     
     'Display error message
     Me.errDate_VTG.Caption = err
@@ -182,7 +182,7 @@ Private Sub txtDate_Company_AfterUpdate()
     Dim d2 As Variant
     
     err = Date_Validation(Me.txtDate_Company.value, Me.txtDate_VTG.value, _
-            "Date entered earlier than VTG sign-off")
+            "Date entered earlier than" & Chr(10) & "VTG Sign-off")
     
     'Display error message
     Me.errDate_Company.Caption = err
@@ -201,7 +201,7 @@ Private Sub txtDate_Finalised_AfterUpdate()
     Dim d2 As Variant
     
     err = Date_Validation(Me.txtDate_Finalised.value, Me.txtDate_Company.value, _
-            "Date entered earlier than company submission")
+            "Date entered earlier than" & Chr(10) & "Company submission")
     
     'Display error message
     Me.errDate_Finalised.Caption = err

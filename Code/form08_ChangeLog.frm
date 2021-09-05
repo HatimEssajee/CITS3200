@@ -52,45 +52,45 @@ Private Sub UserForm_Initialize()
     'Pull in data from register table
     ReadRow = RegTable.DataBodyRange.Rows(RowIndex)
     
-    Me.timeCreatedOn.value = Format(ReadRow(RowIndex, 2), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perCreatedOn.value = ReadRow(RowIndex, 3)
-    Me.timeDeletedOn.value = Format(ReadRow(RowIndex, 4), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perDeletedOn.value = ReadRow(RowIndex, 5)
-    Me.timeLastAccessed.value = Format(ReadRow(RowIndex, 6), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perLastAccessed.value = ReadRow(RowIndex, 7)
+    Me.timeCreatedOn.value = Format(ReadRow(1, 2), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perCreatedOn.value = ReadRow(1, 3)
+    Me.timeDeletedOn.value = Format(ReadRow(1, 4), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perDeletedOn.value = ReadRow(1, 5)
+    Me.timeLastAccessed.value = Format(ReadRow(1, 6), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perLastAccessed.value = ReadRow(1, 7)
         
-    Me.timeStudyDetails.value = Format(ReadRow(RowIndex, 15), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perStudyDetails.value = ReadRow(RowIndex, 16)
+    Me.timeStudyDetails.value = Format(ReadRow(1, 15), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perStudyDetails.value = ReadRow(1, 16)
         
-    Me.timeCDA_FS.value = Format(ReadRow(RowIndex, 26), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perCDA_FS.value = ReadRow(RowIndex, 27)
+    Me.timeCDA_FS.value = Format(ReadRow(1, 26), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perCDA_FS.value = ReadRow(1, 27)
         
-    Me.timeSiteSelect.value = Format(ReadRow(RowIndex, 34), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perSiteSelect.value = ReadRow(RowIndex, 35)
+    Me.timeSiteSelect.value = Format(ReadRow(1, 34), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perSiteSelect.value = ReadRow(1, 35)
     
-    Me.timeRecruitment.value = Format(ReadRow(RowIndex, 39), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perRecruitment.value = ReadRow(RowIndex, 40)
+    Me.timeRecruitment.value = Format(ReadRow(1, 39), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perRecruitment.value = ReadRow(1, 40)
     
-    Me.timeEthics.value = Format(ReadRow(RowIndex, 56), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perEthics.value = ReadRow(RowIndex, 57)
+    Me.timeEthics.value = Format(ReadRow(1, 56), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perEthics.value = ReadRow(1, 57)
     
-    Me.timeGovernance.value = Format(ReadRow(RowIndex, 81), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perGovernance.value = ReadRow(RowIndex, 82)
+    Me.timeGovernance.value = Format(ReadRow(1, 81), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perGovernance.value = ReadRow(1, 82)
               
-    Me.timeBudget.value = Format(ReadRow(RowIndex, 90), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perBudget.value = ReadRow(RowIndex, 91)
+    Me.timeBudget.value = Format(ReadRow(1, 90), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perBudget.value = ReadRow(1, 91)
     
-    Me.timeIndemnity.value = Format(ReadRow(RowIndex, 96), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perIndemnity.value = ReadRow(RowIndex, 97)
+    Me.timeIndemnity.value = Format(ReadRow(1, 96), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perIndemnity.value = ReadRow(1, 97)
     
-    Me.timeCTRA.value = Format(ReadRow(RowIndex, 106), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perCTRA.value = ReadRow(RowIndex, 107)
+    Me.timeCTRA.value = Format(ReadRow(1, 106), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perCTRA.value = ReadRow(1, 107)
     
-    Me.timeFinDisc.value = Format(ReadRow(RowIndex, 110), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perFinDisc.value = ReadRow(RowIndex, 111)
+    Me.timeFinDisc.value = Format(ReadRow(1, 110), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perFinDisc.value = ReadRow(1, 111)
     
-    Me.timeSIV.value = Format(ReadRow(RowIndex, 114), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perSIV.value = ReadRow(RowIndex, 115)
+    Me.timeSIV.value = Format(ReadRow(1, 114), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perSIV.value = ReadRow(1, 115)
     
 End Sub
 

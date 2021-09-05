@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form07_SIV 
    Caption         =   "Financial Disclosure"
-   ClientHeight    =   6276
-   ClientLeft      =   -408
-   ClientTop       =   -1716
-   ClientWidth     =   11520
+   ClientHeight    =   5016
+   ClientLeft      =   -432
+   ClientTop       =   -1884
+   ClientWidth     =   7368
    OleObjectBlob   =   "form07_SIV.frx":0000
 End
 Attribute VB_Name = "form07_SIV"
@@ -117,6 +117,25 @@ Private Sub cmdEdit_Click()
         'Update version control
         .Range(114) = Now
         .Range(115) = Username
+        
+        'Change study status based on SIV date saved
+        If Me.txtSIV_Date.value <> vbNullString And String_to_Date(Me.txtSIV_Date.value) > Now _
+            And .Range(8).value = "Commenced" Then
+            
+            .Range(8) = "Current"
+            'Update version control
+            .Range(15) = .Range(114).value
+            .Range(16) = .Range(115).value
+        
+        ElseIf Me.txtSIV_Date.value <> vbNullString And String_to_Date(Me.txtSIV_Date.value) < Now _
+            And .Range(8).value = "Current" Then
+            
+            .Range(8) = "Commenced"
+            'Update version control
+            .Range(15) = .Range(114).value
+            .Range(16) = .Range(115).value
+        End If
+        
     End With
     
     'Access version control

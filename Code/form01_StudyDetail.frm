@@ -69,7 +69,9 @@ Private Sub UserForm_Initialize()
         Me.txtStudyName.value = .Range(10).value
         Me.txtSponsor.value = .Range(11).value
         Me.txtCRO.value = .Range(12).value
-        Me.txtReminder.value = .Range(13).value
+        Me.txtAgeRange.value = .Range(13).value
+        Me.txtReminder.value = .Range(14).value
+        
     End With
     
     'Edit LastAccess log
@@ -98,6 +100,7 @@ Private Sub cmdEdit_Click()
         .Range(10) = Me.txtStudyName.value
         .Range(11) = Me.txtSponsor.value
         .Range(12) = Me.txtCRO.value
+        .Range(13) = Me.txtAgeRange.value
         .Range(14) = Me.txtReminder.value
         
         'Update version control

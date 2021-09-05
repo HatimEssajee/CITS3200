@@ -54,108 +54,108 @@ Private Sub UserForm_Initialize()
     
     
     'Fill text fields
-     Me.remStudyDetails.value = ReadRow(RowIndex, 14)
-    
-    Me.remCDA_FS.value = ReadRow(RowIndex, 25)
+    Me.remStudyDetails.value = ReadRow(1, 14)
 
-    Me.remSiteSelect.value = ReadRow(RowIndex, 33)
+    Me.remCDA_FS.value = ReadRow(1, 25)
 
-    Me.remRecruitment.value = ReadRow(RowIndex, 38)
+    Me.remSiteSelect.value = ReadRow(1, 33)
 
-    Me.remEthics.value = ReadRow(RowIndex, 55)
+    Me.remRecruitment.value = ReadRow(1, 38)
 
-    Me.remGovernance.value = ReadRow(RowIndex, 80)
+    Me.remEthics.value = ReadRow(1, 55)
 
-    Me.remBudget.value = ReadRow(RowIndex, 89)
+    Me.remGovernance.value = ReadRow(1, 80)
 
-    Me.remIndemnity.value = ReadRow(RowIndex, 95)
+    Me.remBudget.value = ReadRow(1, 89)
 
-    Me.remCTRA.value = ReadRow(RowIndex, 105)
+    Me.remIndemnity.value = ReadRow(1, 95)
 
-    Me.remFinDisc.value = ReadRow(RowIndex, 109)
+    Me.remCTRA.value = ReadRow(1, 105)
 
-    Me.remSIV.value = ReadRow(RowIndex, 113)
+    Me.remFinDisc.value = ReadRow(1, 109)
+
+    Me.remSIV.value = ReadRow(1, 113)
 
 
     'Assess stage status
 
     'Has to have age range filled
-    If ReadRow(RowIndex, 13) <> vbNullString Then
+    If ReadRow(1, 13) <> vbNullString Then
         Me.statStudyDetails.BackColor = vbGreen
     End If
 
     'Has to have CDA Finalised and Feasibility Study completed filled
-    If ReadRow(RowIndex, 21) <> vbNullString And ReadRow(RowIndex, 23) <> vbNullString Then
+    If ReadRow(1, 21) <> vbNullString And ReadRow(1, 23) <> vbNullString Then
         Me.statCDA_FS.BackColor = vbGreen
     End If
-    
+
     'Has to have Site Selection Date filled
-    If ReadRow(RowIndex, 32) <> vbNullString Then
+    If ReadRow(1, 32) <> vbNullString Then
         Me.statSiteSelect.BackColor = vbGreen
     End If
-    
+
     'Has to have Recruitment status as complete
-    If ReadRow(RowIndex, 37) = "Complete" Then
+    If ReadRow(1, 37) = "Complete" Then
         Me.statRecruitment.BackColor = vbGreen
     End If
-    
+
     'Has to have at least one committee approving ethics review
     'and all submitted reviews are approved with dates filled
-    If (ReadRow(RowIndex, 44) <> vbNullString Or ReadRow(RowIndex, 47) <> vbNullString Or _
-        ReadRow(RowIndex, 49) <> vbNullString Or ReadRow(RowIndex, 51) <> vbNullString Or _
-        ReadRow(RowIndex, 54) <> vbNullString) And _
-        ((ReadRow(RowIndex, 41) <> vbNullString And ReadRow(RowIndex, 44) <> vbNullString) Or _
-        (ReadRow(RowIndex, 46) <> vbNullString And ReadRow(RowIndex, 47) <> vbNullString) Or _
-        (ReadRow(RowIndex, 48) <> vbNullString And ReadRow(RowIndex, 49) <> vbNullString) Or _
-        (ReadRow(RowIndex, 50) <> vbNullString And ReadRow(RowIndex, 51) <> vbNullString) Or _
-        (ReadRow(RowIndex, 53) <> vbNullString And ReadRow(RowIndex, 54) <> vbNullString)) _
+    If (ReadRow(1, 44) <> vbNullString Or ReadRow(1, 47) <> vbNullString Or _
+        ReadRow(1, 49) <> vbNullString Or ReadRow(1, 51) <> vbNullString Or _
+        ReadRow(1, 54) <> vbNullString) And _
+        ((ReadRow(1, 41) <> vbNullString And ReadRow(1, 44) <> vbNullString) Or _
+        (ReadRow(1, 46) <> vbNullString And ReadRow(1, 47) <> vbNullString) Or _
+        (ReadRow(1, 48) <> vbNullString And ReadRow(1, 49) <> vbNullString) Or _
+        (ReadRow(1, 50) <> vbNullString And ReadRow(1, 51) <> vbNullString) Or _
+        (ReadRow(1, 53) <> vbNullString And ReadRow(1, 54) <> vbNullString)) _
         Then
         Me.statEthics.BackColor = vbGreen
     End If
-    
+
     'Has to have at least one committee approving governance review
     'and all submitted reviews are approved with dates filled
-    If (ReadRow(RowIndex, 60) <> vbNullString Or ReadRow(RowIndex, 63) <> vbNullString Or _
-        ReadRow(RowIndex, 66) <> vbNullString Or ReadRow(RowIndex, 69) <> vbNullString Or _
-        ReadRow(RowIndex, 72) <> vbNullString Or ReadRow(RowIndex, 75) <> vbNullString Or _
-        ReadRow(RowIndex, 79) <> vbNullString) And _
-        ((ReadRow(RowIndex, 58) <> vbNullString And ReadRow(RowIndex, 60) <> vbNullString) Or _
-        (ReadRow(RowIndex, 61) <> vbNullString And ReadRow(RowIndex, 63) <> vbNullString) Or _
-        (ReadRow(RowIndex, 64) <> vbNullString And ReadRow(RowIndex, 66) <> vbNullString) Or _
-        (ReadRow(RowIndex, 67) <> vbNullString And ReadRow(RowIndex, 69) <> vbNullString) Or _
-        (ReadRow(RowIndex, 70) <> vbNullString And ReadRow(RowIndex, 72) <> vbNullString) Or _
-        (ReadRow(RowIndex, 73) <> vbNullString And ReadRow(RowIndex, 75) <> vbNullString) Or _
-        (ReadRow(RowIndex, 77) <> vbNullString And ReadRow(RowIndex, 79) <> vbNullString)) _
+    If (ReadRow(1, 60) <> vbNullString Or ReadRow(1, 63) <> vbNullString Or _
+        ReadRow(1, 66) <> vbNullString Or ReadRow(1, 69) <> vbNullString Or _
+        ReadRow(1, 72) <> vbNullString Or ReadRow(1, 75) <> vbNullString Or _
+        ReadRow(1, 79) <> vbNullString) And _
+        ((ReadRow(1, 58) <> vbNullString And ReadRow(1, 60) <> vbNullString) Or _
+        (ReadRow(1, 61) <> vbNullString And ReadRow(1, 63) <> vbNullString) Or _
+        (ReadRow(1, 64) <> vbNullString And ReadRow(1, 66) <> vbNullString) Or _
+        (ReadRow(1, 67) <> vbNullString And ReadRow(1, 69) <> vbNullString) Or _
+        (ReadRow(1, 70) <> vbNullString And ReadRow(1, 72) <> vbNullString) Or _
+        (ReadRow(1, 73) <> vbNullString And ReadRow(1, 75) <> vbNullString) Or _
+        (ReadRow(1, 77) <> vbNullString And ReadRow(1, 79) <> vbNullString)) _
         Then
         Me.statGovernance.BackColor = vbGreen
     End If
-    
+
     'Has to have all parties approve Budget with dates filled
-    If ReadRow(RowIndex, 85) <> vbNullString And ReadRow(RowIndex, 86) <> vbNullString And _
-        ReadRow(RowIndex, 88) <> vbNullString Then
+    If ReadRow(1, 85) <> vbNullString And ReadRow(1, 86) <> vbNullString And _
+        ReadRow(1, 88) <> vbNullString Then
         Me.statBudget.BackColor = vbGreen
     End If
-    
+
     'Has to have Date Completed filled
-    If ReadRow(RowIndex, 94) <> vbNullString Then
+    If ReadRow(1, 94) <> vbNullString Then
         Me.statIndemnity.BackColor = vbGreen
     End If
-    
+
     'Has to have Date Finalised filled
-    If ReadRow(RowIndex, 104) <> vbNullString Then
+    If ReadRow(1, 104) <> vbNullString Then
         Me.statCTRA.BackColor = vbGreen
     End If
-    
+
     'Has to have Date Completed filled
-    If ReadRow(RowIndex, 108) <> vbNullString Then
+    If ReadRow(1, 108) <> vbNullString Then
         Me.statFinDisc.BackColor = vbGreen
     End If
-    
+
     'Has to have Site Initiation Visit Date filled
-    If ReadRow(RowIndex, 112) <> vbNullString Then
+    If ReadRow(1, 112) <> vbNullString Then
         Me.statSIV.BackColor = vbGreen
     End If
-    
+
 End Sub
 
 Private Sub cmdCloseLog_Click()

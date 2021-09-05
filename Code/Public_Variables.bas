@@ -9,9 +9,8 @@ Public LastUpdate As Date
 Public Tick As Boolean
 Public StudyStatus As Variant
 Public DisplayArr() As Variant
-
+Public OldStudyStatus As String
 Public RegTable As ListObject
-Public ReadRow As ListRow
 Public UserFormLeftPos As Long
 Public UserFormTopPos As Long
 
@@ -72,21 +71,3 @@ Public Function Date_Validation(CurrDate As String, Optional PrevDate As String 
     Date_Validation = err
     
 End Function
-
-Public Sub TurnEvents_ON()
-
-    Application.EnableEvents = True
-    Application.ScreenUpdating = True
-    Application.DisplayAlerts = True
-    Application.Calculation = xlCalculationAutomatic
-    
-End Sub
-
-Public Sub TurnEvents_OFF()
-
-    Application.EnableEvents = False
-    Application.ScreenUpdating = False
-    Application.DisplayAlerts = False
-    Application.Calculation = xlCalculationManual
-    
-End Sub

@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form03_SiteSelect 
    Caption         =   "Site Selection"
-   ClientHeight    =   6108
-   ClientLeft      =   -408
-   ClientTop       =   -1752
-   ClientWidth     =   10872
+   ClientHeight    =   4884
+   ClientLeft      =   -456
+   ClientTop       =   -1944
+   ClientWidth     =   6948
    OleObjectBlob   =   "form03_SiteSelect.frx":0000
 End
 Attribute VB_Name = "form03_SiteSelect"
@@ -80,7 +80,7 @@ Private Sub UserForm_Initialize()
         Me.cboValidation_Type.value = .Range(31).value
         Me.txtSiteSelect.value = Format(.Range(32).value, "dd-mmm-yyyy")
         
-        Me.txtReminder.value = .Range(25).value
+        Me.txtReminder.value = .Range(33).value
     End With
     
     'Access version control
@@ -134,7 +134,7 @@ Private Sub txtSiteSelect_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtSiteSelect.value, Me.txtCDA_Recv_Sponsor.value, _
+    err = Date_Validation(Me.txtSiteSelect.value, Me.txtValidation_Date.value, _
             "Date entered earlier than date of" & Chr(10) & "Validation visit")
 
     'Display error message

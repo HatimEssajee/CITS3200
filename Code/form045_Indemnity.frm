@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form045_Indemnity 
    Caption         =   "Indemnity Review"
-   ClientHeight    =   6084
-   ClientLeft      =   -480
-   ClientTop       =   -1980
-   ClientWidth     =   9468.001
+   ClientHeight    =   4860
+   ClientLeft      =   -528
+   ClientTop       =   -2172
+   ClientWidth     =   6048
    OleObjectBlob   =   "form045_Indemnity.frx":0000
 End
 Attribute VB_Name = "form045_Indemnity"
@@ -109,7 +109,7 @@ Private Sub txtDate_Sent_Contracts_AfterUpdate()
     Dim err As String
     
     err = Date_Validation(Me.txtDate_Sent_Contracts.value, Me.txtDate_Recv.value, _
-            "Date entered earlier than date received")
+            "Date entered earlier than date Received")
     
     'Display error message
     Me.errDate_Sent_Contracts.Caption = err
@@ -126,7 +126,7 @@ Private Sub txtDate_Comp_AfterUpdate()
     Dim err As String
     
     err = Date_Validation(Me.txtDate_Comp.value, Me.txtDate_Sent_Contracts.value, _
-            "Date entered earlier than date sent")
+            "Date entered earlier than date Sent")
     
     'Display error message
     Me.errDate_Comp.Caption = err

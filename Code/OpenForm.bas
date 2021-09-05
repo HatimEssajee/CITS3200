@@ -3,12 +3,6 @@ Option Explicit
 
 Sub OpenForm()
     'PURPOSE: Determines dimensions of register table and loads first userform
-        
-'    'Find first and last used Row in register table
-'    'Source: https://www.thespreadsheetguru.com/blog/2014/6/20/the-vba-guide-to-listobject-excel-tables
-'    HeaderRow = Sheets("Register").Range("Register[[#Headers],[Study UID]]").Row
-'    TopRow = HeaderRow + 1
-'    BtmRow = RegTable.ListRows.Count
     
     'Reference register table
     Set RegTable = ThisWorkbook.Sheets("Register").ListObjects("Register")

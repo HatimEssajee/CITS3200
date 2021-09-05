@@ -179,9 +179,52 @@ End Sub
 
 Private Sub cboStudyStatus_AfterUpdate()
     'PURPOSE: Change text color of combo box status based on value
-    Me.cboStudyStatus.ForeColor = StudyStatus_Colour(Me.cboStudyStatus.value)
+    
+    Dim SIVDate As String
+
+    'Unique change events
+    SIVDate = RegTable.DataBodyRange.Cells(RowIndex, 112).value
+    
+    'Undeleting entry
+    If OldStudyStatus = "DELETED" And Me.cboStudyStatus <> "DELETED" Then
+        
+        'Clear Deletion Log
+        With RegTable.ListRows(RowIndex)
+            'Deletion version control
+            .Range(4) = vbNullString
+            .Range(5) = vbNullString
+            
+            'Update version control
+            .Range(15) = Now
+            .Range(16) = Username
+        End With
+        
+    End If
+    
+    'Swap to commenced if SIV before today
+    If Me.cboStudyStatus.value = "Current" And SIVDate <> vbNullString And _
+        String_to_Date(SIVDate) < Now Then
+        
+        Me.cboStudyStatus.value = "Commenced"
+        
+        'Clear Deletion Log
+        With RegTable.ListRows(RowIndex)
+            'Update version control
+            .Range(15) = Now
+            .Range(16) = Username
+            
+        End With
+        
+    End If
+    
+    'Update value in table
     RegTable.DataBodyRange.Cells(RowIndex, 8).value = Me.cboStudyStatus.value
+    Me.cboStudyStatus.ForeColor = StudyStatus_Colour(Me.cboStudyStatus.value)
     StudyStatus = RegTable.DataBodyRange.Columns(8)
+    
+    'Update Access log
+    Call LogLastAccess
+    
 End Sub
 
 Private Sub cmdDelete_Click()
@@ -219,6 +262,8 @@ Private Sub cmdDelete_Click()
             .value = "DELETED"
             .ForeColor = vbRed
         End With
+        
+        OldStudyStatus = "DELETED"
         
     End If
     
@@ -478,7 +523,8 @@ Private Sub Read_Table()
         Me.txtProtocolNum.value = .Range(9).value
             
         'Check if site initiation visit passed and automatically reallocated status to commenced
-        If .Range(112).value <> vbNullString And .Range(112).value < Now And .Range(8).value = "Current" Then
+        If .Range(112).value <> vbNullString And String_to_Date(.Range(112).value) < Now _
+            And .Range(8).value = "Current" Then
             .Range(8).value = "Commenced"
             
             'Update version control
@@ -491,6 +537,9 @@ Private Sub Read_Table()
         Me.txtSponsor.value = .Range(11).value
         Me.cboStudyStatus.value = .Range(8).value
         Me.cboStudyStatus.ForeColor = StudyStatus_Colour(.Range(10).value)
+        
+        'Store value of old study status
+        OldStudyStatus = Me.cboStudyStatus.value
         
         'Access version control
         Call LogLastAccess

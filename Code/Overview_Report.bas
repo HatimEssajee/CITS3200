@@ -15,7 +15,9 @@ Option Explicit
 '    Dim sColor As Long
 '
 '    'Turn of update and calcs to speed up macro
+'    Application.EnableEvents = False
 '    Application.ScreenUpdating = False
+'    Application.DisplayAlerts = False
 '    Application.Calculation = xlCalculationManual
 '
 '    Set ws = Sheets("Work Alloc Report")
@@ -169,7 +171,9 @@ Option Explicit
 '    ActiveWorkbook.RefreshAll
 '
 '    'revert to default settings
+'    Application.EnableEvents = True
 '    Application.ScreenUpdating = True
+'    Application.DisplayAlerts = True
 '    Application.Calculation = xlCalculationAutomatic
 '
 '
