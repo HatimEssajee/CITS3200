@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form045_Indemnity 
    Caption         =   "Indemnity Review"
-   ClientHeight    =   2208
+   ClientHeight    =   6084
    ClientLeft      =   -480
    ClientTop       =   -1980
-   ClientWidth     =   4080
+   ClientWidth     =   9468.001
    OleObjectBlob   =   "form045_Indemnity.frx":0000
 End
 Attribute VB_Name = "form045_Indemnity"
@@ -69,7 +69,7 @@ Private Sub UserForm_Initialize()
         Me.txtDate_Recv.value = Format(.Range(92).value, "dd-mmm-yyyy")
         Me.txtDate_Sent_Contracts.value = Format(.Range(93).value, "dd-mmm-yyyy")
         Me.txtDate_Comp.value = Format(.Range(94).value, "dd-mmm-yyyy")
-        Me.txtReminder = .Range(95).value
+        Me.txtReminder.value = .Range(95).value
     End With
     
     'Access version control

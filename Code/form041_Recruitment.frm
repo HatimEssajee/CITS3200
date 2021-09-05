@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form041_Recruitment 
    Caption         =   "Recruitment Plan"
-   ClientHeight    =   1740
-   ClientLeft      =   -480
-   ClientTop       =   -2112
-   ClientWidth     =   2592
+   ClientHeight    =   6408
+   ClientLeft      =   -504
+   ClientTop       =   -2208
+   ClientWidth     =   9036.001
    OleObjectBlob   =   "form041_Recruitment.frx":0000
 End
 Attribute VB_Name = "form041_Recruitment"
@@ -79,7 +79,7 @@ Private Sub UserForm_Initialize()
         Me.txtStudyName.value = .Range(10).value
         Me.txtDate_Plan.value = Format(.Range(36).value, "dd-mmm-yyyy")
         Me.cboRecruitStatus.value = .Range(37).value
-        Me.txtReminder = .Range(38).value
+        Me.txtReminder.value = .Range(38).value
     End With
     
     'Access version control
@@ -90,6 +90,25 @@ Private Sub UserForm_Initialize()
     Me.tglReviews.BackColor = vbGreen
     Me.tglRecruitment.value = True
     Me.tglRecruitment.BackColor = vbGreen
+    
+    'Run date validation on data entered
+    Call txtDate_Plan_AfterUpdate
+    
+End Sub
+
+Private Sub txtDate_Plan_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtDate_Plan.value)
+    
+    'Display error message
+    Me.errDate_Plan.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtDate_Plan.value) Then
+        Me.txtDate_Plan.value = Format(Me.txtDate_Plan.value, "dd-mmm-yyyy")
+    End If
     
 End Sub
 

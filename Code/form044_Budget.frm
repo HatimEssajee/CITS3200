@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form044_Budget 
    Caption         =   "Budget Review"
-   ClientHeight    =   8388.001
+   ClientHeight    =   6708
    ClientLeft      =   -384
    ClientTop       =   -1824
    ClientWidth     =   9960.001
@@ -86,10 +86,13 @@ Private Sub UserForm_Initialize()
         Me.txtVTG_Date_Submitted.value = Format(.Range(83).value, "dd-mmm-yyyy")
         Me.txtVTG_Date_Finalised.value = Format(.Range(84).value, "dd-mmm-yyyy")
         Me.txtVTG_Date_Approved.value = Format(.Range(85).value, "dd-mmm-yyyy")
+        
         Me.txtTKI_Date_Approved.value = Format(.Range(86).value, "dd-mmm-yyyy")
+        
         Me.txtPharm_Date_Quote.value = Format(.Range(87).value, "dd-mmm-yyyy")
         Me.txtPharm_Date_Finalised.value = Format(.Range(88).value, "dd-mmm-yyyy")
-        Me.txtReminder = .Range(89).value
+        
+        Me.txtReminder.value = .Range(89).value
     End With
     
     'Access version control
@@ -101,6 +104,115 @@ Private Sub UserForm_Initialize()
     Me.tglBudget.value = True
     Me.tglBudget.BackColor = vbGreen
     
+    'Run date validation on data entered
+    Call txtVTG_Date_Submitted_AfterUpdate
+    Call txtVTG_Date_Finalised_AfterUpdate
+    Call txtVTG_Date_Approved_AfterUpdate
+    
+    Call txtTKI_Date_Approved_AfterUpdate
+    
+    Call txtPharm_Date_Quote_AfterUpdate
+    Call txtPharm_Date_Finalised_AfterUpdate
+    
+End Sub
+
+Private Sub txtVTG_Date_Submitted_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtVTG_Date_Submitted.value)
+    
+    'Display error message
+    Me.errVTG_Date_Submitted.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtVTG_Date_Submitted.value) Then
+        Me.txtVTG_Date_Submitted.value = Format(Me.txtVTG_Date_Submitted.value, "dd-mmm-yyyy")
+    End If
+    
+End Sub
+
+Private Sub txtVTG_Date_Finalised_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtVTG_Date_Finalised.value, Me.txtVTG_Date_Submitted.value, _
+            "Date entered earlier than date submitted")
+
+    'Display error message
+    Me.errVTG_Date_Finalised.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtVTG_Date_Finalised.value) Then
+        Me.txtVTG_Date_Finalised.value = Format(Me.txtVTG_Date_Finalised.value, "dd-mmm-yyyy")
+    End If
+     
+End Sub
+
+Private Sub txtVTG_Date_Approved_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtVTG_Date_Approved.value, Me.txtVTG_Date_Finalised.value, _
+            "Date entered earlier than date finalised")
+
+    'Display error message
+    Me.errVTG_Date_Approved.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtVTG_Date_Approved.value) Then
+        Me.txtVTG_Date_Approved.value = Format(Me.txtVTG_Date_Approved.value, "dd-mmm-yyyy")
+    End If
+     
+End Sub
+
+Private Sub txtTKI_Date_Approved_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtTKI_Date_Approved.value)
+    
+    'Display error message
+    Me.errTKI_Date_Approved.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtTKI_Date_Approved.value) Then
+        Me.txtTKI_Date_Approved.value = Format(Me.txtTKI_Date_Approved.value, "dd-mmm-yyyy")
+    End If
+    
+End Sub
+
+Private Sub txtPharm_Date_Quote_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtPharm_Date_Quote.value)
+    
+    'Display error message
+    Me.errPharm_Date_Quote.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtPharm_Date_Quote.value) Then
+        Me.txtPharm_Date_Quote.value = Format(Me.txtPharm_Date_Quote.value, "dd-mmm-yyyy")
+    End If
+    
+End Sub
+
+Private Sub txtPharm_Date_Finalised_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtPharm_Date_Finalised.value, Me.txtPharm_Date_Quote.value, _
+            "Date entered earlier than date" & Chr(10) & "Quote was received")
+
+    'Display error message
+    Me.errPharm_Date_Finalised.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtPharm_Date_Finalised.value) Then
+        Me.txtPharm_Date_Finalised.value = Format(Me.txtPharm_Date_Finalised.value, "dd-mmm-yyyy")
+    End If
+     
 End Sub
 
 Private Sub cmdClose_Click()

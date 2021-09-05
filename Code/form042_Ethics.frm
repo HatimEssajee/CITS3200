@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form042_Ethics 
    Caption         =   "Ethics Review"
-   ClientHeight    =   1440
-   ClientLeft      =   -408
-   ClientTop       =   -1932
-   ClientWidth     =   2592
+   ClientHeight    =   6744
+   ClientLeft      =   -456
+   ClientTop       =   -2100
+   ClientWidth     =   8268.001
    OleObjectBlob   =   "form042_Ethics.frx":0000
 End
 Attribute VB_Name = "form042_Ethics"
@@ -13,7 +13,6 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-
 
 Private Sub UserForm_Activate()
     'PURPOSE: Reposition userform to Top Left of application Window and fix size
@@ -83,14 +82,28 @@ Private Sub UserForm_Initialize()
     'Read information from register table
     With RegTable.ListRows(RowIndex)
         Me.txtStudyName.value = .Range(10).value
-        Me.txtDate_RGC.value = Format(.Range(98).value, "dd-mmm-yyyy")
-        Me.txtDate_UWA.value = Format(.Range(99).value, "dd-mmm-yyyy")
-        Me.txtDate_Finance.value = Format(.Range(100).value, "dd-mmm-yyyy")
-        Me.txtDate_COO.value = Format(.Range(101).value, "dd-mmm-yyyy")
-        Me.txtDate_VTG.value = Format(.Range(102).value, "dd-mmm-yyyy")
-        Me.txtDate_Company.value = Format(.Range(103).value, "dd-mmm-yyyy")
-        Me.txtDate_Finalised.value = Format(.Range(104).value, "dd-mmm-yyyy")
-        Me.txtReminder = .Range(105).value
+        
+        Me.txtCAHS_Date_Submitted.value = Format(.Range(41).value, "dd-mmm-yyyy")
+        Me.txtCAHS_Date_Responded.value = Format(.Range(42).value, "dd-mmm-yyyy")
+        Me.txtCAHS_Date_Resubmitted.value = Format(.Range(43).value, "dd-mmm-yyyy")
+        Me.txtCAHS_Date_Approved.value = Format(.Range(44).value, "dd-mmm-yyyy")
+        
+        Me.txtNMA_Committee.value = .Range(45).value
+        Me.txtNMA_Date_Submitted.value = Format(.Range(46).value, "dd-mmm-yyyy")
+        Me.txtNMA_Date_Approved.value = Format(.Range(47).value, "dd-mmm-yyyy")
+        
+        Me.txtWNHS_Date_Submitted.value = Format(.Range(48).value, "dd-mmm-yyyy")
+        Me.txtWNHS_Date_Approved.value = Format(.Range(49).value, "dd-mmm-yyyy")
+        
+        Me.txtSJOG_Date_Submitted.value = Format(.Range(50).value, "dd-mmm-yyyy")
+        Me.txtSJOG_Date_Approved.value = Format(.Range(51).value, "dd-mmm-yyyy")
+        
+        Me.txtOthers_Committee.value = .Range(52).value
+        Me.txtOthers_Date_Submitted.value = Format(.Range(53).value, "dd-mmm-yyyy")
+        Me.txtOthers_Date_Approved.value = Format(.Range(54).value, "dd-mmm-yyyy")
+        
+        Me.txtReminder.value = .Range(55).value
+        
     End With
     
     'Access version control
@@ -101,6 +114,7 @@ Private Sub UserForm_Initialize()
     Me.tglReviews.BackColor = vbGreen
     Me.tglEthics.value = True
     Me.tglEthics.BackColor = vbGreen
+    
     
 End Sub
 
@@ -118,18 +132,30 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(98) = Me.txtDate_RGC.value
-        .Range(99) = Me.txtDate_UWA.value
-        .Range(100) = Me.txtDate_Finance.value
-        .Range(101) = Me.txtDate_COO.value
-        .Range(102) = Me.txtDate_VTG.value
-        .Range(103) = Me.txtDate_Company.value
-        .Range(104) = Me.txtDate_Finalised.value
-        .Range(105) = Me.txtReminder.value
+        .Range(41) = String_to_Date(Me.txtCAHS_Date_Submitted.value)
+        .Range(42) = String_to_Date(Me.txtCAHS_Date_Responded.value)
+        .Range(43) = String_to_Date(Me.txtCAHS_Date_Resubmitted.value)
+        .Range(44) = String_to_Date(Me.txtCAHS_Date_Approved.value)
+        
+        .Range(45) = Me.txtNMA_Committee.value
+        .Range(46) = String_to_Date(Me.txtNMA_Date_Submitted.value)
+        .Range(47) = String_to_Date(Me.txtNMA_Date_Approved.value)
+        
+        .Range(48) = String_to_Date(Me.txtWNHS_Date_Submitted.value)
+        .Range(49) = String_to_Date(Me.txtWNHS_Date_Approved.value)
+        
+        .Range(50) = String_to_Date(Me.txtSJOG_Date_Submitted.value)
+        .Range(51) = String_to_Date(Me.txtSJOG_Date_Approved.value)
+        
+        .Range(52) = Me.txtOthers_Committee.value
+        .Range(53) = String_to_Date(Me.txtOthers_Date_Submitted.value)
+        .Range(54) = String_to_Date(Me.txtOthers_Date_Approved.value)
+        
+        .Range(55) = Me.txtReminder.value
         
         'Update version control
-        .Range(106) = Now
-        .Range(107) = Username
+        .Range(56) = Now
+        .Range(57) = Username
     End With
     
     'Access version control

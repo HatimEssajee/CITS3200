@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form02_CDA_FS 
    Caption         =   "CDA & Feasibility"
-   ClientHeight    =   7020
+   ClientHeight    =   5616
    ClientLeft      =   -372
    ClientTop       =   -1584
    ClientWidth     =   8880.001
@@ -98,7 +98,7 @@ Private Sub UserForm_Initialize()
         Me.txtFS_Comp.value = Format(.Range(23).value, "dd-mmm-yyyy")
         Me.txtFS_Initials.value = .Range(24).value
         
-        Me.txtReminder = .Range(25).value
+        Me.txtReminder.value = .Range(25).value
     End With
     
     'Access version control
@@ -108,6 +108,132 @@ Private Sub UserForm_Initialize()
     Me.tglCDA_FS.value = True
     Me.tglCDA_FS.BackColor = vbGreen
     
+    'Run date validation on data entered
+    Call txtCDA_Recv_Sponsor_AfterUpdate
+    Call txtCDA_Sent_Contracts_AfterUpdate
+    Call txtCDA_Recv_Contracts_AfterUpdate
+    Call txtCDA_Sent_Sponsor_AfterUpdate
+    Call txtCDA_Finalised_AfterUpdate
+    Call txtFS_Recv_AfterUpdate
+    Call txtFS_Comp_AfterUpdate
+    
+End Sub
+
+Private Sub txtCDA_Recv_Sponsor_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtCDA_Recv_Sponsor.value)
+    
+    'Display error message
+    Me.errCDA_Recv_Sponsor.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtCDA_Recv_Sponsor.value) Then
+        Me.txtCDA_Recv_Sponsor.value = Format(Me.txtCDA_Recv_Sponsor.value, "dd-mmm-yyyy")
+    End If
+    
+End Sub
+
+Private Sub txtCDA_Sent_Contracts_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtCDA_Sent_Contracts.value, Me.txtCDA_Recv_Sponsor.value, _
+            "Date entered earlier than date" & Chr(10) & "received from Sponsor")
+
+    'Display error message
+    Me.errCDA_Sent_Contracts.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtCDA_Sent_Contracts.value) Then
+        Me.txtCDA_Sent_Contracts.value = Format(Me.txtCDA_Sent_Contracts.value, "dd-mmm-yyyy")
+    End If
+     
+End Sub
+
+Private Sub txtCDA_Recv_Contracts_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtCDA_Recv_Contracts.value, Me.txtCDA_Sent_Contracts.value, _
+            "Date entered earlier than date" & Chr(10) & "sent to Contracts")
+
+    'Display error message
+    Me.errCDA_Recv_Contracts.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtCDA_Recv_Contracts.value) Then
+        Me.txtCDA_Recv_Contracts.value = Format(Me.txtCDA_Recv_Contracts.value, "dd-mmm-yyyy")
+    End If
+     
+End Sub
+
+Private Sub txtCDA_Sent_Sponsor_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtCDA_Sent_Sponsor.value, Me.txtCDA_Recv_Contracts.value, _
+            "Date entered earlier than date" & Chr(10) & "received from Contracts")
+
+    'Display error message
+    Me.errCDA_Sent_Sponsor.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtCDA_Sent_Sponsor.value) Then
+        Me.txtCDA_Sent_Sponsor.value = Format(Me.txtCDA_Sent_Sponsor.value, "dd-mmm-yyyy")
+    End If
+    
+End Sub
+
+Private Sub txtCDA_Finalised_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtCDA_Finalised.value, Me.txtCDA_Sent_Sponsor.value, _
+            "Date entered earlier than date" & Chr(10) & "sent to Sponsor")
+
+    'Display error message
+    Me.errCDA_Finalised.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtCDA_Finalised.value) Then
+        Me.txtCDA_Finalised.value = Format(Me.txtCDA_Finalised.value, "dd-mmm-yyyy")
+    End If
+    
+End Sub
+
+Private Sub txtFS_Recv_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtFS_Recv.value)
+    
+    'Display error message
+    Me.errFS_Recv.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtFS_Recv.value) Then
+        Me.txtFS_Recv.value = Format(Me.txtFS_Recv.value, "dd-mmm-yyyy")
+    End If
+    
+End Sub
+
+Private Sub txtFS_Comp_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtFS_Comp.value, Me.txtFS_Recv.value, _
+            "Date entered earlier than date" & Chr(10) & "received")
+
+    'Display error message
+    Me.errFS_Comp.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtFS_Comp.value) Then
+        Me.txtFS_Comp.value = Format(Me.txtFS_Comp.value, "dd-mmm-yyyy")
+    End If
+     
 End Sub
 
 Private Sub cmdClose_Click()

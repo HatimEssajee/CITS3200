@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form03_SiteSelect 
    Caption         =   "Site Selection"
-   ClientHeight    =   2688
+   ClientHeight    =   6108
    ClientLeft      =   -408
    ClientTop       =   -1752
-   ClientWidth     =   3264
+   ClientWidth     =   10872
    OleObjectBlob   =   "form03_SiteSelect.frx":0000
 End
 Attribute VB_Name = "form03_SiteSelect"
@@ -80,7 +80,7 @@ Private Sub UserForm_Initialize()
         Me.cboValidation_Type.value = .Range(31).value
         Me.txtSiteSelect.value = Format(.Range(32).value, "dd-mmm-yyyy")
         
-        Me.txtReminder = .Range(25).value
+        Me.txtReminder.value = .Range(25).value
     End With
     
     'Access version control
@@ -90,7 +90,63 @@ Private Sub UserForm_Initialize()
     Me.tglSiteSelect.value = True
     Me.tglSiteSelect.BackColor = vbGreen
     
+    'Run date validation on data entered
+    Call txtPrestudy_Date_AfterUpdate
+    Call txtValidation_Date_AfterUpdate
+    Call txtSiteSelect_AfterUpdate
+    
 End Sub
+
+Private Sub txtPrestudy_Date_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtPrestudy_Date.value)
+    
+    'Display error message
+    Me.errPrestudy_Date.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtPrestudy_Date.value) Then
+        Me.txtPrestudy_Date.value = Format(Me.txtPrestudy_Date.value, "dd-mmm-yyyy")
+    End If
+    
+End Sub
+
+Private Sub txtValidation_Date_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtValidation_Date.value, Me.txtPrestudy_Date.value, _
+            "Date entered earlier than date of" & Chr(10) & "Pre-study visit")
+
+    'Display error message
+    Me.errValidation_Date.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtValidation_Date.value) Then
+        Me.txtValidation_Date.value = Format(Me.txtValidation_Date.value, "dd-mmm-yyyy")
+    End If
+     
+End Sub
+
+Private Sub txtSiteSelect_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtSiteSelect.value, Me.txtCDA_Recv_Sponsor.value, _
+            "Date entered earlier than date of" & Chr(10) & "Validation visit")
+
+    'Display error message
+    Me.errSiteSelect.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtSiteSelect.value) Then
+        Me.txtSiteSelect.value = Format(Me.txtSiteSelect.value, "dd-mmm-yyyy")
+    End If
+     
+End Sub
+
 
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form

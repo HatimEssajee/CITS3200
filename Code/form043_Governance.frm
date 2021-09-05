@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form043_Governance 
    Caption         =   "Governance Review"
-   ClientHeight    =   1380
-   ClientLeft      =   -408
-   ClientTop       =   -1956
-   ClientWidth     =   2688
+   ClientHeight    =   4872
+   ClientLeft      =   -456
+   ClientTop       =   -2148
+   ClientWidth     =   9096.001
    OleObjectBlob   =   "form043_Governance.frx":0000
 End
 Attribute VB_Name = "form043_Governance"
@@ -12,11 +12,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
-
 Option Explicit
-
 
 Private Sub UserForm_Activate()
     'PURPOSE: Reposition userform to Top Left of application Window and fix size
@@ -85,15 +81,40 @@ Private Sub UserForm_Initialize()
     
     'Read information from register table
     With RegTable.ListRows(RowIndex)
+
         Me.txtStudyName.value = .Range(10).value
-        Me.txtDate_RGC.value = Format(.Range(98).value, "dd-mmm-yyyy")
-        Me.txtDate_UWA.value = Format(.Range(99).value, "dd-mmm-yyyy")
-        Me.txtDate_Finance.value = Format(.Range(100).value, "dd-mmm-yyyy")
-        Me.txtDate_COO.value = Format(.Range(101).value, "dd-mmm-yyyy")
-        Me.txtDate_VTG.value = Format(.Range(102).value, "dd-mmm-yyyy")
-        Me.txtDate_Company.value = Format(.Range(103).value, "dd-mmm-yyyy")
-        Me.txtDate_Finalised.value = Format(.Range(104).value, "dd-mmm-yyyy")
-        Me.txtReminder = .Range(105).value
+        
+        Me.txtPCH_Date_Submitted.value = Format(.Range(58).value, "dd-mmm-yyyy")
+        Me.txtPCH_Date_Responded.value = Format(.Range(59).value, "dd-mmm-yyyy")
+        Me.txtPCH_Date_Approved.value = Format(.Range(60).value, "dd-mmm-yyyy")
+        
+        Me.txtTKI_Date_Submitted.value = Format(.Range(61).value, "dd-mmm-yyyy")
+        Me.txtTKI_Date_Responded.value = Format(.Range(62).value, "dd-mmm-yyyy")
+        Me.txtTKI_Date_Approved.value = Format(.Range(63).value, "dd-mmm-yyyy")
+        
+        Me.txtKEMH_Date_Submitted.value = Format(.Range(64).value, "dd-mmm-yyyy")
+        Me.txtKEMH_Date_Responded.value = Format(.Range(65).value, "dd-mmm-yyyy")
+        Me.txtKEMH_Date_Approved.value = Format(.Range(66).value, "dd-mmm-yyyy")
+        
+        Me.txtSJOG_S_Date_Submitted.value = Format(.Range(67).value, "dd-mmm-yyyy")
+        Me.txtSJOG_S_Date_Responded.value = Format(.Range(68).value, "dd-mmm-yyyy")
+        Me.txtSJOG_S_Date_Approved.value = Format(.Range(69).value, "dd-mmm-yyyy")
+        
+        Me.txtSJOG_L_Date_Submitted.value = Format(.Range(70).value, "dd-mmm-yyyy")
+        Me.txtSJOG_L_Date_Responded.value = Format(.Range(71).value, "dd-mmm-yyyy")
+        Me.txtSJOG_L_Date_Approved.value = Format(.Range(72).value, "dd-mmm-yyyy")
+        
+        Me.txtSJOG_M_Date_Submitted.value = Format(.Range(73).value, "dd-mmm-yyyy")
+        Me.txtSJOG_M_Date_Responded.value = Format(.Range(74).value, "dd-mmm-yyyy")
+        Me.txtSJOG_M_Date_Approved.value = Format(.Range(75).value, "dd-mmm-yyyy")
+        
+        Me.txtOthers_Committee.value = .Range(76).value
+        Me.txtOthers_Date_Submitted.value = Format(.Range(77).value, "dd-mmm-yyyy")
+        Me.txtOthers_Date_Responded.value = Format(.Range(78).value, "dd-mmm-yyyy")
+        Me.txtOthers_Date_Approved.value = Format(.Range(79).value, "dd-mmm-yyyy")
+        
+        Me.txtReminder.value = .Range(80).value
+        
     End With
     
     'Access version control
@@ -121,18 +142,41 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(98) = Me.txtDate_RGC.value
-        .Range(99) = Me.txtDate_UWA.value
-        .Range(100) = Me.txtDate_Finance.value
-        .Range(101) = Me.txtDate_COO.value
-        .Range(102) = Me.txtDate_VTG.value
-        .Range(103) = Me.txtDate_Company.value
-        .Range(104) = Me.txtDate_Finalised.value
-        .Range(105) = Me.txtReminder.value
+        .Range(58) = String_to_Date(Me.txtPCH_Date_Submitted.value.value)
+        .Range(59) = String_to_Date(Me.txtPCH_Date_Responded.value)
+        .Range(60) = String_to_Date(Me.txtPCH_Date_Approved.value)
+        
+        .Range(61) = String_to_Date(Me.txtTKI_Date_Submitted.value.value)
+        .Range(62) = String_to_Date(Me.txtTKI_Date_Responded.value)
+        .Range(63) = String_to_Date(Me.txtTKI_Date_Approved.value)
+        
+        .Range(64) = String_to_Date(Me.txtKEMH_Date_Submitted.value.value)
+        .Range(65) = String_to_Date(Me.txtKEMH_Date_Responded.value)
+        .Range(66) = String_to_Date(Me.txtKEMH_Date_Approved.value)
+        
+        .Range(67) = String_to_Date(Me.txtSJOG_S_Date_Submitted.value.value)
+        .Range(68) = String_to_Date(Me.txtSJOG_S_Date_Responded.value)
+        .Range(69) = String_to_Date(Me.txtSJOG_S_Date_Approved.value)
+        
+        .Range(70) = String_to_Date(Me.txtSJOG_L_Date_Submitted.value.value)
+        .Range(71) = String_to_Date(Me.txtSJOG_L_Date_Responded.value)
+        .Range(72) = String_to_Date(Me.txtSJOG_L_Date_Approved.value)
+        
+        .Range(73) = String_to_Date(Me.txtSJOG_M_Date_Submitted.value.value)
+        .Range(74) = String_to_Date(Me.txtSJOG_M_Date_Responded.value)
+        .Range(75) = String_to_Date(Me.txtSJOG_M_Date_Approved.value)
+    
+        .Range(76) = Me.txtOthers_Committee.value
+        .Range(77) = String_to_Date(Me.txtOthers_Date_Submitted.value)
+        .Range(78) = String_to_Date(Me.txtOthers_Date_Responded.value)
+        .Range(79) = String_to_Date(Me.txtOthers_Date_Approved.value)
+        
+        .Range(80) = Me.txtReminder.value
         
         'Update version control
-        .Range(106) = Now
-        .Range(107) = Username
+        .Range(81) = Now
+        .Range(82) = Username
+        
     End With
     
     'Access version control

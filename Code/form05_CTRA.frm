@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form05_CTRA 
    Caption         =   "CTRA"
-   ClientHeight    =   8064
+   ClientHeight    =   6444
    ClientLeft      =   -360
    ClientTop       =   -1896
    ClientWidth     =   10404
@@ -72,7 +72,7 @@ Private Sub UserForm_Initialize()
         Me.txtDate_VTG.value = Format(.Range(102).value, "dd-mmm-yyyy")
         Me.txtDate_Company.value = Format(.Range(103).value, "dd-mmm-yyyy")
         Me.txtDate_Finalised.value = Format(.Range(104).value, "dd-mmm-yyyy")
-        Me.txtReminder = .Range(105).value
+        Me.txtReminder.value = .Range(105).value
     End With
     
     'Access version control

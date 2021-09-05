@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form01_StudyDetail 
    Caption         =   "Study Details"
-   ClientHeight    =   6804
-   ClientLeft      =   -408
-   ClientTop       =   -1752
-   ClientWidth     =   8724.001
+   ClientHeight    =   5436
+   ClientLeft      =   -432
+   ClientTop       =   -1848
+   ClientWidth     =   6972
    OleObjectBlob   =   "form01_StudyDetail.frx":0000
 End
 Attribute VB_Name = "form01_StudyDetail"
