@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} sample 
    Caption         =   "Project Form"
-   ClientHeight    =   876
-   ClientLeft      =   -324
-   ClientTop       =   -1608
-   ClientWidth     =   1260
+   ClientHeight    =   696
+   ClientLeft      =   -336
+   ClientTop       =   -1692
+   ClientWidth     =   1008
    OleObjectBlob   =   "sample.frx":0000
 End
 Attribute VB_Name = "sample"
@@ -12,6 +12,9 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
+
 
 
 
