@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form03_SiteSelect 
    Caption         =   "Site Selection"
    ClientHeight    =   4884
-   ClientLeft      =   -456
-   ClientTop       =   -1944
-   ClientWidth     =   6948
+   ClientLeft      =   -450
+   ClientTop       =   -1950
+   ClientWidth     =   6945
    OleObjectBlob   =   "form03_SiteSelect.frx":0000
 End
 Attribute VB_Name = "form03_SiteSelect"
@@ -17,6 +17,13 @@ Attribute VB_Exposed = False
 
 
 
+<<<<<<< HEAD
+=======
+
+
+
+
+>>>>>>> AnferneeAlviar
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -53,19 +60,19 @@ Private Sub UserForm_Initialize()
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.value = False
+                    ctrl.Value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.Label
                     'Empty error captions
                     If Left(ctrl.Name, 3) = "err" Then
                         ctrl.Caption = ""
                     End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
             End Select
     Next ctrl
@@ -78,21 +85,21 @@ Private Sub UserForm_Initialize()
     
     'Read information from register table
     With RegTable.ListRows(RowIndex)
-        Me.txtStudyName = .Range(10).value
-        Me.txtPrestudy_Date.value = Format(.Range(28).value, "dd-mmm-yyyy")
-        Me.cboPrestudy_Type.value = .Range(29).value
-        Me.txtValidation_Date.value = Format(.Range(30).value, "dd-mmm-yyyy")
-        Me.cboValidation_Type.value = .Range(31).value
-        Me.txtSiteSelect.value = Format(.Range(32).value, "dd-mmm-yyyy")
+        Me.txtStudyName = .Range(10).Value
+        Me.txtPrestudy_Date.Value = Format(.Range(28).Value, "dd-mmm-yyyy")
+        Me.cboPrestudy_Type.Value = .Range(29).Value
+        Me.txtValidation_Date.Value = Format(.Range(30).Value, "dd-mmm-yyyy")
+        Me.cboValidation_Type.Value = .Range(31).Value
+        Me.txtSiteSelect.Value = Format(.Range(32).Value, "dd-mmm-yyyy")
         
-        Me.txtReminder.value = .Range(33).value
+        Me.txtReminder.Value = .Range(33).Value
     End With
     
     'Access version control
     Call LogLastAccess
     
     'Depress and make toggle green on nav bar
-    Me.tglSiteSelect.value = True
+    Me.tglSiteSelect.Value = True
     Me.tglSiteSelect.BackColor = vbGreen
     
     'Run date validation on data entered
@@ -106,14 +113,14 @@ Private Sub txtPrestudy_Date_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtPrestudy_Date.value)
+    err = Date_Validation(Me.txtPrestudy_Date.Value)
     
     'Display error message
     Me.errPrestudy_Date.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtPrestudy_Date.value) Then
-        Me.txtPrestudy_Date.value = Format(Me.txtPrestudy_Date.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtPrestudy_Date.Value) Then
+        Me.txtPrestudy_Date.Value = Format(Me.txtPrestudy_Date.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -122,15 +129,15 @@ Private Sub txtValidation_Date_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtValidation_Date.value, Me.txtPrestudy_Date.value, _
+    err = Date_Validation(Me.txtValidation_Date.Value, Me.txtPrestudy_Date.Value, _
             "Date entered earlier than date of" & Chr(10) & "Pre-study visit")
 
     'Display error message
     Me.errValidation_Date.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtValidation_Date.value) Then
-        Me.txtValidation_Date.value = Format(Me.txtValidation_Date.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtValidation_Date.Value) Then
+        Me.txtValidation_Date.Value = Format(Me.txtValidation_Date.Value, "dd-mmm-yyyy")
     End If
      
 End Sub
@@ -139,15 +146,15 @@ Private Sub txtSiteSelect_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtSiteSelect.value, Me.txtValidation_Date.value, _
+    err = Date_Validation(Me.txtSiteSelect.Value, Me.txtValidation_Date.Value, _
             "Date entered earlier than date of" & Chr(10) & "Validation visit")
 
     'Display error message
     Me.errSiteSelect.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtSiteSelect.value) Then
-        Me.txtSiteSelect.value = Format(Me.txtSiteSelect.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtSiteSelect.Value) Then
+        Me.txtSiteSelect.Value = Format(Me.txtSiteSelect.Value, "dd-mmm-yyyy")
     End If
      
 End Sub
@@ -166,12 +173,12 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(28) = String_to_Date(Me.txtPrestudy_Date.value)
-        .Range(29) = Me.cboPrestudy_Type.value
-        .Range(30) = String_to_Date(Me.txtValidation_Date.value)
-        .Range(31) = Me.cboValidation_Type.value
-        .Range(32) = String_to_Date(Me.txtSiteSelect.value)
-        .Range(33) = Me.txtReminder.value
+        .Range(28) = String_to_Date(Me.txtPrestudy_Date.Value)
+        .Range(29) = Me.cboPrestudy_Type.Value
+        .Range(30) = String_to_Date(Me.txtValidation_Date.Value)
+        .Range(31) = Me.cboValidation_Type.Value
+        .Range(32) = String_to_Date(Me.txtSiteSelect.Value)
+        .Range(33) = Me.txtReminder.Value
         
         'Update version control
         .Range(34) = Now

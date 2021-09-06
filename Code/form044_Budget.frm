@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form044_Budget 
    Caption         =   "Budget Review"
-   ClientHeight    =   5364
-   ClientLeft      =   -408
-   ClientTop       =   -1992
-   ClientWidth     =   6372
+   ClientHeight    =   5370
+   ClientLeft      =   -405
+   ClientTop       =   -1995
+   ClientWidth     =   6375
    OleObjectBlob   =   "form044_Budget.frx":0000
 End
 Attribute VB_Name = "form044_Budget"
@@ -17,6 +17,13 @@ Attribute VB_Exposed = False
 
 
 
+<<<<<<< HEAD
+=======
+
+
+
+
+>>>>>>> AnferneeAlviar
 Option Explicit
 
 
@@ -52,19 +59,19 @@ Private Sub UserForm_Initialize()
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.value = False
+                    ctrl.Value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.Label
                     'Empty error captions
                     If Left(ctrl.Name, 3) = "err" Then
                         ctrl.Caption = ""
                     End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
             End Select
     Next ctrl
@@ -73,13 +80,13 @@ Private Sub UserForm_Initialize()
         For Each ctrl In pPage.Controls
             Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.value = False
+                    ctrl.Value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
             End Select
                 
         Next ctrl
@@ -87,26 +94,26 @@ Private Sub UserForm_Initialize()
     
     'Read information from register table
     With RegTable.ListRows(RowIndex)
-        Me.txtStudyName.value = .Range(10).value
-        Me.txtVTG_Date_Submitted.value = Format(.Range(83).value, "dd-mmm-yyyy")
-        Me.txtVTG_Date_Finalised.value = Format(.Range(84).value, "dd-mmm-yyyy")
-        Me.txtVTG_Date_Approved.value = Format(.Range(85).value, "dd-mmm-yyyy")
+        Me.txtStudyName.Value = .Range(10).Value
+        Me.txtVTG_Date_Submitted.Value = Format(.Range(83).Value, "dd-mmm-yyyy")
+        Me.txtVTG_Date_Finalised.Value = Format(.Range(84).Value, "dd-mmm-yyyy")
+        Me.txtVTG_Date_Approved.Value = Format(.Range(85).Value, "dd-mmm-yyyy")
         
-        Me.txtTKI_Date_Approved.value = Format(.Range(86).value, "dd-mmm-yyyy")
+        Me.txtTKI_Date_Approved.Value = Format(.Range(86).Value, "dd-mmm-yyyy")
         
-        Me.txtPharm_Date_Quote.value = Format(.Range(87).value, "dd-mmm-yyyy")
-        Me.txtPharm_Date_Finalised.value = Format(.Range(88).value, "dd-mmm-yyyy")
+        Me.txtPharm_Date_Quote.Value = Format(.Range(87).Value, "dd-mmm-yyyy")
+        Me.txtPharm_Date_Finalised.Value = Format(.Range(88).Value, "dd-mmm-yyyy")
         
-        Me.txtReminder.value = .Range(89).value
+        Me.txtReminder.Value = .Range(89).Value
     End With
     
     'Access version control
     Call LogLastAccess
     
     'Depress and make toggle green on nav bar
-    Me.tglReviews.value = True
+    Me.tglReviews.Value = True
     Me.tglReviews.BackColor = vbGreen
-    Me.tglBudget.value = True
+    Me.tglBudget.Value = True
     Me.tglBudget.BackColor = vbGreen
     
     'Run date validation on data entered
@@ -125,14 +132,14 @@ Private Sub txtVTG_Date_Finalised_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtVTG_Date_Finalised.value)
+    err = Date_Validation(Me.txtVTG_Date_Finalised.Value)
     
     'Display error message
     Me.errVTG_Date_Finalised.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtVTG_Date_Finalised.value) Then
-        Me.txtVTG_Date_Finalised.value = Format(Me.txtVTG_Date_Finalised.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtVTG_Date_Finalised.Value) Then
+        Me.txtVTG_Date_Finalised.Value = Format(Me.txtVTG_Date_Finalised.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -141,15 +148,15 @@ Private Sub txtVTG_Date_Submitted_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtVTG_Date_Submitted.value, Me.txtVTG_Date_Finalised.value, _
+    err = Date_Validation(Me.txtVTG_Date_Submitted.Value, Me.txtVTG_Date_Finalised.Value, _
             "Date entered earlier than date Finalised")
 
     'Display error message
     Me.errVTG_Date_Submitted.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtVTG_Date_Submitted.value) Then
-        Me.txtVTG_Date_Submitted.value = Format(Me.txtVTG_Date_Submitted.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtVTG_Date_Submitted.Value) Then
+        Me.txtVTG_Date_Submitted.Value = Format(Me.txtVTG_Date_Submitted.Value, "dd-mmm-yyyy")
     End If
      
 End Sub
@@ -158,15 +165,15 @@ Private Sub txtVTG_Date_Approved_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtVTG_Date_Approved.value, Me.txtVTG_Date_Submitted.value, _
+    err = Date_Validation(Me.txtVTG_Date_Approved.Value, Me.txtVTG_Date_Submitted.Value, _
             "Date entered earlier than date Submitted")
 
     'Display error message
     Me.errVTG_Date_Approved.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtVTG_Date_Approved.value) Then
-        Me.txtVTG_Date_Approved.value = Format(Me.txtVTG_Date_Approved.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtVTG_Date_Approved.Value) Then
+        Me.txtVTG_Date_Approved.Value = Format(Me.txtVTG_Date_Approved.Value, "dd-mmm-yyyy")
     End If
      
 End Sub
@@ -175,14 +182,14 @@ Private Sub txtTKI_Date_Approved_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtTKI_Date_Approved.value)
+    err = Date_Validation(Me.txtTKI_Date_Approved.Value)
     
     'Display error message
     Me.errTKI_Date_Approved.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtTKI_Date_Approved.value) Then
-        Me.txtTKI_Date_Approved.value = Format(Me.txtTKI_Date_Approved.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtTKI_Date_Approved.Value) Then
+        Me.txtTKI_Date_Approved.Value = Format(Me.txtTKI_Date_Approved.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -191,14 +198,14 @@ Private Sub txtPharm_Date_Quote_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtPharm_Date_Quote.value)
+    err = Date_Validation(Me.txtPharm_Date_Quote.Value)
     
     'Display error message
     Me.errPharm_Date_Quote.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtPharm_Date_Quote.value) Then
-        Me.txtPharm_Date_Quote.value = Format(Me.txtPharm_Date_Quote.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtPharm_Date_Quote.Value) Then
+        Me.txtPharm_Date_Quote.Value = Format(Me.txtPharm_Date_Quote.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -207,15 +214,15 @@ Private Sub txtPharm_Date_Finalised_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtPharm_Date_Finalised.value, Me.txtPharm_Date_Quote.value, _
+    err = Date_Validation(Me.txtPharm_Date_Finalised.Value, Me.txtPharm_Date_Quote.Value, _
             "Date entered earlier than date" & Chr(10) & "Quote was received")
 
     'Display error message
     Me.errPharm_Date_Finalised.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtPharm_Date_Finalised.value) Then
-        Me.txtPharm_Date_Finalised.value = Format(Me.txtPharm_Date_Finalised.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtPharm_Date_Finalised.Value) Then
+        Me.txtPharm_Date_Finalised.Value = Format(Me.txtPharm_Date_Finalised.Value, "dd-mmm-yyyy")
     End If
      
 End Sub
@@ -234,13 +241,13 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(83) = String_to_Date(Me.txtVTG_Date_Submitted.value)
-        .Range(84) = String_to_Date(Me.txtVTG_Date_Finalised.value)
-        .Range(85) = String_to_Date(Me.txtVTG_Date_Approved.value)
-        .Range(86) = String_to_Date(Me.txtTKI_Date_Approved.value)
-        .Range(87) = String_to_Date(Me.txtPharm_Date_Quote.value)
-        .Range(88) = String_to_Date(Me.txtPharm_Date_Finalised.value)
-        .Range(89) = Me.txtReminder.value
+        .Range(83) = String_to_Date(Me.txtVTG_Date_Submitted.Value)
+        .Range(84) = String_to_Date(Me.txtVTG_Date_Finalised.Value)
+        .Range(85) = String_to_Date(Me.txtVTG_Date_Approved.Value)
+        .Range(86) = String_to_Date(Me.txtTKI_Date_Approved.Value)
+        .Range(87) = String_to_Date(Me.txtPharm_Date_Quote.Value)
+        .Range(88) = String_to_Date(Me.txtPharm_Date_Finalised.Value)
+        .Range(89) = Me.txtReminder.Value
         
         'Update version control
         .Range(90) = Now

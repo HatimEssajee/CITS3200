@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form043_Governance 
    Caption         =   "Governance Review"
-   ClientHeight    =   4872
-   ClientLeft      =   -504
-   ClientTop       =   -2328
-   ClientWidth     =   5808
+   ClientHeight    =   4875
+   ClientLeft      =   -510
+   ClientTop       =   -2325
+   ClientWidth     =   5820
    OleObjectBlob   =   "form043_Governance.frx":0000
 End
 Attribute VB_Name = "form043_Governance"
@@ -17,6 +17,13 @@ Attribute VB_Exposed = False
 
 
 
+<<<<<<< HEAD
+=======
+
+
+
+
+>>>>>>> AnferneeAlviar
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -51,19 +58,19 @@ Private Sub UserForm_Initialize()
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.value = False
+                    ctrl.Value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.Label
                     'Empty error captions
                     If Left(ctrl.Name, 3) = "err" Then
                         ctrl.Caption = ""
                     End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
             End Select
     Next ctrl
@@ -72,13 +79,13 @@ Private Sub UserForm_Initialize()
         For Each ctrl In pPage.Controls
             Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.value = False
+                    ctrl.Value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
             End Select
                 
         Next ctrl
@@ -87,38 +94,38 @@ Private Sub UserForm_Initialize()
     'Read information from register table
     With RegTable.ListRows(RowIndex)
 
-        Me.txtStudyName.value = .Range(10).value
+        Me.txtStudyName.Value = .Range(10).Value
         
-        Me.txtPCH_Date_Submitted.value = Format(.Range(58).value, "dd-mmm-yyyy")
-        Me.txtPCH_Date_Responded.value = Format(.Range(59).value, "dd-mmm-yyyy")
-        Me.txtPCH_Date_Approved.value = Format(.Range(60).value, "dd-mmm-yyyy")
+        Me.txtPCH_Date_Submitted.Value = Format(.Range(58).Value, "dd-mmm-yyyy")
+        Me.txtPCH_Date_Responded.Value = Format(.Range(59).Value, "dd-mmm-yyyy")
+        Me.txtPCH_Date_Approved.Value = Format(.Range(60).Value, "dd-mmm-yyyy")
         
-        Me.txtTKI_Date_Submitted.value = Format(.Range(61).value, "dd-mmm-yyyy")
-        Me.txtTKI_Date_Responded.value = Format(.Range(62).value, "dd-mmm-yyyy")
-        Me.txtTKI_Date_Approved.value = Format(.Range(63).value, "dd-mmm-yyyy")
+        Me.txtTKI_Date_Submitted.Value = Format(.Range(61).Value, "dd-mmm-yyyy")
+        Me.txtTKI_Date_Responded.Value = Format(.Range(62).Value, "dd-mmm-yyyy")
+        Me.txtTKI_Date_Approved.Value = Format(.Range(63).Value, "dd-mmm-yyyy")
         
-        Me.txtKEMH_Date_Submitted.value = Format(.Range(64).value, "dd-mmm-yyyy")
-        Me.txtKEMH_Date_Responded.value = Format(.Range(65).value, "dd-mmm-yyyy")
-        Me.txtKEMH_Date_Approved.value = Format(.Range(66).value, "dd-mmm-yyyy")
+        Me.txtKEMH_Date_Submitted.Value = Format(.Range(64).Value, "dd-mmm-yyyy")
+        Me.txtKEMH_Date_Responded.Value = Format(.Range(65).Value, "dd-mmm-yyyy")
+        Me.txtKEMH_Date_Approved.Value = Format(.Range(66).Value, "dd-mmm-yyyy")
         
-        Me.txtSJOG_S_Date_Submitted.value = Format(.Range(67).value, "dd-mmm-yyyy")
-        Me.txtSJOG_S_Date_Responded.value = Format(.Range(68).value, "dd-mmm-yyyy")
-        Me.txtSJOG_S_Date_Approved.value = Format(.Range(69).value, "dd-mmm-yyyy")
+        Me.txtSJOG_S_Date_Submitted.Value = Format(.Range(67).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_S_Date_Responded.Value = Format(.Range(68).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_S_Date_Approved.Value = Format(.Range(69).Value, "dd-mmm-yyyy")
         
-        Me.txtSJOG_L_Date_Submitted.value = Format(.Range(70).value, "dd-mmm-yyyy")
-        Me.txtSJOG_L_Date_Responded.value = Format(.Range(71).value, "dd-mmm-yyyy")
-        Me.txtSJOG_L_Date_Approved.value = Format(.Range(72).value, "dd-mmm-yyyy")
+        Me.txtSJOG_L_Date_Submitted.Value = Format(.Range(70).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_L_Date_Responded.Value = Format(.Range(71).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_L_Date_Approved.Value = Format(.Range(72).Value, "dd-mmm-yyyy")
         
-        Me.txtSJOG_M_Date_Submitted.value = Format(.Range(73).value, "dd-mmm-yyyy")
-        Me.txtSJOG_M_Date_Responded.value = Format(.Range(74).value, "dd-mmm-yyyy")
-        Me.txtSJOG_M_Date_Approved.value = Format(.Range(75).value, "dd-mmm-yyyy")
+        Me.txtSJOG_M_Date_Submitted.Value = Format(.Range(73).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_M_Date_Responded.Value = Format(.Range(74).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_M_Date_Approved.Value = Format(.Range(75).Value, "dd-mmm-yyyy")
         
-        Me.txtOthers_Committee.value = .Range(76).value
-        Me.txtOthers_Date_Submitted.value = Format(.Range(77).value, "dd-mmm-yyyy")
-        Me.txtOthers_Date_Responded.value = Format(.Range(78).value, "dd-mmm-yyyy")
-        Me.txtOthers_Date_Approved.value = Format(.Range(79).value, "dd-mmm-yyyy")
+        Me.txtOthers_Committee.Value = .Range(76).Value
+        Me.txtOthers_Date_Submitted.Value = Format(.Range(77).Value, "dd-mmm-yyyy")
+        Me.txtOthers_Date_Responded.Value = Format(.Range(78).Value, "dd-mmm-yyyy")
+        Me.txtOthers_Date_Approved.Value = Format(.Range(79).Value, "dd-mmm-yyyy")
         
-        Me.txtReminder.value = .Range(80).value
+        Me.txtReminder.Value = .Range(80).Value
         
     End With
     
@@ -126,9 +133,9 @@ Private Sub UserForm_Initialize()
     Call LogLastAccess
     
     'Depress and make toggle green on nav bar
-    Me.tglReviews.value = True
+    Me.tglReviews.Value = True
     Me.tglReviews.BackColor = vbGreen
-    Me.tglGovernance.value = True
+    Me.tglGovernance.Value = True
     Me.tglGovernance.BackColor = vbGreen
     
     'Run date validation on data entered
@@ -166,14 +173,14 @@ Private Sub txtPCH_Date_Submitted_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtPCH_Date_Submitted.value)
+    err = Date_Validation(Me.txtPCH_Date_Submitted.Value)
     
     'Display error message
     Me.errPCH_Date_Submitted.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtPCH_Date_Submitted.value) Then
-        Me.txtPCH_Date_Submitted.value = Format(Me.txtPCH_Date_Submitted.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtPCH_Date_Submitted.Value) Then
+        Me.txtPCH_Date_Submitted.Value = Format(Me.txtPCH_Date_Submitted.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -182,15 +189,15 @@ Private Sub txtPCH_Date_Responded_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtPCH_Date_Responded.value, Me.txtPCH_Date_Submitted.value, _
+    err = Date_Validation(Me.txtPCH_Date_Responded.Value, Me.txtPCH_Date_Submitted.Value, _
             "Date entered earlier than date Submitted")
 
     'Display error message
     Me.errPCH_Date_Responded.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtPCH_Date_Responded.value) Then
-        Me.txtPCH_Date_Responded.value = Format(Me.txtPCH_Date_Responded.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtPCH_Date_Responded.Value) Then
+        Me.txtPCH_Date_Responded.Value = Format(Me.txtPCH_Date_Responded.Value, "dd-mmm-yyyy")
     End If
      
 End Sub
@@ -199,15 +206,15 @@ Private Sub txtPCH_Date_Approved_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtPCH_Date_Approved.value, Me.txtPCH_Date_Submitted.value, _
+    err = Date_Validation(Me.txtPCH_Date_Approved.Value, Me.txtPCH_Date_Submitted.Value, _
             "Date entered earlier than date Submitted")
 
     'Display error message
     Me.errPCH_Date_Approved.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtPCH_Date_Approved.value) Then
-        Me.txtPCH_Date_Approved.value = Format(Me.txtPCH_Date_Approved.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtPCH_Date_Approved.Value) Then
+        Me.txtPCH_Date_Approved.Value = Format(Me.txtPCH_Date_Approved.Value, "dd-mmm-yyyy")
     End If
      
 End Sub
@@ -216,14 +223,14 @@ Private Sub txtTKI_Date_Submitted_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtTKI_Date_Submitted.value)
+    err = Date_Validation(Me.txtTKI_Date_Submitted.Value)
     
     'Display error message
     Me.errTKI_Date_Submitted.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtTKI_Date_Submitted.value) Then
-        Me.txtTKI_Date_Submitted.value = Format(Me.txtTKI_Date_Submitted.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtTKI_Date_Submitted.Value) Then
+        Me.txtTKI_Date_Submitted.Value = Format(Me.txtTKI_Date_Submitted.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -232,15 +239,15 @@ Private Sub txtTKI_Date_Responded_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtTKI_Date_Responded.value, Me.txtTKI_Date_Submitted.value, _
+    err = Date_Validation(Me.txtTKI_Date_Responded.Value, Me.txtTKI_Date_Submitted.Value, _
             "Date entered earlier than date Submitted")
 
     'Display error message
     Me.errTKI_Date_Responded.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtTKI_Date_Responded.value) Then
-        Me.txtTKI_Date_Responded.value = Format(Me.txtTKI_Date_Responded.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtTKI_Date_Responded.Value) Then
+        Me.txtTKI_Date_Responded.Value = Format(Me.txtTKI_Date_Responded.Value, "dd-mmm-yyyy")
     End If
      
 End Sub
@@ -249,15 +256,15 @@ Private Sub txtTKI_Date_Approved_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtTKI_Date_Approved.value, Me.txtTKI_Date_Submitted.value, _
+    err = Date_Validation(Me.txtTKI_Date_Approved.Value, Me.txtTKI_Date_Submitted.Value, _
             "Date entered earlier than date Submitted")
 
     'Display error message
     Me.errTKI_Date_Approved.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtTKI_Date_Approved.value) Then
-        Me.txtTKI_Date_Approved.value = Format(Me.txtTKI_Date_Approved.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtTKI_Date_Approved.Value) Then
+        Me.txtTKI_Date_Approved.Value = Format(Me.txtTKI_Date_Approved.Value, "dd-mmm-yyyy")
     End If
      
 End Sub
@@ -266,14 +273,14 @@ Private Sub txtKEMH_Date_Submitted_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtKEMH_Date_Submitted.value)
+    err = Date_Validation(Me.txtKEMH_Date_Submitted.Value)
     
     'Display error message
     Me.errKEMH_Date_Submitted.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtKEMH_Date_Submitted.value) Then
-        Me.txtKEMH_Date_Submitted.value = Format(Me.txtKEMH_Date_Submitted.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtKEMH_Date_Submitted.Value) Then
+        Me.txtKEMH_Date_Submitted.Value = Format(Me.txtKEMH_Date_Submitted.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -282,15 +289,15 @@ Private Sub txtKEMH_Date_Responded_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtKEMH_Date_Responded.value, Me.txtKEMH_Date_Submitted.value, _
+    err = Date_Validation(Me.txtKEMH_Date_Responded.Value, Me.txtKEMH_Date_Submitted.Value, _
             "Date entered earlier than date Submitted")
 
     'Display error message
     Me.errKEMH_Date_Responded.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtKEMH_Date_Responded.value) Then
-        Me.txtKEMH_Date_Responded.value = Format(Me.txtKEMH_Date_Responded.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtKEMH_Date_Responded.Value) Then
+        Me.txtKEMH_Date_Responded.Value = Format(Me.txtKEMH_Date_Responded.Value, "dd-mmm-yyyy")
     End If
      
 End Sub
@@ -299,15 +306,15 @@ Private Sub txtKEMH_Date_Approved_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtKEMH_Date_Approved.value, Me.txtKEMH_Date_Submitted.value, _
+    err = Date_Validation(Me.txtKEMH_Date_Approved.Value, Me.txtKEMH_Date_Submitted.Value, _
             "Date entered earlier than date Submitted")
 
     'Display error message
     Me.errKEMH_Date_Approved.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtKEMH_Date_Approved.value) Then
-        Me.txtKEMH_Date_Approved.value = Format(Me.txtKEMH_Date_Approved.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtKEMH_Date_Approved.Value) Then
+        Me.txtKEMH_Date_Approved.Value = Format(Me.txtKEMH_Date_Approved.Value, "dd-mmm-yyyy")
     End If
      
 End Sub
@@ -316,14 +323,14 @@ Private Sub txtSJOG_S_Date_Submitted_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtSJOG_S_Date_Submitted.value)
+    err = Date_Validation(Me.txtSJOG_S_Date_Submitted.Value)
     
     'Display error message
     Me.errSJOG_S_Date_Submitted.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtSJOG_S_Date_Submitted.value) Then
-        Me.txtSJOG_S_Date_Submitted.value = Format(Me.txtSJOG_S_Date_Submitted.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtSJOG_S_Date_Submitted.Value) Then
+        Me.txtSJOG_S_Date_Submitted.Value = Format(Me.txtSJOG_S_Date_Submitted.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -332,15 +339,15 @@ Private Sub txtSJOG_S_Date_Responded_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtSJOG_S_Date_Responded.value, Me.txtSJOG_S_Date_Submitted.value, _
+    err = Date_Validation(Me.txtSJOG_S_Date_Responded.Value, Me.txtSJOG_S_Date_Submitted.Value, _
             "Date entered earlier than date Submitted")
 
     'Display error message
     Me.errSJOG_S_Date_Responded.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtSJOG_S_Date_Responded.value) Then
-        Me.txtSJOG_S_Date_Responded.value = Format(Me.txtSJOG_S_Date_Responded.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtSJOG_S_Date_Responded.Value) Then
+        Me.txtSJOG_S_Date_Responded.Value = Format(Me.txtSJOG_S_Date_Responded.Value, "dd-mmm-yyyy")
     End If
      
 End Sub
@@ -349,15 +356,15 @@ Private Sub txtSJOG_S_Date_Approved_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtSJOG_S_Date_Approved.value, Me.txtSJOG_S_Date_Submitted.value, _
+    err = Date_Validation(Me.txtSJOG_S_Date_Approved.Value, Me.txtSJOG_S_Date_Submitted.Value, _
             "Date entered earlier than date Submitted")
 
     'Display error message
     Me.errSJOG_S_Date_Approved.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtSJOG_S_Date_Approved.value) Then
-        Me.txtSJOG_S_Date_Approved.value = Format(Me.txtSJOG_S_Date_Approved.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtSJOG_S_Date_Approved.Value) Then
+        Me.txtSJOG_S_Date_Approved.Value = Format(Me.txtSJOG_S_Date_Approved.Value, "dd-mmm-yyyy")
     End If
      
 End Sub
@@ -366,14 +373,14 @@ Private Sub txtSJOG_L_Date_Submitted_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtSJOG_L_Date_Submitted.value)
+    err = Date_Validation(Me.txtSJOG_L_Date_Submitted.Value)
     
     'Display error message
     Me.errSJOG_L_Date_Submitted.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtSJOG_L_Date_Submitted.value) Then
-        Me.txtSJOG_L_Date_Submitted.value = Format(Me.txtSJOG_L_Date_Submitted.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtSJOG_L_Date_Submitted.Value) Then
+        Me.txtSJOG_L_Date_Submitted.Value = Format(Me.txtSJOG_L_Date_Submitted.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -382,15 +389,15 @@ Private Sub txtSJOG_L_Date_Responded_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtSJOG_L_Date_Responded.value, Me.txtSJOG_L_Date_Submitted.value, _
+    err = Date_Validation(Me.txtSJOG_L_Date_Responded.Value, Me.txtSJOG_L_Date_Submitted.Value, _
             "Date entered earlier than date Submitted")
 
     'Display error message
     Me.errSJOG_L_Date_Responded.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtSJOG_L_Date_Responded.value) Then
-        Me.txtSJOG_L_Date_Responded.value = Format(Me.txtSJOG_L_Date_Responded.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtSJOG_L_Date_Responded.Value) Then
+        Me.txtSJOG_L_Date_Responded.Value = Format(Me.txtSJOG_L_Date_Responded.Value, "dd-mmm-yyyy")
     End If
      
 End Sub
@@ -399,15 +406,15 @@ Private Sub txtSJOG_L_Date_Approved_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtSJOG_L_Date_Approved.value, Me.txtSJOG_L_Date_Submitted.value, _
+    err = Date_Validation(Me.txtSJOG_L_Date_Approved.Value, Me.txtSJOG_L_Date_Submitted.Value, _
             "Date entered earlier than date Submitted")
 
     'Display error message
     Me.errSJOG_L_Date_Approved.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtSJOG_L_Date_Approved.value) Then
-        Me.txtSJOG_L_Date_Approved.value = Format(Me.txtSJOG_L_Date_Approved.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtSJOG_L_Date_Approved.Value) Then
+        Me.txtSJOG_L_Date_Approved.Value = Format(Me.txtSJOG_L_Date_Approved.Value, "dd-mmm-yyyy")
     End If
      
 End Sub
@@ -416,14 +423,14 @@ Private Sub txtSJOG_M_Date_Submitted_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtSJOG_M_Date_Submitted.value)
+    err = Date_Validation(Me.txtSJOG_M_Date_Submitted.Value)
     
     'Display error message
     Me.errSJOG_M_Date_Submitted.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtSJOG_M_Date_Submitted.value) Then
-        Me.txtSJOG_M_Date_Submitted.value = Format(Me.txtSJOG_M_Date_Submitted.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtSJOG_M_Date_Submitted.Value) Then
+        Me.txtSJOG_M_Date_Submitted.Value = Format(Me.txtSJOG_M_Date_Submitted.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -432,15 +439,15 @@ Private Sub txtSJOG_M_Date_Responded_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtSJOG_M_Date_Responded.value, Me.txtSJOG_M_Date_Submitted.value, _
+    err = Date_Validation(Me.txtSJOG_M_Date_Responded.Value, Me.txtSJOG_M_Date_Submitted.Value, _
             "Date entered earlier than date Submitted")
 
     'Display error message
     Me.errSJOG_M_Date_Responded.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtSJOG_M_Date_Responded.value) Then
-        Me.txtSJOG_M_Date_Responded.value = Format(Me.txtSJOG_M_Date_Responded.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtSJOG_M_Date_Responded.Value) Then
+        Me.txtSJOG_M_Date_Responded.Value = Format(Me.txtSJOG_M_Date_Responded.Value, "dd-mmm-yyyy")
     End If
      
 End Sub
@@ -449,15 +456,15 @@ Private Sub txtSJOG_M_Date_Approved_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtSJOG_M_Date_Approved.value, Me.txtSJOG_M_Date_Submitted.value, _
+    err = Date_Validation(Me.txtSJOG_M_Date_Approved.Value, Me.txtSJOG_M_Date_Submitted.Value, _
             "Date entered earlier than date Submitted")
 
     'Display error message
     Me.errSJOG_M_Date_Approved.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtSJOG_M_Date_Approved.value) Then
-        Me.txtSJOG_M_Date_Approved.value = Format(Me.txtSJOG_M_Date_Approved.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtSJOG_M_Date_Approved.Value) Then
+        Me.txtSJOG_M_Date_Approved.Value = Format(Me.txtSJOG_M_Date_Approved.Value, "dd-mmm-yyyy")
     End If
      
 End Sub
@@ -465,14 +472,14 @@ Private Sub txtOthers_Date_Submitted_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtOthers_Date_Submitted.value)
+    err = Date_Validation(Me.txtOthers_Date_Submitted.Value)
     
     'Display error message
     Me.errOthers_Date_Submitted.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtOthers_Date_Submitted.value) Then
-        Me.txtOthers_Date_Submitted.value = Format(Me.txtOthers_Date_Submitted.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtOthers_Date_Submitted.Value) Then
+        Me.txtOthers_Date_Submitted.Value = Format(Me.txtOthers_Date_Submitted.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -481,15 +488,15 @@ Private Sub txtOthers_Date_Responded_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtOthers_Date_Responded.value, Me.txtOthers_Date_Submitted.value, _
+    err = Date_Validation(Me.txtOthers_Date_Responded.Value, Me.txtOthers_Date_Submitted.Value, _
             "Date entered earlier than date Submitted")
 
     'Display error message
     Me.errOthers_Date_Responded.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtOthers_Date_Responded.value) Then
-        Me.txtOthers_Date_Responded.value = Format(Me.txtOthers_Date_Responded.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtOthers_Date_Responded.Value) Then
+        Me.txtOthers_Date_Responded.Value = Format(Me.txtOthers_Date_Responded.Value, "dd-mmm-yyyy")
     End If
      
 End Sub
@@ -498,15 +505,15 @@ Private Sub txtOthers_Date_Approved_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtOthers_Date_Approved.value, Me.txtOthers_Date_Submitted.value, _
+    err = Date_Validation(Me.txtOthers_Date_Approved.Value, Me.txtOthers_Date_Submitted.Value, _
             "Date entered earlier than date Submitted")
 
     'Display error message
     Me.errOthers_Date_Approved.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtOthers_Date_Approved.value) Then
-        Me.txtOthers_Date_Approved.value = Format(Me.txtOthers_Date_Approved.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtOthers_Date_Approved.Value) Then
+        Me.txtOthers_Date_Approved.Value = Format(Me.txtOthers_Date_Approved.Value, "dd-mmm-yyyy")
     End If
      
 End Sub
@@ -525,36 +532,36 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(58) = String_to_Date(Me.txtPCH_Date_Submitted.value)
-        .Range(59) = String_to_Date(Me.txtPCH_Date_Responded.value)
-        .Range(60) = String_to_Date(Me.txtPCH_Date_Approved.value)
+        .Range(58) = String_to_Date(Me.txtPCH_Date_Submitted.Value)
+        .Range(59) = String_to_Date(Me.txtPCH_Date_Responded.Value)
+        .Range(60) = String_to_Date(Me.txtPCH_Date_Approved.Value)
         
-        .Range(61) = String_to_Date(Me.txtTKI_Date_Submitted.value)
-        .Range(62) = String_to_Date(Me.txtTKI_Date_Responded.value)
-        .Range(63) = String_to_Date(Me.txtTKI_Date_Approved.value)
+        .Range(61) = String_to_Date(Me.txtTKI_Date_Submitted.Value)
+        .Range(62) = String_to_Date(Me.txtTKI_Date_Responded.Value)
+        .Range(63) = String_to_Date(Me.txtTKI_Date_Approved.Value)
         
-        .Range(64) = String_to_Date(Me.txtKEMH_Date_Submitted.value)
-        .Range(65) = String_to_Date(Me.txtKEMH_Date_Responded.value)
-        .Range(66) = String_to_Date(Me.txtKEMH_Date_Approved.value)
+        .Range(64) = String_to_Date(Me.txtKEMH_Date_Submitted.Value)
+        .Range(65) = String_to_Date(Me.txtKEMH_Date_Responded.Value)
+        .Range(66) = String_to_Date(Me.txtKEMH_Date_Approved.Value)
         
-        .Range(67) = String_to_Date(Me.txtSJOG_S_Date_Submitted.value)
-        .Range(68) = String_to_Date(Me.txtSJOG_S_Date_Responded.value)
-        .Range(69) = String_to_Date(Me.txtSJOG_S_Date_Approved.value)
+        .Range(67) = String_to_Date(Me.txtSJOG_S_Date_Submitted.Value)
+        .Range(68) = String_to_Date(Me.txtSJOG_S_Date_Responded.Value)
+        .Range(69) = String_to_Date(Me.txtSJOG_S_Date_Approved.Value)
         
-        .Range(70) = String_to_Date(Me.txtSJOG_L_Date_Submitted.value)
-        .Range(71) = String_to_Date(Me.txtSJOG_L_Date_Responded.value)
-        .Range(72) = String_to_Date(Me.txtSJOG_L_Date_Approved.value)
+        .Range(70) = String_to_Date(Me.txtSJOG_L_Date_Submitted.Value)
+        .Range(71) = String_to_Date(Me.txtSJOG_L_Date_Responded.Value)
+        .Range(72) = String_to_Date(Me.txtSJOG_L_Date_Approved.Value)
         
-        .Range(73) = String_to_Date(Me.txtSJOG_M_Date_Submitted.value)
-        .Range(74) = String_to_Date(Me.txtSJOG_M_Date_Responded.value)
-        .Range(75) = String_to_Date(Me.txtSJOG_M_Date_Approved.value)
+        .Range(73) = String_to_Date(Me.txtSJOG_M_Date_Submitted.Value)
+        .Range(74) = String_to_Date(Me.txtSJOG_M_Date_Responded.Value)
+        .Range(75) = String_to_Date(Me.txtSJOG_M_Date_Approved.Value)
     
-        .Range(76) = Me.txtOthers_Committee.value
-        .Range(77) = String_to_Date(Me.txtOthers_Date_Submitted.value)
-        .Range(78) = String_to_Date(Me.txtOthers_Date_Responded.value)
-        .Range(79) = String_to_Date(Me.txtOthers_Date_Approved.value)
+        .Range(76) = Me.txtOthers_Committee.Value
+        .Range(77) = String_to_Date(Me.txtOthers_Date_Submitted.Value)
+        .Range(78) = String_to_Date(Me.txtOthers_Date_Responded.Value)
+        .Range(79) = String_to_Date(Me.txtOthers_Date_Approved.Value)
         
-        .Range(80) = Me.txtReminder.value
+        .Range(80) = Me.txtReminder.Value
         
         'Update version control
         .Range(81) = Now

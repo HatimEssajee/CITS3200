@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form07_SIV 
    Caption         =   "Financial Disclosure"
    ClientHeight    =   5016
-   ClientLeft      =   -432
-   ClientTop       =   -1884
-   ClientWidth     =   7368
+   ClientLeft      =   -435
+   ClientTop       =   -1890
+   ClientWidth     =   7365
    OleObjectBlob   =   "form07_SIV.frx":0000
 End
 Attribute VB_Name = "form07_SIV"
@@ -18,6 +18,13 @@ Attribute VB_Exposed = False
 
 
 
+<<<<<<< HEAD
+=======
+
+
+
+
+>>>>>>> AnferneeAlviar
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -51,35 +58,35 @@ Private Sub UserForm_Initialize()
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.value = False
+                    ctrl.Value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.Label
                     'Empty error captions
                     If Left(ctrl.Name, 3) = "err" Then
                         ctrl.Caption = ""
                     End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
             End Select
     Next ctrl
     
     'Read information from register table
     With RegTable.ListRows(RowIndex)
-        Me.txtStudyName.value = .Range(10).value
-        Me.txtSIV_Date.value = Format(.Range(112).value, "dd-mmm-yyyy")
-        Me.txtReminder.value = .Range(113).value
+        Me.txtStudyName.Value = .Range(10).Value
+        Me.txtSIV_Date.Value = Format(.Range(112).Value, "dd-mmm-yyyy")
+        Me.txtReminder.Value = .Range(113).Value
     End With
     
     'Access version control
     Call LogLastAccess
     
     'Depress and make toggle green on nav bar
-    Me.tglSIV.value = True
+    Me.tglSIV.Value = True
     Me.tglSIV.BackColor = vbGreen
     
     'Run date validation on data entered
@@ -90,14 +97,14 @@ Private Sub txtSIV_date_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtSIV_Date.value)
+    err = Date_Validation(Me.txtSIV_Date.Value)
     
     'Display error message
     Me.errSIV_Date.Caption = err
     
     'Change date format displayed
     If err = vbNullString Then
-        Me.txtSIV_Date.value = Format(Me.txtSIV_Date.value, "dd-mmm-yyyy")
+        Me.txtSIV_Date.Value = Format(Me.txtSIV_Date.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -116,29 +123,29 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(112) = String_to_Date(Me.txtSIV_Date.value)
-        .Range(113) = Me.txtReminder.value
+        .Range(112) = String_to_Date(Me.txtSIV_Date.Value)
+        .Range(113) = Me.txtReminder.Value
         
         'Update version control
         .Range(114) = Now
         .Range(115) = Username
         
         'Change study status based on SIV date saved
-        If Me.txtSIV_Date.value <> vbNullString And String_to_Date(Me.txtSIV_Date.value) > Now _
-            And .Range(8).value = "Commenced" Then
+        If Me.txtSIV_Date.Value <> vbNullString And String_to_Date(Me.txtSIV_Date.Value) > Now _
+            And .Range(8).Value = "Commenced" Then
             
             .Range(8) = "Current"
             'Update version control
-            .Range(15) = .Range(114).value
-            .Range(16) = .Range(115).value
+            .Range(15) = .Range(114).Value
+            .Range(16) = .Range(115).Value
         
-        ElseIf Me.txtSIV_Date.value <> vbNullString And String_to_Date(Me.txtSIV_Date.value) < Now _
-            And .Range(8).value = "Current" Then
+        ElseIf Me.txtSIV_Date.Value <> vbNullString And String_to_Date(Me.txtSIV_Date.Value) < Now _
+            And .Range(8).Value = "Current" Then
             
             .Range(8) = "Commenced"
             'Update version control
-            .Range(15) = .Range(114).value
-            .Range(16) = .Range(115).value
+            .Range(15) = .Range(114).Value
+            .Range(16) = .Range(115).Value
         End If
         
     End With
