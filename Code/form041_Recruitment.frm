@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form041_Recruitment 
    Caption         =   "Recruitment Plan"
-   ClientHeight    =   4296
-   ClientLeft      =   -432
-   ClientTop       =   -1776
-   ClientWidth     =   6372
+   ClientHeight    =   6408
+   ClientLeft      =   -504
+   ClientTop       =   -2208
+   ClientWidth     =   9036.001
    OleObjectBlob   =   "form041_Recruitment.frx":0000
 End
 Attribute VB_Name = "form041_Recruitment"
@@ -14,33 +14,27 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Option Explicit
 
 
 Private Sub UserForm_Activate()
     'PURPOSE: Reposition userform to Top Left of application Window and fix size
     'source: https://www.mrexcel.com/board/threads/userform-startup-position.671108/
-    Me.StartUpPosition = 0
-    Me.Top = Application.Top + 25
-    Me.Left = Application.Left + 25
+    'Me.StartUpPosition = 0
+    'Me.Top = Application.Top + 25
+    'Me.Left = Application.Left + 25
+    Me.Top = UserFormTopPos
+    Me.Left = UserFormLeftPos
     Me.Height = UHeight
     Me.Width = UWidth
 
+End Sub
+
+Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
+    'PURPOSE: On Close Userform this code saves the last Userform position to Defined Names
+    'SOURCE: https://answers.microsoft.com/en-us/msoffice/forum/all/saving-last-position-of-userform/9399e735-9a9e-47c4-a1e0-e0d5cedd15ca
+    UserFormTopPos = Me.Top
+    UserFormLeftPos = Me.Left
 End Sub
 
 Private Sub UserForm_Initialize()
@@ -58,14 +52,19 @@ Private Sub UserForm_Initialize()
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = False
+                    ctrl.value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
+                Case TypeOf ctrl Is MSForms.Label
+                    'Empty error captions
+                    If Left(ctrl.Name, 3) = "err" Then
+                        ctrl.Caption = ""
+                    End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
             End Select
     Next ctrl
@@ -75,21 +74,71 @@ Private Sub UserForm_Initialize()
         cboRecruitStatus.AddItem item
     Next item
     
-    'Highlight tab selected
-    Me.tglReviews.Value = True
+    'Read information from register table
+    With RegTable.ListRows(RowIndex)
+        Me.txtStudyName.value = .Range(10).value
+        Me.txtDate_Plan.value = Format(.Range(36).value, "dd-mmm-yyyy")
+        Me.cboRecruitStatus.value = .Range(37).value
+        Me.txtReminder.value = .Range(38).value
+    End With
+    
+    'Access version control
+    Call LogLastAccess
+    
+    'Depress and make toggle green on nav bar
+    Me.tglReviews.value = True
     Me.tglReviews.BackColor = vbGreen
-    Me.tglRecruitment.Value = True
+    Me.tglRecruitment.value = True
     Me.tglRecruitment.BackColor = vbGreen
+    
+    'Run date validation on data entered
+    Call txtDate_Plan_AfterUpdate
+    
+End Sub
+
+Private Sub txtDate_Plan_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtDate_Plan.value)
+    
+    'Display error message
+    Me.errDate_Plan.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtDate_Plan.value) Then
+        Me.txtDate_Plan.value = Format(Me.txtDate_Plan.value, "dd-mmm-yyyy")
+    End If
     
 End Sub
 
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form
+    
+    'Access version control
+    Call LogLastAccess
+    
     Unload Me
+    
 End Sub
 
 Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
+    With RegTable.ListRows(RowIndex)
+        
+        .Range(36) = String_to_Date(Me.txtDate_Plan)
+        .Range(37) = Me.cboRecruitStatus
+        .Range(38) = Me.txtReminder
+        
+        'Update version control
+        .Range(39) = Now
+        .Range(40) = Username
+    End With
+    
+    'Access version control
+    Call LogLastAccess
+    
+    Call UserForm_Initialize
 
 End Sub
 

@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} sample 
    Caption         =   "Project Form"
-   ClientHeight    =   4260
-   ClientLeft      =   -204
-   ClientTop       =   -1092
-   ClientWidth     =   4860
+   ClientHeight    =   876
+   ClientLeft      =   -324
+   ClientTop       =   -1608
+   ClientWidth     =   1260
    OleObjectBlob   =   "sample.frx":0000
 End
 Attribute VB_Name = "sample"
@@ -12,6 +12,8 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
 
 Option Explicit
 
@@ -44,20 +46,20 @@ Private Sub UserForm_Initialize()
     'Clear user form
     'source: https://www.mrexcel.com/board/threads/loop-through-controls-on-a-userform.427103/
     For Each ctrl In Me.Controls
-        If TypeOf ctrl Is MSForms.TextBox Then ctrl.Value = ""
+        If TypeOf ctrl Is MSForms.TextBox Then ctrl.value = ""
     Next ctrl
         
     For Each pPage In Me.MultiPage1.Pages
         For Each ctrl In pPage.Controls
             Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = False
+                    ctrl.value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
             End Select
                 
         Next ctrl
@@ -73,35 +75,35 @@ Private Sub UserForm_Initialize()
     'Fill Improvement Type combo box
     For Each cImprovType In ws.Range("ImprovTypes")
       With Me.MultiPage1.tbPage1.cboImprovType
-        .AddItem cImprovType.Value
+        .AddItem cImprovType.value
       End With
     Next cImprovType
     
     'Fill Proj Originator Team combo box
     For Each cPrjOrigTeam In ws.Range("PrjOrigTeam")
       With Me.MultiPage1.tbPage1.cboPrjOrigTeam
-        .AddItem cPrjOrigTeam.Value
+        .AddItem cPrjOrigTeam.value
       End With
     Next cPrjOrigTeam
     
     'Fill Project Status combo box
     For Each cPrjStatus In ws.Range("PrjStatus")
       With Me.MultiPage1.tbPage4.cboPrjStatus
-        .AddItem cPrjStatus.Value
+        .AddItem cPrjStatus.value
       End With
     Next cPrjStatus
     
     'Fill Project Champion Team combo box
     For Each cPrjChampTeam In ws.Range("PrjChampTeam")
       With Me.MultiPage1.tbPage3.cboPrjChampTeam
-        .AddItem cPrjChampTeam.Value
+        .AddItem cPrjChampTeam.value
       End With
     Next cPrjChampTeam
     
     'Fill Team Supporters List box
     For Each cTeamSupp In ws.Range("TeamSupp")
       With Me.MultiPage1.tbPage3.lstTeamSupp
-        .AddItem cTeamSupp.Value
+        .AddItem cTeamSupp.value
       End With
     Next cTeamSupp
     
@@ -109,7 +111,7 @@ Private Sub UserForm_Initialize()
     lblPrjStatusCapt.Caption = ws.Range("PrjStatus").item(1)
     
     'Set mutlipage to be first page
-    Me.MultiPage1.Value = 0
+    Me.MultiPage1.value = 0
     
     'Limit success factor to 3 characters
     Me.MultiPage1.tbPage1.txtSF.MaxLength = 3
@@ -149,7 +151,7 @@ Private Sub cboPrjChampTeam_AfterUpdate()
 
     For Each cPrjChamp In ws.Range(strPrjChamp)
       With Me.MultiPage1.tbPage3.cboPrjChamp
-        .AddItem cPrjChamp.Value
+        .AddItem cPrjChamp.value
       End With
     Next cPrjChamp
 
@@ -157,7 +159,7 @@ End Sub
 
 Private Sub cboPrjStatus_AfterUpdate()
     'Copy Project Status to Main Page label
-    lblPrjStatusCapt.Caption = cboPrjStatus.Value
+    lblPrjStatusCapt.Caption = cboPrjStatus.value
 
 End Sub
 
@@ -182,7 +184,7 @@ Private Sub txtSF_Change()
     End If
     
     'Remove last digit if >100
-    If txtSF.Value > 100 And txtSF.Text <> "" Then
+    If txtSF.value > 100 And txtSF.Text <> "" Then
         myerror = MsgBox("Error! Value cannot exceed 100", vbOKOnly, "WARNING!")
         txtSF.Text = Left(txtSF.Text, 2)
         Me.MultiPage1.tbPage1.txtSF.SetFocus
@@ -202,18 +204,18 @@ Private Sub cmdSearch_Click()
     Dim myerror As Integer
 
     'Convert numbers to Allowed Project IDs
-    If IsNumeric(Me.txtPrjID.Value) Then
-        strSearch = "PRJ-" & Format(Me.txtPrjID.Value, "000000")
-        Me.txtPrjID.Value = strSearch
+    If IsNumeric(Me.txtPrjID.value) Then
+        strSearch = "PRJ-" & Format(Me.txtPrjID.value, "000000")
+        Me.txtPrjID.value = strSearch
     Else
-        strSearch = Me.txtPrjID.Value
+        strSearch = Me.txtPrjID.value
     End If
 
     'error block
     On Error GoTo ErrHandler:
 
     'find cell with Project ID in register range
-    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").Find(What:=strSearch, LookIn:=xlValues)
+    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").find(What:=strSearch, LookIn:=xlValues)
 
     'Read values from register sheet
     '--------------------------------------------
@@ -230,7 +232,7 @@ End Sub
 Private Sub cmdJumpBack_Click()
 
     Dim RowSearch As Range
-    Dim cnt As Integer
+    Dim Cnt As Integer
     Dim strSearch As String
     Dim Jump As Integer
     Dim TopRow As Long
@@ -240,47 +242,47 @@ Private Sub cmdJumpBack_Click()
 
     'Set Toggle interval and variables
     Jump = 5
-    cnt = 0
+    Cnt = 0
     TopRow = Sheets("Register").Range("Register[[#Headers],[PROJECT ID]]").Row + 1
 
     'error block
     On Error GoTo ErrHandler:
 
     'Convert numbers to Allowed Project IDs
-    If Me.txtPrjID.Value = "" Then
-        Me.txtPrjID.Value = Sheets("Register").Cells(TopRow, 2).Value
+    If Me.txtPrjID.value = "" Then
+        Me.txtPrjID.value = Sheets("Register").Cells(TopRow, 2).value
         cmdSearch_Click
         Exit Sub
-    ElseIf IsNumeric(Me.txtPrjID.Value) Then
-        strSearch = "PRJ-" & Format(Me.txtPrjID.Value, "000000")
-        Me.txtPrjID.Value = strSearch
+    ElseIf IsNumeric(Me.txtPrjID.value) Then
+        strSearch = "PRJ-" & Format(Me.txtPrjID.value, "000000")
+        Me.txtPrjID.value = strSearch
     Else
-        strSearch = Me.txtPrjID.Value
+        strSearch = Me.txtPrjID.value
     End If
 
     'find cell with Project ID in register range
-    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").Find(What:=strSearch, LookIn:=xlValues)
+    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").find(What:=strSearch, LookIn:=xlValues)
 
     'Loop back counting rows until Jump interval
     cRow = RowSearch.Row
     While cRow > (TopRow - 1) And nRow <= Jump:
 
-        cRow = RowSearch.Offset(-cnt, 0).Row
-        If Not (IsEmpty(RowSearch.Offset(-cnt, 0))) Then
+        cRow = RowSearch.Offset(-Cnt, 0).Row
+        If Not (IsEmpty(RowSearch.Offset(-Cnt, 0))) Then
             nRow = nRow + 1
         End If
 
         'Break out of loop if Top Row reached
         If cRow = TopRow Then
-            cnt = RowSearch.Row - TopRow + 1
+            Cnt = RowSearch.Row - TopRow + 1
             nRow = Jump + 1
         Else
-            cnt = cnt + 1
+            Cnt = Cnt + 1
         End If
     Wend
 
     'Redefine range selected from register
-    Set RowSearch = RowSearch.Offset(-cnt + 1, 0)
+    Set RowSearch = RowSearch.Offset(-Cnt + 1, 0)
 
 
     'Read values from register sheet
@@ -299,7 +301,7 @@ End Sub
 Private Sub cmdJumpForw_Click()
 
     Dim RowSearch As Range
-    Dim cnt As Integer
+    Dim Cnt As Integer
     Dim strSearch As String
     Dim Jump As Integer
     Dim BtmRow As Long
@@ -309,7 +311,7 @@ Private Sub cmdJumpForw_Click()
 
     'Set Toggle interval and variables
     Jump = 5
-    cnt = 0
+    Cnt = 0
 
     'Find last used Row in register sheet
     'Source: https://www.contextures.com/rickrothsteinexcelvbasheet.html
@@ -319,40 +321,40 @@ Private Sub cmdJumpForw_Click()
     On Error GoTo ErrHandler:
 
     'Convert numbers to Allowed Project IDs
-    If Me.txtPrjID.Value = "" Then
-        Me.txtPrjID.Value = Sheets("Register").Cells(BtmRow, 2).Value
+    If Me.txtPrjID.value = "" Then
+        Me.txtPrjID.value = Sheets("Register").Cells(BtmRow, 2).value
         cmdSearch_Click
         Exit Sub
-    ElseIf IsNumeric(Me.txtPrjID.Value) Then
-        strSearch = "PRJ-" & Format(Me.txtPrjID.Value, "000000")
-        Me.txtPrjID.Value = strSearch
+    ElseIf IsNumeric(Me.txtPrjID.value) Then
+        strSearch = "PRJ-" & Format(Me.txtPrjID.value, "000000")
+        Me.txtPrjID.value = strSearch
     Else
-        strSearch = Me.txtPrjID.Value
+        strSearch = Me.txtPrjID.value
     End If
 
     'find cell with Project ID in register range
-    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").Find(What:=strSearch, LookIn:=xlValues)
+    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").find(What:=strSearch, LookIn:=xlValues)
 
     'Loop back counting rows until Jump interval
     cRow = RowSearch.Row
     While cRow < (BtmRow + 1) And nRow <= Jump:
 
-        cRow = RowSearch.Offset(cnt, 0).Row
-        If Not (IsEmpty(RowSearch.Offset(cnt, 0))) Then
+        cRow = RowSearch.Offset(Cnt, 0).Row
+        If Not (IsEmpty(RowSearch.Offset(Cnt, 0))) Then
             nRow = nRow + 1
         End If
 
         'Break out of loop if Bottom Row Reached
         If cRow = BtmRow Then
-            cnt = BtmRow + 1 - RowSearch.Row
+            Cnt = BtmRow + 1 - RowSearch.Row
             nRow = Jump + 1
         Else
-            cnt = cnt + 1
+            Cnt = Cnt + 1
         End If
     Wend
 
     'Redefine range selected from register
-    Set RowSearch = RowSearch.Offset(cnt - 1, 0)
+    Set RowSearch = RowSearch.Offset(Cnt - 1, 0)
 
 
     'Read values from register sheet
@@ -370,7 +372,7 @@ End Sub
 Private Sub cmdPrevious_Click()
 
     Dim RowSearch As Range
-    Dim cnt As Integer
+    Dim Cnt As Integer
     Dim strSearch As String
     Dim Jump As Integer
     Dim TopRow As Long
@@ -380,47 +382,47 @@ Private Sub cmdPrevious_Click()
 
     'Set Toggle interval and variables
     Jump = 1
-    cnt = 0
+    Cnt = 0
     TopRow = Sheets("Register").Range("Register[[#Headers],[PROJECT ID]]").Row + 1
 
     'error block
     On Error GoTo ErrHandler:
 
     'Convert numbers to Allowed Project IDs
-    If Me.txtPrjID.Value = "" Then
-        Me.txtPrjID.Value = Sheets("Register").Cells(TopRow, 2).Value
+    If Me.txtPrjID.value = "" Then
+        Me.txtPrjID.value = Sheets("Register").Cells(TopRow, 2).value
         cmdSearch_Click
         Exit Sub
-    ElseIf IsNumeric(Me.txtPrjID.Value) Then
-        strSearch = "PRJ-" & Format(Me.txtPrjID.Value, "000000")
-        Me.txtPrjID.Value = strSearch
+    ElseIf IsNumeric(Me.txtPrjID.value) Then
+        strSearch = "PRJ-" & Format(Me.txtPrjID.value, "000000")
+        Me.txtPrjID.value = strSearch
     Else
-        strSearch = Me.txtPrjID.Value
+        strSearch = Me.txtPrjID.value
     End If
 
     'find cell with Project ID in register range
-    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").Find(What:=strSearch, LookIn:=xlValues)
+    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").find(What:=strSearch, LookIn:=xlValues)
 
     'Loop back counting rows until Jump interval
     cRow = RowSearch.Row
     While cRow > (TopRow - 1) And nRow <= Jump:
 
-        cRow = RowSearch.Offset(-cnt, 0).Row
-        If Not (IsEmpty(RowSearch.Offset(-cnt, 0))) Then
+        cRow = RowSearch.Offset(-Cnt, 0).Row
+        If Not (IsEmpty(RowSearch.Offset(-Cnt, 0))) Then
             nRow = nRow + 1
         End If
 
         'Break out of loop if Top Row reached
         If cRow = TopRow Then
-            cnt = RowSearch.Row - TopRow + 1
+            Cnt = RowSearch.Row - TopRow + 1
             nRow = Jump + 1
         Else
-            cnt = cnt + 1
+            Cnt = Cnt + 1
         End If
     Wend
 
     'Redefine range selected from register
-    Set RowSearch = RowSearch.Offset(-cnt + 1, 0)
+    Set RowSearch = RowSearch.Offset(-Cnt + 1, 0)
 
 
     'Read values from register sheet
@@ -438,7 +440,7 @@ End Sub
 Private Sub cmdNext_Click()
 
     Dim RowSearch As Range
-    Dim cnt As Integer
+    Dim Cnt As Integer
     Dim strSearch As String
     Dim Jump As Integer
     Dim BtmRow As Long
@@ -448,7 +450,7 @@ Private Sub cmdNext_Click()
 
     'Set Toggle interval and variables
     Jump = 1
-    cnt = 0
+    Cnt = 0
 
     'Find last used Row in register sheet
     'Source: https://www.contextures.com/rickrothsteinexcelvbasheet.html
@@ -458,40 +460,40 @@ Private Sub cmdNext_Click()
     On Error GoTo ErrHandler:
 
     'Convert numbers to Allowed Project IDs
-    If Me.txtPrjID.Value = "" Then
-        Me.txtPrjID.Value = Sheets("Register").Cells(BtmRow, 2).Value
+    If Me.txtPrjID.value = "" Then
+        Me.txtPrjID.value = Sheets("Register").Cells(BtmRow, 2).value
         cmdSearch_Click
         Exit Sub
-    ElseIf IsNumeric(Me.txtPrjID.Value) Then
-        strSearch = "PRJ-" & Format(Me.txtPrjID.Value, "000000")
-        Me.txtPrjID.Value = strSearch
+    ElseIf IsNumeric(Me.txtPrjID.value) Then
+        strSearch = "PRJ-" & Format(Me.txtPrjID.value, "000000")
+        Me.txtPrjID.value = strSearch
     Else
-        strSearch = Me.txtPrjID.Value
+        strSearch = Me.txtPrjID.value
     End If
 
     'find cell with Project ID in register range
-    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").Find(What:=strSearch, LookIn:=xlValues)
+    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").find(What:=strSearch, LookIn:=xlValues)
 
     'Loop back counting rows until Jump interval
     cRow = RowSearch.Row
     While cRow < (BtmRow + 1) And nRow <= Jump:
 
-        cRow = RowSearch.Offset(cnt, 0).Row
-        If Not (IsEmpty(RowSearch.Offset(cnt, 0))) Then
+        cRow = RowSearch.Offset(Cnt, 0).Row
+        If Not (IsEmpty(RowSearch.Offset(Cnt, 0))) Then
             nRow = nRow + 1
         End If
 
         'Break out of loop if Bottom Row Reached
         If cRow = BtmRow Then
-            cnt = BtmRow + 1 - RowSearch.Row
+            Cnt = BtmRow + 1 - RowSearch.Row
             nRow = Jump + 1
         Else
-            cnt = cnt + 1
+            Cnt = Cnt + 1
         End If
     Wend
 
     'Redefine range selected from register
-    Set RowSearch = RowSearch.Offset(cnt - 1, 0)
+    Set RowSearch = RowSearch.Offset(Cnt - 1, 0)
 
 
     'Read values from register sheet
@@ -530,10 +532,10 @@ Private Sub txtStartDate_AfterUpdate()
     'Check if date entered manually is valid format
     Dim myerror As Integer
     
-    If txtStartDate.Value <> "" Then
-        If Not (IsDate(txtStartDate.Value)) Then
+    If txtStartDate.value <> "" Then
+        If Not (IsDate(txtStartDate.value)) Then
             myerror = MsgBox("Enter valid date DD/MM/YYY", vbOKOnly, "WARNING!")
-            txtStartDate.Value = Null
+            txtStartDate.value = Null
         End If
     End If
 
@@ -543,10 +545,10 @@ Private Sub txtEndDate_AfterUpdate()
     'Check if date entered manually is valid format
     Dim myerror As Integer
     
-    If txtEndDate.Value <> "" Then
-        If Not (IsDate(txtEndDate.Value)) Then
+    If txtEndDate.value <> "" Then
+        If Not (IsDate(txtEndDate.value)) Then
             myerror = MsgBox("Enter valid date DD/MM/YYY", vbOKOnly, "WARNING!")
-            txtEndDate.Value = Null
+            txtEndDate.value = Null
         End If
     End If
     
@@ -554,8 +556,8 @@ Private Sub txtEndDate_AfterUpdate()
     Me.lblPrjStatusCapt.BackColor = &HFFFFFF
     Me.txtPrjTitle.BackColor = &HFFFFFF
     
-    If Me.MultiPage1.tbPage2.txtEndDate.Value <> "" Then
-        If CDate(Me.MultiPage1.tbPage2.txtEndDate.Value) < Date And Me.lblPrjStatusCapt.Caption <> "Monitor" Then
+    If Me.MultiPage1.tbPage2.txtEndDate.value <> "" Then
+        If CDate(Me.MultiPage1.tbPage2.txtEndDate.value) < Date And Me.lblPrjStatusCapt.Caption <> "Monitor" Then
             Me.lblPrjStatusCapt.BackColor = &HC0C0FF
             Me.txtPrjTitle.BackColor = &HC0C0FF
         End If
@@ -569,8 +571,8 @@ Private Sub txtStartDate_Change()
     Dim EDateBool As Boolean
     Dim myerror As Integer
 
-    SDateBool = IsDate(txtStartDate.Value)
-    EDateBool = IsDate(txtEndDate.Value)
+    SDateBool = IsDate(txtStartDate.value)
+    EDateBool = IsDate(txtEndDate.value)
 
 '    'Check if dates are chronologically correct
 '    'If not replace with today's date
@@ -589,8 +591,8 @@ Private Sub txtEndDate_Change()
     Dim EDateBool As Boolean
     Dim myerror As Integer
 
-    SDateBool = IsDate(txtStartDate.Value)
-    EDateBool = IsDate(txtEndDate.Value)
+    SDateBool = IsDate(txtStartDate.value)
+    EDateBool = IsDate(txtEndDate.value)
 
 '    'Check if dates are chronologically correct
 '    'If not replace with Start Date
@@ -605,8 +607,8 @@ Private Sub txtEndDate_Change()
     Me.lblPrjStatusCapt.BackColor = &HFFFFFF
     Me.txtPrjTitle.BackColor = &HFFFFFF
     
-    If IsDate(Me.MultiPage1.tbPage2.txtEndDate.Value) Then
-        If CDate(Me.MultiPage1.tbPage2.txtEndDate.Value) < Date And Me.lblPrjStatusCapt.Caption <> "Monitor" Then
+    If IsDate(Me.MultiPage1.tbPage2.txtEndDate.value) Then
+        If CDate(Me.MultiPage1.tbPage2.txtEndDate.value) < Date And Me.lblPrjStatusCapt.Caption <> "Monitor" Then
             Me.lblPrjStatusCapt.BackColor = &HC0C0FF
             Me.txtPrjTitle.BackColor = &HC0C0FF
         End If
@@ -643,11 +645,11 @@ Private Sub cmdNew_Click()
     BtmRow = Sheets("Register").Range("Register[PROJECT ID]").Rows.Count + Sheets("Register").Range("Register[[#Headers],[PROJECT ID]]").Row
 
      'Create new Project ID
-     If BtmRow = 6 And Sheets("Register").Cells(BtmRow, 2).Value = "" Then
+     If BtmRow = 6 And Sheets("Register").Cells(BtmRow, 2).value = "" Then
         NewID = "PRJ-000000"
         BtmRow = BtmRow - 1
      Else
-        LastID = Right(Sheets("Register").Cells(BtmRow, 2).Value, 6)
+        LastID = Right(Sheets("Register").Cells(BtmRow, 2).value, 6)
         NewID = "PRJ-" & Format(LastID + 1, "000000")
      End If
 
@@ -658,14 +660,14 @@ Private Sub cmdNew_Click()
     '--------------------------------------------
     Sheets("Register").Unprotect
     
-    RowSearch.Value = NewID
+    RowSearch.value = NewID
     
     Call Write_to_Sheet(RowSearch)
     
     Sheets("Register").Protect
     
     'Replace Project ID with newly generated Project ID
-    Me.txtPrjID.Value = NewID
+    Me.txtPrjID.value = NewID
    
     'Refresh Pivots
     Call Report_Builder
@@ -688,8 +690,8 @@ Private Sub cmdChange_Click()
     On Error GoTo ErrHandler:
 
     'find cell with Project ID in register range
-    strSearch = Me.txtPrjID.Value
-    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").Find(What:=strSearch, LookIn:=xlValues)
+    strSearch = Me.txtPrjID.value
+    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").find(What:=strSearch, LookIn:=xlValues)
     
     'Write values from register sheet
     '--------------------------------------------
@@ -749,8 +751,8 @@ Private Sub cmdDelete_Click()
     nCol = ws.Range("Register[#Headers]").Columns.Count
 
     'find cell with Project ID in register range
-    strSearch = Me.txtPrjID.Value
-    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").Find(What:=strSearch, LookIn:=xlValues)
+    strSearch = Me.txtPrjID.value
+    Set RowSearch = Sheets("Register").Range("Register[PROJECT ID]").find(What:=strSearch, LookIn:=xlValues)
     
     DelRow = RowSearch.Row - 1
 
@@ -759,7 +761,7 @@ Private Sub cmdDelete_Click()
     RowSearch.Resize(1, nCol - 1).Delete Shift:=xlUp
     
     'Replace project ID for search
-    Me.txtPrjID.Value = ws.Cells(DelRow, 2).Value
+    Me.txtPrjID.value = ws.Cells(DelRow, 2).value
     
     ws.Protect
     
@@ -832,47 +834,47 @@ Sub Write_to_Sheet(RowSearch As Range)
     'Write values from register sheet
     '--------------------------------------------
     'Main Page
-    RowSearch.Offset(0, 1).Value = Me.txtPrjTitle.Value
-    RowSearch.Offset(0, 2).Value = Me.cbMET.Value
+    RowSearch.Offset(0, 1).value = Me.txtPrjTitle.value
+    RowSearch.Offset(0, 2).value = Me.cbMET.value
     
     'Page 1
-    RowSearch.Offset(0, 5).Value = Me.MultiPage1.tbPage1.cboPrjOrigTeam.Value
-    RowSearch.Offset(0, 6).Value = Me.MultiPage1.tbPage1.txtPrjOrigPerson.Value
-    RowSearch.Offset(0, 7).Value = Me.MultiPage1.tbPage1.txtPrjContext.Value
-    RowSearch.Offset(0, 8).Value = Me.MultiPage1.tbPage1.txtPrjGoal.Value
-    RowSearch.Offset(0, 9).Value = Me.MultiPage1.tbPage1.cboImprovType.Value
-    RowSearch.Offset(0, 10).Value = Me.MultiPage1.tbPage1.txtAB.Value
-    RowSearch.Offset(0, 11).Value = Me.MultiPage1.tbPage1.cbVerified.Value
-    RowSearch.Offset(0, 12).Value = Me.MultiPage1.tbPage1.txtVB.Value
-    RowSearch.Offset(0, 13).Value = Me.MultiPage1.tbPage1.txtSF.Value
+    RowSearch.Offset(0, 5).value = Me.MultiPage1.tbPage1.cboPrjOrigTeam.value
+    RowSearch.Offset(0, 6).value = Me.MultiPage1.tbPage1.txtPrjOrigPerson.value
+    RowSearch.Offset(0, 7).value = Me.MultiPage1.tbPage1.txtPrjContext.value
+    RowSearch.Offset(0, 8).value = Me.MultiPage1.tbPage1.txtPrjGoal.value
+    RowSearch.Offset(0, 9).value = Me.MultiPage1.tbPage1.cboImprovType.value
+    RowSearch.Offset(0, 10).value = Me.MultiPage1.tbPage1.txtAB.value
+    RowSearch.Offset(0, 11).value = Me.MultiPage1.tbPage1.cbVerified.value
+    RowSearch.Offset(0, 12).value = Me.MultiPage1.tbPage1.txtVB.value
+    RowSearch.Offset(0, 13).value = Me.MultiPage1.tbPage1.txtSF.value
     
     'Page 2
-    RowSearch.Offset(0, 14).Value = Me.MultiPage1.tbPage2.txtPrjMetric.Value
-    RowSearch.Offset(0, 15).Value = Me.MultiPage1.tbPage2.txtPrjBudget.Value
-    RowSearch.Offset(0, 16).Value = Me.MultiPage1.tbPage2.txtBudgetCC.Value
-    RowSearch.Offset(0, 17).Value = Me.MultiPage1.tbPage2.txtDeliverables.Value
+    RowSearch.Offset(0, 14).value = Me.MultiPage1.tbPage2.txtPrjMetric.value
+    RowSearch.Offset(0, 15).value = Me.MultiPage1.tbPage2.txtPrjBudget.value
+    RowSearch.Offset(0, 16).value = Me.MultiPage1.tbPage2.txtBudgetCC.value
+    RowSearch.Offset(0, 17).value = Me.MultiPage1.tbPage2.txtDeliverables.value
     
     'Convert string to date on writing
-    If Me.MultiPage1.tbPage2.txtStartDate.Value <> "" Then
-        RowSearch.Offset(0, 18).Value = DateValue(Me.MultiPage1.tbPage2.txtStartDate.Value)
+    If Me.MultiPage1.tbPage2.txtStartDate.value <> "" Then
+        RowSearch.Offset(0, 18).value = DateValue(Me.MultiPage1.tbPage2.txtStartDate.value)
     Else
-        RowSearch.Offset(0, 18).Value = Me.MultiPage1.tbPage2.txtStartDate.Value
+        RowSearch.Offset(0, 18).value = Me.MultiPage1.tbPage2.txtStartDate.value
     End If
     
-    If Me.MultiPage1.tbPage2.txtEndDate.Value <> "" Then
-        RowSearch.Offset(0, 19).Value = DateValue(Me.MultiPage1.tbPage2.txtEndDate.Value)
+    If Me.MultiPage1.tbPage2.txtEndDate.value <> "" Then
+        RowSearch.Offset(0, 19).value = DateValue(Me.MultiPage1.tbPage2.txtEndDate.value)
     Else
-        RowSearch.Offset(0, 19).Value = Me.MultiPage1.tbPage2.txtEndDate.Value
+        RowSearch.Offset(0, 19).value = Me.MultiPage1.tbPage2.txtEndDate.value
     End If
     
     
-    RowSearch.Offset(0, 20).Value = Me.MultiPage1.tbPage2.txtKN.Value
-    RowSearch.Offset(0, 21).Value = Me.MultiPage1.tbPage2.txtLink.Value
+    RowSearch.Offset(0, 20).value = Me.MultiPage1.tbPage2.txtKN.value
+    RowSearch.Offset(0, 21).value = Me.MultiPage1.tbPage2.txtLink.value
 
     'Page 3
-    RowSearch.Offset(0, 22).Value = Me.MultiPage1.tbPage3.cboPrjChampTeam.Value
-    RowSearch.Offset(0, 23).Value = Me.MultiPage1.tbPage3.cboPrjChamp.Value
-    RowSearch.Offset(0, 25).Value = Me.MultiPage1.tbPage3.txtOtherTeam.Value
+    RowSearch.Offset(0, 22).value = Me.MultiPage1.tbPage3.cboPrjChampTeam.value
+    RowSearch.Offset(0, 23).value = Me.MultiPage1.tbPage3.cboPrjChamp.value
+    RowSearch.Offset(0, 25).value = Me.MultiPage1.tbPage3.txtOtherTeam.value
     
     'concatenate list box selection into string
     'source: https://www.contextures.com/excel-data-validation-listbox.html
@@ -896,21 +898,21 @@ Sub Write_to_Sheet(RowSearch As Range)
        Next lCountList
     End With
     
-    RowSearch.Offset(0, 24).Value = strSelItems
+    RowSearch.Offset(0, 24).value = strSelItems
     
     'Page 4
-    RowSearch.Offset(0, 3).Value = Me.MultiPage1.tbPage4.cboPrjStatus.Value
-    If RowSearch.Offset(0, 3).Value = "" And Me.cbMET.Value = False Then
-         RowSearch.Offset(0, 3).Value = "Yet to be started"
+    RowSearch.Offset(0, 3).value = Me.MultiPage1.tbPage4.cboPrjStatus.value
+    If RowSearch.Offset(0, 3).value = "" And Me.cbMET.value = False Then
+         RowSearch.Offset(0, 3).value = "Yet to be started"
     End If
-    RowSearch.Offset(0, 4).Value = Me.MultiPage1.tbPage4.txtComments.Value
+    RowSearch.Offset(0, 4).value = Me.MultiPage1.tbPage4.txtComments.value
     
     'Change due status
-    If Me.MultiPage1.tbPage2.txtEndDate.Value <> "" Then
-        If CDate(Me.MultiPage1.tbPage2.txtEndDate.Value) < Date And Me.lblPrjStatusCapt.Caption <> "Monitor" Then
-            RowSearch.Offset(0, 26).Value = "Yes"
+    If Me.MultiPage1.tbPage2.txtEndDate.value <> "" Then
+        If CDate(Me.MultiPage1.tbPage2.txtEndDate.value) < Date And Me.lblPrjStatusCapt.Caption <> "Monitor" Then
+            RowSearch.Offset(0, 26).value = "Yes"
         Else
-            RowSearch.Offset(0, 26).Value = ""
+            RowSearch.Offset(0, 26).value = ""
         End If
     End If
     
@@ -920,55 +922,55 @@ Sub Read_from_sheet(RowSearch As Range)
     'Read values to spreadsheet register tab
 
     'Main Page
-    Me.txtPrjID.Value = RowSearch
-    Me.txtPrjTitle.Value = RowSearch.Offset(0, 1)
+    Me.txtPrjID.value = RowSearch
+    Me.txtPrjTitle.value = RowSearch.Offset(0, 1)
     Me.lblPrjStatusCapt.Caption = RowSearch.Offset(0, 3)
-    Me.cbMET.Value = RowSearch.Offset(0, 2)
+    Me.cbMET.value = RowSearch.Offset(0, 2)
     
     'Page 1
-    Me.MultiPage1.tbPage1.cboPrjOrigTeam.Value = RowSearch.Offset(0, 5).Value
-    Me.MultiPage1.tbPage1.txtPrjOrigPerson.Value = RowSearch.Offset(0, 6).Value
-    Me.MultiPage1.tbPage1.txtPrjContext.Value = RowSearch.Offset(0, 7).Value
-    Me.MultiPage1.tbPage1.txtPrjGoal.Value = RowSearch.Offset(0, 8).Value
-    Me.MultiPage1.tbPage1.cboImprovType.Value = RowSearch.Offset(0, 9).Value
-    Me.MultiPage1.tbPage1.txtAB.Value = RowSearch.Offset(0, 10).Value
-    Me.MultiPage1.tbPage1.cbVerified.Value = RowSearch.Offset(0, 11).Value
-    Me.MultiPage1.tbPage1.txtVB.Value = RowSearch.Offset(0, 12).Value
-    Me.MultiPage1.tbPage1.txtSF.Value = RowSearch.Offset(0, 13).Value
+    Me.MultiPage1.tbPage1.cboPrjOrigTeam.value = RowSearch.Offset(0, 5).value
+    Me.MultiPage1.tbPage1.txtPrjOrigPerson.value = RowSearch.Offset(0, 6).value
+    Me.MultiPage1.tbPage1.txtPrjContext.value = RowSearch.Offset(0, 7).value
+    Me.MultiPage1.tbPage1.txtPrjGoal.value = RowSearch.Offset(0, 8).value
+    Me.MultiPage1.tbPage1.cboImprovType.value = RowSearch.Offset(0, 9).value
+    Me.MultiPage1.tbPage1.txtAB.value = RowSearch.Offset(0, 10).value
+    Me.MultiPage1.tbPage1.cbVerified.value = RowSearch.Offset(0, 11).value
+    Me.MultiPage1.tbPage1.txtVB.value = RowSearch.Offset(0, 12).value
+    Me.MultiPage1.tbPage1.txtSF.value = RowSearch.Offset(0, 13).value
     
     'Page 2
-    Me.MultiPage1.tbPage2.txtPrjMetric.Value = RowSearch.Offset(0, 14).Value
-    Me.MultiPage1.tbPage2.txtPrjBudget.Value = RowSearch.Offset(0, 15).Value
-    Me.MultiPage1.tbPage2.txtBudgetCC.Value = RowSearch.Offset(0, 16).Value
-    Me.MultiPage1.tbPage2.txtDeliverables.Value = RowSearch.Offset(0, 17).Value
+    Me.MultiPage1.tbPage2.txtPrjMetric.value = RowSearch.Offset(0, 14).value
+    Me.MultiPage1.tbPage2.txtPrjBudget.value = RowSearch.Offset(0, 15).value
+    Me.MultiPage1.tbPage2.txtBudgetCC.value = RowSearch.Offset(0, 16).value
+    Me.MultiPage1.tbPage2.txtDeliverables.value = RowSearch.Offset(0, 17).value
     
     'Change date format shown
-    If RowSearch.Offset(0, 18).Value <> "" Then
-        Me.MultiPage1.tbPage2.txtStartDate.Value = Format(RowSearch.Offset(0, 18).Value, "dd/mm/yyyy")
+    If RowSearch.Offset(0, 18).value <> "" Then
+        Me.MultiPage1.tbPage2.txtStartDate.value = Format(RowSearch.Offset(0, 18).value, "dd/mm/yyyy")
     Else
-        Me.MultiPage1.tbPage2.txtStartDate.Value = RowSearch.Offset(0, 18).Value
+        Me.MultiPage1.tbPage2.txtStartDate.value = RowSearch.Offset(0, 18).value
     End If
     
-    If RowSearch.Offset(0, 19).Value <> "" Then
-        Me.MultiPage1.tbPage2.txtEndDate.Value = Format(RowSearch.Offset(0, 19).Value, "dd/mm/yyyy")
+    If RowSearch.Offset(0, 19).value <> "" Then
+        Me.MultiPage1.tbPage2.txtEndDate.value = Format(RowSearch.Offset(0, 19).value, "dd/mm/yyyy")
     Else
-        Me.MultiPage1.tbPage2.txtEndDate.Value = RowSearch.Offset(0, 19).Value
+        Me.MultiPage1.tbPage2.txtEndDate.value = RowSearch.Offset(0, 19).value
     End If
     
-    Me.MultiPage1.tbPage2.txtKN.Value = RowSearch.Offset(0, 20).Value
-    Me.MultiPage1.tbPage2.txtLink.Value = RowSearch.Offset(0, 21).Value
+    Me.MultiPage1.tbPage2.txtKN.value = RowSearch.Offset(0, 20).value
+    Me.MultiPage1.tbPage2.txtLink.value = RowSearch.Offset(0, 21).value
 
     'Page 3
-    Me.MultiPage1.tbPage3.cboPrjChampTeam.Value = RowSearch.Offset(0, 22).Value
-    Me.MultiPage1.tbPage3.cboPrjChamp.Value = RowSearch.Offset(0, 23).Value
-    Me.MultiPage1.tbPage3.txtOtherTeam.Value = RowSearch.Offset(0, 25).Value
+    Me.MultiPage1.tbPage3.cboPrjChampTeam.value = RowSearch.Offset(0, 22).value
+    Me.MultiPage1.tbPage3.cboPrjChamp.value = RowSearch.Offset(0, 23).value
+    Me.MultiPage1.tbPage3.txtOtherTeam.value = RowSearch.Offset(0, 25).value
     
     'Fill list box
-    Call ReadStringToList(Me.MultiPage1.tbPage3.lstTeamSupp, RowSearch.Offset(0, 24).Value)
+    Call ReadStringToList(Me.MultiPage1.tbPage3.lstTeamSupp, RowSearch.Offset(0, 24).value)
     
     'Page 4
-    Me.MultiPage1.tbPage4.cboPrjStatus.Value = RowSearch.Offset(0, 3)
-    Me.MultiPage1.tbPage4.txtComments.Value = RowSearch.Offset(0, 4)
+    Me.MultiPage1.tbPage4.cboPrjStatus.value = RowSearch.Offset(0, 3)
+    Me.MultiPage1.tbPage4.txtComments.value = RowSearch.Offset(0, 4)
     
     'Change status to red tinge if over due
     Me.lblPrjStatusCapt.BackColor = &HFFFFFF
@@ -976,13 +978,13 @@ Sub Read_from_sheet(RowSearch As Range)
     
     Sheets("Register").Unprotect
     
-    If Me.MultiPage1.tbPage2.txtEndDate.Value <> "" Then
-        If CDate(Me.MultiPage1.tbPage2.txtEndDate.Value) < Date And Me.lblPrjStatusCapt.Caption <> "Monitor" Then
+    If Me.MultiPage1.tbPage2.txtEndDate.value <> "" Then
+        If CDate(Me.MultiPage1.tbPage2.txtEndDate.value) < Date And Me.lblPrjStatusCapt.Caption <> "Monitor" Then
             Me.lblPrjStatusCapt.BackColor = &HC0C0FF
             Me.txtPrjTitle.BackColor = &HC0C0FF
-            RowSearch.Offset(0, 26).Value = "Yes"
+            RowSearch.Offset(0, 26).value = "Yes"
         Else
-            RowSearch.Offset(0, 26).Value = ""
+            RowSearch.Offset(0, 26).value = ""
         End If
     End If
     

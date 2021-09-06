@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form03_SiteSelect 
    Caption         =   "Site Selection"
-   ClientHeight    =   5268
-   ClientLeft      =   -336
-   ClientTop       =   -1464
-   ClientWidth     =   6396
+   ClientHeight    =   4884
+   ClientLeft      =   -456
+   ClientTop       =   -1944
+   ClientWidth     =   6948
    OleObjectBlob   =   "form03_SiteSelect.frx":0000
 End
 Attribute VB_Name = "form03_SiteSelect"
@@ -12,33 +12,26 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Option Explicit
 
 Private Sub UserForm_Activate()
     'PURPOSE: Reposition userform to Top Left of application Window and fix size
     'source: https://www.mrexcel.com/board/threads/userform-startup-position.671108/
-    Me.StartUpPosition = 0
-    Me.Top = Application.Top + 25
-    Me.Left = Application.Left + 25
+    'Me.StartUpPosition = 0
+    'Me.Top = Application.Top + 25
+    'Me.Left = Application.Left + 25
+    Me.Top = UserFormTopPos
+    Me.Left = UserFormLeftPos
     Me.Height = UHeight
     Me.Width = UWidth
 
+End Sub
+
+Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
+    'PURPOSE: On Close Userform this code saves the last Userform position to Defined Names
+    'SOURCE: https://answers.microsoft.com/en-us/msoffice/forum/all/saving-last-position-of-userform/9399e735-9a9e-47c4-a1e0-e0d5cedd15ca
+    UserFormTopPos = Me.Top
+    UserFormLeftPos = Me.Left
 End Sub
 
 Private Sub UserForm_Initialize()
@@ -55,14 +48,19 @@ Private Sub UserForm_Initialize()
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = False
+                    ctrl.value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
+                Case TypeOf ctrl Is MSForms.Label
+                    'Empty error captions
+                    If Left(ctrl.Name, 3) = "err" Then
+                        ctrl.Caption = ""
+                    End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.Value = ""
+                    ctrl.value = ""
                     ctrl.Clear
             End Select
     Next ctrl
@@ -73,20 +71,112 @@ Private Sub UserForm_Initialize()
         cboValidation_Type.AddItem item
     Next item
     
-    'Highlight tab selected
-    Me.tglSiteSelect.Value = True
+    'Read information from register table
+    With RegTable.ListRows(RowIndex)
+        Me.txtStudyName = .Range(10).value
+        Me.txtPrestudy_Date.value = Format(.Range(28).value, "dd-mmm-yyyy")
+        Me.cboPrestudy_Type.value = .Range(29).value
+        Me.txtValidation_Date.value = Format(.Range(30).value, "dd-mmm-yyyy")
+        Me.cboValidation_Type.value = .Range(31).value
+        Me.txtSiteSelect.value = Format(.Range(32).value, "dd-mmm-yyyy")
+        
+        Me.txtReminder.value = .Range(33).value
+    End With
+    
+    'Access version control
+    Call LogLastAccess
+    
+    'Depress and make toggle green on nav bar
+    Me.tglSiteSelect.value = True
     Me.tglSiteSelect.BackColor = vbGreen
+    
+    'Run date validation on data entered
+    Call txtPrestudy_Date_AfterUpdate
+    Call txtValidation_Date_AfterUpdate
+    Call txtSiteSelect_AfterUpdate
     
 End Sub
 
+Private Sub txtPrestudy_Date_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtPrestudy_Date.value)
+    
+    'Display error message
+    Me.errPrestudy_Date.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtPrestudy_Date.value) Then
+        Me.txtPrestudy_Date.value = Format(Me.txtPrestudy_Date.value, "dd-mmm-yyyy")
+    End If
+    
+End Sub
+
+Private Sub txtValidation_Date_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtValidation_Date.value, Me.txtPrestudy_Date.value, _
+            "Date entered earlier than date of" & Chr(10) & "Pre-study visit")
+
+    'Display error message
+    Me.errValidation_Date.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtValidation_Date.value) Then
+        Me.txtValidation_Date.value = Format(Me.txtValidation_Date.value, "dd-mmm-yyyy")
+    End If
+     
+End Sub
+
+Private Sub txtSiteSelect_AfterUpdate()
+    'PURPOSE: Validate date entered
+    Dim err As String
+    
+    err = Date_Validation(Me.txtSiteSelect.value, Me.txtValidation_Date.value, _
+            "Date entered earlier than date of" & Chr(10) & "Validation visit")
+
+    'Display error message
+    Me.errSiteSelect.Caption = err
+    
+    'Change date format displayed
+    If IsDate(Me.txtSiteSelect.value) Then
+        Me.txtSiteSelect.value = Format(Me.txtSiteSelect.value, "dd-mmm-yyyy")
+    End If
+     
+End Sub
+
+
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form
+    
+    'Access version control
+    Call LogLastAccess
+    
     Unload Me
 End Sub
 
 Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
-
+    With RegTable.ListRows(RowIndex)
+        
+        .Range(28) = String_to_Date(Me.txtPrestudy_Date.value)
+        .Range(29) = Me.cboPrestudy_Type.value
+        .Range(30) = String_to_Date(Me.txtValidation_Date.value)
+        .Range(31) = Me.cboValidation_Type.value
+        .Range(32) = String_to_Date(Me.txtSiteSelect.value)
+        .Range(33) = Me.txtReminder.value
+        
+        'Update version control
+        .Range(34) = Now
+        .Range(35) = Username
+    End With
+    
+    'Access version control
+    Call LogLastAccess
+    
+    Call UserForm_Initialize
 End Sub
 
 
