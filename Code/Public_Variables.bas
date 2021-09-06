@@ -3,20 +3,34 @@ Option Explicit
 
 'List of public variables to share between userforms
 '---------------------------------------------------
+
+'Row of table being read
 Public RowIndex As Long
+Public RegTable As ListObject
+
+'Version control
 Public Username As String
 Public LastUpdate As Date
+
+'Conditional Navigation
 Public Tick As Boolean
 Public StudyStatus As Variant
+
+'Search
 Public DisplayArr() As Variant
+
+'Undo delete
 Public OldStudyStatus As String
-Public RegTable As ListObject
+
+'Userform Position storage
 Public UserFormLeftPos As Long
 Public UserFormTopPos As Long
+Public UserFormLeftPosC As Long
+Public UserFormTopPosC As Long
+Public UserFormLeftPosR As Long
+Public UserFormTopPosR As Long
 
-
-'List of fixed value constants to set fixed values
-'-------------------------------------------------
+'Userform dimension control
 Public Const UHeight As Long = 470
 Public Const UWidth As Long = 500
 

@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form09_ReminderLog 
    Caption         =   "Reminder Log"
-   ClientHeight    =   10320
-   ClientLeft      =   -360
-   ClientTop       =   -1560
-   ClientWidth     =   9225
+   ClientHeight    =   8256.001
+   ClientLeft      =   -372
+   ClientTop       =   -1644
+   ClientWidth     =   7380
    OleObjectBlob   =   "form09_ReminderLog.frx":0000
 End
 Attribute VB_Name = "form09_ReminderLog"
@@ -12,30 +12,24 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
-
-
-
-<<<<<<< HEAD
-=======
-
-
-
-
->>>>>>> AnferneeAlviar
 Option Explicit
 
 Private Sub UserForm_Activate()
     'PURPOSE: Reposition userform to Top Left of application Window and fix size
     'source: https://www.mrexcel.com/board/threads/userform-startup-position.671108/
-    Me.Top = UserFormTopPos
-    Me.Left = UserFormLeftPos
+    Me.Top = UserFormTopPosR
+    Me.Left = UserFormLeftPosR
     Me.Height = UHeight
     Me.Width = UWidth
-
+    
+    Call UserForm_Initialize
 End Sub
 
+Private Sub UserForm_Deactivate()
+    'Store form position
+    UserFormTopPosR = Me.Top
+    UserFormLeftPosR = Me.Left
+End Sub
 
 Private Sub UserForm_Initialize()
     'PURPOSE: Clear form on initialization

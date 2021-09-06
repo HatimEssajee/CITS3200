@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form01_StudyDetail 
    Caption         =   "Study Details"
    ClientHeight    =   5436
-   ClientLeft      =   -435
-   ClientTop       =   -1845
-   ClientWidth     =   6975
+   ClientLeft      =   -432
+   ClientTop       =   -1848
+   ClientWidth     =   6972
    OleObjectBlob   =   "form01_StudyDetail.frx":0000
 End
 Attribute VB_Name = "form01_StudyDetail"
@@ -12,18 +12,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
-
-
-
-<<<<<<< HEAD
-=======
-
-
-
-
->>>>>>> AnferneeAlviar
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -34,6 +22,12 @@ Private Sub UserForm_Activate()
     Me.Height = UHeight
     Me.Width = UWidth
 
+End Sub
+
+Private Sub UserForm_Deactivate()
+    'Store form position
+    UserFormTopPos = Me.Top
+    UserFormLeftPos = Me.Left
 End Sub
 
 Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)

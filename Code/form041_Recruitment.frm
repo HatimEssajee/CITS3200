@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form041_Recruitment 
    Caption         =   "Recruitment Plan"
    ClientHeight    =   6408
-   ClientLeft      =   -510
-   ClientTop       =   -2205
-   ClientWidth     =   9045
+   ClientLeft      =   -516
+   ClientTop       =   -2208
+   ClientWidth     =   9048.001
    OleObjectBlob   =   "form041_Recruitment.frx":0000
 End
 Attribute VB_Name = "form041_Recruitment"
@@ -12,34 +12,22 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
-
-
-
-
-
-<<<<<<< HEAD
-=======
-
-
-
-
->>>>>>> AnferneeAlviar
 Option Explicit
-
 
 Private Sub UserForm_Activate()
     'PURPOSE: Reposition userform to Top Left of application Window and fix size
     'source: https://www.mrexcel.com/board/threads/userform-startup-position.671108/
-    'Me.StartUpPosition = 0
-    'Me.Top = Application.Top + 25
-    'Me.Left = Application.Left + 25
     Me.Top = UserFormTopPos
     Me.Left = UserFormLeftPos
     Me.Height = UHeight
     Me.Width = UWidth
 
+End Sub
+
+Private Sub UserForm_Deactivate()
+    'Store form position
+    UserFormTopPos = Me.Top
+    UserFormLeftPos = Me.Left
 End Sub
 
 Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)

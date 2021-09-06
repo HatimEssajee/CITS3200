@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form00_Nav 
    Caption         =   "Vaccine Trial Study Start-up Tracker"
-   ClientHeight    =   9096
-   ClientLeft      =   -30
+   ClientHeight    =   9096.001
+   ClientLeft      =   -36
    ClientTop       =   -360
-   ClientWidth     =   10920
+   ClientWidth     =   10932
    OleObjectBlob   =   "form00_Nav.frx":0000
 End
 Attribute VB_Name = "form00_Nav"
@@ -12,18 +12,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
-
-
-
-<<<<<<< HEAD
-=======
-
-
-
-
->>>>>>> AnferneeAlviar
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -34,6 +22,12 @@ Private Sub UserForm_Activate()
     Me.Height = UHeight
     Me.Width = UWidth
 
+End Sub
+
+Private Sub UserForm_Deactivate()
+    'Store form position
+    UserFormTopPos = Me.Top
+    UserFormLeftPos = Me.Left
 End Sub
 
 Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
@@ -76,17 +70,13 @@ Private Sub UserForm_Initialize()
             End Select
     Next ctrl
     
+    
     'Fill combo box for study status
     For Each item In cboList_StudyStatus
         Me.cboStudyStatus.AddItem item
     Next item
     
     'Format fields
-    Me.cboStudyStatus.TextAlign = fmTextAlignCenter
-    Me.txtStudyName.TextAlign = fmTextAlignLeft
-    Me.txtProtocolNum.TextAlign = fmTextAlignLeft
-    Me.errSearch.TextAlign = fmTextAlignCenter
-    
     If RowIndex > 0 Then
         Call Read_Table
         Me.cboStudyStatus.ForeColor = StudyStatus_Colour(Me.cboStudyStatus.Value)
@@ -291,6 +281,13 @@ Private Sub cmdChangeLog_Click()
         form08_ChangeLog.Show False
     End If
     
+    'Store form position
+    UserFormTopPos = Me.Top
+    UserFormLeftPos = Me.Left
+    
+    'Start Position of Log
+    UserFormTopPosC = Me.Top
+    UserFormLeftPosC = Me.Left
 End Sub
 
 Private Sub cmdReminders_Click()
@@ -301,6 +298,14 @@ Private Sub cmdReminders_Click()
     Else
         form09_ReminderLog.Show False
     End If
+    
+    'Store form position
+    UserFormTopPos = Me.Top
+    UserFormLeftPos = Me.Left
+    
+    'Start Position of Log
+    UserFormTopPosR = Me.Top
+    UserFormLeftPosR = Me.Left
     
 End Sub
 
@@ -344,11 +349,20 @@ Private Sub cmdSearch_Click()
     Dim i As Integer, j As Integer
     Dim StudyName As String
     
+    'Clear search array,list box and error message in memory
+    Erase DisplayArr
+    Me.lstSearch.Clear
+    errSearch.Caption = vbNullString
+    
     SearchArr = RegTable.ListColumns(8).DataBodyRange.Resize(, 4)
-    If IsArrayEmpty(SearchArr) Then Exit Sub
+    If IsArrayEmpty(SearchArr) Then
+        errSearch.Caption = "Study register is empty"
+        Exit Sub
+    End If
     
     j = 1
     
+    'Store values in temporary variables
     Sponsor = Me.txtSponsor.Value
     ProtocolNum = Me.txtProtocolNum.Value
     StudyName = Me.txtStudyName.Value
@@ -356,10 +370,10 @@ Private Sub cmdSearch_Click()
     
     For i = 1 To UBound(SearchArr)
         If (Not (Tick) Or (Tick And SearchArr(i, 1) = "Current")) And _
-            (StudyName = vbNullString Or (Len(StudyName) > 0 And InStr(1, SearchArr(i, 3), StudyName) > 0)) And _
-            (ProtocolNum = vbNullString Or (Len(ProtocolNum) > 0 And InStr(1, ProtocolNum, SearchArr(i, 2)) > 0)) And _
-            (Sponsor = vbNullString Or (Len(Sponsor) > 0 And InStr(1, Sponsor, SearchArr(i, 4)) > 0)) Then
-
+            (StudyName = vbNullString Or (Len(StudyName) > 0 And InStr(1, SearchArr(i, 3), StudyName, vbTextCompare) > 0)) And _
+            (ProtocolNum = vbNullString Or (Len(ProtocolNum) > 0 And InStr(1, SearchArr(i, 2), ProtocolNum, vbTextCompare) > 0)) And _
+            (Sponsor = vbNullString Or (Len(Sponsor) > 0 And InStr(1, SearchArr(i, 4), Sponsor, vbTextCompare) > 0)) Then
+            
             'Grow display array
             ReDim Preserve TempArr(1 To 5, 1 To j)
             
@@ -374,7 +388,10 @@ Private Sub cmdSearch_Click()
         End If
     Next i
     
-    If IsArrayEmpty(TempArr) Then Exit Sub
+    If IsArrayEmpty(TempArr) Then
+        errSearch.Caption = "No records found matching query"
+        Exit Sub
+    End If
     
     'Transpose display array
     j = TransposeArray(TempArr, DisplayArr)
@@ -382,8 +399,17 @@ Private Sub cmdSearch_Click()
     Erase SearchArr
     Erase TempArr
     
-    Me.lstSearch.List = DisplayArr
-    
+    'Fill list box but retain shape and location
+    'Source: https://www.mrexcel.com/board/threads/unexpected-changes-to-listbox-height.604737/
+    With Me.lstSearch
+        .Top = 205.8
+        .Left = 12
+        .Height = 88.45
+        .Width = 406.55
+        .IntegralHeight = False 'needed to stop list box changing position
+        .List = DisplayArr
+    End With
+         
 End Sub
 
 Private Sub lstSearch_Click()
@@ -422,7 +448,7 @@ Private Sub cmdJumpForw_Click()
     'Conditional stepping
     If Tick Then
         'Loop through study status array
-        Do While InStr(1, StudyStatus(RowIndex, 1), "Current") = 0 And RowIndex > 1
+        Do While InStr(1, "Current", StudyStatus(RowIndex, 1), vbTextCompare) = 0 And RowIndex > 1
             RowIndex = RowIndex - 1
         Loop
     End If
@@ -453,7 +479,7 @@ Private Sub cmdNext_Click()
     'Conditional stepping
     If Tick Then
         'Loop through study status array
-        Do While InStr(1, StudyStatus(RowIndex, 1), "Current") = 0
+        Do While InStr(1, "Current", StudyStatus(RowIndex, 1), vbTextCompare) = 0
             RowIndex = RowIndex + 1
             If RowIndex > UBound(StudyStatus) Then
                 RowIndex = 1
@@ -482,7 +508,7 @@ Private Sub cmdJumpBack_Click()
     'Conditional stepping
     If Tick Then
         'Loop through study status array
-        Do While InStr(1, StudyStatus(RowIndex, 1), "Current") = 0 And RowIndex < UBound(StudyStatus)
+        Do While InStr(1, "Current", StudyStatus(RowIndex, 1), vbTextCompare) = 0 And RowIndex < UBound(StudyStatus)
             RowIndex = RowIndex + 1
         Loop
     End If
@@ -514,7 +540,7 @@ Private Sub cmdPrevious_Click()
     'source: https://stackoverflow.com/questions/38267950/check-if-a-value-is-in-an-array-or-not-with-excel-vba
     If Tick Then
         'Loop through study status array
-        Do While InStr(1, StudyStatus(RowIndex, 1), "Current") = 0
+        Do While InStr(1, "Current", StudyStatus(RowIndex, 1), vbTextCompare) = 0
             RowIndex = RowIndex - 1
             
             If RowIndex < 1 Then
