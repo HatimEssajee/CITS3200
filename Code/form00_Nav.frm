@@ -16,6 +16,7 @@ Attribute VB_Exposed = False
 
 
 
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -120,6 +121,7 @@ Private Sub cmdNew_Click()
     
     Dim FoundCell As Range
     Dim StudyName As String
+    Dim ReadRow As Variant
     
     'Set Public Variable
     StudyName = Me.txtStudyName.value
@@ -333,6 +335,7 @@ Private Sub cmdSearch_Click()
     Dim SearchArr As Variant, TempArr() As Variant
     Dim SearchStatus As String
     Dim i As Integer, j As Integer
+    Dim StudyName As String
     
     SearchArr = RegTable.ListColumns(8).DataBodyRange.Resize(, 4)
     If IsArrayEmpty(SearchArr) Then Exit Sub
