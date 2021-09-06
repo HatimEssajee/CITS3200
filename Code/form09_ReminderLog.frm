@@ -4,7 +4,7 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form09_ReminderLog
    ClientHeight    =   10320
    ClientLeft      =   -360
    ClientTop       =   -1560
-   ClientWidth     =   9225
+   ClientWidth     =   9228
    OleObjectBlob   =   "form09_ReminderLog.frx":0000
 End
 Attribute VB_Name = "form09_ReminderLog"
@@ -17,13 +17,11 @@ Attribute VB_Exposed = False
 
 
 
-<<<<<<< HEAD
-=======
 
 
 
 
->>>>>>> AnferneeAlviar
+
 Option Explicit
 
 Private Sub UserForm_Activate()

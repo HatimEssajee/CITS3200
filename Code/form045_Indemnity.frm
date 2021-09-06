@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form045_Indemnity 
    Caption         =   "Indemnity Review"
    ClientHeight    =   4860
-   ClientLeft      =   -525
-   ClientTop       =   -2175
-   ClientWidth     =   6045
+   ClientLeft      =   -528
+   ClientTop       =   -2172
+   ClientWidth     =   6048
    OleObjectBlob   =   "form045_Indemnity.frx":0000
 End
 Attribute VB_Name = "form045_Indemnity"
@@ -17,13 +17,11 @@ Attribute VB_Exposed = False
 
 
 
-<<<<<<< HEAD
-=======
 
 
 
 
->>>>>>> AnferneeAlviar
+
 Option Explicit
 
 Private Sub UserForm_Activate()

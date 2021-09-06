@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form03_SiteSelect 
    Caption         =   "Site Selection"
    ClientHeight    =   4884
-   ClientLeft      =   -450
-   ClientTop       =   -1950
-   ClientWidth     =   6945
+   ClientLeft      =   -456
+   ClientTop       =   -1956
+   ClientWidth     =   6948
    OleObjectBlob   =   "form03_SiteSelect.frx":0000
 End
 Attribute VB_Name = "form03_SiteSelect"
@@ -17,13 +17,11 @@ Attribute VB_Exposed = False
 
 
 
-<<<<<<< HEAD
-=======
 
 
 
 
->>>>>>> AnferneeAlviar
+
 Option Explicit
 
 Private Sub UserForm_Activate()

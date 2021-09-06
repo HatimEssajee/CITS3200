@@ -17,13 +17,11 @@ Attribute VB_Exposed = False
 
 
 
-<<<<<<< HEAD
-=======
 
 
 
 
->>>>>>> AnferneeAlviar
+
 Option Explicit
 
 Private Sub UserForm_Activate()
