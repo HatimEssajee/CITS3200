@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form041_Recruitment 
    Caption         =   "Recruitment Plan"
    ClientHeight    =   6408
-   ClientLeft      =   -504
-   ClientTop       =   -2208
-   ClientWidth     =   9036.001
+   ClientLeft      =   -510
+   ClientTop       =   -2205
+   ClientWidth     =   9045
    OleObjectBlob   =   "form041_Recruitment.frx":0000
 End
 Attribute VB_Name = "form041_Recruitment"
@@ -12,6 +12,15 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
+
+
+
+
+
+
+
 
 
 Option Explicit
@@ -52,19 +61,19 @@ Private Sub UserForm_Initialize()
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.value = False
+                    ctrl.Value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.Label
                     'Empty error captions
                     If Left(ctrl.Name, 3) = "err" Then
                         ctrl.Caption = ""
                     End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
             End Select
     Next ctrl
@@ -76,19 +85,19 @@ Private Sub UserForm_Initialize()
     
     'Read information from register table
     With RegTable.ListRows(RowIndex)
-        Me.txtStudyName.value = .Range(10).value
-        Me.txtDate_Plan.value = Format(.Range(36).value, "dd-mmm-yyyy")
-        Me.cboRecruitStatus.value = .Range(37).value
-        Me.txtReminder.value = .Range(38).value
+        Me.txtStudyName.Value = .Range(10).Value
+        Me.txtDate_Plan.Value = Format(.Range(36).Value, "dd-mmm-yyyy")
+        Me.cboRecruitStatus.Value = .Range(37).Value
+        Me.txtReminder.Value = .Range(38).Value
     End With
     
     'Access version control
     Call LogLastAccess
     
     'Depress and make toggle green on nav bar
-    Me.tglReviews.value = True
+    Me.tglReviews.Value = True
     Me.tglReviews.BackColor = vbGreen
-    Me.tglRecruitment.value = True
+    Me.tglRecruitment.Value = True
     Me.tglRecruitment.BackColor = vbGreen
     
     'Run date validation on data entered
@@ -100,14 +109,14 @@ Private Sub txtDate_Plan_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtDate_Plan.value)
+    err = Date_Validation(Me.txtDate_Plan.Value)
     
     'Display error message
     Me.errDate_Plan.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtDate_Plan.value) Then
-        Me.txtDate_Plan.value = Format(Me.txtDate_Plan.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtDate_Plan.Value) Then
+        Me.txtDate_Plan.Value = Format(Me.txtDate_Plan.Value, "dd-mmm-yyyy")
     End If
     
 End Sub

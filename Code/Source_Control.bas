@@ -11,7 +11,7 @@ Sub ImportCode()
     Dim codeFolder As String, codeFiles As String, frmFiles As String
     Dim code_file As String, filename As String
     
-    Call ActivateReferenceLibrary
+    'Call ActivateReferenceLibrary
     Call RemoveCode
     
     'Close VB Editor

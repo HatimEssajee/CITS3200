@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form045_Indemnity 
    Caption         =   "Indemnity Review"
    ClientHeight    =   4860
-   ClientLeft      =   -528
-   ClientTop       =   -2172
-   ClientWidth     =   6048
+   ClientLeft      =   -525
+   ClientTop       =   -2175
+   ClientWidth     =   6045
    OleObjectBlob   =   "form045_Indemnity.frx":0000
 End
 Attribute VB_Name = "form045_Indemnity"
@@ -12,6 +12,15 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
+
+
+
+
+
+
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -46,39 +55,39 @@ Private Sub UserForm_Initialize()
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.value = False
+                    ctrl.Value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.Label
                     'Empty error captions
                     If Left(ctrl.Name, 3) = "err" Then
                         ctrl.Caption = ""
                     End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
             End Select
     Next ctrl
     
     'Read information from register table
     With RegTable.ListRows(RowIndex)
-        Me.txtStudyName.value = .Range(10).value
-        Me.txtDate_Recv.value = Format(.Range(92).value, "dd-mmm-yyyy")
-        Me.txtDate_Sent_Contracts.value = Format(.Range(93).value, "dd-mmm-yyyy")
-        Me.txtDate_Comp.value = Format(.Range(94).value, "dd-mmm-yyyy")
-        Me.txtReminder.value = .Range(95).value
+        Me.txtStudyName.Value = .Range(10).Value
+        Me.txtDate_Recv.Value = Format(.Range(92).Value, "dd-mmm-yyyy")
+        Me.txtDate_Sent_Contracts.Value = Format(.Range(93).Value, "dd-mmm-yyyy")
+        Me.txtDate_Comp.Value = Format(.Range(94).Value, "dd-mmm-yyyy")
+        Me.txtReminder.Value = .Range(95).Value
     End With
     
     'Access version control
     Call LogLastAccess
     
     'Depress and make toggle green on nav bar
-    Me.tglReviews.value = True
+    Me.tglReviews.Value = True
     Me.tglReviews.BackColor = vbGreen
-    Me.tglIndemnity.value = True
+    Me.tglIndemnity.Value = True
     Me.tglIndemnity.BackColor = vbGreen
     
     'Run date validation on data entered
@@ -92,14 +101,14 @@ Private Sub txtDate_Recv_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtDate_Recv.value)
+    err = Date_Validation(Me.txtDate_Recv.Value)
     
     'Display error message
     Me.errDate_Recv.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtDate_Recv.value) Then
-        Me.txtDate_Recv.value = Format(Me.txtDate_Recv.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtDate_Recv.Value) Then
+        Me.txtDate_Recv.Value = Format(Me.txtDate_Recv.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -108,15 +117,15 @@ Private Sub txtDate_Sent_Contracts_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtDate_Sent_Contracts.value, Me.txtDate_Recv.value, _
+    err = Date_Validation(Me.txtDate_Sent_Contracts.Value, Me.txtDate_Recv.Value, _
             "Date entered earlier than date Received")
     
     'Display error message
     Me.errDate_Sent_Contracts.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtDate_Sent_Contracts.value) Then
-        Me.txtDate_Sent_Contracts.value = Format(Me.txtDate_Sent_Contracts.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtDate_Sent_Contracts.Value) Then
+        Me.txtDate_Sent_Contracts.Value = Format(Me.txtDate_Sent_Contracts.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -125,15 +134,15 @@ Private Sub txtDate_Comp_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtDate_Comp.value, Me.txtDate_Sent_Contracts.value, _
+    err = Date_Validation(Me.txtDate_Comp.Value, Me.txtDate_Sent_Contracts.Value, _
             "Date entered earlier than date Sent")
     
     'Display error message
     Me.errDate_Comp.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtDate_Comp.value) Then
-        Me.txtDate_Comp.value = Format(Me.txtDate_Comp.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtDate_Comp.Value) Then
+        Me.txtDate_Comp.Value = Format(Me.txtDate_Comp.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -152,10 +161,10 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(92) = String_to_Date(Me.txtDate_Recv.value)
-        .Range(93) = String_to_Date(Me.txtDate_Sent_Contracts.value)
-        .Range(94) = String_to_Date(Me.txtDate_Comp.value)
-        .Range(95) = Me.txtReminder.value
+        .Range(92) = String_to_Date(Me.txtDate_Recv.Value)
+        .Range(93) = String_to_Date(Me.txtDate_Sent_Contracts.Value)
+        .Range(94) = String_to_Date(Me.txtDate_Comp.Value)
+        .Range(95) = Me.txtReminder.Value
         
         'Update version control
         .Range(96) = Now

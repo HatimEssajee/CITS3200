@@ -4,7 +4,7 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form08_ChangeLog
    ClientHeight    =   10320
    ClientLeft      =   -360
    ClientTop       =   -1560
-   ClientWidth     =   9228.001
+   ClientWidth     =   9225
    OleObjectBlob   =   "form08_ChangeLog.frx":0000
 End
 Attribute VB_Name = "form08_ChangeLog"
@@ -12,6 +12,15 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
+
+
+
+
+
+
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -37,14 +46,14 @@ Private Sub UserForm_Initialize()
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.value = False
+                    ctrl.Value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
             End Select
     Next ctrl
@@ -52,45 +61,45 @@ Private Sub UserForm_Initialize()
     'Pull in data from register table
     ReadRow = RegTable.DataBodyRange.Rows(RowIndex)
     
-    Me.timeCreatedOn.value = Format(ReadRow(1, 2), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perCreatedOn.value = ReadRow(1, 3)
-    Me.timeDeletedOn.value = Format(ReadRow(1, 4), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perDeletedOn.value = ReadRow(1, 5)
-    Me.timeLastAccessed.value = Format(ReadRow(1, 6), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perLastAccessed.value = ReadRow(1, 7)
+    Me.timeCreatedOn.Value = Format(ReadRow(1, 2), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perCreatedOn.Value = ReadRow(1, 3)
+    Me.timeDeletedOn.Value = Format(ReadRow(1, 4), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perDeletedOn.Value = ReadRow(1, 5)
+    Me.timeLastAccessed.Value = Format(ReadRow(1, 6), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perLastAccessed.Value = ReadRow(1, 7)
         
-    Me.timeStudyDetails.value = Format(ReadRow(1, 15), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perStudyDetails.value = ReadRow(1, 16)
+    Me.timeStudyDetails.Value = Format(ReadRow(1, 15), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perStudyDetails.Value = ReadRow(1, 16)
         
-    Me.timeCDA_FS.value = Format(ReadRow(1, 26), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perCDA_FS.value = ReadRow(1, 27)
+    Me.timeCDA_FS.Value = Format(ReadRow(1, 26), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perCDA_FS.Value = ReadRow(1, 27)
         
-    Me.timeSiteSelect.value = Format(ReadRow(1, 34), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perSiteSelect.value = ReadRow(1, 35)
+    Me.timeSiteSelect.Value = Format(ReadRow(1, 34), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perSiteSelect.Value = ReadRow(1, 35)
     
-    Me.timeRecruitment.value = Format(ReadRow(1, 39), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perRecruitment.value = ReadRow(1, 40)
+    Me.timeRecruitment.Value = Format(ReadRow(1, 39), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perRecruitment.Value = ReadRow(1, 40)
     
-    Me.timeEthics.value = Format(ReadRow(1, 56), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perEthics.value = ReadRow(1, 57)
+    Me.timeEthics.Value = Format(ReadRow(1, 56), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perEthics.Value = ReadRow(1, 57)
     
-    Me.timeGovernance.value = Format(ReadRow(1, 81), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perGovernance.value = ReadRow(1, 82)
+    Me.timeGovernance.Value = Format(ReadRow(1, 81), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perGovernance.Value = ReadRow(1, 82)
               
-    Me.timeBudget.value = Format(ReadRow(1, 90), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perBudget.value = ReadRow(1, 91)
+    Me.timeBudget.Value = Format(ReadRow(1, 90), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perBudget.Value = ReadRow(1, 91)
     
-    Me.timeIndemnity.value = Format(ReadRow(1, 96), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perIndemnity.value = ReadRow(1, 97)
+    Me.timeIndemnity.Value = Format(ReadRow(1, 96), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perIndemnity.Value = ReadRow(1, 97)
     
-    Me.timeCTRA.value = Format(ReadRow(1, 106), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perCTRA.value = ReadRow(1, 107)
+    Me.timeCTRA.Value = Format(ReadRow(1, 106), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perCTRA.Value = ReadRow(1, 107)
     
-    Me.timeFinDisc.value = Format(ReadRow(1, 110), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perFinDisc.value = ReadRow(1, 111)
+    Me.timeFinDisc.Value = Format(ReadRow(1, 110), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perFinDisc.Value = ReadRow(1, 111)
     
-    Me.timeSIV.value = Format(ReadRow(1, 114), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perSIV.value = ReadRow(1, 115)
+    Me.timeSIV.Value = Format(ReadRow(1, 114), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perSIV.Value = ReadRow(1, 115)
     
 End Sub
 

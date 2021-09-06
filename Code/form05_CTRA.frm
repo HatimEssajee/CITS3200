@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form05_CTRA 
    Caption         =   "CTRA"
    ClientHeight    =   5148
-   ClientLeft      =   -408
-   ClientTop       =   -2088
-   ClientWidth     =   6648
+   ClientLeft      =   -405
+   ClientTop       =   -2085
+   ClientWidth     =   6645
    OleObjectBlob   =   "form05_CTRA.frx":0000
 End
 Attribute VB_Name = "form05_CTRA"
@@ -12,6 +12,15 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
+
+
+
+
+
+
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -45,41 +54,41 @@ Private Sub UserForm_Initialize()
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.value = False
+                    ctrl.Value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.Label
                     'Empty error captions
                     If Left(ctrl.Name, 3) = "err" Then
                         ctrl.Caption = ""
                     End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
             End Select
     Next ctrl
     
     'Read information from register table
     With RegTable.ListRows(RowIndex)
-        Me.txtStudyName.value = .Range(10).value
-        Me.txtDate_RGC.value = Format(.Range(98).value, "dd-mmm-yyyy")
-        Me.txtDate_UWA.value = Format(.Range(99).value, "dd-mmm-yyyy")
-        Me.txtDate_Finance.value = Format(.Range(100).value, "dd-mmm-yyyy")
-        Me.txtDate_COO.value = Format(.Range(101).value, "dd-mmm-yyyy")
-        Me.txtDate_VTG.value = Format(.Range(102).value, "dd-mmm-yyyy")
-        Me.txtDate_Company.value = Format(.Range(103).value, "dd-mmm-yyyy")
-        Me.txtDate_Finalised.value = Format(.Range(104).value, "dd-mmm-yyyy")
-        Me.txtReminder.value = .Range(105).value
+        Me.txtStudyName.Value = .Range(10).Value
+        Me.txtDate_RGC.Value = Format(.Range(98).Value, "dd-mmm-yyyy")
+        Me.txtDate_UWA.Value = Format(.Range(99).Value, "dd-mmm-yyyy")
+        Me.txtDate_Finance.Value = Format(.Range(100).Value, "dd-mmm-yyyy")
+        Me.txtDate_COO.Value = Format(.Range(101).Value, "dd-mmm-yyyy")
+        Me.txtDate_VTG.Value = Format(.Range(102).Value, "dd-mmm-yyyy")
+        Me.txtDate_Company.Value = Format(.Range(103).Value, "dd-mmm-yyyy")
+        Me.txtDate_Finalised.Value = Format(.Range(104).Value, "dd-mmm-yyyy")
+        Me.txtReminder.Value = .Range(105).Value
     End With
     
     'Access version control
     Call LogLastAccess
     
     'Depress and make toggle green on nav bar
-    Me.tglCTRA.value = True
+    Me.tglCTRA.Value = True
     Me.tglCTRA.BackColor = vbGreen
     
     'Run date validation on data entered
@@ -97,14 +106,14 @@ Private Sub txtDate_RGC_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtDate_RGC.value)
+    err = Date_Validation(Me.txtDate_RGC.Value)
     
     'Display error message
     Me.errDate_RGC.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtDate_RGC.value) Then
-        Me.txtDate_RGC.value = Format(Me.txtDate_RGC.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtDate_RGC.Value) Then
+        Me.txtDate_RGC.Value = Format(Me.txtDate_RGC.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -113,14 +122,14 @@ Private Sub txtDate_UWA_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtDate_UWA.value)
+    err = Date_Validation(Me.txtDate_UWA.Value)
     
     'Display error message
     Me.errDate_UWA.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtDate_UWA.value) Then
-        Me.txtDate_UWA.value = Format(Me.txtDate_UWA.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtDate_UWA.Value) Then
+        Me.txtDate_UWA.Value = Format(Me.txtDate_UWA.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -129,14 +138,14 @@ Private Sub txtDate_Finance_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtDate_Finance.value)
+    err = Date_Validation(Me.txtDate_Finance.Value)
     
     'Display error message
     Me.errDate_Finance.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtDate_Finance.value) Then
-        Me.txtDate_Finance.value = Format(Me.txtDate_Finance.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtDate_Finance.Value) Then
+        Me.txtDate_Finance.Value = Format(Me.txtDate_Finance.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -145,15 +154,15 @@ Private Sub txtDate_COO_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtDate_COO.value, Me.txtDate_Finance.value, _
+    err = Date_Validation(Me.txtDate_COO.Value, Me.txtDate_Finance.Value, _
             "Date entered earlier than" & Chr(10) & "Finance Sign-off")
     
     'Display error message
     Me.errDate_COO.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtDate_COO.value) Then
-        Me.txtDate_COO.value = Format(Me.txtDate_COO.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtDate_COO.Value) Then
+        Me.txtDate_COO.Value = Format(Me.txtDate_COO.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -162,15 +171,15 @@ Private Sub txtDate_VTG_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtDate_VTG.value, Me.txtDate_COO.value, _
+    err = Date_Validation(Me.txtDate_VTG.Value, Me.txtDate_COO.Value, _
             "Date entered earlier than" & Chr(10) & "COO sign-off")
     
     'Display error message
     Me.errDate_VTG.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtDate_VTG.value) Then
-        Me.txtDate_VTG.value = Format(Me.txtDate_VTG.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtDate_VTG.Value) Then
+        Me.txtDate_VTG.Value = Format(Me.txtDate_VTG.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -181,7 +190,7 @@ Private Sub txtDate_Company_AfterUpdate()
     Dim d1 As Variant
     Dim d2 As Variant
     
-    err = Date_Validation(Me.txtDate_Company.value, Me.txtDate_VTG.value, _
+    err = Date_Validation(Me.txtDate_Company.Value, Me.txtDate_VTG.Value, _
             "Date entered earlier than" & Chr(10) & "VTG Sign-off")
     
     'Display error message
@@ -189,7 +198,7 @@ Private Sub txtDate_Company_AfterUpdate()
     
     'Change date format displayed
     If err = vbNullString Then
-        Me.txtDate_Company.value = Format(Me.txtDate_Company.value, "dd-mmm-yyyy")
+        Me.txtDate_Company.Value = Format(Me.txtDate_Company.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -200,7 +209,7 @@ Private Sub txtDate_Finalised_AfterUpdate()
     Dim d1 As Variant
     Dim d2 As Variant
     
-    err = Date_Validation(Me.txtDate_Finalised.value, Me.txtDate_Company.value, _
+    err = Date_Validation(Me.txtDate_Finalised.Value, Me.txtDate_Company.Value, _
             "Date entered earlier than" & Chr(10) & "Company submission")
     
     'Display error message
@@ -208,7 +217,7 @@ Private Sub txtDate_Finalised_AfterUpdate()
     
     'Change date format displayed
     If err = vbNullString Then
-        Me.txtDate_Finalised.value = Format(Me.txtDate_Finalised.value, "dd-mmm-yyyy")
+        Me.txtDate_Finalised.Value = Format(Me.txtDate_Finalised.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -227,14 +236,14 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(98) = String_to_Date(Me.txtDate_RGC.value)
-        .Range(99) = String_to_Date(Me.txtDate_UWA.value)
-        .Range(100) = String_to_Date(Me.txtDate_Finance.value)
-        .Range(101) = String_to_Date(Me.txtDate_COO.value)
-        .Range(102) = String_to_Date(Me.txtDate_VTG.value)
-        .Range(103) = String_to_Date(Me.txtDate_Company.value)
-        .Range(104) = String_to_Date(Me.txtDate_Finalised.value)
-        .Range(105) = Me.txtReminder.value
+        .Range(98) = String_to_Date(Me.txtDate_RGC.Value)
+        .Range(99) = String_to_Date(Me.txtDate_UWA.Value)
+        .Range(100) = String_to_Date(Me.txtDate_Finance.Value)
+        .Range(101) = String_to_Date(Me.txtDate_COO.Value)
+        .Range(102) = String_to_Date(Me.txtDate_VTG.Value)
+        .Range(103) = String_to_Date(Me.txtDate_Company.Value)
+        .Range(104) = String_to_Date(Me.txtDate_Finalised.Value)
+        .Range(105) = Me.txtReminder.Value
         
         'Update version control
         .Range(106) = Now

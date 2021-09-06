@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form01_StudyDetail 
    Caption         =   "Study Details"
    ClientHeight    =   5436
-   ClientLeft      =   -432
-   ClientTop       =   -1848
-   ClientWidth     =   6972
+   ClientLeft      =   -435
+   ClientTop       =   -1845
+   ClientWidth     =   6975
    OleObjectBlob   =   "form01_StudyDetail.frx":0000
 End
 Attribute VB_Name = "form01_StudyDetail"
@@ -12,6 +12,15 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
+
+
+
+
+
+
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -42,35 +51,35 @@ Private Sub UserForm_Initialize()
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.value = False
+                    ctrl.Value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.Label
                     'Empty error captions
                     If Left(ctrl.Name, 3) = "err" Then
                         ctrl.Caption = ""
                     End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
             End Select
     Next ctrl
     
     'Highlight tab selected
-    Me.tglStudyDetail.value = True
+    Me.tglStudyDetail.Value = True
     Me.tglStudyDetail.BackColor = vbGreen
     
     'Read information from register table
     With RegTable.ListRows(RowIndex)
-        Me.txtProtocolNum.value = .Range(9).value
-        Me.txtStudyName.value = .Range(10).value
-        Me.txtSponsor.value = .Range(11).value
-        Me.txtCRO.value = .Range(12).value
-        Me.txtAgeRange.value = .Range(13).value
-        Me.txtReminder.value = .Range(14).value
+        Me.txtProtocolNum.Value = .Range(9).Value
+        Me.txtStudyName.Value = .Range(10).Value
+        Me.txtSponsor.Value = .Range(11).Value
+        Me.txtCRO.Value = .Range(12).Value
+        Me.txtAgeRange.Value = .Range(13).Value
+        Me.txtReminder.Value = .Range(14).Value
         
     End With
     
@@ -78,7 +87,7 @@ Private Sub UserForm_Initialize()
     Call LogLastAccess
     
     'Depress and make toggle green on nav bar
-    Me.tglStudyDetail.value = True
+    Me.tglStudyDetail.Value = True
     Me.tglStudyDetail.BackColor = vbGreen
     
 End Sub
@@ -96,12 +105,12 @@ End Sub
 Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
-        .Range(9) = Me.txtProtocolNum.value
-        .Range(10) = Me.txtStudyName.value
-        .Range(11) = Me.txtSponsor.value
-        .Range(12) = Me.txtCRO.value
-        .Range(13) = Me.txtAgeRange.value
-        .Range(14) = Me.txtReminder.value
+        .Range(9) = Me.txtProtocolNum.Value
+        .Range(10) = Me.txtStudyName.Value
+        .Range(11) = Me.txtSponsor.Value
+        .Range(12) = Me.txtCRO.Value
+        .Range(13) = Me.txtAgeRange.Value
+        .Range(14) = Me.txtReminder.Value
         
         'Update version control
         .Range(15) = Now

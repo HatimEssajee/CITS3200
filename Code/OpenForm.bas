@@ -16,8 +16,8 @@ Sub OpenForm()
     Tick = True
     
     'Set initial location
-    UserFormLeftPos = Application.Top + 25
-    UserFormTopPos = Application.Left + 25
+    UserFormTopPos = Application.Top + 25
+    UserFormLeftPos = Application.Left + 25
     
     'Display Project Form UserForm
     'Source: https://www.contextures.com/xlUserForm02.html

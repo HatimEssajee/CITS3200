@@ -4,7 +4,7 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form09_ReminderLog
    ClientHeight    =   10320
    ClientLeft      =   -360
    ClientTop       =   -1560
-   ClientWidth     =   9228.001
+   ClientWidth     =   9225
    OleObjectBlob   =   "form09_ReminderLog.frx":0000
 End
 Attribute VB_Name = "form09_ReminderLog"
@@ -12,6 +12,15 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
+
+
+
+
+
+
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -37,14 +46,14 @@ Private Sub UserForm_Initialize()
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.value = False
+                    ctrl.Value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
             End Select
     Next ctrl
@@ -54,27 +63,27 @@ Private Sub UserForm_Initialize()
     
     
     'Fill text fields
-    Me.remStudyDetails.value = ReadRow(1, 14)
+    Me.remStudyDetails.Value = ReadRow(1, 14)
 
-    Me.remCDA_FS.value = ReadRow(1, 25)
+    Me.remCDA_FS.Value = ReadRow(1, 25)
 
-    Me.remSiteSelect.value = ReadRow(1, 33)
+    Me.remSiteSelect.Value = ReadRow(1, 33)
 
-    Me.remRecruitment.value = ReadRow(1, 38)
+    Me.remRecruitment.Value = ReadRow(1, 38)
 
-    Me.remEthics.value = ReadRow(1, 55)
+    Me.remEthics.Value = ReadRow(1, 55)
 
-    Me.remGovernance.value = ReadRow(1, 80)
+    Me.remGovernance.Value = ReadRow(1, 80)
 
-    Me.remBudget.value = ReadRow(1, 89)
+    Me.remBudget.Value = ReadRow(1, 89)
 
-    Me.remIndemnity.value = ReadRow(1, 95)
+    Me.remIndemnity.Value = ReadRow(1, 95)
 
-    Me.remCTRA.value = ReadRow(1, 105)
+    Me.remCTRA.Value = ReadRow(1, 105)
 
-    Me.remFinDisc.value = ReadRow(1, 109)
+    Me.remFinDisc.Value = ReadRow(1, 109)
 
-    Me.remSIV.value = ReadRow(1, 113)
+    Me.remSIV.Value = ReadRow(1, 113)
 
 
     'Assess stage status

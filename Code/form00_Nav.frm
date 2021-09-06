@@ -1,8 +1,8 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form00_Nav 
    Caption         =   "Vaccine Trial Study Start-up Tracker"
-   ClientHeight    =   9096.001
-   ClientLeft      =   -24
+   ClientHeight    =   9096
+   ClientLeft      =   -30
    ClientTop       =   -360
    ClientWidth     =   10920
    OleObjectBlob   =   "form00_Nav.frx":0000
@@ -12,6 +12,15 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
+
+
+
+
+
+
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -47,19 +56,19 @@ Private Sub UserForm_Initialize()
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.value = Tick
+                    ctrl.Value = Tick
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.Label
                     'Empty error captions
                     If Left(ctrl.Name, 3) = "err" Then
                         ctrl.Caption = ""
                     End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
             End Select
     Next ctrl
@@ -77,7 +86,7 @@ Private Sub UserForm_Initialize()
     
     If RowIndex > 0 Then
         Call Read_Table
-        Me.cboStudyStatus.ForeColor = StudyStatus_Colour(Me.cboStudyStatus.value)
+        Me.cboStudyStatus.ForeColor = StudyStatus_Colour(Me.cboStudyStatus.Value)
     End If
     
     'Unload search display
@@ -116,9 +125,10 @@ Private Sub cmdNew_Click()
     
     Dim FoundCell As Range
     Dim StudyName As String
+    Dim ReadRow As Variant
     
     'Set Public Variable
-    StudyName = Me.txtStudyName.value
+    StudyName = Me.txtStudyName.Value
     
     'Check if study name is entered
     If StudyName = vbNullString Then
@@ -153,13 +163,13 @@ Private Sub cmdNew_Click()
         .Range(3) = Username
         
         .Range(8) = "Current"
-        .Range(9) = Me.txtProtocolNum.value
+        .Range(9) = Me.txtProtocolNum.Value
         .Range(10) = StudyName
-        .Range(11) = Me.txtSponsor.value
+        .Range(11) = Me.txtSponsor.Value
         
         'Update version control
-        .Range(15) = .Range(2).value
-        .Range(16) = .Range(3).value
+        .Range(15) = .Range(2).Value
+        .Range(16) = .Range(3).Value
     End With
         
     Unload form00_Nav
@@ -174,7 +184,7 @@ End Sub
 
 Private Sub cbOnlyCurrent_Click()
     'PURPOSE: Change value of Tick variable
-    Tick = Me.cbOnlyCurrent.value
+    Tick = Me.cbOnlyCurrent.Value
 End Sub
 
 Private Sub cboStudyStatus_AfterUpdate()
@@ -183,7 +193,7 @@ Private Sub cboStudyStatus_AfterUpdate()
     Dim SIVDate As String
 
     'Unique change events
-    SIVDate = RegTable.DataBodyRange.Cells(RowIndex, 112).value
+    SIVDate = RegTable.DataBodyRange.Cells(RowIndex, 112).Value
     
     'Undeleting entry
     If OldStudyStatus = "DELETED" And Me.cboStudyStatus <> "DELETED" Then
@@ -202,10 +212,10 @@ Private Sub cboStudyStatus_AfterUpdate()
     End If
     
     'Swap to commenced if SIV before today
-    If Me.cboStudyStatus.value = "Current" And SIVDate <> vbNullString And _
+    If Me.cboStudyStatus.Value = "Current" And SIVDate <> vbNullString And _
         String_to_Date(SIVDate) < Now Then
         
-        Me.cboStudyStatus.value = "Commenced"
+        Me.cboStudyStatus.Value = "Commenced"
         
         'Clear Deletion Log
         With RegTable.ListRows(RowIndex)
@@ -218,8 +228,8 @@ Private Sub cboStudyStatus_AfterUpdate()
     End If
     
     'Update value in table
-    RegTable.DataBodyRange.Cells(RowIndex, 8).value = Me.cboStudyStatus.value
-    Me.cboStudyStatus.ForeColor = StudyStatus_Colour(Me.cboStudyStatus.value)
+    RegTable.DataBodyRange.Cells(RowIndex, 8).Value = Me.cboStudyStatus.Value
+    Me.cboStudyStatus.ForeColor = StudyStatus_Colour(Me.cboStudyStatus.Value)
     StudyStatus = RegTable.DataBodyRange.Columns(8)
     
     'Update Access log
@@ -252,14 +262,14 @@ Private Sub cmdDelete_Click()
             .Range(8) = "DELETED"
             
             'Update version control
-            .Range(15) = .Range(4).value
-            .Range(16) = .Range(5).value
+            .Range(15) = .Range(4).Value
+            .Range(16) = .Range(5).Value
         End With
     
     
         'Change status
         With Me.cboStudyStatus
-            .value = "DELETED"
+            .Value = "DELETED"
             .ForeColor = vbRed
         End With
         
@@ -300,9 +310,9 @@ Private Sub cmdEdit_Click()
         
         'Write changes to register table
         With RegTable.ListRows(RowIndex)
-            .Range(9) = Me.txtProtocolNum.value
-            .Range(10) = Me.txtStudyName.value
-            .Range(11) = Me.txtSponsor.value
+            .Range(9) = Me.txtProtocolNum.Value
+            .Range(10) = Me.txtStudyName.Value
+            .Range(11) = Me.txtSponsor.Value
             
             'Update version control
             .Range(15) = Now
@@ -329,15 +339,16 @@ Private Sub cmdSearch_Click()
     Dim SearchArr As Variant, TempArr() As Variant
     Dim SearchStatus As String
     Dim i As Integer, j As Integer
+    Dim StudyName As String
     
     SearchArr = RegTable.ListColumns(8).DataBodyRange.Resize(, 4)
     If IsArrayEmpty(SearchArr) Then Exit Sub
     
     j = 1
     
-    Sponsor = Me.txtSponsor.value
-    ProtocolNum = Me.txtProtocolNum.value
-    StudyName = Me.txtStudyName.value
+    Sponsor = Me.txtSponsor.Value
+    ProtocolNum = Me.txtProtocolNum.Value
+    StudyName = Me.txtStudyName.Value
     
     
     For i = 1 To UBound(SearchArr)
@@ -519,27 +530,27 @@ Private Sub Read_Table()
 
     With RegTable.ListRows(RowIndex)
     
-        Me.txtStudyName.value = .Range(10).value
-        Me.txtProtocolNum.value = .Range(9).value
+        Me.txtStudyName.Value = .Range(10).Value
+        Me.txtProtocolNum.Value = .Range(9).Value
             
         'Check if site initiation visit passed and automatically reallocated status to commenced
-        If .Range(112).value <> vbNullString And String_to_Date(.Range(112).value) < Now _
-            And .Range(8).value = "Current" Then
-            .Range(8).value = "Commenced"
+        If .Range(112).Value <> vbNullString And String_to_Date(.Range(112).Value) < Now _
+            And .Range(8).Value = "Current" Then
+            .Range(8).Value = "Commenced"
             
             'Update version control
-            .Range(15).value = Now
-            .Range(16).value = Username
+            .Range(15).Value = Now
+            .Range(16).Value = Username
             
             StudyStatus = RegTable.DataBodyRange.Columns(8)
         End If
             
-        Me.txtSponsor.value = .Range(11).value
-        Me.cboStudyStatus.value = .Range(8).value
-        Me.cboStudyStatus.ForeColor = StudyStatus_Colour(.Range(10).value)
+        Me.txtSponsor.Value = .Range(11).Value
+        Me.cboStudyStatus.Value = .Range(8).Value
+        Me.cboStudyStatus.ForeColor = StudyStatus_Colour(.Range(10).Value)
         
         'Store value of old study status
-        OldStudyStatus = Me.cboStudyStatus.value
+        OldStudyStatus = Me.cboStudyStatus.Value
         
         'Access version control
         Call LogLastAccess

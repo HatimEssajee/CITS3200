@@ -12,6 +12,15 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+
+
+
+
+
+
+
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -45,35 +54,35 @@ Private Sub UserForm_Initialize()
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.value = False
+                    ctrl.Value = False
                 Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.Label
                     'Empty error captions
                     If Left(ctrl.Name, 3) = "err" Then
                         ctrl.Caption = ""
                     End If
                 Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
                 Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.value = ""
+                    ctrl.Value = ""
                     ctrl.Clear
             End Select
     Next ctrl
     
     'Read information from register table
     With RegTable.ListRows(RowIndex)
-        Me.txtStudyName.value = .Range(10).value
-        Me.txtFinDisc_Complete.value = Format(.Range(108).value, "dd-mmm-yyyy")
-        Me.txtReminder.value = .Range(109).value
+        Me.txtStudyName.Value = .Range(10).Value
+        Me.txtFinDisc_Complete.Value = Format(.Range(108).Value, "dd-mmm-yyyy")
+        Me.txtReminder.Value = .Range(109).Value
     End With
     
     'Access version control
     Call LogLastAccess
     
     'Depress and make toggle green on nav bar
-    Me.tglFinDisc.value = True
+    Me.tglFinDisc.Value = True
     Me.tglFinDisc.BackColor = vbGreen
     
     'Run date validation on data entered
@@ -91,8 +100,8 @@ Private Sub txtFinDisc_Complete_AfterUpdate()
     Me.errFinDisc_Complete.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtFinDisc_Complete.value) Then
-        Me.txtFinDisc_Complete.value = Format(Me.txtFinDisc_Complete.value, "dd-mmm-yyyy")
+    If IsDate(Me.txtFinDisc_Complete.Value) Then
+        Me.txtFinDisc_Complete.Value = Format(Me.txtFinDisc_Complete.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -111,8 +120,8 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(108) = String_to_Date(Me.txtFinDisc_Complete.value)
-        .Range(109) = Me.txtReminder.value
+        .Range(108) = String_to_Date(Me.txtFinDisc_Complete.Value)
+        .Range(109) = Me.txtReminder.Value
         
         'Update version control
         .Range(110) = Now
