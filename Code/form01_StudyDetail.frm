@@ -12,16 +12,6 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
-
-
-
-
-
-
-
-
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -32,6 +22,12 @@ Private Sub UserForm_Activate()
     Me.Height = UHeight
     Me.Width = UWidth
 
+End Sub
+
+Private Sub UserForm_Deactivate()
+    'Store form position
+    UserFormTopPos = Me.Top
+    UserFormLeftPos = Me.Left
 End Sub
 
 Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)

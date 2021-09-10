@@ -12,29 +12,22 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-
-
-
-
-
-
-
-
-
-
 Option Explicit
 
 Private Sub UserForm_Activate()
     'PURPOSE: Reposition userform to Top Left of application Window and fix size
     'source: https://www.mrexcel.com/board/threads/userform-startup-position.671108/
-    'Me.StartUpPosition = 0
-    'Me.Top = Application.Top + 25
-    'Me.Left = Application.Left + 25
     Me.Top = UserFormTopPos
     Me.Left = UserFormLeftPos
     Me.Height = UHeight
     Me.Width = UWidth
 
+End Sub
+
+Private Sub UserForm_Deactivate()
+    'Store form position
+    UserFormTopPos = Me.Top
+    UserFormLeftPos = Me.Left
 End Sub
 
 Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
