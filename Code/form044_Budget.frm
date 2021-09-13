@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form044_Budget 
    Caption         =   "Budget Review"
    ClientHeight    =   5364
-   ClientLeft      =   -408
-   ClientTop       =   -1992
-   ClientWidth     =   6384
+   ClientLeft      =   -405
+   ClientTop       =   -1995
+   ClientWidth     =   6375
    OleObjectBlob   =   "form044_Budget.frx":0000
 End
 Attribute VB_Name = "form044_Budget"

@@ -2,8 +2,8 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form08_ChangeLog 
    Caption         =   "Change Log"
    ClientHeight    =   8256.001
-   ClientLeft      =   -384
-   ClientTop       =   -1644
+   ClientLeft      =   -390
+   ClientTop       =   -1650
    ClientWidth     =   7380
    OleObjectBlob   =   "form08_ChangeLog.frx":0000
 End

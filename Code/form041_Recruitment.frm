@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form041_Recruitment 
    Caption         =   "Recruitment Plan"
    ClientHeight    =   6408
-   ClientLeft      =   -516
-   ClientTop       =   -2208
-   ClientWidth     =   9048.001
+   ClientLeft      =   -510
+   ClientTop       =   -2205
+   ClientWidth     =   9045.001
    OleObjectBlob   =   "form041_Recruitment.frx":0000
 End
 Attribute VB_Name = "form041_Recruitment"

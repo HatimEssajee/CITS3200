@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form00_Nav 
    Caption         =   "Vaccine Trial Study Start-up Tracker"
    ClientHeight    =   9096.001
-   ClientLeft      =   -36
+   ClientLeft      =   -30
    ClientTop       =   -360
-   ClientWidth     =   10932
+   ClientWidth     =   10920
    OleObjectBlob   =   "form00_Nav.frx":0000
 End
 Attribute VB_Name = "form00_Nav"
@@ -46,7 +46,10 @@ Private Sub UserForm_Initialize()
     
     'Load default values
     cboList_StudyStatus = Array("Current", "Commenced", "Halted")
-    StudyStatus = RegTable.DataBodyRange.Columns(8)
+    
+    If Not RegTable.DataBodyRange Is Nothing Then
+        StudyStatus = RegTable.DataBodyRange.Columns(8)
+    End If
     
     'Clear user form
     'source: https://www.mrexcel.com/board/threads/loop-through-controls-on-a-userform.427103/
@@ -83,7 +86,7 @@ Private Sub UserForm_Initialize()
     End If
     
     'Unload search display
-    Erase DisplayArr
+    EraseIfArray (DisplayArr)
     
 End Sub
 
@@ -97,8 +100,8 @@ Private Sub cmdClose_Click()
     Unload Me
     
     'Empty Array as no longer needed
-    Erase StudyStatus
-    Erase DisplayArr
+    EraseIfArray (StudyStatus)
+    EraseIfArray (DisplayArr)
     
 End Sub
 
@@ -170,8 +173,8 @@ Private Sub cmdNew_Click()
     form01_StudyDetail.Show False
     
     'Empty Array as no longer needed
-    Erase StudyStatus
-    Erase DisplayArr
+    EraseIfArray (StudyStatus)
+    EraseIfArray (DisplayArr)
     
 End Sub
 
@@ -312,8 +315,14 @@ End Sub
 Private Sub cmdEdit_Click()
     'PURPOSE: Closes current form and open Study Detail form
     
+    'Redirect to new entry creation if no data
+    If RegTable.DataBodyRange Is Nothing Then
+        Call cmdNew_Click
+        Exit Sub
+    End If
+    
     If RowIndex < 0 Then
-        errSearch.Caption = "Need study entry identified to proceed"
+        errSearch.Caption = "Could not locate entry in register, consider creating new record"
     Else
         
         'Write changes to register table
@@ -332,8 +341,8 @@ Private Sub cmdEdit_Click()
         form01_StudyDetail.Show False
         
         'Empty Array as no longer needed
-        Erase StudyStatus
-        Erase DisplayArr
+        EraseIfArray (StudyStatus)
+        EraseIfArray (DisplayArr)
     End If
     
 End Sub
@@ -350,7 +359,7 @@ Private Sub cmdSearch_Click()
     Dim StudyName As String
     
     'Clear search array,list box and error message in memory
-    Erase DisplayArr
+    EraseIfArray (DisplayArr)
     Me.lstSearch.Clear
     errSearch.Caption = vbNullString
     
@@ -396,8 +405,8 @@ Private Sub cmdSearch_Click()
     'Transpose display array
     j = TransposeArray(TempArr, DisplayArr)
     
-    Erase SearchArr
-    Erase TempArr
+    EraseIfArray (SearchArr)
+    EraseIfArray (TempArr)
     
     'Fill list box but retain shape and location
     'Source: https://www.mrexcel.com/board/threads/unexpected-changes-to-listbox-height.604737/
@@ -437,22 +446,36 @@ End Sub
 Private Sub cmdJumpForw_Click()
     'PURPOSE: Redirect to newest
     
+    Dim temp As Variant
+    Dim r As Long
+    
+    r = RowIndex
+    temp = StudyStatus
+    
+
     'Check if got StudyStatus is a valid array and in the case of checkbox if it contains current
-    If Not IsArray(StudyStatus) Or (Tick And Not Contains(StudyStatus, "Current")) Then
+    If RegTable.DataBodyRange Is Nothing Or (Tick And Not Contains(StudyStatus, "Current")) Then
+        Call cmdClear_Click
         errSearch.Caption = "No data found in register"
         Exit Sub
     End If
     
-    RowIndex = UBound(StudyStatus)
+    If IsArray(StudyStatus) Then
+        RowIndex = UBound(StudyStatus)
+    Else
+        RowIndex = 1
+        GoTo CallForm
+    End If
     
     'Conditional stepping
-    If Tick Then
+    If Tick And IsArray(StudyStatus) Then
         'Loop through study status array
         Do While InStr(1, "Current", StudyStatus(RowIndex, 1), vbTextCompare) = 0 And RowIndex > 1
             RowIndex = RowIndex - 1
         Loop
     End If
-    
+
+CallForm:
     'Clear form before bringing in new data
     Call UserForm_Initialize
     DoEvents
@@ -462,26 +485,35 @@ End Sub
 
 Private Sub cmdNext_Click()
     'PURPOSE: Determine next entry row in register table depending on check box value
-
+    
+    Dim BtmRow As Long
+    
     'Check if got StudyStatus is a valid array and in the case of checkbox if it contains current
-    If Not IsArray(StudyStatus) Or (Tick And Not Contains(StudyStatus, "Current")) Then
+    If RegTable.DataBodyRange Is Nothing Or (Tick And Not Contains(StudyStatus, "Current")) Then
+        Call cmdClear_Click
         errSearch.Caption = "No data found in register"
         Exit Sub
     End If
     
     'Repoint to RowIndex
-    If RowIndex < 0 Or RowIndex = UBound(StudyStatus) Then
+    If IsArray(StudyStatus) Then
+        BtmRow = UBound(StudyStatus)
+    Else
+        BtmRow = 1
+    End If
+    
+    If RowIndex < 0 Or RowIndex = BtmRow Then
         RowIndex = 1
     Else
         RowIndex = RowIndex + 1
     End If
     
     'Conditional stepping
-    If Tick Then
+    If Tick And IsArray(StudyStatus) Then
         'Loop through study status array
         Do While InStr(1, "Current", StudyStatus(RowIndex, 1), vbTextCompare) = 0
             RowIndex = RowIndex + 1
-            If RowIndex > UBound(StudyStatus) Then
+            If RowIndex > BtmRow Then
                 RowIndex = 1
             End If
         Loop
@@ -497,18 +529,27 @@ End Sub
 Private Sub cmdJumpBack_Click()
     'PURPOSE: Redirect to newest
     
+    Dim BtmRow As Long
+    
     'Check if got StudyStatus is a valid array and in the case of checkbox if it contains current
-    If Not IsArray(StudyStatus) Or (Tick And Not Contains(StudyStatus, "Current")) Then
+    If RegTable.DataBodyRange Is Nothing Or (Tick And Not Contains(StudyStatus, "Current")) Then
+        Call cmdClear_Click
         errSearch.Caption = "No data found in register"
         Exit Sub
     End If
     
-    RowIndex = LBound(StudyStatus)
+    If IsArray(StudyStatus) Then
+        RowIndex = LBound(StudyStatus)
+        BtmRow = UBound(StudyStatus)
+    Else
+        RowIndex = 1
+        BtmRow = 1
+    End If
     
     'Conditional stepping
-    If Tick Then
+    If Tick And IsArray(StudyStatus) Then
         'Loop through study status array
-        Do While InStr(1, "Current", StudyStatus(RowIndex, 1), vbTextCompare) = 0 And RowIndex < UBound(StudyStatus)
+        Do While InStr(1, "Current", StudyStatus(RowIndex, 1), vbTextCompare) = 0 And RowIndex < BtmRow
             RowIndex = RowIndex + 1
         Loop
     End If
@@ -523,28 +564,40 @@ End Sub
 Private Sub cmdPrevious_Click()
     'PURPOSE: Determine next entry row in register table depending on check box value
     
+    Dim TopRow As Long
+    Dim BtmRow As Long
+    
     'Check if got StudyStatus is a valid array and in the case of checkbox if it contains current
-    If Not IsArray(StudyStatus) Or (Tick And Not Contains(StudyStatus, "Current")) Then
+    If RegTable.DataBodyRange Is Nothing Or (Tick And Not Contains(StudyStatus, "Current")) Then
+        Call cmdClear_Click
         errSearch.Caption = "No data found in register"
         Exit Sub
     End If
     
     'Repoint to RowIndex
-    If RowIndex < 0 Or RowIndex = LBound(StudyStatus) Then
-        RowIndex = UBound(StudyStatus)
+     If IsArray(StudyStatus) Then
+        TopRow = LBound(StudyStatus)
+        BtmRow = UBound(StudyStatus)
+    Else
+        TopRow = 1
+        BtmRow = 1
+    End If
+    
+    If RowIndex < 0 Or RowIndex = TopRow Then
+        RowIndex = BtmRow
     Else
         RowIndex = RowIndex - 1
     End If
     
     'Conditional stepping if check box ticked and Current status in register
     'source: https://stackoverflow.com/questions/38267950/check-if-a-value-is-in-an-array-or-not-with-excel-vba
-    If Tick Then
+    If Tick And IsArray(StudyStatus) Then
         'Loop through study status array
         Do While InStr(1, "Current", StudyStatus(RowIndex, 1), vbTextCompare) = 0
             RowIndex = RowIndex - 1
             
             If RowIndex < 1 Then
-                RowIndex = UBound(StudyStatus)
+                RowIndex = BtmRow
             End If
         Loop
     End If
@@ -695,9 +748,20 @@ Dim rv As Boolean, lb As Long, ub As Long, i As Long
                 Exit For
             End If
         Next i
+    ElseIf arr = v Then
+        rv = True
     Else
         rv = False
     End If
     
     Contains = rv
 End Function
+
+Private Sub EraseIfArray(arr As Variant)
+    'PURPOSE: Erase dynamic arrays
+    
+    If IsArray(arr) Then
+        Erase arr
+    End If
+    
+End Sub

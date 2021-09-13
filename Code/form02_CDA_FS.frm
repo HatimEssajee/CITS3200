@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form02_CDA_FS 
    Caption         =   "CDA & Feasibility"
-   ClientHeight    =   8292.001
-   ClientLeft      =   -396
-   ClientTop       =   -1752
-   ClientWidth     =   11604
+   ClientHeight    =   8295.001
+   ClientLeft      =   -390
+   ClientTop       =   -1755
+   ClientWidth     =   11595
    OleObjectBlob   =   "form02_CDA_FS.frx":0000
 End
 Attribute VB_Name = "form02_CDA_FS"

@@ -78,7 +78,8 @@ Public Function Date_Validation(CurrDate As String, Optional PrevDate As String 
     d2 = String_to_Date(CurrDate)
     
     'If no date entry issue, check date for chronology
-    If err = "" And d1 <> "" And d2 <> "" And d2 < d1 Then
+    If err = "" And d1 <> "" And d2 <> "" And _
+        IsDate(d1) And IsDate(d2) And d2 < d1 Then
         err = err2
     End If
     
