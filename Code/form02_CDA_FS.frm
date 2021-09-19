@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form02_CDA_FS 
    Caption         =   "CDA & Feasibility"
-   ClientHeight    =   8295.001
-   ClientLeft      =   -390
-   ClientTop       =   -1755
-   ClientWidth     =   11595
+   ClientHeight    =   8292.001
+   ClientLeft      =   -396
+   ClientTop       =   -1752
+   ClientWidth     =   11604
    OleObjectBlob   =   "form02_CDA_FS.frx":0000
 End
 Attribute VB_Name = "form02_CDA_FS"
@@ -12,6 +12,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -268,6 +269,11 @@ Private Sub cmdEdit_Click()
         'Update version control
         .Range(26) = Now
         .Range(27) = Username
+        
+        'Apply completion status
+        .Range(117).Value = IsDate(.Range(21).Value)
+        .Range(118).Value = IsDate(.Range(23).Value)
+    
     End With
     
     'Access version control

@@ -12,6 +12,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -117,6 +118,9 @@ Private Sub cmdEdit_Click()
         .Range(108) = String_to_Date(Me.txtFinDisc_Complete.Value)
         .Range(109) = Me.txtReminder.Value
         
+        'Apply completion status
+        .Range(138).Value = IsDate(.Range(108).Value)
+    
         'Update version control
         .Range(110) = Now
         .Range(111) = Username
@@ -151,6 +155,7 @@ Private Sub tglCDA_FS_Click()
     Unload form06_FinDisc
     
     form02_CDA_FS.Show False
+    form02_CDA_FS.multiCDA_FS.Value = 0
 End Sub
 
 Private Sub tglSiteSelect_Click()

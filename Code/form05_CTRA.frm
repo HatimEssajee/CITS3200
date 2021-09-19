@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form05_CTRA 
    Caption         =   "CTRA"
    ClientHeight    =   5148
-   ClientLeft      =   -405
-   ClientTop       =   -2085
-   ClientWidth     =   6645
+   ClientLeft      =   -408
+   ClientTop       =   -2088
+   ClientWidth     =   6648
    OleObjectBlob   =   "form05_CTRA.frx":0000
 End
 Attribute VB_Name = "form05_CTRA"
@@ -12,6 +12,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -238,7 +239,12 @@ Private Sub cmdEdit_Click()
         .Range(103) = String_to_Date(Me.txtDate_Company.Value)
         .Range(104) = String_to_Date(Me.txtDate_Finalised.Value)
         .Range(105) = Me.txtReminder.Value
-        
+           
+        'Apply completion status
+        If IsDate(.Range(98).Value) And IsDate(.Range(104).Value) Then
+            .Range(137).Value = True
+        End If
+    
         'Update version control
         .Range(106) = Now
         .Range(107) = Username
@@ -273,6 +279,7 @@ Private Sub tglCDA_FS_Click()
     Unload form05_CTRA
     
     form02_CDA_FS.Show False
+    form02_CDA_FS.multiCDA_FS.Value = 0
 End Sub
 
 Private Sub tglSiteSelect_Click()

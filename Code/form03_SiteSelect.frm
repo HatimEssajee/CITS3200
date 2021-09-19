@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form03_SiteSelect 
    Caption         =   "Site Selection"
    ClientHeight    =   4896
-   ClientLeft      =   -450
-   ClientTop       =   -1950
-   ClientWidth     =   6945
+   ClientLeft      =   -456
+   ClientTop       =   -1956
+   ClientWidth     =   6948
    OleObjectBlob   =   "form03_SiteSelect.frx":0000
 End
 Attribute VB_Name = "form03_SiteSelect"
@@ -12,6 +12,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -174,6 +175,10 @@ Private Sub cmdEdit_Click()
         'Update version control
         .Range(34) = Now
         .Range(35) = Username
+        
+        'Apply completion status
+         .Range(119).Value = IsDate(.Range(32).Value)
+                
     End With
     
     'Access version control
@@ -204,6 +209,8 @@ Private Sub tglCDA_FS_Click()
     Unload form03_SiteSelect
     
     form02_CDA_FS.Show False
+    form02_CDA_FS.multiCDA_FS.Value = 0
+    
 End Sub
 
 Private Sub tglReviews_Click()

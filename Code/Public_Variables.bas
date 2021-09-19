@@ -14,6 +14,7 @@ Public LastUpdate As Date
 
 'Conditional Navigation
 Public Tick As Boolean
+Public FC_Tick As Boolean
 Public StudyStatus As Variant
 
 'Search

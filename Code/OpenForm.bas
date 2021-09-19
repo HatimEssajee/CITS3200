@@ -18,6 +18,7 @@ Sub OpenForm()
     'Force default starting rowIndex for empty form and tickbox checked
     RowIndex = -1
     Tick = True
+    FC_Tick = True
     
     'Set initial location
     UserFormTopPos = Application.Top + 25

@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form042_Ethics 
    Caption         =   "Ethics Review"
-   ClientHeight    =   5385
-   ClientLeft      =   -450
+   ClientHeight    =   5388
+   ClientLeft      =   -456
    ClientTop       =   -2100
-   ClientWidth     =   8265.001
+   ClientWidth     =   8268.001
    OleObjectBlob   =   "form042_Ethics.frx":0000
 End
 Attribute VB_Name = "form042_Ethics"
@@ -12,6 +12,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -372,6 +373,50 @@ Private Sub cmdEdit_Click()
         
         .Range(55) = Me.txtReminder.Value
         
+        'Apply completion status
+        If Application.CountA(Range(RegTable.DataBodyRange.Cells(RowIndex, 41), _
+            RegTable.DataBodyRange.Cells(RowIndex, 54))) = 0 Then
+            .Range(121).Value = False
+        ElseIf .Range(41).Value = vbNullString Then
+            .Range(121).Value = vbNullString
+        ElseIf IsDate(.Range(44).Value) Then
+            .Range(121).Value = True
+        Else
+            .Range(121).Value = False
+        End If
+        
+        If .Range(45).Value = vbNullString And .Range(46).Value = vbNullString Then
+            .Range(122).Value = vbNullString
+        ElseIf IsDate(.Range(47).Value) Then
+            .Range(122).Value = True
+        Else
+            .Range(122).Value = False
+        End If
+        
+        If .Range(48).Value = vbNullString Then
+            .Range(123).Value = vbNullString
+        ElseIf IsDate(.Range(49).Value) Then
+            .Range(123).Value = True
+        Else
+            .Range(123).Value = False
+        End If
+        
+        If .Range(50).Value = vbNullString Then
+            .Range(124).Value = vbNullString
+        ElseIf IsDate(.Range(51).Value) Then
+            .Range(124).Value = True
+        Else
+            .Range(124).Value = False
+        End If
+        
+        If .Range(52).Value = vbNullString And .Range(53).Value = vbNullString Then
+            .Range(125).Value = vbNullString
+        ElseIf IsDate(.Range(54).Value) Then
+            .Range(125).Value = True
+        Else
+            .Range(125).Value = False
+        End If
+       
         'Update version control
         .Range(56) = Now
         .Range(57) = Username
@@ -406,6 +451,7 @@ Private Sub tglCDA_FS_Click()
     Unload form042_Ethics
     
     form02_CDA_FS.Show False
+    form02_CDA_FS.multiCDA_FS.Value = 0
 End Sub
 
 Private Sub tglSiteSelect_Click()
@@ -427,6 +473,7 @@ Private Sub tglGovernance_Click()
     Unload form042_Ethics
     
     form043_Governance.Show False
+    form043_Governance.multiGov.Value = 0
 End Sub
 
 Private Sub tglBudget_Click()

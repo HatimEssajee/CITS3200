@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form07_SIV 
    Caption         =   "Financial Disclosure"
    ClientHeight    =   5028
-   ClientLeft      =   -435
-   ClientTop       =   -1890
-   ClientWidth     =   7365
+   ClientLeft      =   -432
+   ClientTop       =   -1896
+   ClientWidth     =   7368
    OleObjectBlob   =   "form07_SIV.frx":0000
 End
 Attribute VB_Name = "form07_SIV"
@@ -12,6 +12,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -125,6 +126,7 @@ Private Sub cmdEdit_Click()
             And .Range(8).Value = "Commenced" Then
             
             .Range(8) = "Current"
+            
             'Update version control
             .Range(15) = .Range(114).Value
             .Range(16) = .Range(115).Value
@@ -133,10 +135,14 @@ Private Sub cmdEdit_Click()
             And .Range(8).Value = "Current" Then
             
             .Range(8) = "Commenced"
+            
             'Update version control
             .Range(15) = .Range(114).Value
             .Range(16) = .Range(115).Value
         End If
+        
+        'Apply completion status
+        .Range(139).Value = IsDate(.Range(112).Value)
         
     End With
     
