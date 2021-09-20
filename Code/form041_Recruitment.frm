@@ -12,6 +12,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -133,6 +134,14 @@ Private Sub cmdEdit_Click()
         'Update version control
         .Range(39) = Now
         .Range(40) = Username
+        
+        'Apply completion status
+        If .Range(37).Value = "Complete" Then
+            .Range(120).Value = True
+        Else
+            .Range(120).Value = False
+        End If
+
     End With
     
     'Access version control
@@ -164,6 +173,7 @@ Private Sub tglCDA_FS_Click()
     Unload form041_Recruitment
     
     form02_CDA_FS.Show False
+    form02_CDA_FS.multiCDA_FS.Value = 0
 End Sub
 
 Private Sub tglSiteSelect_Click()
@@ -178,6 +188,7 @@ Private Sub tglEthics_Click()
     Unload form041_Recruitment
     
     form042_Ethics.Show False
+    form042_Ethics.multiEthics.Value = 0
 End Sub
 
 Private Sub tglGovernance_Click()
@@ -185,6 +196,7 @@ Private Sub tglGovernance_Click()
     Unload form041_Recruitment
     
     form043_Governance.Show False
+    form043_Governance.multiGov.Value = 0
 End Sub
 
 Private Sub tglBudget_Click()

@@ -12,6 +12,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -125,6 +126,7 @@ Private Sub cmdEdit_Click()
             And .Range(8).Value = "Commenced" Then
             
             .Range(8) = "Current"
+            
             'Update version control
             .Range(15) = .Range(114).Value
             .Range(16) = .Range(115).Value
@@ -133,10 +135,14 @@ Private Sub cmdEdit_Click()
             And .Range(8).Value = "Current" Then
             
             .Range(8) = "Commenced"
+            
             'Update version control
             .Range(15) = .Range(114).Value
             .Range(16) = .Range(115).Value
         End If
+        
+        'Apply completion status
+        .Range(139).Value = IsDate(.Range(112).Value)
         
     End With
     

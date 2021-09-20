@@ -12,6 +12,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -174,6 +175,10 @@ Private Sub cmdEdit_Click()
         'Update version control
         .Range(34) = Now
         .Range(35) = Username
+        
+        'Apply completion status
+         .Range(119).Value = IsDate(.Range(32).Value)
+                
     End With
     
     'Access version control
@@ -204,6 +209,8 @@ Private Sub tglCDA_FS_Click()
     Unload form03_SiteSelect
     
     form02_CDA_FS.Show False
+    form02_CDA_FS.multiCDA_FS.Value = 0
+    
 End Sub
 
 Private Sub tglReviews_Click()

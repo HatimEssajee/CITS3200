@@ -12,6 +12,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -268,6 +269,11 @@ Private Sub cmdEdit_Click()
         'Update version control
         .Range(26) = Now
         .Range(27) = Username
+        
+        'Apply completion status
+        .Range(117).Value = IsDate(.Range(21).Value)
+        .Range(118).Value = IsDate(.Range(23).Value)
+    
     End With
     
     'Access version control

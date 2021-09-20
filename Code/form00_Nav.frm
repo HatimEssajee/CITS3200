@@ -12,6 +12,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -46,14 +47,15 @@ Private Sub UserForm_Initialize()
     
     'Load default values
     cboList_StudyStatus = Array("Current", "Commenced", "Halted")
-    StudyStatus = RegTable.DataBodyRange.Columns(8)
+    
+    If Not RegTable.DataBodyRange Is Nothing Then
+        StudyStatus = RegTable.DataBodyRange.Columns(8)
+    End If
     
     'Clear user form
     'source: https://www.mrexcel.com/board/threads/loop-through-controls-on-a-userform.427103/
     For Each ctrl In Me.Controls
         Select Case True
-                Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = Tick
                 Case TypeOf ctrl Is MSForms.TextBox
                     ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.Label
@@ -70,11 +72,14 @@ Private Sub UserForm_Initialize()
             End Select
     Next ctrl
     
-    
     'Fill combo box for study status
     For Each item In cboList_StudyStatus
         Me.cboStudyStatus.AddItem item
     Next item
+    
+    'Allocate tick box values
+    Me.cbOnlyCurrent.Value = Tick
+    Me.cbFastCycle.Value = FC_Tick
     
     'Format fields
     If RowIndex > 0 Then
@@ -83,7 +88,7 @@ Private Sub UserForm_Initialize()
     End If
     
     'Unload search display
-    Erase DisplayArr
+    EraseIfArray (DisplayArr)
     
 End Sub
 
@@ -97,8 +102,8 @@ Private Sub cmdClose_Click()
     Unload Me
     
     'Empty Array as no longer needed
-    Erase StudyStatus
-    Erase DisplayArr
+    EraseIfArray (StudyStatus)
+    EraseIfArray (DisplayArr)
     
 End Sub
 
@@ -159,6 +164,7 @@ Private Sub cmdNew_Click()
         .Range(9) = Me.txtProtocolNum.Value
         .Range(10) = StudyName
         .Range(11) = Me.txtSponsor.Value
+        .Range(140).Formula = "=IFERROR(MATCH(FALSE,Register[@[Study Details Complete]:[SIV Complete]],0),1)"
         
         'Update version control
         .Range(15) = .Range(2).Value
@@ -170,14 +176,19 @@ Private Sub cmdNew_Click()
     form01_StudyDetail.Show False
     
     'Empty Array as no longer needed
-    Erase StudyStatus
-    Erase DisplayArr
+    EraseIfArray (StudyStatus)
+    EraseIfArray (DisplayArr)
     
 End Sub
 
 Private Sub cbOnlyCurrent_Click()
     'PURPOSE: Change value of Tick variable
     Tick = Me.cbOnlyCurrent.Value
+End Sub
+
+Private Sub cbFastCycle_Click()
+    'PURPOSE: Change value of FC_Tick variable
+    FC_Tick = Me.cbFastCycle.Value
 End Sub
 
 Private Sub cboStudyStatus_AfterUpdate()
@@ -312,8 +323,14 @@ End Sub
 Private Sub cmdEdit_Click()
     'PURPOSE: Closes current form and open Study Detail form
     
+    'Redirect to new entry creation if no data
+    If RegTable.DataBodyRange Is Nothing Then
+        Call cmdNew_Click
+        Exit Sub
+    End If
+    
     If RowIndex < 0 Then
-        errSearch.Caption = "Need study entry identified to proceed"
+        errSearch.Caption = "Could not locate entry in register, consider creating new record"
     Else
         
         'Write changes to register table
@@ -326,16 +343,254 @@ Private Sub cmdEdit_Click()
             .Range(15) = Now
             .Range(16) = Username
         End With
-    
-        Unload form00_Nav
-        
-        form01_StudyDetail.Show False
         
         'Empty Array as no longer needed
-        Erase StudyStatus
-        Erase DisplayArr
+        EraseIfArray (StudyStatus)
+        EraseIfArray (DisplayArr)
+        
+        Call Fill_Completion_Status
+        DoEvents
+        
+        Call Apply_FastCycle
+        DoEvents
+        
+        Unload form00_Nav
     End If
     
+End Sub
+
+Private Sub Fill_Completion_Status()
+    
+    'PURPOSE: Evaluate entry completion status
+    
+    'Initialise by making all values to be false
+    Range(RegTable.DataBodyRange.Cells(RowIndex, 116), RegTable.DataBodyRange.Cells(RowIndex, 139)).Value = False
+    
+    'Assess values
+    With RegTable.ListRows(RowIndex)
+            
+        'Study details
+        If Application.CountA(Range(RegTable.DataBodyRange.Cells(RowIndex, 9), _
+            RegTable.DataBodyRange.Cells(RowIndex, 13))) = 5 Then
+            .Range(116).Value = True
+        End If
+        
+        'CDA
+        .Range(117).Value = IsDate(.Range(21).Value)
+        
+        'FS
+        .Range(118).Value = IsDate(.Range(23).Value)
+        
+        'Site selection
+        .Range(119).Value = IsDate(.Range(32).Value)
+        
+        'Recruitment
+        If .Range(37).Value = "Complete" Then
+            .Range(120).Value = True
+        End If
+        
+        'Ethics
+        If Application.CountA(Range(RegTable.DataBodyRange.Cells(RowIndex, 41), _
+            RegTable.DataBodyRange.Cells(RowIndex, 54))) = 0 Then
+            .Range(121).Value = False
+        ElseIf .Range(41).Value = vbNullString Then
+            .Range(121).Value = vbNullString
+        ElseIf IsDate(.Range(44).Value) Then
+            .Range(121).Value = True
+        End If
+        
+        If .Range(45).Value = vbNullString And .Range(46).Value = vbNullString Then
+            .Range(122).Value = vbNullString
+        ElseIf IsDate(.Range(47).Value) Then
+            .Range(122).Value = True
+        End If
+        
+        If .Range(48).Value = vbNullString Then
+            .Range(123).Value = vbNullString
+        ElseIf IsDate(.Range(49).Value) Then
+            .Range(123).Value = True
+        End If
+        
+        If .Range(50).Value = vbNullString Then
+            .Range(124).Value = vbNullString
+        ElseIf IsDate(.Range(51).Value) Then
+            .Range(124).Value = True
+        End If
+        
+        If .Range(52).Value = vbNullString And .Range(53).Value = vbNullString Then
+            .Range(125).Value = vbNullString
+        ElseIf IsDate(.Range(54).Value) Then
+            .Range(125).Value = True
+        End If
+        
+        'Governance
+        If Application.CountA(Range(RegTable.DataBodyRange.Cells(RowIndex, 58), _
+            RegTable.DataBodyRange.Cells(RowIndex, 79))) = 0 Then
+            .Range(126).Value = False
+        ElseIf .Range(58).Value = vbNullString Then
+            .Range(126).Value = vbNullString
+        ElseIf IsDate(.Range(60).Value) Then
+            .Range(126).Value = True
+        End If
+        
+        If .Range(61).Value = vbNullString Then
+            .Range(127).Value = vbNullString
+        ElseIf IsDate(.Range(63).Value) Then
+            .Range(127).Value = True
+        End If
+        
+        If .Range(64).Value = vbNullString Then
+            .Range(128).Value = vbNullString
+        ElseIf IsDate(.Range(66).Value) Then
+            .Range(128).Value = True
+        End If
+        
+        If .Range(67).Value = vbNullString Then
+            .Range(129).Value = vbNullString
+        ElseIf IsDate(.Range(69).Value) Then
+            .Range(129).Value = True
+        End If
+    
+        If .Range(70).Value = vbNullString Then
+            .Range(130).Value = vbNullString
+        ElseIf IsDate(.Range(72).Value) Then
+            .Range(130).Value = True
+        End If
+        
+        If .Range(73).Value = vbNullString Then
+            .Range(131).Value = vbNullString
+        ElseIf IsDate(.Range(75).Value) Then
+            .Range(131).Value = True
+        End If
+        
+        If .Range(76).Value = vbNullString And .Range(77).Value = vbNullString Then
+            .Range(132).Value = vbNullString
+        ElseIf IsDate(.Range(79).Value) Then
+            .Range(132).Value = True
+        End If
+        
+        'Budget
+        If Application.CountA(Range(RegTable.DataBodyRange.Cells(RowIndex, 83), _
+            RegTable.DataBodyRange.Cells(RowIndex, 88))) = 0 Then
+            .Range(133).Value = False
+        ElseIf IsDate(.Range(83).Value) And IsDate(.Range(85).Value) Then
+            .Range(133).Value = True
+        End If
+        
+        .Range(134).Value = IsDate(.Range(86).Value)
+        
+        If IsDate(.Range(87).Value) And IsDate(.Range(88).Value) Then
+            .Range(135).Value = True
+        End If
+        
+        'Indemnity
+        If IsDate(.Range(92).Value) And IsDate(.Range(94).Value) Then
+            .Range(136).Value = True
+        End If
+        
+        'CTRA
+        If IsDate(.Range(98).Value) And IsDate(.Range(104).Value) Then
+            .Range(137).Value = True
+        End If
+        
+        'Financial Disclosure
+        .Range(138).Value = IsDate(.Range(108).Value)
+        
+        'SIV
+        .Range(139).Value = IsDate(.Range(112).Value)
+        
+        If .Range(140).Value = vbNullString Then
+            .Range(140).Formula = "=IFERROR(MATCH(FALSE,Register[@[Study Details Complete]:[SIV Complete]],0),1)"
+        End If
+        
+    End With
+    
+End Sub
+Private Sub Apply_FastCycle()
+    'PURPOSE: Load next userform based on fast cycle value
+    
+    Dim loc As Long
+    
+    loc = RegTable.DataBodyRange.Cells(RowIndex, 140).Value
+    
+    'Unload form00_Nav
+    
+    'Apply fast cycle
+        If FC_Tick Then
+            Select Case loc
+                Case 1
+                    form01_StudyDetail.Show False
+                Case 2
+                    form02_CDA_FS.Show False
+                    form02_CDA_FS.multiCDA_FS.Value = 0
+                Case 3
+                    form02_CDA_FS.Show False
+                    form02_CDA_FS.multiCDA_FS.Value = 1
+                Case 4
+                    form03_SiteSelect.Show False
+                Case 5
+                    form041_Recruitment.Show False
+                Case 6
+                    form042_Ethics.Show False
+                    form042_Ethics.multiEthics.Value = 0
+                Case 7
+                    form042_Ethics.Show False
+                    form042_Ethics.multiEthics.Value = 1
+                Case 8
+                    form042_Ethics.Show False
+                    form042_Ethics.multiEthics.Value = 2
+                Case 9
+                    form042_Ethics.Show False
+                    form042_Ethics.multiEthics.Value = 3
+                Case 10
+                    form042_Ethics.Show False
+                    form042_Ethics.multiEthics.Value = 4
+                Case 11
+                    form043_Governance.Show False
+                    form043_Governance.multiGov.Value = 0
+                Case 12
+                    form043_Governance.Show False
+                    form043_Governance.multiGov.Value = 1
+                Case 13
+                    form043_Governance.Show False
+                    form043_Governance.multiGov.Value = 2
+                Case 14
+                    form043_Governance.Show False
+                    form043_Governance.multiGov.Value = 3
+                Case 15
+                    form043_Governance.Show False
+                    form043_Governance.multiGov.Value = 4
+                Case 16
+                    form043_Governance.Show False
+                    form043_Governance.multiGov.Value = 5
+                Case 17
+                    form043_Governance.Show False
+                    form043_Governance.multiGov.Value = 6
+                Case 18
+                    form044_Budget.Show False
+                    form044_Budget.multiBudget.Value = 0
+                Case 19
+                    form044_Budget.Show False
+                    form044_Budget.multiBudget.Value = 1
+                Case 20
+                    form044_Budget.Show False
+                    form044_Budget.multiBudget.Value = 2
+                Case 21
+                    form045_Indemnity.Show False
+                Case 22
+                    form05_CTRA.Show False
+                Case 23
+                    form06_FinDisc.Show False
+                Case 24
+                    form07_SIV.Show False
+                Case Else
+                    form01_StudyDetail.Show False
+                End Select
+                
+        Else
+            form01_StudyDetail.Show False
+        End If
+        
 End Sub
 
 Private Sub cmdSearch_Click()
@@ -350,7 +605,7 @@ Private Sub cmdSearch_Click()
     Dim StudyName As String
     
     'Clear search array,list box and error message in memory
-    Erase DisplayArr
+    EraseIfArray (DisplayArr)
     Me.lstSearch.Clear
     errSearch.Caption = vbNullString
     
@@ -396,8 +651,8 @@ Private Sub cmdSearch_Click()
     'Transpose display array
     j = TransposeArray(TempArr, DisplayArr)
     
-    Erase SearchArr
-    Erase TempArr
+    EraseIfArray (SearchArr)
+    EraseIfArray (TempArr)
     
     'Fill list box but retain shape and location
     'Source: https://www.mrexcel.com/board/threads/unexpected-changes-to-listbox-height.604737/
@@ -437,22 +692,36 @@ End Sub
 Private Sub cmdJumpForw_Click()
     'PURPOSE: Redirect to newest
     
+    Dim temp As Variant
+    Dim r As Long
+    
+    r = RowIndex
+    temp = StudyStatus
+    
+
     'Check if got StudyStatus is a valid array and in the case of checkbox if it contains current
-    If Not IsArray(StudyStatus) Or (Tick And Not Contains(StudyStatus, "Current")) Then
+    If RegTable.DataBodyRange Is Nothing Or (Tick And Not Contains(StudyStatus, "Current")) Then
+        Call cmdClear_Click
         errSearch.Caption = "No data found in register"
         Exit Sub
     End If
     
-    RowIndex = UBound(StudyStatus)
+    If IsArray(StudyStatus) Then
+        RowIndex = UBound(StudyStatus)
+    Else
+        RowIndex = 1
+        GoTo CallForm
+    End If
     
     'Conditional stepping
-    If Tick Then
+    If Tick And IsArray(StudyStatus) Then
         'Loop through study status array
         Do While InStr(1, "Current", StudyStatus(RowIndex, 1), vbTextCompare) = 0 And RowIndex > 1
             RowIndex = RowIndex - 1
         Loop
     End If
-    
+
+CallForm:
     'Clear form before bringing in new data
     Call UserForm_Initialize
     DoEvents
@@ -462,26 +731,35 @@ End Sub
 
 Private Sub cmdNext_Click()
     'PURPOSE: Determine next entry row in register table depending on check box value
-
+    
+    Dim BtmRow As Long
+    
     'Check if got StudyStatus is a valid array and in the case of checkbox if it contains current
-    If Not IsArray(StudyStatus) Or (Tick And Not Contains(StudyStatus, "Current")) Then
+    If RegTable.DataBodyRange Is Nothing Or (Tick And Not Contains(StudyStatus, "Current")) Then
+        Call cmdClear_Click
         errSearch.Caption = "No data found in register"
         Exit Sub
     End If
     
     'Repoint to RowIndex
-    If RowIndex < 0 Or RowIndex = UBound(StudyStatus) Then
+    If IsArray(StudyStatus) Then
+        BtmRow = UBound(StudyStatus)
+    Else
+        BtmRow = 1
+    End If
+    
+    If RowIndex < 0 Or RowIndex = BtmRow Then
         RowIndex = 1
     Else
         RowIndex = RowIndex + 1
     End If
     
     'Conditional stepping
-    If Tick Then
+    If Tick And IsArray(StudyStatus) Then
         'Loop through study status array
         Do While InStr(1, "Current", StudyStatus(RowIndex, 1), vbTextCompare) = 0
             RowIndex = RowIndex + 1
-            If RowIndex > UBound(StudyStatus) Then
+            If RowIndex > BtmRow Then
                 RowIndex = 1
             End If
         Loop
@@ -497,18 +775,27 @@ End Sub
 Private Sub cmdJumpBack_Click()
     'PURPOSE: Redirect to newest
     
+    Dim BtmRow As Long
+    
     'Check if got StudyStatus is a valid array and in the case of checkbox if it contains current
-    If Not IsArray(StudyStatus) Or (Tick And Not Contains(StudyStatus, "Current")) Then
+    If RegTable.DataBodyRange Is Nothing Or (Tick And Not Contains(StudyStatus, "Current")) Then
+        Call cmdClear_Click
         errSearch.Caption = "No data found in register"
         Exit Sub
     End If
     
-    RowIndex = LBound(StudyStatus)
+    If IsArray(StudyStatus) Then
+        RowIndex = LBound(StudyStatus)
+        BtmRow = UBound(StudyStatus)
+    Else
+        RowIndex = 1
+        BtmRow = 1
+    End If
     
     'Conditional stepping
-    If Tick Then
+    If Tick And IsArray(StudyStatus) Then
         'Loop through study status array
-        Do While InStr(1, "Current", StudyStatus(RowIndex, 1), vbTextCompare) = 0 And RowIndex < UBound(StudyStatus)
+        Do While InStr(1, "Current", StudyStatus(RowIndex, 1), vbTextCompare) = 0 And RowIndex < BtmRow
             RowIndex = RowIndex + 1
         Loop
     End If
@@ -523,28 +810,40 @@ End Sub
 Private Sub cmdPrevious_Click()
     'PURPOSE: Determine next entry row in register table depending on check box value
     
+    Dim TopRow As Long
+    Dim BtmRow As Long
+    
     'Check if got StudyStatus is a valid array and in the case of checkbox if it contains current
-    If Not IsArray(StudyStatus) Or (Tick And Not Contains(StudyStatus, "Current")) Then
+    If RegTable.DataBodyRange Is Nothing Or (Tick And Not Contains(StudyStatus, "Current")) Then
+        Call cmdClear_Click
         errSearch.Caption = "No data found in register"
         Exit Sub
     End If
     
     'Repoint to RowIndex
-    If RowIndex < 0 Or RowIndex = LBound(StudyStatus) Then
-        RowIndex = UBound(StudyStatus)
+     If IsArray(StudyStatus) Then
+        TopRow = LBound(StudyStatus)
+        BtmRow = UBound(StudyStatus)
+    Else
+        TopRow = 1
+        BtmRow = 1
+    End If
+    
+    If RowIndex < 0 Or RowIndex = TopRow Then
+        RowIndex = BtmRow
     Else
         RowIndex = RowIndex - 1
     End If
     
     'Conditional stepping if check box ticked and Current status in register
     'source: https://stackoverflow.com/questions/38267950/check-if-a-value-is-in-an-array-or-not-with-excel-vba
-    If Tick Then
+    If Tick And IsArray(StudyStatus) Then
         'Loop through study status array
         Do While InStr(1, "Current", StudyStatus(RowIndex, 1), vbTextCompare) = 0
             RowIndex = RowIndex - 1
             
             If RowIndex < 1 Then
-                RowIndex = UBound(StudyStatus)
+                RowIndex = BtmRow
             End If
         Loop
     End If
@@ -695,9 +994,20 @@ Dim rv As Boolean, lb As Long, ub As Long, i As Long
                 Exit For
             End If
         Next i
+    ElseIf arr = v Then
+        rv = True
     Else
         rv = False
     End If
     
     Contains = rv
 End Function
+
+Private Sub EraseIfArray(arr As Variant)
+    'PURPOSE: Erase dynamic arrays
+    
+    If IsArray(arr) Then
+        Erase arr
+    End If
+    
+End Sub

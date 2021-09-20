@@ -12,6 +12,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -160,6 +161,11 @@ Private Sub cmdEdit_Click()
         .Range(94) = String_to_Date(Me.txtDate_Comp.Value)
         .Range(95) = Me.txtReminder.Value
         
+        'Apply completion status
+        If IsDate(.Range(92).Value) And IsDate(.Range(94).Value) Then
+            .Range(136).Value = True
+        End If
+    
         'Update version control
         .Range(96) = Now
         .Range(97) = Username
@@ -177,7 +183,7 @@ End Sub
 
 Private Sub tglNav_Click()
     'PURPOSE: Closes current form and open Nav form
-    Unload form041_Recruitment
+    Unload form045_Indemnity
     
     form00_Nav.Show False
 End Sub
@@ -194,6 +200,7 @@ Private Sub tglCDA_FS_Click()
     Unload form045_Indemnity
     
     form02_CDA_FS.Show False
+    form02_CDA_FS.multiCDA_FS.Value = 0
 End Sub
 
 Private Sub tglSiteSelect_Click()
@@ -215,6 +222,7 @@ Private Sub tglEthics_Click()
     Unload form045_Indemnity
     
     form042_Ethics.Show False
+    form042_Ethics.multiEthics.Value = 0
 End Sub
 
 Private Sub tglGovernance_Click()
@@ -222,6 +230,7 @@ Private Sub tglGovernance_Click()
     Unload form045_Indemnity
     
     form043_Governance.Show False
+    form043_Governance.multiGov.Value = 0
 End Sub
 
 Private Sub tglBudget_Click()

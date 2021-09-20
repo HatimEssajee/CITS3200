@@ -12,6 +12,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 Option Explicit
 
 Private Sub UserForm_Activate()
@@ -85,8 +86,8 @@ Private Sub UserForm_Initialize()
     'Read information from register table
     With RegTable.ListRows(RowIndex)
         Me.txtStudyName.Value = .Range(10).Value
-        Me.txtVTG_Date_Submitted.Value = Format(.Range(83).Value, "dd-mmm-yyyy")
-        Me.txtVTG_Date_Finalised.Value = Format(.Range(84).Value, "dd-mmm-yyyy")
+        Me.txtVTG_Date_Finalised.Value = Format(.Range(83).Value, "dd-mmm-yyyy")
+        Me.txtVTG_Date_Submitted.Value = Format(.Range(84).Value, "dd-mmm-yyyy")
         Me.txtVTG_Date_Approved.Value = Format(.Range(85).Value, "dd-mmm-yyyy")
         
         Me.txtTKI_Date_Approved.Value = Format(.Range(86).Value, "dd-mmm-yyyy")
@@ -231,17 +232,36 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(83) = String_to_Date(Me.txtVTG_Date_Submitted.Value)
-        .Range(84) = String_to_Date(Me.txtVTG_Date_Finalised.Value)
+        .Range(83) = String_to_Date(Me.txtVTG_Date_Finalised.Value)
+        .Range(84) = String_to_Date(Me.txtVTG_Date_Submitted.Value)
         .Range(85) = String_to_Date(Me.txtVTG_Date_Approved.Value)
         .Range(86) = String_to_Date(Me.txtTKI_Date_Approved.Value)
         .Range(87) = String_to_Date(Me.txtPharm_Date_Quote.Value)
         .Range(88) = String_to_Date(Me.txtPharm_Date_Finalised.Value)
         .Range(89) = Me.txtReminder.Value
         
+        'Apply completion status
+        If Application.CountA(Range(RegTable.DataBodyRange.Cells(RowIndex, 83), _
+            RegTable.DataBodyRange.Cells(RowIndex, 88))) = 0 Then
+            .Range(133).Value = False
+        ElseIf IsDate(.Range(83).Value) And IsDate(.Range(85).Value) Then
+            .Range(133).Value = True
+        Else
+            .Range(133).Value = False
+        End If
+        
+        .Range(134).Value = IsDate(.Range(86).Value)
+        
+        If IsDate(.Range(87).Value) And IsDate(.Range(88).Value) Then
+            .Range(135).Value = True
+        Else
+            .Range(135).Value = False
+        End If
+        
         'Update version control
         .Range(90) = Now
         .Range(91) = Username
+        
     End With
     
     'Access version control
@@ -273,6 +293,7 @@ Private Sub tglCDA_FS_Click()
     Unload form044_Budget
     
     form02_CDA_FS.Show False
+    form02_CDA_FS.multiCDA_FS.Value = 0
 End Sub
 
 Private Sub tglSiteSelect_Click()
@@ -294,6 +315,7 @@ Private Sub tglEthics_Click()
     Unload form044_Budget
     
     form042_Ethics.Show False
+    form042_Ethics.multiEthics.Value = 0
 End Sub
 
 Private Sub tglGovernance_Click()
@@ -301,6 +323,7 @@ Private Sub tglGovernance_Click()
     Unload form044_Budget
     
     form043_Governance.Show False
+    form043_Governance.multiGov.Value = 0
 End Sub
 
 Private Sub tglIndemnity_Click()
