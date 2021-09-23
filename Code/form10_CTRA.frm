@@ -1,13 +1,13 @@
 VERSION 5.00
-Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form05_CTRA 
+Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form10_CTRA 
    Caption         =   "CTRA"
-   ClientHeight    =   5148
+   ClientHeight    =   5145
    ClientLeft      =   -405
    ClientTop       =   -2085
    ClientWidth     =   6645
-   OleObjectBlob   =   "form05_CTRA.frx":0000
+   OleObjectBlob   =   "form10_CTRA.frx":0000
 End
-Attribute VB_Name = "form05_CTRA"
+Attribute VB_Name = "form10_CTRA"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True

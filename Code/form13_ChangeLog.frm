@@ -1,13 +1,13 @@
 VERSION 5.00
-Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form08_ChangeLog 
+Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form13_ChangeLog 
    Caption         =   "Change Log"
    ClientHeight    =   10320
    ClientLeft      =   -360
    ClientTop       =   -1545
    ClientWidth     =   9225.001
-   OleObjectBlob   =   "form08_ChangeLog.frx":0000
+   OleObjectBlob   =   "form13_ChangeLog.frx":0000
 End
-Attribute VB_Name = "form08_ChangeLog"
+Attribute VB_Name = "form13_ChangeLog"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True

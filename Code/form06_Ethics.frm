@@ -1,13 +1,13 @@
 VERSION 5.00
-Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form042_Ethics 
+Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form06_Ethics 
    Caption         =   "Ethics Review"
    ClientHeight    =   6720
    ClientLeft      =   -420
    ClientTop       =   -1995
    ClientWidth     =   10320
-   OleObjectBlob   =   "form042_Ethics.frx":0000
+   OleObjectBlob   =   "form06_Ethics.frx":0000
 End
-Attribute VB_Name = "form042_Ethics"
+Attribute VB_Name = "form06_Ethics"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True

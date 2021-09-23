@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form01_StudyDetail 
    Caption         =   "Study Details"
-   ClientHeight    =   5436
-   ClientLeft      =   -432
-   ClientTop       =   -1848
-   ClientWidth     =   6972
+   ClientHeight    =   8625.001
+   ClientLeft      =   -435
+   ClientTop       =   -1845
+   ClientWidth     =   13350
    OleObjectBlob   =   "form01_StudyDetail.frx":0000
 End
 Attribute VB_Name = "form01_StudyDetail"
@@ -140,48 +140,81 @@ Private Sub tglNav_Click()
     form00_Nav.Show False
 End Sub
 
-Private Sub tglCDA_FS_Click()
+Private Sub tglCDA_Click()
     'PURPOSE: Closes current form and open CDA / FS form
     Unload form01_StudyDetail
     
-    form02_CDA_FS.Show False
-    form02_CDA_FS.multiCDA_FS.Value = 0
+    form02_CDA.Show False
+End Sub
+
+Private Sub tglFS_Click()
+    'PURPOSE: Closes current form and open CDA / FS form
+    Unload form01_StudyDetail
     
+    form03_FS.Show False
 End Sub
 
 Private Sub tglSiteSelect_Click()
     'PURPOSE: Closes current form and open Site Select form
     Unload form01_StudyDetail
     
-    form03_SiteSelect.Show False
+    form04_SiteSelect.Show False
 End Sub
 
-Private Sub tglReviews_Click()
-    'PURPOSE: Closes current form and open Reviews form - Recruitment tab
+Private Sub tglRecruit_Click()
+    'PURPOSE: Closes current form and Recruitment form
     Unload form01_StudyDetail
     
-    form041_Recruitment.Show False
+    form05_Recruitment.Show False
+End Sub
+
+Private Sub tglEthics_Click()
+    'PURPOSE: Closes current form and open Ethics form
+    Unload form01_StudyDetail
+    
+    form06_Ethics.Show False
+End Sub
+
+Private Sub tglGov_Click()
+    'PURPOSE: Closes current form and open Governance form
+    Unload form01_StudyDetail
+    
+    form07_Governance.Show False
+End Sub
+
+Private Sub tglBudget_Click()
+    'PURPOSE: Closes current form and open Budget form
+    Unload form01_StudyDetail
+    
+    form08_Recruitment.Show False
+End Sub
+
+Private Sub tglIndemnity_Click()
+    'PURPOSE: Closes current form and open Indemnity form
+    Unload form01_StudyDetail
+    
+    form09_Indemnity.Show False
 End Sub
 
 Private Sub tglCTRA_Click()
     'PURPOSE: Closes current form and open CTRA form
     Unload form01_StudyDetail
     
-    form05_CTRA.Show False
+    form10_CTRA.Show False
 End Sub
 
 Private Sub tglFinDisc_Click()
     'PURPOSE: Closes current form and open Fin. Disc. form
     Unload form01_StudyDetail
     
-    form06_FinDisc.Show False
+    form11_FinDisc.Show False
 End Sub
 
 Private Sub tglSIV_Click()
     'PURPOSE: Closes current form and open SIV form
     Unload form01_StudyDetail
     
-    form07_SIV.Show False
+    form12_SIV.Show False
 End Sub
 
 

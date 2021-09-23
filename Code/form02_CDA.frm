@@ -1,13 +1,13 @@
 VERSION 5.00
-Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form02_CDA_FS 
+Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form02_CDA 
    Caption         =   "CDA & Feasibility"
-   ClientHeight    =   8292.001
+   ClientHeight    =   8430.001
    ClientLeft      =   -390
    ClientTop       =   -1755
-   ClientWidth     =   11595
-   OleObjectBlob   =   "form02_CDA_FS.frx":0000
+   ClientWidth     =   15795
+   OleObjectBlob   =   "form02_CDA.frx":0000
 End
-Attribute VB_Name = "form02_CDA_FS"
+Attribute VB_Name = "form02_CDA"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -67,28 +67,6 @@ Private Sub UserForm_Initialize()
             End Select
     Next ctrl
     
-    For Each pPage In Me.multiCDA_FS.Pages
-        For Each ctrl In pPage.Controls
-            Select Case True
-                Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = False
-                Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.Value = ""
-                    
-                    'Empty error captions
-                    If Left(ctrl.Name, 3) = "err" Then
-                        ctrl.Caption = ""
-                    End If
-                    
-                Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.Value = ""
-                Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.Value = ""
-            End Select
-                
-        Next ctrl
-    Next pPage
-    
     'Read information from register table
     With RegTable.ListRows(RowIndex)
         Me.txtStudyName.Value = .Range(10).Value
@@ -98,10 +76,6 @@ Private Sub UserForm_Initialize()
         Me.txtCDA_Sent_Sponsor.Value = Format(.Range(20).Value, "dd-mmm-yyyy")
         Me.txtCDA_Finalised.Value = Format(.Range(21).Value, "dd-mmm-yyyy")
         
-        Me.txtFS_Recv.Value = Format(.Range(22).Value, "dd-mmm-yyyy")
-        Me.txtFS_Comp.Value = Format(.Range(23).Value, "dd-mmm-yyyy")
-        Me.txtFS_Initials.Value = .Range(24).Value
-        
         Me.txtReminder.Value = .Range(25).Value
     End With
     
@@ -109,8 +83,8 @@ Private Sub UserForm_Initialize()
     Call LogLastAccess
     
     'Depress and make toggle green on nav bar
-    Me.tglCDA_FS.Value = True
-    Me.tglCDA_FS.BackColor = vbGreen
+    Me.tglCDA.Value = True
+    Me.tglCDA.BackColor = vbGreen
     
     'Run date validation on data entered
     Call txtCDA_Recv_Sponsor_AfterUpdate
@@ -118,8 +92,6 @@ Private Sub UserForm_Initialize()
     Call txtCDA_Recv_Contracts_AfterUpdate
     Call txtCDA_Sent_Sponsor_AfterUpdate
     Call txtCDA_Finalised_AfterUpdate
-    Call txtFS_Recv_AfterUpdate
-    Call txtFS_Comp_AfterUpdate
     
 End Sub
 
@@ -207,39 +179,6 @@ Private Sub txtCDA_Finalised_AfterUpdate()
     
 End Sub
 
-Private Sub txtFS_Recv_AfterUpdate()
-    'PURPOSE: Validate date entered
-    Dim err As String
-    
-    err = Date_Validation(Me.txtFS_Recv.Value)
-    
-    'Display error message
-    Me.errFS_Recv.Caption = err
-    
-    'Change date format displayed
-    If IsDate(Me.txtFS_Recv.Value) Then
-        Me.txtFS_Recv.Value = Format(Me.txtFS_Recv.Value, "dd-mmm-yyyy")
-    End If
-    
-End Sub
-
-Private Sub txtFS_Comp_AfterUpdate()
-    'PURPOSE: Validate date entered
-    Dim err As String
-    
-    err = Date_Validation(Me.txtFS_Comp.Value, Me.txtFS_Recv.Value, _
-            "Date entered earlier than date" & Chr(10) & "received")
-
-    'Display error message
-    Me.errFS_Comp.Caption = err
-    
-    'Change date format displayed
-    If IsDate(Me.txtFS_Comp.Value) Then
-        Me.txtFS_Comp.Value = Format(Me.txtFS_Comp.Value, "dd-mmm-yyyy")
-    End If
-     
-End Sub
-
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form
     
@@ -259,10 +198,6 @@ Private Sub cmdEdit_Click()
         .Range(19) = String_to_Date(Me.txtCDA_Recv_Contracts.Value)
         .Range(20) = String_to_Date(Me.txtCDA_Sent_Sponsor.Value)
         .Range(21) = String_to_Date(Me.txtCDA_Finalised.Value)
-        
-        .Range(22) = String_to_Date(Me.txtFS_Recv.Value)
-        .Range(23) = String_to_Date(Me.txtFS_Comp.Value)
-        .Range(24) = Me.txtFS_Initials.Value
         
         .Range(25) = Me.txtReminder.Value
         

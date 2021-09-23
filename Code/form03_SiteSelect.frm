@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form03_SiteSelect 
    Caption         =   "Site Selection"
    ClientHeight    =   4896
-   ClientLeft      =   -456
-   ClientTop       =   -1956
-   ClientWidth     =   6948
+   ClientLeft      =   -450
+   ClientTop       =   -1950
+   ClientWidth     =   6945
    OleObjectBlob   =   "form03_SiteSelect.frx":0000
 End
 Attribute VB_Name = "form03_SiteSelect"
@@ -177,8 +177,12 @@ Private Sub cmdEdit_Click()
         .Range(35) = Username
         
         'Apply completion status
-         .Range(119).Value = IsDate(.Range(32).Value)
-                
+        If .Range(32).Value = vbNullString Then
+            .Range(119).Value = vbNullString
+        Else
+            .Range(119).Value = IsDate(.Range(32).Value)
+        End If
+        
     End With
     
     'Access version control

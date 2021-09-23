@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form00_Nav 
    Caption         =   "Vaccine Trial Study Start-up Tracker"
    ClientHeight    =   9096.001
-   ClientLeft      =   -36
+   ClientLeft      =   -30
    ClientTop       =   -360
-   ClientWidth     =   10932
+   ClientWidth     =   10920
    OleObjectBlob   =   "form00_Nav.frx":0000
 End
 Attribute VB_Name = "form00_Nav"
@@ -46,7 +46,7 @@ Private Sub UserForm_Initialize()
     Dim ctrl As MSForms.Control
     
     'Load default values
-    cboList_StudyStatus = Array("Current", "Commenced", "Halted")
+    cboList_StudyStatus = Array("Pre-commencement", "Commenced", "Not Going Ahead")
     
     If Not RegTable.DataBodyRange Is Nothing Then
         StudyStatus = RegTable.DataBodyRange.Columns(8)
@@ -160,7 +160,7 @@ Private Sub cmdNew_Click()
         .Range(2) = Now
         .Range(3) = Username
         
-        .Range(8) = "Current"
+        .Range(8) = "Pre-commencement"
         .Range(9) = Me.txtProtocolNum.Value
         .Range(10) = StudyName
         .Range(11) = Me.txtSponsor.Value
@@ -216,7 +216,7 @@ Private Sub cboStudyStatus_AfterUpdate()
     End If
     
     'Swap to commenced if SIV before today
-    If Me.cboStudyStatus.Value = "Current" And SIVDate <> vbNullString And _
+    If Me.cboStudyStatus.Value = "Pre-commencement" And SIVDate <> vbNullString And _
         String_to_Date(SIVDate) < Now Then
         
         Me.cboStudyStatus.Value = "Commenced"
@@ -289,7 +289,7 @@ Private Sub cmdChangeLog_Click()
     If RowIndex < 0 Then
         errSearch.Caption = "Need study entry identified to view log"
     Else
-        form08_ChangeLog.Show False
+        form13_ChangeLog.Show False
     End If
     
     'Store form position
@@ -307,7 +307,7 @@ Private Sub cmdReminders_Click()
     If RowIndex < 0 Then
         errSearch.Caption = "Need study entry identified to view log"
     Else
-        form09_ReminderLog.Show False
+        form14_ReminderLog.Show False
     End If
     
     'Store form position
@@ -376,16 +376,30 @@ Private Sub Fill_Completion_Status()
         End If
         
         'CDA
-        .Range(117).Value = IsDate(.Range(21).Value)
+        If .Range(21).Value = vbNullString Then
+            .Range(117).Value = vbNullString
+        Else
+            .Range(117).Value = IsDate(.Range(21).Value)
+        End If
         
         'FS
-        .Range(118).Value = IsDate(.Range(23).Value)
+        If .Range(23).Value = vbNullString Then
+            .Range(118).Value = vbNullString
+        Else
+            .Range(118).Value = IsDate(.Range(23).Value)
+        End If
         
         'Site selection
-        .Range(119).Value = IsDate(.Range(32).Value)
+        If .Range(32).Value = vbNullString Then
+            .Range(119).Value = vbNullString
+        Else
+            .Range(119).Value = IsDate(.Range(32).Value)
+        End If
         
         'Recruitment
-        If .Range(37).Value = "Complete" Then
+        If .Range(37).Value = vbNullString Then
+            .Range(120).Value = vbNullString
+        ElseIf .Range(37).Value = "Complete" Then
             .Range(120).Value = True
         End If
         
@@ -521,68 +535,66 @@ Private Sub Apply_FastCycle()
                 Case 1
                     form01_StudyDetail.Show False
                 Case 2
-                    form02_CDA_FS.Show False
-                    form02_CDA_FS.multiCDA_FS.Value = 0
+                    form02_CDA.Show False
                 Case 3
-                    form02_CDA_FS.Show False
-                    form02_CDA_FS.multiCDA_FS.Value = 1
+                    form03_FS.Show False
                 Case 4
-                    form03_SiteSelect.Show False
+                    form04_SiteSelect.Show False
                 Case 5
-                    form041_Recruitment.Show False
+                    form05_Recruitment.Show False
                 Case 6
-                    form042_Ethics.Show False
-                    form042_Ethics.multiEthics.Value = 0
+                    form06_Ethics.Show False
+                    form06_Ethics.multiEthics.Value = 0
                 Case 7
-                    form042_Ethics.Show False
-                    form042_Ethics.multiEthics.Value = 1
+                    form06_Ethics.Show False
+                    form06_Ethics.multiEthics.Value = 1
                 Case 8
-                    form042_Ethics.Show False
-                    form042_Ethics.multiEthics.Value = 2
+                    form06_Ethics.Show False
+                    form06_Ethics.multiEthics.Value = 2
                 Case 9
-                    form042_Ethics.Show False
-                    form042_Ethics.multiEthics.Value = 3
+                    form06_Ethics.Show False
+                    form06_Ethics.multiEthics.Value = 3
                 Case 10
-                    form042_Ethics.Show False
-                    form042_Ethics.multiEthics.Value = 4
+                    form06_Ethics.Show False
+                    form06_Ethics.multiEthics.Value = 4
                 Case 11
-                    form043_Governance.Show False
-                    form043_Governance.multiGov.Value = 0
+                    form07_Governance.Show False
+                    form07_Governance.multiGov.Value = 0
                 Case 12
-                    form043_Governance.Show False
-                    form043_Governance.multiGov.Value = 1
+                    form07_Governance.Show False
+                    form07_Governance.multiGov.Value = 1
                 Case 13
-                    form043_Governance.Show False
-                    form043_Governance.multiGov.Value = 2
+                    form07_Governance.Show False
+                    form07_Governance.multiGov.Value = 2
                 Case 14
-                    form043_Governance.Show False
-                    form043_Governance.multiGov.Value = 3
+                    form07_Governance.Show False
+                    form07_Governance.multiGov.Value = 3
                 Case 15
-                    form043_Governance.Show False
-                    form043_Governance.multiGov.Value = 4
+                    form07_Governance.Show False
+                    form07_Governance.multiGov.Value = 4
                 Case 16
-                    form043_Governance.Show False
-                    form043_Governance.multiGov.Value = 5
+                    form07_Governance.Show False
+                    form07_Governance.multiGov.Value = 5
                 Case 17
-                    form043_Governance.Show False
-                    form043_Governance.multiGov.Value = 6
+                    form07_Governance.Show False
+                    form07_Governance.multiGov.Value = 6
                 Case 18
-                    form044_Budget.Show False
-                    form044_Budget.multiBudget.Value = 0
+                    form08_Budget.Show False
+                    form08_Budget.multiBudget.Value = 0
                 Case 19
-                    form044_Budget.Show False
-                    form044_Budget.multiBudget.Value = 1
+                    form08_Budget.Show False
+                    form08_Budget.multiBudget.Value = 1
                 Case 20
-                    form044_Budget.Show False
-                    form044_Budget.multiBudget.Value = 2
+                    form08_Budget.Show False
+                    form08_Budget.multiBudget.Value = 2
                 Case 21
-                    form045_Indemnity.Show False
+                    form09_Indemnity.Show False
                 Case 22
-                    form05_CTRA.Show False
+                    form10_CTRA.Show False
                 Case 23
-                    form06_FinDisc.Show False
+                    form11_FinDisc.Show False
                 Case 24
-                    form07_SIV.Show False
+                    form12_SIV.Show False
                 Case Else
                     form01_StudyDetail.Show False
                 End Select
@@ -624,7 +636,7 @@ Private Sub cmdSearch_Click()
     
     
     For i = 1 To UBound(SearchArr)
-        If (Not (Tick) Or (Tick And SearchArr(i, 1) = "Current")) And _
+        If (Not (Tick) Or (Tick And SearchArr(i, 1) = "Pre-commencement")) And _
             (StudyName = vbNullString Or (Len(StudyName) > 0 And InStr(1, SearchArr(i, 3), StudyName, vbTextCompare) > 0)) And _
             (ProtocolNum = vbNullString Or (Len(ProtocolNum) > 0 And InStr(1, SearchArr(i, 2), ProtocolNum, vbTextCompare) > 0)) And _
             (Sponsor = vbNullString Or (Len(Sponsor) > 0 And InStr(1, SearchArr(i, 4), Sponsor, vbTextCompare) > 0)) Then
@@ -699,8 +711,8 @@ Private Sub cmdJumpForw_Click()
     temp = StudyStatus
     
 
-    'Check if got StudyStatus is a valid array and in the case of checkbox if it contains current
-    If RegTable.DataBodyRange Is Nothing Or (Tick And Not Contains(StudyStatus, "Current")) Then
+    'Check if got StudyStatus is a valid array and in the case of checkbox if it contains Pre-commencement
+    If RegTable.DataBodyRange Is Nothing Or (Tick And Not Contains(StudyStatus, "Pre-commencement")) Then
         Call cmdClear_Click
         errSearch.Caption = "No data found in register"
         Exit Sub
@@ -716,7 +728,7 @@ Private Sub cmdJumpForw_Click()
     'Conditional stepping
     If Tick And IsArray(StudyStatus) Then
         'Loop through study status array
-        Do While InStr(1, "Current", StudyStatus(RowIndex, 1), vbTextCompare) = 0 And RowIndex > 1
+        Do While InStr(1, "Pre-commencement", StudyStatus(RowIndex, 1), vbTextCompare) = 0 And RowIndex > 1
             RowIndex = RowIndex - 1
         Loop
     End If
@@ -734,8 +746,8 @@ Private Sub cmdNext_Click()
     
     Dim BtmRow As Long
     
-    'Check if got StudyStatus is a valid array and in the case of checkbox if it contains current
-    If RegTable.DataBodyRange Is Nothing Or (Tick And Not Contains(StudyStatus, "Current")) Then
+    'Check if got StudyStatus is a valid array and in the case of checkbox if it contains Pre-commencement
+    If RegTable.DataBodyRange Is Nothing Or (Tick And Not Contains(StudyStatus, "Pre-commencement")) Then
         Call cmdClear_Click
         errSearch.Caption = "No data found in register"
         Exit Sub
@@ -757,7 +769,7 @@ Private Sub cmdNext_Click()
     'Conditional stepping
     If Tick And IsArray(StudyStatus) Then
         'Loop through study status array
-        Do While InStr(1, "Current", StudyStatus(RowIndex, 1), vbTextCompare) = 0
+        Do While InStr(1, "Pre-commencement", StudyStatus(RowIndex, 1), vbTextCompare) = 0
             RowIndex = RowIndex + 1
             If RowIndex > BtmRow Then
                 RowIndex = 1
@@ -777,8 +789,8 @@ Private Sub cmdJumpBack_Click()
     
     Dim BtmRow As Long
     
-    'Check if got StudyStatus is a valid array and in the case of checkbox if it contains current
-    If RegTable.DataBodyRange Is Nothing Or (Tick And Not Contains(StudyStatus, "Current")) Then
+    'Check if got StudyStatus is a valid array and in the case of checkbox if it contains Pre-commencement
+    If RegTable.DataBodyRange Is Nothing Or (Tick And Not Contains(StudyStatus, "Pre-commencement")) Then
         Call cmdClear_Click
         errSearch.Caption = "No data found in register"
         Exit Sub
@@ -795,7 +807,7 @@ Private Sub cmdJumpBack_Click()
     'Conditional stepping
     If Tick And IsArray(StudyStatus) Then
         'Loop through study status array
-        Do While InStr(1, "Current", StudyStatus(RowIndex, 1), vbTextCompare) = 0 And RowIndex < BtmRow
+        Do While InStr(1, "Pre-commencement", StudyStatus(RowIndex, 1), vbTextCompare) = 0 And RowIndex < BtmRow
             RowIndex = RowIndex + 1
         Loop
     End If
@@ -813,8 +825,8 @@ Private Sub cmdPrevious_Click()
     Dim TopRow As Long
     Dim BtmRow As Long
     
-    'Check if got StudyStatus is a valid array and in the case of checkbox if it contains current
-    If RegTable.DataBodyRange Is Nothing Or (Tick And Not Contains(StudyStatus, "Current")) Then
+    'Check if got StudyStatus is a valid array and in the case of checkbox if it contains Pre-commencement
+    If RegTable.DataBodyRange Is Nothing Or (Tick And Not Contains(StudyStatus, "Pre-commencement")) Then
         Call cmdClear_Click
         errSearch.Caption = "No data found in register"
         Exit Sub
@@ -835,11 +847,11 @@ Private Sub cmdPrevious_Click()
         RowIndex = RowIndex - 1
     End If
     
-    'Conditional stepping if check box ticked and Current status in register
+    'Conditional stepping if check box ticked and Pre-commencement status in register
     'source: https://stackoverflow.com/questions/38267950/check-if-a-value-is-in-an-array-or-not-with-excel-vba
     If Tick And IsArray(StudyStatus) Then
         'Loop through study status array
-        Do While InStr(1, "Current", StudyStatus(RowIndex, 1), vbTextCompare) = 0
+        Do While InStr(1, "Pre-commencement", StudyStatus(RowIndex, 1), vbTextCompare) = 0
             RowIndex = RowIndex - 1
             
             If RowIndex < 1 Then
@@ -863,7 +875,7 @@ Private Sub Read_Table()
             
         'Check if site initiation visit passed and automatically reallocated status to commenced
         If .Range(112).Value <> vbNullString And String_to_Date(.Range(112).Value) < Now _
-            And .Range(8).Value = "Current" Then
+            And .Range(8).Value = "Pre-commencement" Then
             .Range(8).Value = "Commenced"
             
             'Update version control
@@ -890,11 +902,11 @@ End Sub
 Private Function StudyStatus_Colour(Status As String) As Long
     'PURPOSE: assigns RGB colour value depending on the Study Status
     Select Case (Status):
-        Case "Current"
+        Case "Pre-commencement"
             StudyStatus_Colour = RGB(0, 0, 0)
         Case "Commenced"
             StudyStatus_Colour = RGB(0, 128, 0)
-        Case "Halted"
+        Case "Not Going Ahead"
             StudyStatus_Colour = RGB(255, 0, 255)
         Case "DELETED"
             StudyStatus_Colour = RGB(255, 0, 0)

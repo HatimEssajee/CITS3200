@@ -1,13 +1,13 @@
 VERSION 5.00
-Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form041_Recruitment 
+Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form05_Recruitment 
    Caption         =   "Recruitment Plan"
-   ClientHeight    =   7992
+   ClientHeight    =   7995
    ClientLeft      =   -510
    ClientTop       =   -2190
    ClientWidth     =   9030.001
-   OleObjectBlob   =   "form041_Recruitment.frx":0000
+   OleObjectBlob   =   "form05_Recruitment.frx":0000
 End
-Attribute VB_Name = "form041_Recruitment"
+Attribute VB_Name = "form05_Recruitment"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -44,9 +44,6 @@ Private Sub UserForm_Initialize()
     'Source: https://www.contextures.com/Excel-VBA-ComboBox-Lists.html
     Dim ctrl As MSForms.Control
     Dim pPage As MSForms.Page
-    Dim cboList_RecruitStatus As Variant, item As Variant
-    
-    cboList_RecruitStatus = Array("In-progress", "Complete")
     
     'Clear user form
     'SOURCE: https://www.mrexcel.com/board/threads/loop-through-controls-on-a-userform.427103/
@@ -70,16 +67,10 @@ Private Sub UserForm_Initialize()
             End Select
     Next ctrl
     
-    'Fill combo box for study status
-    For Each item In cboList_RecruitStatus
-        cboRecruitStatus.AddItem item
-    Next item
-    
     'Read information from register table
     With RegTable.ListRows(RowIndex)
         Me.txtStudyName.Value = .Range(10).Value
         Me.txtDate_Plan.Value = Format(.Range(36).Value, "dd-mmm-yyyy")
-        Me.cboRecruitStatus.Value = .Range(37).Value
         Me.txtReminder.Value = .Range(38).Value
     End With
     
@@ -136,10 +127,10 @@ Private Sub cmdEdit_Click()
         .Range(40) = Username
         
         'Apply completion status
-        If .Range(37).Value = "Complete" Then
-            .Range(120).Value = True
+        If .Range(36).Value = vbNullString Then
+            .Range(119).Value = vbNullString
         Else
-            .Range(120).Value = False
+            .Range(119).Value = IsDate(.Range(36).Value)
         End If
 
     End With

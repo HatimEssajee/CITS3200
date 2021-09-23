@@ -1,13 +1,13 @@
 VERSION 5.00
-Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form09_ReminderLog 
+Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form14_ReminderLog 
    Caption         =   "Reminder Log"
    ClientHeight    =   10320
    ClientLeft      =   -360
    ClientTop       =   -1635
    ClientWidth     =   7380
-   OleObjectBlob   =   "form09_ReminderLog.frx":0000
+   OleObjectBlob   =   "form14_ReminderLog.frx":0000
 End
-Attribute VB_Name = "form09_ReminderLog"
+Attribute VB_Name = "form14_ReminderLog"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True

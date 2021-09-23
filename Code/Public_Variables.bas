@@ -32,8 +32,8 @@ Public UserFormLeftPosR As Long
 Public UserFormTopPosR As Long
 
 'Userform dimension control
-Public Const UHeight As Long = 470
-Public Const UWidth As Long = 500
+Public Const UHeight As Long = 470 '610
+Public Const UWidth As Long = 650
 
 
 'list of public functions to share between userforms

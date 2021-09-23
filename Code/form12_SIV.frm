@@ -1,13 +1,13 @@
 VERSION 5.00
-Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form041_Recruitment 
-   Caption         =   "Recruitment Plan"
-   ClientHeight    =   7992
-   ClientLeft      =   -510
-   ClientTop       =   -2190
-   ClientWidth     =   9030.001
-   OleObjectBlob   =   "form041_Recruitment.frx":0000
+Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form12_SIV 
+   Caption         =   "Financial Disclosure"
+   ClientHeight    =   5025
+   ClientLeft      =   -435
+   ClientTop       =   -1890
+   ClientWidth     =   7365
+   OleObjectBlob   =   "form12_SIV.frx":0000
 End
-Attribute VB_Name = "form041_Recruitment"
+Attribute VB_Name = "form12_SIV"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -43,13 +43,9 @@ Private Sub UserForm_Initialize()
     'Source: https://www.contextures.com/xlUserForm02.html
     'Source: https://www.contextures.com/Excel-VBA-ComboBox-Lists.html
     Dim ctrl As MSForms.Control
-    Dim pPage As MSForms.Page
-    Dim cboList_RecruitStatus As Variant, item As Variant
-    
-    cboList_RecruitStatus = Array("In-progress", "Complete")
     
     'Clear user form
-    'SOURCE: https://www.mrexcel.com/board/threads/loop-through-controls-on-a-userform.427103/
+    'source: https://www.mrexcel.com/board/threads/loop-through-controls-on-a-userform.427103/
     For Each ctrl In Me.Controls
         Select Case True
                 Case TypeOf ctrl Is MSForms.CheckBox
@@ -70,45 +66,36 @@ Private Sub UserForm_Initialize()
             End Select
     Next ctrl
     
-    'Fill combo box for study status
-    For Each item In cboList_RecruitStatus
-        cboRecruitStatus.AddItem item
-    Next item
-    
     'Read information from register table
     With RegTable.ListRows(RowIndex)
         Me.txtStudyName.Value = .Range(10).Value
-        Me.txtDate_Plan.Value = Format(.Range(36).Value, "dd-mmm-yyyy")
-        Me.cboRecruitStatus.Value = .Range(37).Value
-        Me.txtReminder.Value = .Range(38).Value
+        Me.txtSIV_Date.Value = Format(.Range(112).Value, "dd-mmm-yyyy")
+        Me.txtReminder.Value = .Range(113).Value
     End With
     
     'Access version control
     Call LogLastAccess
     
     'Depress and make toggle green on nav bar
-    Me.tglReviews.Value = True
-    Me.tglReviews.BackColor = vbGreen
-    Me.tglRecruitment.Value = True
-    Me.tglRecruitment.BackColor = vbGreen
+    Me.tglSIV.Value = True
+    Me.tglSIV.BackColor = vbGreen
     
     'Run date validation on data entered
-    Call txtDate_Plan_AfterUpdate
+    Call txtSIV_date_AfterUpdate
     
 End Sub
-
-Private Sub txtDate_Plan_AfterUpdate()
+Private Sub txtSIV_date_AfterUpdate()
     'PURPOSE: Validate date entered
     Dim err As String
     
-    err = Date_Validation(Me.txtDate_Plan.Value)
+    err = Date_Validation(Me.txtSIV_Date.Value)
     
     'Display error message
-    Me.errDate_Plan.Caption = err
+    Me.errSIV_Date.Caption = err
     
     'Change date format displayed
-    If IsDate(Me.txtDate_Plan.Value) Then
-        Me.txtDate_Plan.Value = Format(Me.txtDate_Plan.Value, "dd-mmm-yyyy")
+    If err = vbNullString Then
+        Me.txtSIV_Date.Value = Format(Me.txtSIV_Date.Value, "dd-mmm-yyyy")
     End If
     
 End Sub
@@ -127,21 +114,36 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(36) = String_to_Date(Me.txtDate_Plan)
-        .Range(37) = Me.cboRecruitStatus
-        .Range(38) = Me.txtReminder
+        .Range(112) = String_to_Date(Me.txtSIV_Date.Value)
+        .Range(113) = Me.txtReminder.Value
         
         'Update version control
-        .Range(39) = Now
-        .Range(40) = Username
+        .Range(114) = Now
+        .Range(115) = Username
+        
+        'Change study status based on SIV date saved
+        If Me.txtSIV_Date.Value <> vbNullString And String_to_Date(Me.txtSIV_Date.Value) > Now _
+            And .Range(8).Value = "Commenced" Then
+            
+            .Range(8) = "Current"
+            
+            'Update version control
+            .Range(15) = .Range(114).Value
+            .Range(16) = .Range(115).Value
+        
+        ElseIf Me.txtSIV_Date.Value <> vbNullString And String_to_Date(Me.txtSIV_Date.Value) < Now _
+            And .Range(8).Value = "Current" Then
+            
+            .Range(8) = "Commenced"
+            
+            'Update version control
+            .Range(15) = .Range(114).Value
+            .Range(16) = .Range(115).Value
+        End If
         
         'Apply completion status
-        If .Range(37).Value = "Complete" Then
-            .Range(120).Value = True
-        Else
-            .Range(120).Value = False
-        End If
-
+        .Range(139).Value = IsDate(.Range(112).Value)
+        
     End With
     
     'Access version control
@@ -156,82 +158,50 @@ End Sub
 
 Private Sub tglNav_Click()
     'PURPOSE: Closes current form and open Nav form
-    Unload form041_Recruitment
+    Unload form07_SIV
     
     form00_Nav.Show False
 End Sub
 
 Private Sub tglStudyDetail_Click()
     'PURPOSE: Closes current form and open Study Details form
-    Unload form041_Recruitment
+    Unload form07_SIV
     
     form01_StudyDetail.Show False
 End Sub
 
 Private Sub tglCDA_FS_Click()
     'PURPOSE: Closes current form and open CDA / FS form
-    Unload form041_Recruitment
+    Unload form07_SIV
     
     form02_CDA_FS.Show False
-    form02_CDA_FS.multiCDA_FS.Value = 0
 End Sub
 
 Private Sub tglSiteSelect_Click()
-    'PURPOSE: Closes current form and open Site Select form
-    Unload form041_Recruitment
+    'PURPOSE: Closes current form and open Site Selection form
+    Unload form07_SIV
     
     form03_SiteSelect.Show False
 End Sub
 
-Private Sub tglEthics_Click()
-    'PURPOSE: Closes current form and open Ethics form
-    Unload form041_Recruitment
+Private Sub tglReviews_Click()
+    'PURPOSE: Closes current form and open Reviews form - Recruitment tab
+    Unload form07_SIV
     
-    form042_Ethics.Show False
-    form042_Ethics.multiEthics.Value = 0
+    form041_Recruitment.Show False
 End Sub
-
-Private Sub tglGovernance_Click()
-    'PURPOSE: Closes current form and open Governance form
-    Unload form041_Recruitment
-    
-    form043_Governance.Show False
-    form043_Governance.multiGov.Value = 0
-End Sub
-
-Private Sub tglBudget_Click()
-    'PURPOSE: Closes current form and open Budget form
-    Unload form041_Recruitment
-    
-    form044_Budget.Show False
-End Sub
-
-Private Sub tglIndemnity_Click()
-    'PURPOSE: Closes current form and open Indemnity form
-    Unload form041_Recruitment
-    
-    form045_Indemnity.Show False
-End Sub
-
 
 Private Sub tglCTRA_Click()
     'PURPOSE: Closes current form and open CTRA form
-    Unload form041_Recruitment
+    Unload form07_SIV
     
     form05_CTRA.Show False
 End Sub
 
 Private Sub tglFinDisc_Click()
-    'PURPOSE: Closes current form and open Fin. Disc. form
-    Unload form041_Recruitment
+    'PURPOSE: Closes current form and open SIV form
+    Unload form07_SIV
     
     form06_FinDisc.Show False
-End Sub
-
-Private Sub tglSIV_Click()
-    'PURPOSE: Closes current form and open SIV form
-    Unload form041_Recruitment
-    
-    form07_SIV.Show False
 End Sub
 
