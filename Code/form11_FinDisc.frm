@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form11_FinDisc 
    Caption         =   "Financial Disclosure"
-   ClientHeight    =   5010
+   ClientHeight    =   8130
    ClientLeft      =   -480
    ClientTop       =   -1980
-   ClientWidth     =   7320
+   ClientWidth     =   15435
    OleObjectBlob   =   "form11_FinDisc.frx":0000
 End
 Attribute VB_Name = "form11_FinDisc"

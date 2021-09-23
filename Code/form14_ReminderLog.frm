@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form14_ReminderLog 
    Caption         =   "Reminder Log"
-   ClientHeight    =   10320
+   ClientHeight    =   7215
    ClientLeft      =   -360
    ClientTop       =   -1635
-   ClientWidth     =   7380
+   ClientWidth     =   18555
    OleObjectBlob   =   "form14_ReminderLog.frx":0000
 End
 Attribute VB_Name = "form14_ReminderLog"
@@ -20,8 +20,8 @@ Private Sub UserForm_Activate()
     'source: https://www.mrexcel.com/board/threads/userform-startup-position.671108/
     Me.Top = UserFormTopPosR
     Me.Left = UserFormLeftPosR
-    Me.Height = UHeight
-    Me.Width = UWidth
+    Me.Height = 390 'UHeight
+    Me.Width = 940 'UWidth
     
     Call UserForm_Initialize
 End Sub

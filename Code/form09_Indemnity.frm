@@ -4,7 +4,7 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form09_Indemnity
    ClientHeight    =   8445.001
    ClientLeft      =   -525
    ClientTop       =   -2175
-   ClientWidth     =   11040
+   ClientWidth     =   14550
    OleObjectBlob   =   "form09_Indemnity.frx":0000
 End
 Attribute VB_Name = "form09_Indemnity"

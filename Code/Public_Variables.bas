@@ -33,7 +33,7 @@ Public UserFormTopPosR As Long
 
 'Userform dimension control
 Public Const UHeight As Long = 470 '610
-Public Const UWidth As Long = 650
+Public Const UWidth As Long = 650 '500
 
 
 'list of public functions to share between userforms
@@ -45,8 +45,8 @@ Public Sub LogLastAccess()
     
     If RowIndex > 0 Then
         With RegTable.ListRows(RowIndex)
-            .Range(6) = Now
-            .Range(7) = Username
+            .Range(5) = Now
+            .Range(6) = Username
         End With
     End If
 End Sub

@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form12_SIV 
    Caption         =   "Financial Disclosure"
-   ClientHeight    =   5025
+   ClientHeight    =   8355.001
    ClientLeft      =   -435
    ClientTop       =   -1890
-   ClientWidth     =   7365
+   ClientWidth     =   13725
    OleObjectBlob   =   "form12_SIV.frx":0000
 End
 Attribute VB_Name = "form12_SIV"

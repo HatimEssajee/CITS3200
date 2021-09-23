@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form00_Nav 
    Caption         =   "Vaccine Trial Study Start-up Tracker"
-   ClientHeight    =   9096.001
+   ClientHeight    =   9090.001
    ClientLeft      =   -30
    ClientTop       =   -360
-   ClientWidth     =   10920
+   ClientWidth     =   12765
    OleObjectBlob   =   "form00_Nav.frx":0000
 End
 Attribute VB_Name = "form00_Nav"
@@ -49,7 +49,7 @@ Private Sub UserForm_Initialize()
     cboList_StudyStatus = Array("Pre-commencement", "Commenced", "Not Going Ahead")
     
     If Not RegTable.DataBodyRange Is Nothing Then
-        StudyStatus = RegTable.DataBodyRange.Columns(8)
+        StudyStatus = RegTable.DataBodyRange.Columns(7)
     End If
     
     'Clear user form
@@ -137,7 +137,7 @@ Private Sub cmdNew_Click()
     'Check if study name already in Register table
     'Source: https://www.thespreadsheetguru.com/blog/2014/6/20/the-vba-guide-to-listobject-excel-tables
     On Error Resume Next
-    Set FoundCell = RegTable.DataBodyRange.Columns(10).find(StudyName, LookAt:=xlWhole)
+    Set FoundCell = RegTable.DataBodyRange.Columns(9).find(StudyName, LookAt:=xlWhole)
     On Error GoTo 0
     
     If Not FoundCell Is Nothing Then
@@ -153,22 +153,19 @@ Private Sub cmdNew_Click()
     RowIndex = RegTable.ListRows.Count
     
     With ReadRow
-    
-        .Range(1) = RowIndex
-        
         'Creation version control
-        .Range(2) = Now
-        .Range(3) = Username
+        .Range(1) = Now
+        .Range(2) = Username
         
-        .Range(8) = "Pre-commencement"
-        .Range(9) = Me.txtProtocolNum.Value
-        .Range(10) = StudyName
-        .Range(11) = Me.txtSponsor.Value
-        .Range(140).Formula = "=IFERROR(MATCH(FALSE,Register[@[Study Details Complete]:[SIV Complete]],0),1)"
+        .Range(7) = "Pre-commencement"
+        .Range(8) = Me.txtProtocolNum.Value
+        .Range(9) = StudyName
+        .Range(10) = Me.txtSponsor.Value
+        .Range(153).Formula = "=IFERROR(MATCH(FALSE,Register[@[Study Details Complete]:[SIV Complete]],0),1)"
         
         'Update version control
+        .Range(14) = .Range(1).Value
         .Range(15) = .Range(2).Value
-        .Range(16) = .Range(3).Value
     End With
         
     Unload form00_Nav
@@ -197,7 +194,7 @@ Private Sub cboStudyStatus_AfterUpdate()
     Dim SIVDate As String
 
     'Unique change events
-    SIVDate = RegTable.DataBodyRange.Cells(RowIndex, 112).Value
+    SIVDate = RegTable.DataBodyRange.Cells(RowIndex, 125).Value
     
     'Undeleting entry
     If OldStudyStatus = "DELETED" And Me.cboStudyStatus <> "DELETED" Then
@@ -205,12 +202,12 @@ Private Sub cboStudyStatus_AfterUpdate()
         'Clear Deletion Log
         With RegTable.ListRows(RowIndex)
             'Deletion version control
+            .Range(3) = vbNullString
             .Range(4) = vbNullString
-            .Range(5) = vbNullString
             
             'Update version control
-            .Range(15) = Now
-            .Range(16) = Username
+            .Range(14) = Now
+            .Range(15) = Username
         End With
         
     End If
@@ -221,20 +218,18 @@ Private Sub cboStudyStatus_AfterUpdate()
         
         Me.cboStudyStatus.Value = "Commenced"
         
-        'Clear Deletion Log
+        'Update version control
         With RegTable.ListRows(RowIndex)
-            'Update version control
-            .Range(15) = Now
-            .Range(16) = Username
-            
+            .Range(14) = Now
+            .Range(15) = Username
         End With
         
     End If
     
     'Update value in table
-    RegTable.DataBodyRange.Cells(RowIndex, 8).Value = Me.cboStudyStatus.Value
+    RegTable.DataBodyRange.Cells(RowIndex, 7).Value = Me.cboStudyStatus.Value
     Me.cboStudyStatus.ForeColor = StudyStatus_Colour(Me.cboStudyStatus.Value)
-    StudyStatus = RegTable.DataBodyRange.Columns(8)
+    StudyStatus = RegTable.DataBodyRange.Columns(7)
     
     'Update Access log
     Call LogLastAccess
@@ -261,13 +256,13 @@ Private Sub cmdDelete_Click()
         With RegTable.ListRows(RowIndex)
             
             'Deletion version control
-            .Range(4) = Now
-            .Range(5) = Username
-            .Range(8) = "DELETED"
+            .Range(3) = Now
+            .Range(4) = Username
+            .Range(7) = "DELETED"
             
             'Update version control
+            .Range(14) = .Range(3).Value
             .Range(15) = .Range(4).Value
-            .Range(16) = .Range(5).Value
         End With
     
     
@@ -335,13 +330,13 @@ Private Sub cmdEdit_Click()
         
         'Write changes to register table
         With RegTable.ListRows(RowIndex)
-            .Range(9) = Me.txtProtocolNum.Value
-            .Range(10) = Me.txtStudyName.Value
-            .Range(11) = Me.txtSponsor.Value
+            .Range(8) = Me.txtProtocolNum.Value
+            .Range(9) = Me.txtStudyName.Value
+            .Range(10) = Me.txtSponsor.Value
             
             'Update version control
-            .Range(15) = Now
-            .Range(16) = Username
+            .Range(14) = Now
+            .Range(15) = Username
         End With
         
         'Empty Array as no longer needed
@@ -364,157 +359,160 @@ Private Sub Fill_Completion_Status()
     'PURPOSE: Evaluate entry completion status
     
     'Initialise by making all values to be false
-    Range(RegTable.DataBodyRange.Cells(RowIndex, 116), RegTable.DataBodyRange.Cells(RowIndex, 139)).Value = False
+    Range(RegTable.DataBodyRange.Cells(RowIndex, 129), RegTable.DataBodyRange.Cells(RowIndex, 152)).Value = False
     
     'Assess values
     With RegTable.ListRows(RowIndex)
             
         'Study details
-        If Application.CountA(Range(RegTable.DataBodyRange.Cells(RowIndex, 9), _
-            RegTable.DataBodyRange.Cells(RowIndex, 13))) = 5 Then
-            .Range(116).Value = True
+        If Application.CountA(Range(RegTable.DataBodyRange.Cells(RowIndex, 8), _
+            RegTable.DataBodyRange.Cells(RowIndex, 12))) = 5 Then
+            .Range(129).Value = True
         End If
         
         'CDA
-        If .Range(21).Value = vbNullString Then
-            .Range(117).Value = vbNullString
+        If .Range(20).Value = vbNullString Then
+            .Range(130).Value = vbNullString
         Else
-            .Range(117).Value = IsDate(.Range(21).Value)
+            .Range(130).Value = IsDate(.Range(20).Value)
         End If
         
         'FS
-        If .Range(23).Value = vbNullString Then
-            .Range(118).Value = vbNullString
+        If .Range(25).Value = vbNullString Then
+            .Range(131).Value = vbNullString
         Else
-            .Range(118).Value = IsDate(.Range(23).Value)
+            .Range(131).Value = IsDate(.Range(25).Value)
         End If
         
         'Site selection
-        If .Range(32).Value = vbNullString Then
-            .Range(119).Value = vbNullString
+        If .Range(34).Value = vbNullString Then
+            .Range(132).Value = vbNullString
         Else
-            .Range(119).Value = IsDate(.Range(32).Value)
+            .Range(132).Value = IsDate(.Range(34).Value)
         End If
         
         'Recruitment
-        If .Range(37).Value = vbNullString Then
-            .Range(120).Value = vbNullString
-        ElseIf .Range(37).Value = "Complete" Then
-            .Range(120).Value = True
+        If .Range(38).Value = vbNullString Then
+            .Range(133).Value = vbNullString
+        Else
+            .Range(133).Value = IsDate(.Range(38).Value)
         End If
         
-        'Ethics
-        If Application.CountA(Range(RegTable.DataBodyRange.Cells(RowIndex, 41), _
-            RegTable.DataBodyRange.Cells(RowIndex, 54))) = 0 Then
-            .Range(121).Value = False
-        ElseIf .Range(41).Value = vbNullString Then
-            .Range(121).Value = vbNullString
-        ElseIf IsDate(.Range(44).Value) Then
-            .Range(121).Value = True
+        'CAHS Ethics
+        If .Range(41).Value = vbNullString Then
+            .Range(134).Value = vbNullString
+        ElseIf IsDate(.Range(45).Value) Then
+            .Range(134).Value = True
         End If
         
-        If .Range(45).Value = vbNullString And .Range(46).Value = vbNullString Then
-            .Range(122).Value = vbNullString
-        ElseIf IsDate(.Range(47).Value) Then
-            .Range(122).Value = True
-        End If
-        
-        If .Range(48).Value = vbNullString Then
-            .Range(123).Value = vbNullString
+        'NMA Ethics
+        If .Range(47).Value = vbNullString And .Range(48).Value = vbNullString Then
+            .Range(135).Value = vbNullString
         ElseIf IsDate(.Range(49).Value) Then
-            .Range(123).Value = True
-        End If
-        
-        If .Range(50).Value = vbNullString Then
-            .Range(124).Value = vbNullString
-        ElseIf IsDate(.Range(51).Value) Then
-            .Range(124).Value = True
-        End If
-        
-        If .Range(52).Value = vbNullString And .Range(53).Value = vbNullString Then
-            .Range(125).Value = vbNullString
-        ElseIf IsDate(.Range(54).Value) Then
-            .Range(125).Value = True
-        End If
-        
-        'Governance
-        If Application.CountA(Range(RegTable.DataBodyRange.Cells(RowIndex, 58), _
-            RegTable.DataBodyRange.Cells(RowIndex, 79))) = 0 Then
-            .Range(126).Value = False
-        ElseIf .Range(58).Value = vbNullString Then
-            .Range(126).Value = vbNullString
-        ElseIf IsDate(.Range(60).Value) Then
-            .Range(126).Value = True
-        End If
-        
-        If .Range(61).Value = vbNullString Then
-            .Range(127).Value = vbNullString
-        ElseIf IsDate(.Range(63).Value) Then
-            .Range(127).Value = True
-        End If
-        
-        If .Range(64).Value = vbNullString Then
-            .Range(128).Value = vbNullString
-        ElseIf IsDate(.Range(66).Value) Then
-            .Range(128).Value = True
-        End If
-        
-        If .Range(67).Value = vbNullString Then
-            .Range(129).Value = vbNullString
-        ElseIf IsDate(.Range(69).Value) Then
-            .Range(129).Value = True
-        End If
-    
-        If .Range(70).Value = vbNullString Then
-            .Range(130).Value = vbNullString
-        ElseIf IsDate(.Range(72).Value) Then
-            .Range(130).Value = True
-        End If
-        
-        If .Range(73).Value = vbNullString Then
-            .Range(131).Value = vbNullString
-        ElseIf IsDate(.Range(75).Value) Then
-            .Range(131).Value = True
-        End If
-        
-        If .Range(76).Value = vbNullString And .Range(77).Value = vbNullString Then
-            .Range(132).Value = vbNullString
-        ElseIf IsDate(.Range(79).Value) Then
-            .Range(132).Value = True
-        End If
-        
-        'Budget
-        If Application.CountA(Range(RegTable.DataBodyRange.Cells(RowIndex, 83), _
-            RegTable.DataBodyRange.Cells(RowIndex, 88))) = 0 Then
-            .Range(133).Value = False
-        ElseIf IsDate(.Range(83).Value) And IsDate(.Range(85).Value) Then
-            .Range(133).Value = True
-        End If
-        
-        .Range(134).Value = IsDate(.Range(86).Value)
-        
-        If IsDate(.Range(87).Value) And IsDate(.Range(88).Value) Then
             .Range(135).Value = True
         End If
         
-        'Indemnity
-        If IsDate(.Range(92).Value) And IsDate(.Range(94).Value) Then
-            .Range(136).Value = True
+        'WNHS Review
+        If .Range(51).Value = vbNullString Then
+            .Range(136).Value = vbNullString
+        ElseIf IsDate(.Range(52).Value) Then
+            .Range(36).Value = True
         End If
         
-        'CTRA
-        If IsDate(.Range(98).Value) And IsDate(.Range(104).Value) Then
+        'SJOG Ethics
+        If .Range(54).Value = vbNullString Then
+            .Range(137).Value = vbNullString
+        ElseIf IsDate(.Range(55).Value) Then
             .Range(137).Value = True
         End If
         
+        'Others Ethics
+        If .Range(57).Value = vbNullString And .Range(58).Value = vbNullString Then
+            .Range(138).Value = vbNullString
+        ElseIf IsDate(.Range(59).Value) Then
+            .Range(138).Value = True
+        End If
+        
+        'PCH Governance
+        If .Range(63).Value = vbNullString Then
+            .Range(139).Value = vbNullString
+        ElseIf IsDate(.Range(65).Value) Then
+            .Range(139).Value = True
+        End If
+        
+        'TKI Governance
+        If .Range(67).Value = vbNullString Then
+            .Range(140).Value = vbNullString
+        ElseIf IsDate(.Range(69).Value) Then
+            .Range(140).Value = True
+        End If
+        
+        'KEMH Governance
+        If .Range(71).Value = vbNullString Then
+            .Range(141).Value = vbNullString
+        ElseIf IsDate(.Range(73).Value) Then
+            .Range(141).Value = True
+        End If
+        
+        'SJOG Subiaco Governance
+        If .Range(75).Value = vbNullString Then
+            .Range(142).Value = vbNullString
+        ElseIf IsDate(.Range(77).Value) Then
+            .Range(142).Value = True
+        End If
+        
+        'SJOG Mt Lawley Governance
+        If .Range(79).Value = vbNullString Then
+            .Range(143).Value = vbNullString
+        ElseIf IsDate(.Range(81).Value) Then
+            .Range(143).Value = True
+        End If
+        
+        'SJOG Murdoch Governance
+        If .Range(83).Value = vbNullString Then
+            .Range(144).Value = vbNullString
+        ElseIf IsDate(.Range(85).Value) Then
+            .Range(144).Value = True
+        End If
+        
+        'Others Governance
+        If .Range(87).Value = vbNullString And .Range(88).Value = vbNullString Then
+            .Range(145).Value = vbNullString
+        ElseIf IsDate(.Range(90).Value) Then
+            .Range(145).Value = True
+        End If
+        
+        'VTG Budget
+        If IsDate(.Range(94).Value) And IsDate(.Range(96).Value) Then
+            .Range(146).Value = True
+        End If
+        
+        'TKI Budget
+        .Range(147).Value = IsDate(.Range(98).Value)
+        
+        'Pharm Budget
+        If IsDate(.Range(100).Value) And IsDate(.Range(101).Value) Then
+            .Range(148).Value = True
+        End If
+        
+        'Indemnity
+        If IsDate(.Range(105).Value) And IsDate(.Range(107).Value) Then
+            .Range(149).Value = True
+        End If
+        
+        'CTRA
+        If IsDate(.Range(111).Value) And IsDate(.Range(117).Value) Then
+            .Range(150).Value = True
+        End If
+        
         'Financial Disclosure
-        .Range(138).Value = IsDate(.Range(108).Value)
+        .Range(151).Value = IsDate(.Range(121).Value)
         
         'SIV
-        .Range(139).Value = IsDate(.Range(112).Value)
+        .Range(152).Value = IsDate(.Range(125).Value)
         
-        If .Range(140).Value = vbNullString Then
-            .Range(140).Formula = "=IFERROR(MATCH(FALSE,Register[@[Study Details Complete]:[SIV Complete]],0),1)"
+        If .Range(153).Value = vbNullString Then
+            .Range(153).Formula = "=IFERROR(MATCH(FALSE,Register[@[Study Details Complete]:[SIV Complete]],0),1)"
         End If
         
     End With
@@ -525,7 +523,7 @@ Private Sub Apply_FastCycle()
     
     Dim loc As Long
     
-    loc = RegTable.DataBodyRange.Cells(RowIndex, 140).Value
+    loc = RegTable.DataBodyRange.Cells(RowIndex, 153).Value
     
     'Unload form00_Nav
     
@@ -621,7 +619,7 @@ Private Sub cmdSearch_Click()
     Me.lstSearch.Clear
     errSearch.Caption = vbNullString
     
-    SearchArr = RegTable.ListColumns(8).DataBodyRange.Resize(, 4)
+    SearchArr = RegTable.ListColumns(7).DataBodyRange.Resize(, 4)
     If IsArrayEmpty(SearchArr) Then
         errSearch.Caption = "Study register is empty"
         Exit Sub
@@ -672,7 +670,7 @@ Private Sub cmdSearch_Click()
         .Top = 205.8
         .Left = 12
         .Height = 88.45
-        .Width = 406.55
+        .Width = 540
         .IntegralHeight = False 'needed to stop list box changing position
         .List = DisplayArr
     End With
@@ -870,24 +868,24 @@ Private Sub Read_Table()
 
     With RegTable.ListRows(RowIndex)
     
-        Me.txtStudyName.Value = .Range(10).Value
-        Me.txtProtocolNum.Value = .Range(9).Value
+        Me.txtStudyName.Value = .Range(9).Value
+        Me.txtProtocolNum.Value = .Range(8).Value
             
         'Check if site initiation visit passed and automatically reallocated status to commenced
-        If .Range(112).Value <> vbNullString And String_to_Date(.Range(112).Value) < Now _
-            And .Range(8).Value = "Pre-commencement" Then
-            .Range(8).Value = "Commenced"
+        If .Range(125).Value <> vbNullString And String_to_Date(.Range(125).Value) < Now _
+            And .Range(7).Value = "Pre-commencement" Then
+            .Range(7).Value = "Commenced"
             
             'Update version control
-            .Range(15).Value = Now
-            .Range(16).Value = Username
+            .Range(14).Value = Now
+            .Range(15).Value = Username
             
-            StudyStatus = RegTable.DataBodyRange.Columns(8)
+            StudyStatus = RegTable.DataBodyRange.Columns(7)
         End If
             
-        Me.txtSponsor.Value = .Range(11).Value
-        Me.cboStudyStatus.Value = .Range(8).Value
-        Me.cboStudyStatus.ForeColor = StudyStatus_Colour(.Range(10).Value)
+        Me.txtSponsor.Value = .Range(10).Value
+        Me.cboStudyStatus.Value = .Range(7).Value
+        Me.cboStudyStatus.ForeColor = StudyStatus_Colour(.Range(7).Value)
         
         'Store value of old study status
         OldStudyStatus = Me.cboStudyStatus.Value

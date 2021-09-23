@@ -4,7 +4,7 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form05_Recruitment
    ClientHeight    =   7995
    ClientLeft      =   -510
    ClientTop       =   -2190
-   ClientWidth     =   9030.001
+   ClientWidth     =   14010
    OleObjectBlob   =   "form05_Recruitment.frx":0000
 End
 Attribute VB_Name = "form05_Recruitment"
