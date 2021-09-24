@@ -1,9 +1,9 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form08_Budget 
    Caption         =   "Budget Review"
-   ClientHeight    =   7830
-   ClientLeft      =   -375
-   ClientTop       =   -1890
+   ClientHeight    =   7836
+   ClientLeft      =   -372
+   ClientTop       =   -1896
    ClientWidth     =   13200
    OleObjectBlob   =   "form08_Budget.frx":0000
 End
@@ -85,25 +85,25 @@ Private Sub UserForm_Initialize()
     
     'Read information from register table
     With RegTable.ListRows(RowIndex)
-        Me.txtStudyName.Value = .Range(10).Value
-        Me.txtVTG_Date_Finalised.Value = Format(.Range(83).Value, "dd-mmm-yyyy")
-        Me.txtVTG_Date_Submitted.Value = Format(.Range(84).Value, "dd-mmm-yyyy")
-        Me.txtVTG_Date_Approved.Value = Format(.Range(85).Value, "dd-mmm-yyyy")
+        Me.txtStudyName.Value = .Range(9).Value
+        Me.txtVTG_Date_Finalised.Value = Format(.Range(94).Value, "dd-mmm-yyyy")
+        Me.txtVTG_Date_Submitted.Value = Format(.Range(95).Value, "dd-mmm-yyyy")
+        Me.txtVTG_Date_Approved.Value = Format(.Range(96).Value, "dd-mmm-yyyy")
+        Me.txtVTG_Reminder.Value = .Range(97).Value
         
-        Me.txtTKI_Date_Approved.Value = Format(.Range(86).Value, "dd-mmm-yyyy")
+        Me.txtTKI_Date_Approved.Value = Format(.Range(98).Value, "dd-mmm-yyyy")
+        Me.txtTKI_Reminder.Value = .Range(99).Value
         
-        Me.txtPharm_Date_Quote.Value = Format(.Range(87).Value, "dd-mmm-yyyy")
-        Me.txtPharm_Date_Finalised.Value = Format(.Range(88).Value, "dd-mmm-yyyy")
+        Me.txtPharm_Date_Quote.Value = Format(.Range(100).Value, "dd-mmm-yyyy")
+        Me.txtPharm_Date_Finalised.Value = Format(.Range(101).Value, "dd-mmm-yyyy")
+        Me.txtPharm_Reminder.Value = .Range(102).Value
         
-        Me.txtReminder.Value = .Range(89).Value
     End With
     
     'Access version control
     Call LogLastAccess
     
     'Depress and make toggle green on nav bar
-    Me.tglReviews.Value = True
-    Me.tglReviews.BackColor = vbGreen
     Me.tglBudget.Value = True
     Me.tglBudget.BackColor = vbGreen
     
@@ -232,35 +232,35 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(83) = String_to_Date(Me.txtVTG_Date_Finalised.Value)
-        .Range(84) = String_to_Date(Me.txtVTG_Date_Submitted.Value)
-        .Range(85) = String_to_Date(Me.txtVTG_Date_Approved.Value)
-        .Range(86) = String_to_Date(Me.txtTKI_Date_Approved.Value)
-        .Range(87) = String_to_Date(Me.txtPharm_Date_Quote.Value)
-        .Range(88) = String_to_Date(Me.txtPharm_Date_Finalised.Value)
-        .Range(89) = Me.txtReminder.Value
+        .Range(94) = String_to_Date(Me.txtVTG_Date_Finalised.Value)
+        .Range(95) = String_to_Date(Me.txtVTG_Date_Submitted.Value)
+        .Range(96) = String_to_Date(Me.txtVTG_Date_Approved.Value)
+        .Range(97) = Me.txtVTG_Reminder.Value
+        
+        .Range(98) = String_to_Date(Me.txtTKI_Date_Approved.Value)
+        .Range(99) = Me.txtTKI_Reminder.Value
+        
+        .Range(100) = String_to_Date(Me.txtPharm_Date_Quote.Value)
+        .Range(101) = String_to_Date(Me.txtPharm_Date_Finalised.Value)
+        .Range(102) = Me.txtPharm_Reminder.Value
         
         'Apply completion status
-        If Application.CountA(Range(RegTable.DataBodyRange.Cells(RowIndex, 83), _
-            RegTable.DataBodyRange.Cells(RowIndex, 88))) = 0 Then
-            .Range(133).Value = False
-        ElseIf IsDate(.Range(83).Value) And IsDate(.Range(85).Value) Then
-            .Range(133).Value = True
-        Else
-            .Range(133).Value = False
+        'VTG Budget
+        If IsDate(.Range(94).Value) And IsDate(.Range(96).Value) Then
+            .Range(146).Value = True
         End If
         
-        .Range(134).Value = IsDate(.Range(86).Value)
+        'TKI Budget
+        .Range(147).Value = IsDate(.Range(98).Value)
         
-        If IsDate(.Range(87).Value) And IsDate(.Range(88).Value) Then
-            .Range(135).Value = True
-        Else
-            .Range(135).Value = False
+        'Pharm Budget
+        If IsDate(.Range(100).Value) And IsDate(.Range(101).Value) Then
+            .Range(148).Value = True
         End If
         
         'Update version control
-        .Range(90) = Now
-        .Range(91) = Username
+        .Range(103) = Now
+        .Range(104) = Username
         
     End With
     
@@ -276,82 +276,86 @@ End Sub
 
 Private Sub tglNav_Click()
     'PURPOSE: Closes current form and open Nav form
-    Unload form044_Budget
+    Unload form08_Budget
     
     form00_Nav.Show False
 End Sub
 
-Private Sub tglStudyDetail_Click()
-    'PURPOSE: Closes current form and open Study Details form
-    Unload form044_Budget
+Private Sub tglCDA_Click()
+    'PURPOSE: Closes current form and open CDA form
+    Unload form08_Budget
     
-    form01_StudyDetail.Show False
+    form02_CDA.Show False
 End Sub
 
-Private Sub tglCDA_FS_Click()
-    'PURPOSE: Closes current form and open CDA / FS form
-    Unload form044_Budget
+Private Sub tglFS_Click()
+    'PURPOSE: Closes current form and open Feasibility form
+    Unload form08_Budget
     
-    form02_CDA_FS.Show False
-    form02_CDA_FS.multiCDA_FS.Value = 0
+    form03_FS.Show False
 End Sub
 
 Private Sub tglSiteSelect_Click()
     'PURPOSE: Closes current form and open Site Select form
-    Unload form044_Budget
+    Unload form08_Budget
     
-    form03_SiteSelect.Show False
+    form04_SiteSelect.Show False
 End Sub
 
-Private Sub tglRecruitment_Click()
+Private Sub tglRecruit_Click()
     'PURPOSE: Closes current form and open Recruitment form
-    Unload form044_Budget
+    Unload form08_Budget
     
-    form041_Recruitment.Show False
+    form05_Recruitment.Show False
 End Sub
 
 Private Sub tglEthics_Click()
     'PURPOSE: Closes current form and open Ethics form
-    Unload form044_Budget
+    Unload form08_Budget
     
-    form042_Ethics.Show False
-    form042_Ethics.multiEthics.Value = 0
+    form06_Ethics.Show False
 End Sub
 
-Private Sub tglGovernance_Click()
-    'PURPOSE: Closes current form and open Budget form
-    Unload form044_Budget
+Private Sub tglGov_Click()
+    'PURPOSE: Closes current form and open Governance form
+    Unload form08_Budget
     
-    form043_Governance.Show False
-    form043_Governance.multiGov.Value = 0
+    form07_Governance.Show False
+End Sub
+
+Private Sub tglStudyDetail_Click()
+    'PURPOSE: Closes current form and open Study Detail form
+    Unload form08_Budget
+    
+    form01_StudyDetail.Show False
 End Sub
 
 Private Sub tglIndemnity_Click()
     'PURPOSE: Closes current form and open Indemnity form
-    Unload form044_Budget
+    Unload form08_Budget
     
-    form045_Indemnity.Show False
+    form09_Indemnity.Show False
 End Sub
 
 Private Sub tglCTRA_Click()
     'PURPOSE: Closes current form and open CTRA form
-    Unload form044_Budget
+    Unload form08_Budget
     
-    form05_CTRA.Show False
+    form10_CTRA.Show False
 End Sub
 
 Private Sub tglFinDisc_Click()
     'PURPOSE: Closes current form and open Fin. Disc. form
-    Unload form044_Budget
+    Unload form08_Budget
     
-    form06_FinDisc.Show False
+    form11_FinDisc.Show False
 End Sub
 
 Private Sub tglSIV_Click()
     'PURPOSE: Closes current form and open SIV form
-    Unload form044_Budget
+    Unload form08_Budget
     
-    form07_SIV.Show False
+    form12_SIV.Show False
 End Sub
 
 

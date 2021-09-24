@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form04_SiteSelect 
    Caption         =   "Site Selection"
-   ClientHeight    =   9105.001
-   ClientLeft      =   -450
-   ClientTop       =   -1950
-   ClientWidth     =   12780
+   ClientHeight    =   9108.001
+   ClientLeft      =   -456
+   ClientTop       =   -1956
+   ClientWidth     =   12792
    OleObjectBlob   =   "form04_SiteSelect.frx":0000
 End
 Attribute VB_Name = "form04_SiteSelect"
@@ -77,14 +77,14 @@ Private Sub UserForm_Initialize()
     
     'Read information from register table
     With RegTable.ListRows(RowIndex)
-        Me.txtStudyName = .Range(10).Value
-        Me.txtPrestudy_Date.Value = Format(.Range(28).Value, "dd-mmm-yyyy")
-        Me.cboPrestudy_Type.Value = .Range(29).Value
-        Me.txtValidation_Date.Value = Format(.Range(30).Value, "dd-mmm-yyyy")
-        Me.cboValidation_Type.Value = .Range(31).Value
-        Me.txtSiteSelect.Value = Format(.Range(32).Value, "dd-mmm-yyyy")
+        Me.txtStudyName = .Range(9).Value
+        Me.txtPrestudy_Date.Value = Format(.Range(30).Value, "dd-mmm-yyyy")
+        Me.cboPrestudy_Type.Value = .Range(31).Value
+        Me.txtValidation_Date.Value = Format(.Range(32).Value, "dd-mmm-yyyy")
+        Me.cboValidation_Type.Value = .Range(33).Value
+        Me.txtSiteSelect.Value = Format(.Range(34).Value, "dd-mmm-yyyy")
         
-        Me.txtReminder.Value = .Range(33).Value
+        Me.txtReminder.Value = .Range(35).Value
     End With
     
     'Access version control
@@ -165,22 +165,22 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(28) = String_to_Date(Me.txtPrestudy_Date.Value)
-        .Range(29) = Me.cboPrestudy_Type.Value
-        .Range(30) = String_to_Date(Me.txtValidation_Date.Value)
-        .Range(31) = Me.cboValidation_Type.Value
-        .Range(32) = String_to_Date(Me.txtSiteSelect.Value)
-        .Range(33) = Me.txtReminder.Value
+        .Range(30) = String_to_Date(Me.txtPrestudy_Date.Value)
+        .Range(31) = Me.cboPrestudy_Type.Value
+        .Range(32) = String_to_Date(Me.txtValidation_Date.Value)
+        .Range(33) = Me.cboValidation_Type.Value
+        .Range(34) = String_to_Date(Me.txtSiteSelect.Value)
+        .Range(35) = Me.txtReminder.Value
         
         'Update version control
-        .Range(34) = Now
-        .Range(35) = Username
+        .Range(36) = Now
+        .Range(37) = Username
         
         'Apply completion status
-        If .Range(32).Value = vbNullString Then
-            .Range(119).Value = vbNullString
+        If .Range(34).Value = vbNullString Then
+            .Range(132).Value = vbNullString
         Else
-            .Range(119).Value = IsDate(.Range(32).Value)
+            .Range(132).Value = IsDate(.Range(34).Value)
         End If
         
     End With
@@ -196,52 +196,85 @@ End Sub
 
 Private Sub tglNav_Click()
     'PURPOSE: Closes current form and open Nav form
-    Unload form03_SiteSelect
+    Unload form04_SiteSelect
     
     form00_Nav.Show False
 End Sub
 
+Private Sub tglCDA_Click()
+    'PURPOSE: Closes current form and open CDA form
+    Unload form04_SiteSelect
+    
+    form02_CDA.Show False
+End Sub
+
+Private Sub tglFS_Click()
+    'PURPOSE: Closes current form and open Feasibility form
+    Unload form04_SiteSelect
+    
+    form03_FS.Show False
+End Sub
+
 Private Sub tglStudyDetail_Click()
-    'PURPOSE: Closes current form and open Study Details form
-    Unload form03_SiteSelect
+    'PURPOSE: Closes current form and open Study Detail form
+    Unload form04_SiteSelect
     
     form01_StudyDetail.Show False
 End Sub
 
-Private Sub tglCDA_FS_Click()
-    'PURPOSE: Closes current form and open CDA / FS form
-    Unload form03_SiteSelect
+Private Sub tglRecruit_Click()
+    'PURPOSE: Closes current form and open Recruitment form
+    Unload form04_SiteSelect
     
-    form02_CDA_FS.Show False
-    form02_CDA_FS.multiCDA_FS.Value = 0
-    
+    form05_Recruitment.Show False
 End Sub
 
-Private Sub tglReviews_Click()
-    'PURPOSE: Closes current form and open Reviews form - Recruitment tab
-    Unload form03_SiteSelect
+Private Sub tglEthics_Click()
+    'PURPOSE: Closes current form and open Ethics form
+    Unload form04_SiteSelect
     
-    form041_Recruitment.Show False
+    form06_Ethics.Show False
+End Sub
+
+Private Sub tglGov_Click()
+    'PURPOSE: Closes current form and open Governance form
+    Unload form04_SiteSelect
+    
+    form07_Governance.Show False
+End Sub
+
+Private Sub tglBudget_Click()
+    'PURPOSE: Closes current form and open Budget form
+    Unload form04_SiteSelect
+    
+    form08_Budget.Show False
+End Sub
+
+Private Sub tglIndemnity_Click()
+    'PURPOSE: Closes current form and open Indemnity form
+    Unload form04_SiteSelect
+    
+    form09_Indemnity.Show False
 End Sub
 
 Private Sub tglCTRA_Click()
     'PURPOSE: Closes current form and open CTRA form
-    Unload form03_SiteSelect
+    Unload form04_SiteSelect
     
-    form05_CTRA.Show False
+    form10_CTRA.Show False
 End Sub
 
 Private Sub tglFinDisc_Click()
     'PURPOSE: Closes current form and open Fin. Disc. form
-    Unload form03_SiteSelect
+    Unload form04_SiteSelect
     
-    form06_FinDisc.Show False
+    form11_FinDisc.Show False
 End Sub
 
 Private Sub tglSIV_Click()
     'PURPOSE: Closes current form and open SIV form
-    Unload form03_SiteSelect
+    Unload form04_SiteSelect
     
-    form07_SIV.Show False
+    form12_SIV.Show False
 End Sub
 

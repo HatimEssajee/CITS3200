@@ -3,8 +3,8 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form13_ChangeLog
    Caption         =   "Change Log"
    ClientHeight    =   10320
    ClientLeft      =   -360
-   ClientTop       =   -1545
-   ClientWidth     =   9225.001
+   ClientTop       =   -1548
+   ClientWidth     =   9228.001
    OleObjectBlob   =   "form13_ChangeLog.frx":0000
 End
 Attribute VB_Name = "form13_ChangeLog"
@@ -20,8 +20,8 @@ Private Sub UserForm_Activate()
     'source: https://www.mrexcel.com/board/threads/userform-startup-position.671108/
     Me.Top = UserFormTopPosC
     Me.Left = UserFormLeftPosC
-    Me.Height = UHeight
-    Me.Width = UWidth
+    Me.Height = 520 'UHeight
+    Me.Width = 500 'UWidth
     
     Call UserForm_Initialize
     
@@ -60,51 +60,54 @@ Private Sub UserForm_Initialize()
     'Pull in data from register table
     ReadRow = RegTable.DataBodyRange.Rows(RowIndex)
     
-    Me.timeCreatedOn.Value = Format(ReadRow(1, 2), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perCreatedOn.Value = ReadRow(1, 3)
-    Me.timeDeletedOn.Value = Format(ReadRow(1, 4), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perDeletedOn.Value = ReadRow(1, 5)
-    Me.timeLastAccessed.Value = Format(ReadRow(1, 6), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perLastAccessed.Value = ReadRow(1, 7)
+    Me.timeCreatedOn.Value = Format(ReadRow(1, 1), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perCreatedOn.Value = ReadRow(1, 2)
+    Me.timeDeletedOn.Value = Format(ReadRow(1, 3), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perDeletedOn.Value = ReadRow(1, 4)
+    Me.timeLastAccessed.Value = Format(ReadRow(1, 5), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perLastAccessed.Value = ReadRow(1, 6)
         
-    Me.timeStudyDetails.Value = Format(ReadRow(1, 15), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perStudyDetails.Value = ReadRow(1, 16)
+    Me.timeStudyDetails.Value = Format(ReadRow(1, 14), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perStudyDetails.Value = ReadRow(1, 15)
         
-    Me.timeCDA_FS.Value = Format(ReadRow(1, 26), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perCDA_FS.Value = ReadRow(1, 27)
-        
-    Me.timeSiteSelect.Value = Format(ReadRow(1, 34), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perSiteSelect.Value = ReadRow(1, 35)
+    Me.timeCDA.Value = Format(ReadRow(1, 22), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perCDA.Value = ReadRow(1, 23)
+     
+    Me.timeFS.Value = Format(ReadRow(1, 28), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perFS.Value = ReadRow(1, 29)
     
-    Me.timeRecruitment.Value = Format(ReadRow(1, 39), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perRecruitment.Value = ReadRow(1, 40)
+    Me.timeSiteSelect.Value = Format(ReadRow(1, 36), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perSiteSelect.Value = ReadRow(1, 37)
     
-    Me.timeEthics.Value = Format(ReadRow(1, 56), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perEthics.Value = ReadRow(1, 57)
+    Me.timeRecruitment.Value = Format(ReadRow(1, 40), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perRecruitment.Value = ReadRow(1, 41)
     
-    Me.timeGovernance.Value = Format(ReadRow(1, 81), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perGovernance.Value = ReadRow(1, 82)
+    Me.timeEthics.Value = Format(ReadRow(1, 61), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perEthics.Value = ReadRow(1, 62)
+    
+    Me.timeGovernance.Value = Format(ReadRow(1, 92), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perGovernance.Value = ReadRow(1, 93)
               
-    Me.timeBudget.Value = Format(ReadRow(1, 90), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perBudget.Value = ReadRow(1, 91)
+    Me.timeBudget.Value = Format(ReadRow(1, 103), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perBudget.Value = ReadRow(1, 104)
     
-    Me.timeIndemnity.Value = Format(ReadRow(1, 96), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perIndemnity.Value = ReadRow(1, 97)
+    Me.timeIndemnity.Value = Format(ReadRow(1, 109), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perIndemnity.Value = ReadRow(1, 110)
     
-    Me.timeCTRA.Value = Format(ReadRow(1, 106), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perCTRA.Value = ReadRow(1, 107)
+    Me.timeCTRA.Value = Format(ReadRow(1, 119), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perCTRA.Value = ReadRow(1, 120)
     
-    Me.timeFinDisc.Value = Format(ReadRow(1, 110), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perFinDisc.Value = ReadRow(1, 111)
+    Me.timeFinDisc.Value = Format(ReadRow(1, 123), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perFinDisc.Value = ReadRow(1, 124)
     
-    Me.timeSIV.Value = Format(ReadRow(1, 114), "dd-mmm-yyyy hh:mm:ss AM/PM")
-    Me.perSIV.Value = ReadRow(1, 115)
+    Me.timeSIV.Value = Format(ReadRow(1, 127), "dd-mmm-yyyy hh:mm:ss AM/PM")
+    Me.perSIV.Value = ReadRow(1, 128)
     
 End Sub
 
 Private Sub cmdCloseLog_Click()
     'PURPOSE: Closes current form
-    Unload form08_ChangeLog
+    Unload form13_ChangeLog
     
 End Sub
 

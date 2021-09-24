@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form09_Indemnity 
    Caption         =   "Indemnity Review"
-   ClientHeight    =   8445.001
-   ClientLeft      =   -525
-   ClientTop       =   -2175
-   ClientWidth     =   14550
+   ClientHeight    =   8448.001
+   ClientLeft      =   -528
+   ClientTop       =   -2172
+   ClientWidth     =   14556
    OleObjectBlob   =   "form09_Indemnity.frx":0000
 End
 Attribute VB_Name = "form09_Indemnity"
@@ -69,19 +69,17 @@ Private Sub UserForm_Initialize()
     
     'Read information from register table
     With RegTable.ListRows(RowIndex)
-        Me.txtStudyName.Value = .Range(10).Value
-        Me.txtDate_Recv.Value = Format(.Range(92).Value, "dd-mmm-yyyy")
-        Me.txtDate_Sent_Contracts.Value = Format(.Range(93).Value, "dd-mmm-yyyy")
-        Me.txtDate_Comp.Value = Format(.Range(94).Value, "dd-mmm-yyyy")
-        Me.txtReminder.Value = .Range(95).Value
+        Me.txtStudyName.Value = .Range(9).Value
+        Me.txtDate_Recv.Value = Format(.Range(105).Value, "dd-mmm-yyyy")
+        Me.txtDate_Sent_Contracts.Value = Format(.Range(106).Value, "dd-mmm-yyyy")
+        Me.txtDate_Comp.Value = Format(.Range(107).Value, "dd-mmm-yyyy")
+        Me.txtReminder.Value = .Range(108).Value
     End With
     
     'Access version control
     Call LogLastAccess
     
     'Depress and make toggle green on nav bar
-    Me.tglReviews.Value = True
-    Me.tglReviews.BackColor = vbGreen
     Me.tglIndemnity.Value = True
     Me.tglIndemnity.BackColor = vbGreen
     
@@ -156,19 +154,19 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(92) = String_to_Date(Me.txtDate_Recv.Value)
-        .Range(93) = String_to_Date(Me.txtDate_Sent_Contracts.Value)
-        .Range(94) = String_to_Date(Me.txtDate_Comp.Value)
-        .Range(95) = Me.txtReminder.Value
+        .Range(105) = String_to_Date(Me.txtDate_Recv.Value)
+        .Range(106) = String_to_Date(Me.txtDate_Sent_Contracts.Value)
+        .Range(107) = String_to_Date(Me.txtDate_Comp.Value)
+        .Range(108) = Me.txtReminder.Value
         
         'Apply completion status
-        If IsDate(.Range(92).Value) And IsDate(.Range(94).Value) Then
-            .Range(136).Value = True
+        If IsDate(.Range(105).Value) And IsDate(.Range(107).Value) Then
+            .Range(149).Value = True
         End If
     
         'Update version control
-        .Range(96) = Now
-        .Range(97) = Username
+        .Range(109) = Now
+        .Range(110) = Username
     End With
     
     'Access version control
@@ -183,81 +181,85 @@ End Sub
 
 Private Sub tglNav_Click()
     'PURPOSE: Closes current form and open Nav form
-    Unload form045_Indemnity
+    Unload form09_Indemnity
     
     form00_Nav.Show False
 End Sub
 
-Private Sub tglStudyDetail_Click()
-    'PURPOSE: Closes current form and open Study Details form
-    Unload form045_Indemnity
+Private Sub tglCDA_Click()
+    'PURPOSE: Closes current form and open CDA form
+    Unload form09_Indemnity
     
-    form01_StudyDetail.Show False
+    form02_CDA.Show False
 End Sub
 
-Private Sub tglCDA_FS_Click()
-    'PURPOSE: Closes current form and open CDA / FS form
-    Unload form045_Indemnity
+Private Sub tglFS_Click()
+    'PURPOSE: Closes current form and open Feasibility form
+    Unload form09_Indemnity
     
-    form02_CDA_FS.Show False
-    form02_CDA_FS.multiCDA_FS.Value = 0
+    form03_FS.Show False
 End Sub
 
 Private Sub tglSiteSelect_Click()
     'PURPOSE: Closes current form and open Site Select form
-    Unload form045_Indemnity
+    Unload form09_Indemnity
     
-    form03_SiteSelect.Show False
+    form04_SiteSelect.Show False
 End Sub
 
-Private Sub tglRecruitment_Click()
+Private Sub tglRecruit_Click()
     'PURPOSE: Closes current form and open Recruitment form
-    Unload form045_Indemnity
+    Unload form09_Indemnity
     
-    form041_Recruitment.Show False
+    form05_Recruitment.Show False
 End Sub
 
 Private Sub tglEthics_Click()
     'PURPOSE: Closes current form and open Ethics form
-    Unload form045_Indemnity
+    Unload form09_Indemnity
     
-    form042_Ethics.Show False
-    form042_Ethics.multiEthics.Value = 0
+    form06_Ethics.Show False
 End Sub
 
-Private Sub tglGovernance_Click()
-    'PURPOSE: Closes current form and open Indemnity form
-    Unload form045_Indemnity
+Private Sub tglGov_Click()
+    'PURPOSE: Closes current form and open Governance form
+    Unload form09_Indemnity
     
-    form043_Governance.Show False
-    form043_Governance.multiGov.Value = 0
+    form07_Governance.Show False
 End Sub
 
 Private Sub tglBudget_Click()
     'PURPOSE: Closes current form and open Budget form
-    Unload form045_Indemnity
+    Unload form09_Indemnity
     
-    form044_Budget.Show False
+    form08_Budget.Show False
+End Sub
+
+Private Sub tglStudyDetail_Click()
+    'PURPOSE: Closes current form and open Study Detail form
+    Unload form09_Indemnity
+    
+    form01_StudyDetail.Show False
 End Sub
 
 Private Sub tglCTRA_Click()
     'PURPOSE: Closes current form and open CTRA form
-    Unload form045_Indemnity
+    Unload form09_Indemnity
     
-    form05_CTRA.Show False
+    form10_CTRA.Show False
 End Sub
 
 Private Sub tglFinDisc_Click()
     'PURPOSE: Closes current form and open Fin. Disc. form
-    Unload form045_Indemnity
+    Unload form09_Indemnity
     
-    form06_FinDisc.Show False
+    form11_FinDisc.Show False
 End Sub
 
 Private Sub tglSIV_Click()
     'PURPOSE: Closes current form and open SIV form
-    Unload form045_Indemnity
+    Unload form09_Indemnity
     
-    form07_SIV.Show False
+    form12_SIV.Show False
 End Sub
 

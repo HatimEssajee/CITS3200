@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form01_StudyDetail 
    Caption         =   "Study Details"
-   ClientHeight    =   8625.001
-   ClientLeft      =   -435
-   ClientTop       =   -1845
-   ClientWidth     =   13350
+   ClientHeight    =   8628.001
+   ClientLeft      =   -432
+   ClientTop       =   -1848
+   ClientWidth     =   13344
    OleObjectBlob   =   "form01_StudyDetail.frx":0000
 End
 Attribute VB_Name = "form01_StudyDetail"
@@ -72,12 +72,12 @@ Private Sub UserForm_Initialize()
     
     'Read information from register table
     With RegTable.ListRows(RowIndex)
-        Me.txtProtocolNum.Value = .Range(9).Value
-        Me.txtStudyName.Value = .Range(10).Value
-        Me.txtSponsor.Value = .Range(11).Value
-        Me.txtCRO.Value = .Range(12).Value
-        Me.txtAgeRange.Value = .Range(13).Value
-        Me.txtReminder.Value = .Range(14).Value
+        Me.txtProtocolNum.Value = .Range(8).Value
+        Me.txtStudyName.Value = .Range(9).Value
+        Me.txtSponsor.Value = .Range(10).Value
+        Me.txtCRO.Value = .Range(11).Value
+        Me.txtAgeRange.Value = .Range(12).Value
+        Me.txtReminder.Value = .Range(13).Value
         
     End With
     
@@ -103,23 +103,23 @@ End Sub
 Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
-        .Range(9) = Me.txtProtocolNum.Value
-        .Range(10) = Me.txtStudyName.Value
-        .Range(11) = Me.txtSponsor.Value
-        .Range(12) = Me.txtCRO.Value
-        .Range(13) = Me.txtAgeRange.Value
-        .Range(14) = Me.txtReminder.Value
+        .Range(8) = Me.txtProtocolNum.Value
+        .Range(9) = Me.txtStudyName.Value
+        .Range(10) = Me.txtSponsor.Value
+        .Range(11) = Me.txtCRO.Value
+        .Range(12) = Me.txtAgeRange.Value
+        .Range(13) = Me.txtReminder.Value
         
         'Update version control
-        .Range(15) = Now
-        .Range(16) = Username
+        .Range(14) = Now
+        .Range(15) = Username
         
         'Apply completion status
-        If Application.CountA(Range(RegTable.DataBodyRange.Cells(RowIndex, 9), _
-            RegTable.DataBodyRange.Cells(RowIndex, 13))) = 5 Then
-            .Range(116).Value = True
+        If Application.CountA(Range(RegTable.DataBodyRange.Cells(RowIndex, 8), _
+            RegTable.DataBodyRange.Cells(RowIndex, 12))) = 5 Then
+            .Range(129).Value = True
         Else
-            .Range(116).Value = False
+            .Range(129).Value = False
         End If
 
     End With
@@ -141,14 +141,14 @@ Private Sub tglNav_Click()
 End Sub
 
 Private Sub tglCDA_Click()
-    'PURPOSE: Closes current form and open CDA / FS form
+    'PURPOSE: Closes current form and open CDA form
     Unload form01_StudyDetail
     
     form02_CDA.Show False
 End Sub
 
 Private Sub tglFS_Click()
-    'PURPOSE: Closes current form and open CDA / FS form
+    'PURPOSE: Closes current form and open Feasibility form
     Unload form01_StudyDetail
     
     form03_FS.Show False
@@ -162,7 +162,7 @@ Private Sub tglSiteSelect_Click()
 End Sub
 
 Private Sub tglRecruit_Click()
-    'PURPOSE: Closes current form and Recruitment form
+    'PURPOSE: Closes current form and open Recruitment form
     Unload form01_StudyDetail
     
     form05_Recruitment.Show False
@@ -186,7 +186,7 @@ Private Sub tglBudget_Click()
     'PURPOSE: Closes current form and open Budget form
     Unload form01_StudyDetail
     
-    form08_Recruitment.Show False
+    form08_Budget.Show False
 End Sub
 
 Private Sub tglIndemnity_Click()

@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form10_CTRA 
    Caption         =   "CTRA"
-   ClientHeight    =   8265.001
-   ClientLeft      =   -405
-   ClientTop       =   -2085
-   ClientWidth     =   12930
+   ClientHeight    =   8268.001
+   ClientLeft      =   -408
+   ClientTop       =   -2088
+   ClientWidth     =   12936
    OleObjectBlob   =   "form10_CTRA.frx":0000
 End
 Attribute VB_Name = "form10_CTRA"
@@ -68,15 +68,15 @@ Private Sub UserForm_Initialize()
     
     'Read information from register table
     With RegTable.ListRows(RowIndex)
-        Me.txtStudyName.Value = .Range(10).Value
-        Me.txtDate_RGC.Value = Format(.Range(98).Value, "dd-mmm-yyyy")
-        Me.txtDate_UWA.Value = Format(.Range(99).Value, "dd-mmm-yyyy")
-        Me.txtDate_Finance.Value = Format(.Range(100).Value, "dd-mmm-yyyy")
-        Me.txtDate_COO.Value = Format(.Range(101).Value, "dd-mmm-yyyy")
-        Me.txtDate_VTG.Value = Format(.Range(102).Value, "dd-mmm-yyyy")
-        Me.txtDate_Company.Value = Format(.Range(103).Value, "dd-mmm-yyyy")
-        Me.txtDate_Finalised.Value = Format(.Range(104).Value, "dd-mmm-yyyy")
-        Me.txtReminder.Value = .Range(105).Value
+        Me.txtStudyName.Value = .Range(9).Value
+        Me.txtDate_RGC.Value = Format(.Range(111).Value, "dd-mmm-yyyy")
+        Me.txtDate_UWA.Value = Format(.Range(112).Value, "dd-mmm-yyyy")
+        Me.txtDate_Finance.Value = Format(.Range(113).Value, "dd-mmm-yyyy")
+        Me.txtDate_COO.Value = Format(.Range(114).Value, "dd-mmm-yyyy")
+        Me.txtDate_VTG.Value = Format(.Range(115).Value, "dd-mmm-yyyy")
+        Me.txtDate_Company.Value = Format(.Range(116).Value, "dd-mmm-yyyy")
+        Me.txtDate_Finalised.Value = Format(.Range(117).Value, "dd-mmm-yyyy")
+        Me.txtReminder.Value = .Range(118).Value
     End With
     
     'Access version control
@@ -231,23 +231,23 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(98) = String_to_Date(Me.txtDate_RGC.Value)
-        .Range(99) = String_to_Date(Me.txtDate_UWA.Value)
-        .Range(100) = String_to_Date(Me.txtDate_Finance.Value)
-        .Range(101) = String_to_Date(Me.txtDate_COO.Value)
-        .Range(102) = String_to_Date(Me.txtDate_VTG.Value)
-        .Range(103) = String_to_Date(Me.txtDate_Company.Value)
-        .Range(104) = String_to_Date(Me.txtDate_Finalised.Value)
-        .Range(105) = Me.txtReminder.Value
+        .Range(111) = String_to_Date(Me.txtDate_RGC.Value)
+        .Range(112) = String_to_Date(Me.txtDate_UWA.Value)
+        .Range(113) = String_to_Date(Me.txtDate_Finance.Value)
+        .Range(114) = String_to_Date(Me.txtDate_COO.Value)
+        .Range(115) = String_to_Date(Me.txtDate_VTG.Value)
+        .Range(116) = String_to_Date(Me.txtDate_Company.Value)
+        .Range(117) = String_to_Date(Me.txtDate_Finalised.Value)
+        .Range(118) = Me.txtReminder.Value
            
         'Apply completion status
-        If IsDate(.Range(98).Value) And IsDate(.Range(104).Value) Then
-            .Range(137).Value = True
+        If IsDate(.Range(111).Value) And IsDate(.Range(117).Value) Then
+            .Range(150).Value = True
         End If
     
         'Update version control
-        .Range(106) = Now
-        .Range(107) = Username
+        .Range(119) = Now
+        .Range(120) = Username
     End With
     
     'Access version control
@@ -262,52 +262,85 @@ End Sub
 
 Private Sub tglNav_Click()
     'PURPOSE: Closes current form and open Nav form
-    Unload form05_CTRA
+    Unload form10_CTRA
     
     form00_Nav.Show False
 End Sub
 
-Private Sub tglStudyDetail_Click()
-    'PURPOSE: Closes current form and open Study Details form
-    Unload form05_CTRA
+Private Sub tglCDA_Click()
+    'PURPOSE: Closes current form and open CDA form
+    Unload form10_CTRA
     
-    form01_StudyDetail.Show False
+    form02_CDA.Show False
 End Sub
 
-Private Sub tglCDA_FS_Click()
-    'PURPOSE: Closes current form and open CDA / FS form
-    Unload form05_CTRA
+Private Sub tglFS_Click()
+    'PURPOSE: Closes current form and open Feasibility form
+    Unload form10_CTRA
     
-    form02_CDA_FS.Show False
-    form02_CDA_FS.multiCDA_FS.Value = 0
+    form03_FS.Show False
 End Sub
 
 Private Sub tglSiteSelect_Click()
     'PURPOSE: Closes current form and open Site Select form
-    Unload form05_CTRA
+    Unload form10_CTRA
     
-    form03_SiteSelect.Show False
+    form04_SiteSelect.Show False
 End Sub
 
-Private Sub tglReviews_Click()
-    'PURPOSE: Closes current form and open Reviews form - Recruitment tab
-    Unload form05_CTRA
+Private Sub tglRecruit_Click()
+    'PURPOSE: Closes current form and open Recruitment form
+    Unload form10_CTRA
     
-    form041_Recruitment.Show False
+    form05_Recruitment.Show False
 End Sub
 
+Private Sub tglEthics_Click()
+    'PURPOSE: Closes current form and open Ethics form
+    Unload form10_CTRA
+    
+    form06_Ethics.Show False
+End Sub
+
+Private Sub tglGov_Click()
+    'PURPOSE: Closes current form and open Governance form
+    Unload form10_CTRA
+    
+    form07_Governance.Show False
+End Sub
+
+Private Sub tglBudget_Click()
+    'PURPOSE: Closes current form and open Budget form
+    Unload form10_CTRA
+    
+    form08_Budget.Show False
+End Sub
+
+Private Sub tglIndemnity_Click()
+    'PURPOSE: Closes current form and open Indemnity form
+    Unload form10_CTRA
+    
+    form09_Indemnity.Show False
+End Sub
+
+Private Sub tglStudyDetail_Click()
+    'PURPOSE: Closes current form and open Study Detail form
+    Unload form10_CTRA
+    
+    form01_StudyDetail.Show False
+End Sub
 
 Private Sub tglFinDisc_Click()
     'PURPOSE: Closes current form and open Fin. Disc. form
-    Unload form05_CTRA
+    Unload form10_CTRA
     
-    form06_FinDisc.Show False
+    form11_FinDisc.Show False
 End Sub
 
 Private Sub tglSIV_Click()
     'PURPOSE: Closes current form and open SIV form
-    Unload Me
+    Unload form10_CTRA
     
-    form07_SIV.Show False
+    form12_SIV.Show False
 End Sub
 

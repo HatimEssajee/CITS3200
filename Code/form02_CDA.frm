@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form02_CDA 
    Caption         =   "CDA & Feasibility"
-   ClientHeight    =   8430.001
-   ClientLeft      =   -390
-   ClientTop       =   -1755
-   ClientWidth     =   15795
+   ClientHeight    =   8424.001
+   ClientLeft      =   -396
+   ClientTop       =   -1752
+   ClientWidth     =   15804
    OleObjectBlob   =   "form02_CDA.frx":0000
 End
 Attribute VB_Name = "form02_CDA"
@@ -69,14 +69,14 @@ Private Sub UserForm_Initialize()
     
     'Read information from register table
     With RegTable.ListRows(RowIndex)
-        Me.txtStudyName.Value = .Range(10).Value
-        Me.txtCDA_Recv_Sponsor.Value = Format(.Range(17).Value, "dd-mmm-yyyy")
-        Me.txtCDA_Sent_Contracts.Value = Format(.Range(18).Value, "dd-mmm-yyyy")
-        Me.txtCDA_Recv_Contracts.Value = Format(.Range(19).Value, "dd-mmm-yyyy")
-        Me.txtCDA_Sent_Sponsor.Value = Format(.Range(20).Value, "dd-mmm-yyyy")
-        Me.txtCDA_Finalised.Value = Format(.Range(21).Value, "dd-mmm-yyyy")
+        Me.txtStudyName.Value = .Range(9).Value
+        Me.txtCDA_Recv_Sponsor.Value = Format(.Range(16).Value, "dd-mmm-yyyy")
+        Me.txtCDA_Sent_Contracts.Value = Format(.Range(17).Value, "dd-mmm-yyyy")
+        Me.txtCDA_Recv_Contracts.Value = Format(.Range(18).Value, "dd-mmm-yyyy")
+        Me.txtCDA_Sent_Sponsor.Value = Format(.Range(19).Value, "dd-mmm-yyyy")
+        Me.txtCDA_Finalised.Value = Format(.Range(20).Value, "dd-mmm-yyyy")
         
-        Me.txtReminder.Value = .Range(25).Value
+        Me.txtReminder.Value = .Range(21).Value
     End With
     
     'Access version control
@@ -193,29 +193,23 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(17) = String_to_Date(Me.txtCDA_Recv_Sponsor.Value)
-        .Range(18) = String_to_Date(Me.txtCDA_Sent_Contracts.Value)
-        .Range(19) = String_to_Date(Me.txtCDA_Recv_Contracts.Value)
-        .Range(20) = String_to_Date(Me.txtCDA_Sent_Sponsor.Value)
-        .Range(21) = String_to_Date(Me.txtCDA_Finalised.Value)
+        .Range(16) = String_to_Date(Me.txtCDA_Recv_Sponsor.Value)
+        .Range(17) = String_to_Date(Me.txtCDA_Sent_Contracts.Value)
+        .Range(18) = String_to_Date(Me.txtCDA_Recv_Contracts.Value)
+        .Range(19) = String_to_Date(Me.txtCDA_Sent_Sponsor.Value)
+        .Range(20) = String_to_Date(Me.txtCDA_Finalised.Value)
         
-        .Range(25) = Me.txtReminder.Value
+        .Range(21) = Me.txtReminder.Value
         
         'Update version control
-        .Range(26) = Now
-        .Range(27) = Username
+        .Range(22) = Now
+        .Range(23) = Username
         
         'Apply completion status
-        If .Range(21).Value = vbNullString Then
-            .Range(117).Value = vbNullString
+        If .Range(20).Value = vbNullString Then
+            .Range(130).Value = vbNullString
         Else
-            .Range(117).Value = IsDate(.Range(21).Value)
-        End If
-        
-        If .Range(23).Value = vbNullString Then
-            .Range(118).Value = vbNullString
-        Else
-            .Range(118).Value = IsDate(.Range(23).Value)
+            .Range(130).Value = IsDate(.Range(20).Value)
         End If
         
     End With
@@ -231,50 +225,85 @@ End Sub
 
 Private Sub tglNav_Click()
     'PURPOSE: Closes current form and open Nav form
-    Unload form02_CDA_FS
+    Unload form02_CDA
     
     form00_Nav.Show False
 End Sub
 
 Private Sub tglStudyDetail_Click()
     'PURPOSE: Closes current form and open Study Details form
-    Unload form02_CDA_FS
+    Unload form02_CDA
     
     form01_StudyDetail.Show False
 End Sub
 
-Private Sub tglSiteSelect_Click()
-    'PURPOSE: Closes current form and open Site Select form
-    Unload form02_CDA_FS
+Private Sub tglFS_Click()
+    'PURPOSE: Closes current form and open Feasibility form
+    Unload form02_CDA
     
-    form03_SiteSelect.Show False
+    form03_FS.Show False
 End Sub
 
-Private Sub tglReviews_Click()
-    'PURPOSE: Closes current form and open Reviews form - Recruitment tab
-    Unload form02_CDA_FS
+Private Sub tglSiteSelect_Click()
+    'PURPOSE: Closes current form and open Site Select form
+    Unload form02_CDA
     
-    form041_Recruitment.Show False
+    form04_SiteSelect.Show False
+End Sub
+
+Private Sub tglRecruit_Click()
+    'PURPOSE: Closes current form and open Recruitment form
+    Unload form02_CDA
+    
+    form05_Recruitment.Show False
+End Sub
+
+Private Sub tglEthics_Click()
+    'PURPOSE: Closes current form and open Ethics form
+    Unload form02_CDA
+    
+    form06_Ethics.Show False
+End Sub
+
+Private Sub tglGov_Click()
+    'PURPOSE: Closes current form and open Governance form
+    Unload form02_CDA
+    
+    form07_Governance.Show False
+End Sub
+
+Private Sub tglBudget_Click()
+    'PURPOSE: Closes current form and open Budget form
+    Unload form02_CDA
+    
+    form08_Budget.Show False
+End Sub
+
+Private Sub tglIndemnity_Click()
+    'PURPOSE: Closes current form and open Indemnity form
+    Unload form02_CDA
+    
+    form09_Indemnity.Show False
 End Sub
 
 Private Sub tglCTRA_Click()
     'PURPOSE: Closes current form and open CTRA form
-    Unload form02_CDA_FS
+    Unload form02_CDA
     
-    form05_CTRA.Show False
+    form10_CTRA.Show False
 End Sub
 
 Private Sub tglFinDisc_Click()
     'PURPOSE: Closes current form and open Fin. Disc. form
-    Unload form02_CDA_FS
+    Unload form02_CDA
     
-    form06_FinDisc.Show False
+    form11_FinDisc.Show False
 End Sub
 
 Private Sub tglSIV_Click()
     'PURPOSE: Closes current form and open SIV form
-    Unload form02_CDA_FS
+    Unload form02_CDA
     
-    form07_SIV.Show False
+    form12_SIV.Show False
 End Sub
 

@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form12_SIV 
    Caption         =   "Financial Disclosure"
-   ClientHeight    =   8355.001
-   ClientLeft      =   -435
-   ClientTop       =   -1890
-   ClientWidth     =   13725
+   ClientHeight    =   8364.001
+   ClientLeft      =   -432
+   ClientTop       =   -1896
+   ClientWidth     =   13728
    OleObjectBlob   =   "form12_SIV.frx":0000
 End
 Attribute VB_Name = "form12_SIV"
@@ -68,9 +68,9 @@ Private Sub UserForm_Initialize()
     
     'Read information from register table
     With RegTable.ListRows(RowIndex)
-        Me.txtStudyName.Value = .Range(10).Value
-        Me.txtSIV_Date.Value = Format(.Range(112).Value, "dd-mmm-yyyy")
-        Me.txtReminder.Value = .Range(113).Value
+        Me.txtStudyName.Value = .Range(9).Value
+        Me.txtSIV_Date.Value = Format(.Range(125).Value, "dd-mmm-yyyy")
+        Me.txtReminder.Value = .Range(126).Value
     End With
     
     'Access version control
@@ -114,35 +114,39 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(112) = String_to_Date(Me.txtSIV_Date.Value)
-        .Range(113) = Me.txtReminder.Value
+        .Range(125) = String_to_Date(Me.txtSIV_Date.Value)
+        .Range(126) = Me.txtReminder.Value
         
         'Update version control
-        .Range(114) = Now
-        .Range(115) = Username
+        .Range(127) = Now
+        .Range(128) = Username
         
         'Change study status based on SIV date saved
         If Me.txtSIV_Date.Value <> vbNullString And String_to_Date(Me.txtSIV_Date.Value) > Now _
-            And .Range(8).Value = "Commenced" Then
+            And .Range(7).Value = "Commenced" Then
             
-            .Range(8) = "Current"
+            .Range(7) = "Pre-commencement"
             
             'Update version control
-            .Range(15) = .Range(114).Value
-            .Range(16) = .Range(115).Value
+            .Range(14) = .Range(127).Value
+            .Range(15) = .Range(128).Value
         
         ElseIf Me.txtSIV_Date.Value <> vbNullString And String_to_Date(Me.txtSIV_Date.Value) < Now _
-            And .Range(8).Value = "Current" Then
+            And .Range(7).Value = "Pre-commencement" Then
             
-            .Range(8) = "Commenced"
+            .Range(7) = "Commenced"
             
             'Update version control
-            .Range(15) = .Range(114).Value
-            .Range(16) = .Range(115).Value
+            .Range(14) = .Range(127).Value
+            .Range(15) = .Range(128).Valu
         End If
         
         'Apply completion status
-        .Range(139).Value = IsDate(.Range(112).Value)
+        If .Range(125).Value = vbNullString Then
+            .Range(152).Value = vbNullString
+        Else
+            .Range(152).Value = IsDate(.Range(125).Value)
+        End If
         
     End With
     
@@ -158,50 +162,85 @@ End Sub
 
 Private Sub tglNav_Click()
     'PURPOSE: Closes current form and open Nav form
-    Unload form07_SIV
+    Unload form12_SIV
     
     form00_Nav.Show False
 End Sub
 
-Private Sub tglStudyDetail_Click()
-    'PURPOSE: Closes current form and open Study Details form
-    Unload form07_SIV
+Private Sub tglCDA_Click()
+    'PURPOSE: Closes current form and open CDA form
+    Unload form12_SIV
     
-    form01_StudyDetail.Show False
+    form02_CDA.Show False
 End Sub
 
-Private Sub tglCDA_FS_Click()
-    'PURPOSE: Closes current form and open CDA / FS form
-    Unload form07_SIV
+Private Sub tglFS_Click()
+    'PURPOSE: Closes current form and open Feasibility form
+    Unload form12_SIV
     
-    form02_CDA_FS.Show False
+    form03_FS.Show False
 End Sub
 
 Private Sub tglSiteSelect_Click()
-    'PURPOSE: Closes current form and open Site Selection form
-    Unload form07_SIV
+    'PURPOSE: Closes current form and open Site Select form
+    Unload form12_SIV
     
-    form03_SiteSelect.Show False
+    form04_SiteSelect.Show False
 End Sub
 
-Private Sub tglReviews_Click()
-    'PURPOSE: Closes current form and open Reviews form - Recruitment tab
-    Unload form07_SIV
+Private Sub tglRecruit_Click()
+    'PURPOSE: Closes current form and open Recruitment form
+    Unload form12_SIV
     
-    form041_Recruitment.Show False
+    form05_Recruitment.Show False
+End Sub
+
+Private Sub tglEthics_Click()
+    'PURPOSE: Closes current form and open Ethics form
+    Unload form12_SIV
+    
+    form06_Ethics.Show False
+End Sub
+
+Private Sub tglGov_Click()
+    'PURPOSE: Closes current form and open Governance form
+    Unload form12_SIV
+    
+    form07_Governance.Show False
+End Sub
+
+Private Sub tglBudget_Click()
+    'PURPOSE: Closes current form and open Budget form
+    Unload form12_SIV
+    
+    form08_Budget.Show False
+End Sub
+
+Private Sub tglIndemnity_Click()
+    'PURPOSE: Closes current form and open Indemnity form
+    Unload form12_SIV
+    
+    form09_Indemnity.Show False
 End Sub
 
 Private Sub tglCTRA_Click()
     'PURPOSE: Closes current form and open CTRA form
-    Unload form07_SIV
+    Unload form12_SIV
     
-    form05_CTRA.Show False
+    form10_CTRA.Show False
 End Sub
 
 Private Sub tglFinDisc_Click()
-    'PURPOSE: Closes current form and open SIV form
-    Unload form07_SIV
+    'PURPOSE: Closes current form and open Fin. Disc. form
+    Unload form12_SIV
     
-    form06_FinDisc.Show False
+    form11_FinDisc.Show False
+End Sub
+
+Private Sub tglStudyDetail_Click()
+    'PURPOSE: Closes current form and open Study Detail form
+    Unload form12_SIV
+    
+    form01_StudyDetail.Show False
 End Sub
 

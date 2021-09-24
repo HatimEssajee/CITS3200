@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form05_Recruitment 
    Caption         =   "Recruitment Plan"
-   ClientHeight    =   7995
-   ClientLeft      =   -510
-   ClientTop       =   -2190
-   ClientWidth     =   14010
+   ClientHeight    =   8004
+   ClientLeft      =   -516
+   ClientTop       =   -2196
+   ClientWidth     =   14016
    OleObjectBlob   =   "form05_Recruitment.frx":0000
 End
 Attribute VB_Name = "form05_Recruitment"
@@ -69,19 +69,17 @@ Private Sub UserForm_Initialize()
     
     'Read information from register table
     With RegTable.ListRows(RowIndex)
-        Me.txtStudyName.Value = .Range(10).Value
-        Me.txtDate_Plan.Value = Format(.Range(36).Value, "dd-mmm-yyyy")
-        Me.txtReminder.Value = .Range(38).Value
+        Me.txtStudyName.Value = .Range(9).Value
+        Me.txtDate_Plan.Value = Format(.Range(38).Value, "dd-mmm-yyyy")
+        Me.txtReminder.Value = .Range(39).Value
     End With
     
     'Access version control
     Call LogLastAccess
     
     'Depress and make toggle green on nav bar
-    Me.tglReviews.Value = True
-    Me.tglReviews.BackColor = vbGreen
-    Me.tglRecruitment.Value = True
-    Me.tglRecruitment.BackColor = vbGreen
+    Me.tglRecruit.Value = True
+    Me.tglRecruit.BackColor = vbGreen
     
     'Run date validation on data entered
     Call txtDate_Plan_AfterUpdate
@@ -118,19 +116,18 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(36) = String_to_Date(Me.txtDate_Plan)
-        .Range(37) = Me.cboRecruitStatus
-        .Range(38) = Me.txtReminder
+        .Range(38) = String_to_Date(Me.txtDate_Plan)
+        .Range(39) = Me.txtReminder
         
         'Update version control
-        .Range(39) = Now
-        .Range(40) = Username
+        .Range(40) = Now
+        .Range(41) = Username
         
         'Apply completion status
-        If .Range(36).Value = vbNullString Then
-            .Range(119).Value = vbNullString
+        If .Range(38).Value = vbNullString Then
+            .Range(133).Value = vbNullString
         Else
-            .Range(119).Value = IsDate(.Range(36).Value)
+            .Range(133).Value = IsDate(.Range(38).Value)
         End If
 
     End With
@@ -147,82 +144,85 @@ End Sub
 
 Private Sub tglNav_Click()
     'PURPOSE: Closes current form and open Nav form
-    Unload form041_Recruitment
+    Unload form05_Recruitment
     
     form00_Nav.Show False
 End Sub
 
-Private Sub tglStudyDetail_Click()
-    'PURPOSE: Closes current form and open Study Details form
-    Unload form041_Recruitment
+Private Sub tglCDA_Click()
+    'PURPOSE: Closes current form and open CDA form
+    Unload form05_Recruitment
     
-    form01_StudyDetail.Show False
+    form02_CDA.Show False
 End Sub
 
-Private Sub tglCDA_FS_Click()
-    'PURPOSE: Closes current form and open CDA / FS form
-    Unload form041_Recruitment
+Private Sub tglFS_Click()
+    'PURPOSE: Closes current form and open Feasibility form
+    Unload form05_Recruitment
     
-    form02_CDA_FS.Show False
-    form02_CDA_FS.multiCDA_FS.Value = 0
+    form03_FS.Show False
 End Sub
 
 Private Sub tglSiteSelect_Click()
     'PURPOSE: Closes current form and open Site Select form
-    Unload form041_Recruitment
+    Unload form05_Recruitment
     
-    form03_SiteSelect.Show False
+    form04_SiteSelect.Show False
+End Sub
+
+Private Sub tglStudyDetail_Click()
+    'PURPOSE: Closes current form and open Study Detail form
+    Unload form05_Recruitment
+    
+    form01_StudyDetail.Show False
 End Sub
 
 Private Sub tglEthics_Click()
     'PURPOSE: Closes current form and open Ethics form
-    Unload form041_Recruitment
+    Unload form05_Recruitment
     
-    form042_Ethics.Show False
-    form042_Ethics.multiEthics.Value = 0
+    form06_Ethics.Show False
 End Sub
 
-Private Sub tglGovernance_Click()
+Private Sub tglGov_Click()
     'PURPOSE: Closes current form and open Governance form
-    Unload form041_Recruitment
+    Unload form05_Recruitment
     
-    form043_Governance.Show False
-    form043_Governance.multiGov.Value = 0
+    form07_Governance.Show False
 End Sub
 
 Private Sub tglBudget_Click()
     'PURPOSE: Closes current form and open Budget form
-    Unload form041_Recruitment
+    Unload form05_Recruitment
     
-    form044_Budget.Show False
+    form08_Budget.Show False
 End Sub
 
 Private Sub tglIndemnity_Click()
     'PURPOSE: Closes current form and open Indemnity form
-    Unload form041_Recruitment
+    Unload form05_Recruitment
     
-    form045_Indemnity.Show False
+    form09_Indemnity.Show False
 End Sub
-
 
 Private Sub tglCTRA_Click()
     'PURPOSE: Closes current form and open CTRA form
-    Unload form041_Recruitment
+    Unload form05_Recruitment
     
-    form05_CTRA.Show False
+    form10_CTRA.Show False
 End Sub
 
 Private Sub tglFinDisc_Click()
     'PURPOSE: Closes current form and open Fin. Disc. form
-    Unload form041_Recruitment
+    Unload form05_Recruitment
     
-    form06_FinDisc.Show False
+    form11_FinDisc.Show False
 End Sub
 
 Private Sub tglSIV_Click()
     'PURPOSE: Closes current form and open SIV form
-    Unload form041_Recruitment
+    Unload form05_Recruitment
     
-    form07_SIV.Show False
+    form12_SIV.Show False
 End Sub
 

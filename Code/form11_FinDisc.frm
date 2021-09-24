@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form11_FinDisc 
    Caption         =   "Financial Disclosure"
-   ClientHeight    =   8130
+   ClientHeight    =   8136
    ClientLeft      =   -480
    ClientTop       =   -1980
-   ClientWidth     =   15435
+   ClientWidth     =   15432
    OleObjectBlob   =   "form11_FinDisc.frx":0000
 End
 Attribute VB_Name = "form11_FinDisc"
@@ -68,9 +68,9 @@ Private Sub UserForm_Initialize()
     
     'Read information from register table
     With RegTable.ListRows(RowIndex)
-        Me.txtStudyName.Value = .Range(10).Value
-        Me.txtFinDisc_Complete.Value = Format(.Range(108).Value, "dd-mmm-yyyy")
-        Me.txtReminder.Value = .Range(109).Value
+        Me.txtStudyName.Value = .Range(9).Value
+        Me.txtFinDisc_Complete.Value = Format(.Range(121).Value, "dd-mmm-yyyy")
+        Me.txtReminder.Value = .Range(122).Value
     End With
     
     'Access version control
@@ -115,15 +115,19 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(108) = String_to_Date(Me.txtFinDisc_Complete.Value)
-        .Range(109) = Me.txtReminder.Value
+        .Range(121) = String_to_Date(Me.txtFinDisc_Complete.Value)
+        .Range(122) = Me.txtReminder.Value
         
         'Apply completion status
-        .Range(138).Value = IsDate(.Range(108).Value)
+        If .Range(121).Value = vbNullString Then
+            .Range(151).Value = vbNullString
+        Else
+            .Range(151).Value = IsDate(.Range(121).Value)
+        End If
     
         'Update version control
-        .Range(110) = Now
-        .Range(111) = Username
+        .Range(123) = Now
+        .Range(124) = Username
     End With
     
     'Access version control
@@ -138,51 +142,85 @@ End Sub
 
 Private Sub tglNav_Click()
     'PURPOSE: Closes current form and open Nav form
-    Unload form06_FinDisc
+    Unload form11_FinDisc
     
     form00_Nav.Show False
 End Sub
 
-Private Sub tglStudyDetail_Click()
-    'PURPOSE: Closes current form and open Study Details form
-    Unload form06_FinDisc
+Private Sub tglCDA_Click()
+    'PURPOSE: Closes current form and open CDA form
+    Unload form11_FinDisc
     
-    form01_StudyDetail.Show False
+    form02_CDA.Show False
 End Sub
 
-Private Sub tglCDA_FS_Click()
-    'PURPOSE: Closes current form and open CDA / FS form
-    Unload form06_FinDisc
+Private Sub tglFS_Click()
+    'PURPOSE: Closes current form and open Feasibility form
+    Unload form11_FinDisc
     
-    form02_CDA_FS.Show False
-    form02_CDA_FS.multiCDA_FS.Value = 0
+    form03_FS.Show False
 End Sub
 
 Private Sub tglSiteSelect_Click()
-    'PURPOSE: Closes current form and open Site Selection form
-    Unload form06_FinDisc
+    'PURPOSE: Closes current form and open Site Select form
+    Unload form11_FinDisc
     
-    form03_SiteSelect.Show False
+    form04_SiteSelect.Show False
 End Sub
 
-Private Sub tglReviews_Click()
-    'PURPOSE: Closes current form and open Reviews form - Recruitment tab
-    Unload form06_FinDisc
+Private Sub tglRecruit_Click()
+    'PURPOSE: Closes current form and open Recruitment form
+    Unload form11_FinDisc
     
-    form041_Recruitment.Show False
+    form05_Recruitment.Show False
+End Sub
+
+Private Sub tglEthics_Click()
+    'PURPOSE: Closes current form and open Ethics form
+    Unload form11_FinDisc
+    
+    form06_Ethics.Show False
+End Sub
+
+Private Sub tglGov_Click()
+    'PURPOSE: Closes current form and open Governance form
+    Unload form11_FinDisc
+    
+    form07_Governance.Show False
+End Sub
+
+Private Sub tglBudget_Click()
+    'PURPOSE: Closes current form and open Budget form
+    Unload form11_FinDisc
+    
+    form08_Budget.Show False
+End Sub
+
+Private Sub tglIndemnity_Click()
+    'PURPOSE: Closes current form and open Indemnity form
+    Unload form11_FinDisc
+    
+    form09_Indemnity.Show False
 End Sub
 
 Private Sub tglCTRA_Click()
     'PURPOSE: Closes current form and open CTRA form
-    Unload form06_FinDisc
+    Unload form11_FinDisc
     
-    form05_CTRA.Show False
+    form10_CTRA.Show False
+End Sub
+
+Private Sub tglStudyDetail_Click()
+    'PURPOSE: Closes current form and open Study Detail form
+    Unload form11_FinDisc
+    
+    form01_StudyDetail.Show False
 End Sub
 
 Private Sub tglSIV_Click()
     'PURPOSE: Closes current form and open SIV form
-    Unload form06_FinDisc
+    Unload form11_FinDisc
     
-    form07_SIV.Show False
+    form12_SIV.Show False
 End Sub
 

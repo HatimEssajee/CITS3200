@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form00_Nav 
    Caption         =   "Vaccine Trial Study Start-up Tracker"
    ClientHeight    =   9090.001
-   ClientLeft      =   -30
+   ClientLeft      =   -36
    ClientTop       =   -360
-   ClientWidth     =   12765
+   ClientWidth     =   12768
    OleObjectBlob   =   "form00_Nav.frx":0000
 End
 Attribute VB_Name = "form00_Nav"
@@ -242,7 +242,7 @@ Private Sub cmdDelete_Click()
     Dim confirm As Integer
     
     'Confirm deletion
-    confirm = MsgBox("Are you sure you want to delete Project data?", vbYesNo, "WARNING!")
+    confirm = MsgBox("Are you sure you want to delete study data?", vbYesNo, "WARNING!")
 
     'If select no then cancel deletion
     If confirm = vbNo Then
@@ -399,84 +399,84 @@ Private Sub Fill_Completion_Status()
         End If
         
         'CAHS Ethics
-        If .Range(41).Value = vbNullString Then
+        If .Range(45).Value = vbNullString Then
             .Range(134).Value = vbNullString
         ElseIf IsDate(.Range(45).Value) Then
             .Range(134).Value = True
         End If
         
         'NMA Ethics
-        If .Range(47).Value = vbNullString And .Range(48).Value = vbNullString Then
+        If .Range(47).Value = vbNullString Or .Range(49).Value = vbNullString Then
             .Range(135).Value = vbNullString
         ElseIf IsDate(.Range(49).Value) Then
             .Range(135).Value = True
         End If
         
         'WNHS Review
-        If .Range(51).Value = vbNullString Then
+        If .Range(52).Value = vbNullString Then
             .Range(136).Value = vbNullString
         ElseIf IsDate(.Range(52).Value) Then
-            .Range(36).Value = True
+            .Range(136).Value = True
         End If
         
         'SJOG Ethics
-        If .Range(54).Value = vbNullString Then
+        If .Range(55).Value = vbNullString Then
             .Range(137).Value = vbNullString
         ElseIf IsDate(.Range(55).Value) Then
             .Range(137).Value = True
         End If
         
         'Others Ethics
-        If .Range(57).Value = vbNullString And .Range(58).Value = vbNullString Then
+        If .Range(57).Value = vbNullString Or .Range(59).Value = vbNullString Then
             .Range(138).Value = vbNullString
         ElseIf IsDate(.Range(59).Value) Then
             .Range(138).Value = True
         End If
         
         'PCH Governance
-        If .Range(63).Value = vbNullString Then
+        If .Range(65).Value = vbNullString Then
             .Range(139).Value = vbNullString
         ElseIf IsDate(.Range(65).Value) Then
             .Range(139).Value = True
         End If
         
         'TKI Governance
-        If .Range(67).Value = vbNullString Then
+        If .Range(69).Value = vbNullString Then
             .Range(140).Value = vbNullString
         ElseIf IsDate(.Range(69).Value) Then
             .Range(140).Value = True
         End If
         
         'KEMH Governance
-        If .Range(71).Value = vbNullString Then
+        If .Range(73).Value = vbNullString Then
             .Range(141).Value = vbNullString
         ElseIf IsDate(.Range(73).Value) Then
             .Range(141).Value = True
         End If
         
         'SJOG Subiaco Governance
-        If .Range(75).Value = vbNullString Then
+        If .Range(77).Value = vbNullString Then
             .Range(142).Value = vbNullString
         ElseIf IsDate(.Range(77).Value) Then
             .Range(142).Value = True
         End If
         
         'SJOG Mt Lawley Governance
-        If .Range(79).Value = vbNullString Then
+        If .Range(81).Value = vbNullString Then
             .Range(143).Value = vbNullString
         ElseIf IsDate(.Range(81).Value) Then
             .Range(143).Value = True
         End If
         
         'SJOG Murdoch Governance
-        If .Range(83).Value = vbNullString Then
+        If .Range(85).Value = vbNullString Then
             .Range(144).Value = vbNullString
         ElseIf IsDate(.Range(85).Value) Then
             .Range(144).Value = True
         End If
         
         'Others Governance
-        If .Range(87).Value = vbNullString And .Range(88).Value = vbNullString Then
+        If .Range(87).Value = vbNullString Or .Range(90).Value = vbNullString Then
             .Range(145).Value = vbNullString
         ElseIf IsDate(.Range(90).Value) Then
             .Range(145).Value = True
@@ -506,11 +506,21 @@ Private Sub Fill_Completion_Status()
         End If
         
         'Financial Disclosure
-        .Range(151).Value = IsDate(.Range(121).Value)
+        If .Range(121).Value = vbNullString Then
+            .Range(151).Value = vbNullString
+        Else
+            .Range(151).Value = IsDate(.Range(121).Value)
+        End If
+        
         
         'SIV
-        .Range(152).Value = IsDate(.Range(125).Value)
+        If .Range(125).Value = vbNullString Then
+            .Range(152).Value = vbNullString
+        Else
+            .Range(152).Value = IsDate(.Range(125).Value)
+        End If
         
+        'Fast Cycle location
         If .Range(153).Value = vbNullString Then
             .Range(153).Formula = "=IFERROR(MATCH(FALSE,Register[@[Study Details Complete]:[SIV Complete]],0),1)"
         End If

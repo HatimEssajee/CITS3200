@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form03_FS 
    Caption         =   "CDA & Feasibility"
-   ClientHeight    =   8295.001
-   ClientLeft      =   -390
-   ClientTop       =   -1755
-   ClientWidth     =   18615
+   ClientHeight    =   8292.001
+   ClientLeft      =   -396
+   ClientTop       =   -1752
+   ClientWidth     =   18624
    OleObjectBlob   =   "form03_FS.frx":0000
 End
 Attribute VB_Name = "form03_FS"
@@ -66,143 +66,26 @@ Private Sub UserForm_Initialize()
             End Select
     Next ctrl
     
-    For Each pPage In Me.multiCDA_FS.Pages
-        For Each ctrl In pPage.Controls
-            Select Case True
-                Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = False
-                Case TypeOf ctrl Is MSForms.TextBox
-                    ctrl.Value = ""
-                    
-                    'Empty error captions
-                    If Left(ctrl.Name, 3) = "err" Then
-                        ctrl.Caption = ""
-                    End If
-                    
-                Case TypeOf ctrl Is MSForms.ComboBox
-                    ctrl.Value = ""
-                Case TypeOf ctrl Is MSForms.ListBox
-                    ctrl.Value = ""
-            End Select
-                
-        Next ctrl
-    Next pPage
-    
     'Read information from register table
     With RegTable.ListRows(RowIndex)
-        Me.txtStudyName.Value = .Range(10).Value
-        Me.txtCDA_Recv_Sponsor.Value = Format(.Range(17).Value, "dd-mmm-yyyy")
-        Me.txtCDA_Sent_Contracts.Value = Format(.Range(18).Value, "dd-mmm-yyyy")
-        Me.txtCDA_Recv_Contracts.Value = Format(.Range(19).Value, "dd-mmm-yyyy")
-        Me.txtCDA_Sent_Sponsor.Value = Format(.Range(20).Value, "dd-mmm-yyyy")
-        Me.txtCDA_Finalised.Value = Format(.Range(21).Value, "dd-mmm-yyyy")
+        Me.txtStudyName.Value = .Range(9).Value
+        Me.txtFS_Recv.Value = Format(.Range(24).Value, "dd-mmm-yyyy")
+        Me.txtFS_Comp.Value = Format(.Range(25).Value, "dd-mmm-yyyy")
+        Me.txtFS_Initials.Value = .Range(26).Value
         
-        Me.txtFS_Recv.Value = Format(.Range(22).Value, "dd-mmm-yyyy")
-        Me.txtFS_Comp.Value = Format(.Range(23).Value, "dd-mmm-yyyy")
-        Me.txtFS_Initials.Value = .Range(24).Value
-        
-        Me.txtReminder.Value = .Range(25).Value
+        Me.txtReminder.Value = .Range(27).Value
     End With
     
     'Access version control
     Call LogLastAccess
     
     'Depress and make toggle green on nav bar
-    Me.tglCDA_FS.Value = True
-    Me.tglCDA_FS.BackColor = vbGreen
+    Me.tglFS.Value = True
+    Me.tglFS.BackColor = vbGreen
     
     'Run date validation on data entered
-    Call txtCDA_Recv_Sponsor_AfterUpdate
-    Call txtCDA_Sent_Contracts_AfterUpdate
-    Call txtCDA_Recv_Contracts_AfterUpdate
-    Call txtCDA_Sent_Sponsor_AfterUpdate
-    Call txtCDA_Finalised_AfterUpdate
     Call txtFS_Recv_AfterUpdate
     Call txtFS_Comp_AfterUpdate
-    
-End Sub
-
-Private Sub txtCDA_Recv_Sponsor_AfterUpdate()
-    'PURPOSE: Validate date entered
-    Dim err As String
-    
-    err = Date_Validation(Me.txtCDA_Recv_Sponsor.Value)
-    
-    'Display error message
-    Me.errCDA_Recv_Sponsor.Caption = err
-    
-    'Change date format displayed
-    If IsDate(Me.txtCDA_Recv_Sponsor.Value) Then
-        Me.txtCDA_Recv_Sponsor.Value = Format(Me.txtCDA_Recv_Sponsor.Value, "dd-mmm-yyyy")
-    End If
-    
-End Sub
-
-Private Sub txtCDA_Sent_Contracts_AfterUpdate()
-    'PURPOSE: Validate date entered
-    Dim err As String
-    
-    err = Date_Validation(Me.txtCDA_Sent_Contracts.Value, Me.txtCDA_Recv_Sponsor.Value, _
-            "Date entered earlier than date" & Chr(10) & "received from Sponsor")
-
-    'Display error message
-    Me.errCDA_Sent_Contracts.Caption = err
-    
-    'Change date format displayed
-    If IsDate(Me.txtCDA_Sent_Contracts.Value) Then
-        Me.txtCDA_Sent_Contracts.Value = Format(Me.txtCDA_Sent_Contracts.Value, "dd-mmm-yyyy")
-    End If
-     
-End Sub
-
-Private Sub txtCDA_Recv_Contracts_AfterUpdate()
-    'PURPOSE: Validate date entered
-    Dim err As String
-    
-    err = Date_Validation(Me.txtCDA_Recv_Contracts.Value, Me.txtCDA_Sent_Contracts.Value, _
-            "Date entered earlier than date" & Chr(10) & "sent to Contracts")
-
-    'Display error message
-    Me.errCDA_Recv_Contracts.Caption = err
-    
-    'Change date format displayed
-    If IsDate(Me.txtCDA_Recv_Contracts.Value) Then
-        Me.txtCDA_Recv_Contracts.Value = Format(Me.txtCDA_Recv_Contracts.Value, "dd-mmm-yyyy")
-    End If
-     
-End Sub
-
-Private Sub txtCDA_Sent_Sponsor_AfterUpdate()
-    'PURPOSE: Validate date entered
-    Dim err As String
-    
-    err = Date_Validation(Me.txtCDA_Sent_Sponsor.Value, Me.txtCDA_Recv_Contracts.Value, _
-            "Date entered earlier than date" & Chr(10) & "received from Contracts")
-
-    'Display error message
-    Me.errCDA_Sent_Sponsor.Caption = err
-    
-    'Change date format displayed
-    If IsDate(Me.txtCDA_Sent_Sponsor.Value) Then
-        Me.txtCDA_Sent_Sponsor.Value = Format(Me.txtCDA_Sent_Sponsor.Value, "dd-mmm-yyyy")
-    End If
-    
-End Sub
-
-Private Sub txtCDA_Finalised_AfterUpdate()
-    'PURPOSE: Validate date entered
-    Dim err As String
-    
-    err = Date_Validation(Me.txtCDA_Finalised.Value, Me.txtCDA_Sent_Sponsor.Value, _
-            "Date entered earlier than date" & Chr(10) & "sent to Sponsor")
-
-    'Display error message
-    Me.errCDA_Finalised.Caption = err
-    
-    'Change date format displayed
-    If IsDate(Me.txtCDA_Finalised.Value) Then
-        Me.txtCDA_Finalised.Value = Format(Me.txtCDA_Finalised.Value, "dd-mmm-yyyy")
-    End If
     
 End Sub
 
@@ -253,33 +136,21 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(17) = String_to_Date(Me.txtCDA_Recv_Sponsor.Value)
-        .Range(18) = String_to_Date(Me.txtCDA_Sent_Contracts.Value)
-        .Range(19) = String_to_Date(Me.txtCDA_Recv_Contracts.Value)
-        .Range(20) = String_to_Date(Me.txtCDA_Sent_Sponsor.Value)
-        .Range(21) = String_to_Date(Me.txtCDA_Finalised.Value)
+        .Range(24) = String_to_Date(Me.txtFS_Recv.Value)
+        .Range(25) = String_to_Date(Me.txtFS_Comp.Value)
+        .Range(26) = Me.txtFS_Initials.Value
         
-        .Range(22) = String_to_Date(Me.txtFS_Recv.Value)
-        .Range(23) = String_to_Date(Me.txtFS_Comp.Value)
-        .Range(24) = Me.txtFS_Initials.Value
-        
-        .Range(25) = Me.txtReminder.Value
+        .Range(27) = Me.txtReminder.Value
         
         'Update version control
-        .Range(26) = Now
-        .Range(27) = Username
+        .Range(28) = Now
+        .Range(29) = Username
         
         'Apply completion status
-        If .Range(21).Value = vbNullString Then
-            .Range(117).Value = vbNullString
+        If .Range(25).Value = vbNullString Then
+            .Range(131).Value = vbNullString
         Else
-            .Range(117).Value = IsDate(.Range(21).Value)
-        End If
-        
-        If .Range(23).Value = vbNullString Then
-            .Range(118).Value = vbNullString
-        Else
-            .Range(118).Value = IsDate(.Range(23).Value)
+            .Range(131).Value = IsDate(.Range(25).Value)
         End If
         
     End With
@@ -295,50 +166,86 @@ End Sub
 
 Private Sub tglNav_Click()
     'PURPOSE: Closes current form and open Nav form
-    Unload form02_CDA_FS
+    Unload form03_FS
     
     form00_Nav.Show False
 End Sub
 
 Private Sub tglStudyDetail_Click()
     'PURPOSE: Closes current form and open Study Details form
-    Unload form02_CDA_FS
+    Unload form03_FS
     
     form01_StudyDetail.Show False
 End Sub
 
-Private Sub tglSiteSelect_Click()
-    'PURPOSE: Closes current form and open Site Select form
-    Unload form02_CDA_FS
+Private Sub tglCDA_Click()
+    'PURPOSE: Closes current form and open CDA form
+    Unload form03_FS
     
-    form03_SiteSelect.Show False
+    form02_CDA.Show False
 End Sub
 
-Private Sub tglReviews_Click()
-    'PURPOSE: Closes current form and open Reviews form - Recruitment tab
-    Unload form02_CDA_FS
+Private Sub tglSiteSelect_Click()
+    'PURPOSE: Closes current form and open Site Select form
+    Unload form03_FS
     
-    form041_Recruitment.Show False
+    form04_SiteSelect.Show False
+End Sub
+
+Private Sub tglRecruit_Click()
+    'PURPOSE: Closes current form and open Recruitment form
+    Unload form03_FS
+    
+    form05_Recruitment.Show False
+End Sub
+
+Private Sub tglEthics_Click()
+    'PURPOSE: Closes current form and open Ethics form
+    Unload form03_FS
+    
+    form06_Ethics.Show False
+End Sub
+
+Private Sub tglGov_Click()
+    'PURPOSE: Closes current form and open Governance form
+    Unload form03_FS
+    
+    form07_Governance.Show False
+End Sub
+
+Private Sub tglBudget_Click()
+    'PURPOSE: Closes current form and open Budget form
+    Unload form03_FS
+    
+    form08_Budget.Show False
+End Sub
+
+Private Sub tglIndemnity_Click()
+    'PURPOSE: Closes current form and open Indemnity form
+    Unload form03_FS
+    
+    form09_Indemnity.Show False
 End Sub
 
 Private Sub tglCTRA_Click()
     'PURPOSE: Closes current form and open CTRA form
-    Unload form02_CDA_FS
+    Unload form03_FS
     
-    form05_CTRA.Show False
+    form10_CTRA.Show False
 End Sub
 
 Private Sub tglFinDisc_Click()
     'PURPOSE: Closes current form and open Fin. Disc. form
-    Unload form02_CDA_FS
+    Unload form03_FS
     
-    form06_FinDisc.Show False
+    form11_FinDisc.Show False
 End Sub
 
 Private Sub tglSIV_Click()
     'PURPOSE: Closes current form and open SIV form
-    Unload form02_CDA_FS
+    Unload form03_FS
     
-    form07_SIV.Show False
+    form12_SIV.Show False
 End Sub
+
 

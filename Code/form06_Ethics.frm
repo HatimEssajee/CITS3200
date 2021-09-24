@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form06_Ethics 
    Caption         =   "Ethics Review"
-   ClientHeight    =   7755
+   ClientHeight    =   7752
    ClientLeft      =   -420
-   ClientTop       =   -1995
-   ClientWidth     =   12810
+   ClientTop       =   -1992
+   ClientWidth     =   12816
    OleObjectBlob   =   "form06_Ethics.frx":0000
 End
 Attribute VB_Name = "form06_Ethics"
@@ -85,28 +85,31 @@ Private Sub UserForm_Initialize()
     
     'Read information from register table
     With RegTable.ListRows(RowIndex)
-        Me.txtStudyName.Value = .Range(10).Value
+        Me.txtStudyName.Value = .Range(9).Value
         
-        Me.txtCAHS_Date_Submitted.Value = Format(.Range(41).Value, "dd-mmm-yyyy")
-        Me.txtCAHS_Date_Responded.Value = Format(.Range(42).Value, "dd-mmm-yyyy")
-        Me.txtCAHS_Date_Resubmitted.Value = Format(.Range(43).Value, "dd-mmm-yyyy")
-        Me.txtCAHS_Date_Approved.Value = Format(.Range(44).Value, "dd-mmm-yyyy")
+        Me.txtCAHS_Date_Submitted.Value = Format(.Range(42).Value, "dd-mmm-yyyy")
+        Me.txtCAHS_Date_Responded.Value = Format(.Range(43).Value, "dd-mmm-yyyy")
+        Me.txtCAHS_Date_Resubmitted.Value = Format(.Range(44).Value, "dd-mmm-yyyy")
+        Me.txtCAHS_Date_Approved.Value = Format(.Range(45).Value, "dd-mmm-yyyy")
+        Me.txtCAHS_Reminder.Value = .Range(46).Value
         
-        Me.txtNMA_Committee.Value = .Range(45).Value
-        Me.txtNMA_Date_Submitted.Value = Format(.Range(46).Value, "dd-mmm-yyyy")
-        Me.txtNMA_Date_Approved.Value = Format(.Range(47).Value, "dd-mmm-yyyy")
+        Me.txtNMA_Committee.Value = .Range(47).Value
+        Me.txtNMA_Date_Submitted.Value = Format(.Range(48).Value, "dd-mmm-yyyy")
+        Me.txtNMA_Date_Approved.Value = Format(.Range(49).Value, "dd-mmm-yyyy")
+        Me.txtNMA_Reminder.Value = .Range(50).Value
         
-        Me.txtWNHS_Date_Submitted.Value = Format(.Range(48).Value, "dd-mmm-yyyy")
-        Me.txtWNHS_Date_Approved.Value = Format(.Range(49).Value, "dd-mmm-yyyy")
+        Me.txtWNHS_Date_Submitted.Value = Format(.Range(51).Value, "dd-mmm-yyyy")
+        Me.txtWNHS_Date_Approved.Value = Format(.Range(52).Value, "dd-mmm-yyyy")
+        Me.txtWNHS_Reminder.Value = .Range(53).Value
         
-        Me.txtSJOG_Date_Submitted.Value = Format(.Range(50).Value, "dd-mmm-yyyy")
-        Me.txtSJOG_Date_Approved.Value = Format(.Range(51).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_Date_Submitted.Value = Format(.Range(54).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_Date_Approved.Value = Format(.Range(55).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_Reminder.Value = .Range(56).Value
         
-        Me.txtOthers_Committee.Value = .Range(52).Value
-        Me.txtOthers_Date_Submitted.Value = Format(.Range(53).Value, "dd-mmm-yyyy")
-        Me.txtOthers_Date_Approved.Value = Format(.Range(54).Value, "dd-mmm-yyyy")
-        
-        Me.txtReminder.Value = .Range(55).Value
+        Me.txtOthers_Committee.Value = .Range(57).Value
+        Me.txtOthers_Date_Submitted.Value = Format(.Range(58).Value, "dd-mmm-yyyy")
+        Me.txtOthers_Date_Approved.Value = Format(.Range(59).Value, "dd-mmm-yyyy")
+        Me.txtOthers_Reminder.Value = .Range(60).Value
         
     End With
     
@@ -114,8 +117,6 @@ Private Sub UserForm_Initialize()
     Call LogLastAccess
     
     'Depress and make toggle green on nav bar
-    Me.tglReviews.Value = True
-    Me.tglReviews.BackColor = vbGreen
     Me.tglEthics.Value = True
     Me.tglEthics.BackColor = vbGreen
     
@@ -352,74 +353,69 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(41) = String_to_Date(Me.txtCAHS_Date_Submitted.Value)
-        .Range(42) = String_to_Date(Me.txtCAHS_Date_Responded.Value)
-        .Range(43) = String_to_Date(Me.txtCAHS_Date_Resubmitted.Value)
-        .Range(44) = String_to_Date(Me.txtCAHS_Date_Approved.Value)
+        .Range(42) = String_to_Date(Me.txtCAHS_Date_Submitted.Value)
+        .Range(43) = String_to_Date(Me.txtCAHS_Date_Responded.Value)
+        .Range(44) = String_to_Date(Me.txtCAHS_Date_Resubmitted.Value)
+        .Range(45) = String_to_Date(Me.txtCAHS_Date_Approved.Value)
+        .Range(46) = Me.txtCAHS_Reminder.Value
         
-        .Range(45) = Me.txtNMA_Committee.Value
-        .Range(46) = String_to_Date(Me.txtNMA_Date_Submitted.Value)
-        .Range(47) = String_to_Date(Me.txtNMA_Date_Approved.Value)
+        .Range(47) = Me.txtNMA_Committee.Value
+        .Range(48) = String_to_Date(Me.txtNMA_Date_Submitted.Value)
+        .Range(49) = String_to_Date(Me.txtNMA_Date_Approved.Value)
+        .Range(50) = Me.txtNMA_Reminder.Value
         
-        .Range(48) = String_to_Date(Me.txtWNHS_Date_Submitted.Value)
-        .Range(49) = String_to_Date(Me.txtWNHS_Date_Approved.Value)
+        .Range(51) = String_to_Date(Me.txtWNHS_Date_Submitted.Value)
+        .Range(52) = String_to_Date(Me.txtWNHS_Date_Approved.Value)
+        .Range(53) = Me.txtWNHS_Reminder.Value
         
-        .Range(50) = String_to_Date(Me.txtSJOG_Date_Submitted.Value)
-        .Range(51) = String_to_Date(Me.txtSJOG_Date_Approved.Value)
+        .Range(54) = String_to_Date(Me.txtSJOG_Date_Submitted.Value)
+        .Range(55) = String_to_Date(Me.txtSJOG_Date_Approved.Value)
+        .Range(56) = Me.txtSJOG_Reminder.Value
         
-        .Range(52) = Me.txtOthers_Committee.Value
-        .Range(53) = String_to_Date(Me.txtOthers_Date_Submitted.Value)
-        .Range(54) = String_to_Date(Me.txtOthers_Date_Approved.Value)
-        
-        .Range(55) = Me.txtReminder.Value
+        .Range(57) = Me.txtOthers_Committee.Value
+        .Range(58) = String_to_Date(Me.txtOthers_Date_Submitted.Value)
+        .Range(59) = String_to_Date(Me.txtOthers_Date_Approved.Value)
+        .Range(60) = Me.txtOthers_Reminder.Value
         
         'Apply completion status
-        If Application.CountA(Range(RegTable.DataBodyRange.Cells(RowIndex, 41), _
-            RegTable.DataBodyRange.Cells(RowIndex, 54))) = 0 Then
-            .Range(121).Value = False
-        ElseIf .Range(41).Value = vbNullString Then
-            .Range(121).Value = vbNullString
-        ElseIf IsDate(.Range(44).Value) Then
-            .Range(121).Value = True
-        Else
-            .Range(121).Value = False
+         'CAHS Ethics
+        If .Range(45).Value = vbNullString Then
+            .Range(134).Value = vbNullString
+        ElseIf IsDate(.Range(45).Value) Then
+            .Range(134).Value = True
         End If
         
-        If .Range(45).Value = vbNullString And .Range(46).Value = vbNullString Then
-            .Range(122).Value = vbNullString
-        ElseIf IsDate(.Range(47).Value) Then
-            .Range(122).Value = True
-        Else
-            .Range(122).Value = False
-        End If
-        
-        If .Range(48).Value = vbNullString Then
-            .Range(123).Value = vbNullString
+        'NMA Ethics
+        If .Range(47).Value = vbNullString Or .Range(49).Value = vbNullString Then
+            .Range(135).Value = vbNullString
         ElseIf IsDate(.Range(49).Value) Then
-            .Range(123).Value = True
-        Else
-            .Range(123).Value = False
+            .Range(135).Value = True
         End If
         
-        If .Range(50).Value = vbNullString Then
-            .Range(124).Value = vbNullString
-        ElseIf IsDate(.Range(51).Value) Then
-            .Range(124).Value = True
-        Else
-            .Range(124).Value = False
+        'WNHS Review
+        If .Range(52).Value = vbNullString Then
+            .Range(136).Value = vbNullString
+        ElseIf IsDate(.Range(52).Value) Then
+            .Range(136).Value = True
         End If
         
-        If .Range(52).Value = vbNullString And .Range(53).Value = vbNullString Then
-            .Range(125).Value = vbNullString
-        ElseIf IsDate(.Range(54).Value) Then
-            .Range(125).Value = True
-        Else
-            .Range(125).Value = False
+        'SJOG Ethics
+        If .Range(55).Value = vbNullString Then
+            .Range(137).Value = vbNullString
+        ElseIf IsDate(.Range(55).Value) Then
+            .Range(137).Value = True
+        End If
+        
+        'Others Ethics
+        If .Range(57).Value = vbNullString Or .Range(59).Value = vbNullString Then
+            .Range(138).Value = vbNullString
+        ElseIf IsDate(.Range(59).Value) Then
+            .Range(138).Value = True
         End If
        
         'Update version control
-        .Range(56) = Now
-        .Range(57) = Username
+        .Range(61) = Now
+        .Range(62) = Username
     End With
     
     'Access version control
@@ -434,81 +430,86 @@ End Sub
 
 Private Sub tglNav_Click()
     'PURPOSE: Closes current form and open Nav form
-    Unload form042_Ethics
+    Unload form06_Ethics
     
     form00_Nav.Show False
 End Sub
 
-Private Sub tglStudyDetail_Click()
-    'PURPOSE: Closes current form and open Study Details form
-    Unload form042_Ethics
+Private Sub tglCDA_Click()
+    'PURPOSE: Closes current form and open CDA form
+    Unload form06_Ethics
     
-    form01_StudyDetail.Show False
+    form02_CDA.Show False
 End Sub
 
-Private Sub tglCDA_FS_Click()
-    'PURPOSE: Closes current form and open CDA / FS form
-    Unload form042_Ethics
+Private Sub tglFS_Click()
+    'PURPOSE: Closes current form and open Feasibility form
+    Unload form06_Ethics
     
-    form02_CDA_FS.Show False
-    form02_CDA_FS.multiCDA_FS.Value = 0
+    form03_FS.Show False
 End Sub
 
 Private Sub tglSiteSelect_Click()
     'PURPOSE: Closes current form and open Site Select form
-    Unload form042_Ethics
+    Unload form06_Ethics
     
-    form03_SiteSelect.Show False
+    form04_SiteSelect.Show False
 End Sub
 
-Private Sub tglRecruitment_Click()
+Private Sub tglRecruit_Click()
     'PURPOSE: Closes current form and open Recruitment form
-    Unload form042_Ethics
+    Unload form06_Ethics
     
-    form041_Recruitment.Show False
+    form05_Recruitment.Show False
 End Sub
 
-Private Sub tglGovernance_Click()
-    'PURPOSE: Closes current form and open Governance form
-    Unload form042_Ethics
+Private Sub tglStudyDetail_Click()
+    'PURPOSE: Closes current form and open Study Detail form
+    Unload form06_Ethics
     
-    form043_Governance.Show False
-    form043_Governance.multiGov.Value = 0
+    form01_StudyDetail.Show False
+End Sub
+
+Private Sub tglGov_Click()
+    'PURPOSE: Closes current form and open Governance form
+    Unload form06_Ethics
+    
+    form07_Governance.Show False
 End Sub
 
 Private Sub tglBudget_Click()
     'PURPOSE: Closes current form and open Budget form
-    Unload form042_Ethics
+    Unload form06_Ethics
     
-    form044_Budget.Show False
+    form08_Budget.Show False
 End Sub
 
 Private Sub tglIndemnity_Click()
     'PURPOSE: Closes current form and open Indemnity form
-    Unload form042_Ethics
+    Unload form06_Ethics
     
-    form045_Indemnity.Show False
+    form09_Indemnity.Show False
 End Sub
 
 Private Sub tglCTRA_Click()
     'PURPOSE: Closes current form and open CTRA form
-    Unload form042_Ethics
+    Unload form06_Ethics
     
-    form05_CTRA.Show False
+    form10_CTRA.Show False
 End Sub
 
 Private Sub tglFinDisc_Click()
     'PURPOSE: Closes current form and open Fin. Disc. form
-    Unload form042_Ethics
+    Unload form06_Ethics
     
-    form06_FinDisc.Show False
+    form11_FinDisc.Show False
 End Sub
 
 Private Sub tglSIV_Click()
     'PURPOSE: Closes current form and open SIV form
-    Unload form042_Ethics
+    Unload form06_Ethics
     
-    form07_SIV.Show False
+    form12_SIV.Show False
 End Sub
 
 

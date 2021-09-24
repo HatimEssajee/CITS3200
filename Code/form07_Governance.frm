@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form07_Governance 
    Caption         =   "Governance Review"
-   ClientHeight    =   10230
-   ClientLeft      =   -510
-   ClientTop       =   -2310
-   ClientWidth     =   13530
+   ClientHeight    =   10236
+   ClientLeft      =   -516
+   ClientTop       =   -2316
+   ClientWidth     =   13536
    OleObjectBlob   =   "form07_Governance.frx":0000
 End
 Attribute VB_Name = "form07_Governance"
@@ -86,38 +86,43 @@ Private Sub UserForm_Initialize()
     'Read information from register table
     With RegTable.ListRows(RowIndex)
 
-        Me.txtStudyName.Value = .Range(10).Value
+        Me.txtStudyName.Value = .Range(9).Value
         
-        Me.txtPCH_Date_Submitted.Value = Format(.Range(58).Value, "dd-mmm-yyyy")
-        Me.txtPCH_Date_Responded.Value = Format(.Range(59).Value, "dd-mmm-yyyy")
-        Me.txtPCH_Date_Approved.Value = Format(.Range(60).Value, "dd-mmm-yyyy")
+        Me.txtPCH_Date_Submitted.Value = Format(.Range(63).Value, "dd-mmm-yyyy")
+        Me.txtPCH_Date_Responded.Value = Format(.Range(64).Value, "dd-mmm-yyyy")
+        Me.txtPCH_Date_Approved.Value = Format(.Range(65).Value, "dd-mmm-yyyy")
+        Me.txtPCH_Reminder.Value = .Range(66).Value
         
-        Me.txtTKI_Date_Submitted.Value = Format(.Range(61).Value, "dd-mmm-yyyy")
-        Me.txtTKI_Date_Responded.Value = Format(.Range(62).Value, "dd-mmm-yyyy")
-        Me.txtTKI_Date_Approved.Value = Format(.Range(63).Value, "dd-mmm-yyyy")
+        Me.txtTKI_Date_Submitted.Value = Format(.Range(67).Value, "dd-mmm-yyyy")
+        Me.txtTKI_Date_Responded.Value = Format(.Range(68).Value, "dd-mmm-yyyy")
+        Me.txtTKI_Date_Approved.Value = Format(.Range(69).Value, "dd-mmm-yyyy")
+        Me.txtTKI_Reminder.Value = .Range(70).Value
         
-        Me.txtKEMH_Date_Submitted.Value = Format(.Range(64).Value, "dd-mmm-yyyy")
-        Me.txtKEMH_Date_Responded.Value = Format(.Range(65).Value, "dd-mmm-yyyy")
-        Me.txtKEMH_Date_Approved.Value = Format(.Range(66).Value, "dd-mmm-yyyy")
+        Me.txtKEMH_Date_Submitted.Value = Format(.Range(71).Value, "dd-mmm-yyyy")
+        Me.txtKEMH_Date_Responded.Value = Format(.Range(72).Value, "dd-mmm-yyyy")
+        Me.txtKEMH_Date_Approved.Value = Format(.Range(73).Value, "dd-mmm-yyyy")
+        Me.txtKEMH_Reminder.Value = .Range(74).Value
         
-        Me.txtSJOG_S_Date_Submitted.Value = Format(.Range(67).Value, "dd-mmm-yyyy")
-        Me.txtSJOG_S_Date_Responded.Value = Format(.Range(68).Value, "dd-mmm-yyyy")
-        Me.txtSJOG_S_Date_Approved.Value = Format(.Range(69).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_S_Date_Submitted.Value = Format(.Range(75).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_S_Date_Responded.Value = Format(.Range(76).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_S_Date_Approved.Value = Format(.Range(77).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_S_Reminder.Value = .Range(78).Value
         
-        Me.txtSJOG_L_Date_Submitted.Value = Format(.Range(70).Value, "dd-mmm-yyyy")
-        Me.txtSJOG_L_Date_Responded.Value = Format(.Range(71).Value, "dd-mmm-yyyy")
-        Me.txtSJOG_L_Date_Approved.Value = Format(.Range(72).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_L_Date_Submitted.Value = Format(.Range(79).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_L_Date_Responded.Value = Format(.Range(80).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_L_Date_Approved.Value = Format(.Range(81).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_L_Reminder.Value = .Range(82).Value
         
-        Me.txtSJOG_M_Date_Submitted.Value = Format(.Range(73).Value, "dd-mmm-yyyy")
-        Me.txtSJOG_M_Date_Responded.Value = Format(.Range(74).Value, "dd-mmm-yyyy")
-        Me.txtSJOG_M_Date_Approved.Value = Format(.Range(75).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_M_Date_Submitted.Value = Format(.Range(83).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_M_Date_Responded.Value = Format(.Range(84).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_M_Date_Approved.Value = Format(.Range(85).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_M_Reminder.Value = .Range(86).Value
         
-        Me.txtOthers_Committee.Value = .Range(76).Value
-        Me.txtOthers_Date_Submitted.Value = Format(.Range(77).Value, "dd-mmm-yyyy")
-        Me.txtOthers_Date_Responded.Value = Format(.Range(78).Value, "dd-mmm-yyyy")
-        Me.txtOthers_Date_Approved.Value = Format(.Range(79).Value, "dd-mmm-yyyy")
-        
-        Me.txtReminder.Value = .Range(80).Value
+        Me.txtOthers_Committee.Value = .Range(87).Value
+        Me.txtOthers_Date_Submitted.Value = Format(.Range(88).Value, "dd-mmm-yyyy")
+        Me.txtOthers_Date_Responded.Value = Format(.Range(89).Value, "dd-mmm-yyyy")
+        Me.txtOthers_Date_Approved.Value = Format(.Range(90).Value, "dd-mmm-yyyy")
+        Me.txtOthers_Reminder.Value = .Range(91).Value
         
     End With
     
@@ -125,10 +130,8 @@ Private Sub UserForm_Initialize()
     Call LogLastAccess
     
     'Depress and make toggle green on nav bar
-    Me.tglReviews.Value = True
-    Me.tglReviews.BackColor = vbGreen
-    Me.tglGovernance.Value = True
-    Me.tglGovernance.BackColor = vbGreen
+    Me.tglGov.Value = True
+    Me.tglGov.BackColor = vbGreen
     
     'Run date validation on data entered
     Call txtPCH_Date_Submitted_AfterUpdate
@@ -524,100 +527,95 @@ Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
     With RegTable.ListRows(RowIndex)
         
-        .Range(58) = String_to_Date(Me.txtPCH_Date_Submitted.Value)
-        .Range(59) = String_to_Date(Me.txtPCH_Date_Responded.Value)
-        .Range(60) = String_to_Date(Me.txtPCH_Date_Approved.Value)
+        .Range(63) = String_to_Date(Me.txtPCH_Date_Submitted.Value)
+        .Range(64) = String_to_Date(Me.txtPCH_Date_Responded.Value)
+        .Range(65) = String_to_Date(Me.txtPCH_Date_Approved.Value)
+        .Range(66) = Me.txtPCH_Reminder.Value
         
-        .Range(61) = String_to_Date(Me.txtTKI_Date_Submitted.Value)
-        .Range(62) = String_to_Date(Me.txtTKI_Date_Responded.Value)
-        .Range(63) = String_to_Date(Me.txtTKI_Date_Approved.Value)
+        .Range(67) = String_to_Date(Me.txtTKI_Date_Submitted.Value)
+        .Range(68) = String_to_Date(Me.txtTKI_Date_Responded.Value)
+        .Range(69) = String_to_Date(Me.txtTKI_Date_Approved.Value)
+        .Range(70) = Me.txtTKI_Reminder.Value
         
-        .Range(64) = String_to_Date(Me.txtKEMH_Date_Submitted.Value)
-        .Range(65) = String_to_Date(Me.txtKEMH_Date_Responded.Value)
-        .Range(66) = String_to_Date(Me.txtKEMH_Date_Approved.Value)
+        .Range(71) = String_to_Date(Me.txtKEMH_Date_Submitted.Value)
+        .Range(72) = String_to_Date(Me.txtKEMH_Date_Responded.Value)
+        .Range(73) = String_to_Date(Me.txtKEMH_Date_Approved.Value)
+        .Range(74) = Me.txtKEMH_Reminder.Value
         
-        .Range(67) = String_to_Date(Me.txtSJOG_S_Date_Submitted.Value)
-        .Range(68) = String_to_Date(Me.txtSJOG_S_Date_Responded.Value)
-        .Range(69) = String_to_Date(Me.txtSJOG_S_Date_Approved.Value)
+        .Range(75) = String_to_Date(Me.txtSJOG_S_Date_Submitted.Value)
+        .Range(76) = String_to_Date(Me.txtSJOG_S_Date_Responded.Value)
+        .Range(77) = String_to_Date(Me.txtSJOG_S_Date_Approved.Value)
+        .Range(78) = Me.txtSJOG_S_Reminder.Value
         
-        .Range(70) = String_to_Date(Me.txtSJOG_L_Date_Submitted.Value)
-        .Range(71) = String_to_Date(Me.txtSJOG_L_Date_Responded.Value)
-        .Range(72) = String_to_Date(Me.txtSJOG_L_Date_Approved.Value)
+        .Range(79) = String_to_Date(Me.txtSJOG_L_Date_Submitted.Value)
+        .Range(80) = String_to_Date(Me.txtSJOG_L_Date_Responded.Value)
+        .Range(81) = String_to_Date(Me.txtSJOG_L_Date_Approved.Value)
+        .Range(82) = Me.txtSJOG_L_Reminder.Value
         
-        .Range(73) = String_to_Date(Me.txtSJOG_M_Date_Submitted.Value)
-        .Range(74) = String_to_Date(Me.txtSJOG_M_Date_Responded.Value)
-        .Range(75) = String_to_Date(Me.txtSJOG_M_Date_Approved.Value)
+        .Range(83) = String_to_Date(Me.txtSJOG_M_Date_Submitted.Value)
+        .Range(84) = String_to_Date(Me.txtSJOG_M_Date_Responded.Value)
+        .Range(85) = String_to_Date(Me.txtSJOG_M_Date_Approved.Value)
+        .Range(86) = Me.txtSJOG_M_Reminder.Value
     
-        .Range(76) = Me.txtOthers_Committee.Value
-        .Range(77) = String_to_Date(Me.txtOthers_Date_Submitted.Value)
-        .Range(78) = String_to_Date(Me.txtOthers_Date_Responded.Value)
-        .Range(79) = String_to_Date(Me.txtOthers_Date_Approved.Value)
-        
-        .Range(80) = Me.txtReminder.Value
+        .Range(87) = Me.txtOthers_Committee.Value
+        .Range(88) = String_to_Date(Me.txtOthers_Date_Submitted.Value)
+        .Range(89) = String_to_Date(Me.txtOthers_Date_Responded.Value)
+        .Range(90) = String_to_Date(Me.txtOthers_Date_Approved.Value)
+        .Range(91) = Me.txtOthers_Reminder.Value
         
         'Apply completion status
-        If Application.CountA(Range(RegTable.DataBodyRange.Cells(RowIndex, 58), _
-            RegTable.DataBodyRange.Cells(RowIndex, 79))) = 0 Then
-            .Range(126).Value = False
-        ElseIf .Range(58).Value = vbNullString Then
-            .Range(126).Value = vbNullString
-        ElseIf IsDate(.Range(60).Value) Then
-            .Range(126).Value = True
-        Else
-            .Range(126).Value = False
+        'PCH Governance
+        If .Range(65).Value = vbNullString Then
+            .Range(139).Value = vbNullString
+        ElseIf IsDate(.Range(65).Value) Then
+            .Range(139).Value = True
         End If
         
-        If .Range(61).Value = vbNullString Then
-            .Range(127).Value = vbNullString
-        ElseIf IsDate(.Range(63).Value) Then
-            .Range(127).Value = True
-        Else
-            .Range(127).Value = False
-        End If
-        
-        If .Range(64).Value = vbNullString Then
-            .Range(128).Value = vbNullString
-        ElseIf IsDate(.Range(66).Value) Then
-            .Range(128).Value = True
-        Else
-            .Range(128).Value = False
-        End If
-        
-        If .Range(67).Value = vbNullString Then
-            .Range(129).Value = vbNullString
+        'TKI Governance
+        If .Range(69).Value = vbNullString Then
+            .Range(140).Value = vbNullString
         ElseIf IsDate(.Range(69).Value) Then
-            .Range(129).Value = True
-        Else
-            .Range(129).Value = False
-        End If
-    
-        If .Range(70).Value = vbNullString Then
-            .Range(130).Value = vbNullString
-        ElseIf IsDate(.Range(72).Value) Then
-            .Range(130).Value = True
-        Else
-            .Range(130).Value = False
+            .Range(140).Value = True
         End If
         
+        'KEMH Governance
         If .Range(73).Value = vbNullString Then
-            .Range(131).Value = vbNullString
-        ElseIf IsDate(.Range(75).Value) Then
-            .Range(131).Value = True
-        Else
-            .Range(131).Value = False
+            .Range(141).Value = vbNullString
+        ElseIf IsDate(.Range(73).Value) Then
+            .Range(141).Value = True
         End If
         
-        If .Range(76).Value = vbNullString And .Range(77).Value = vbNullString Then
-            .Range(132).Value = vbNullString
-        ElseIf IsDate(.Range(79).Value) Then
-            .Range(132).Value = True
-        Else
-            .Range(132).Value = False
+        'SJOG Subiaco Governance
+        If .Range(77).Value = vbNullString Then
+            .Range(142).Value = vbNullString
+        ElseIf IsDate(.Range(77).Value) Then
+            .Range(142).Value = True
+        End If
+        
+        'SJOG Mt Lawley Governance
+        If .Range(81).Value = vbNullString Then
+            .Range(143).Value = vbNullString
+        ElseIf IsDate(.Range(81).Value) Then
+            .Range(143).Value = True
+        End If
+        
+        'SJOG Murdoch Governance
+        If .Range(85).Value = vbNullString Then
+            .Range(144).Value = vbNullString
+        ElseIf IsDate(.Range(85).Value) Then
+            .Range(144).Value = True
+        End If
+        
+        'Others Governance
+        If .Range(87).Value = vbNullString Or .Range(90).Value = vbNullString Then
+            .Range(145).Value = vbNullString
+        ElseIf IsDate(.Range(90).Value) Then
+            .Range(145).Value = True
         End If
 
         'Update version control
-        .Range(81) = Now
-        .Range(82) = Username
+        .Range(92) = Now
+        .Range(93) = Username
         
     End With
     
@@ -629,84 +627,88 @@ Private Sub cmdEdit_Click()
 End Sub
 
 
-
 '----------------- Navigation section Toggles ----------------
 
 Private Sub tglNav_Click()
     'PURPOSE: Closes current form and open Nav form
-    Unload form043_Governance
+    Unload form07_Governance
     
     form00_Nav.Show False
 End Sub
 
-Private Sub tglStudyDetail_Click()
-    'PURPOSE: Closes current form and open Study Details form
-    Unload form043_Governance
+Private Sub tglCDA_Click()
+    'PURPOSE: Closes current form and open CDA form
+    Unload form07_Governance
     
-    form01_StudyDetail.Show False
+    form02_CDA.Show False
 End Sub
 
-Private Sub tglCDA_FS_Click()
-    'PURPOSE: Closes current form and open CDA / FS form
-    Unload form043_Governance
+Private Sub tglFS_Click()
+    'PURPOSE: Closes current form and open Feasibility form
+    Unload form07_Governance
     
-    form02_CDA_FS.Show False
-    form02_CDA_FS.multiCDA_FS.Value = 0
+    form03_FS.Show False
 End Sub
 
 Private Sub tglSiteSelect_Click()
     'PURPOSE: Closes current form and open Site Select form
-    Unload form043_Governance
+    Unload form07_Governance
     
-    form03_SiteSelect.Show False
+    form04_SiteSelect.Show False
 End Sub
 
-Private Sub tglRecruitment_Click()
+Private Sub tglRecruit_Click()
     'PURPOSE: Closes current form and open Recruitment form
-    Unload form043_Governance
+    Unload form07_Governance
     
-    form041_Recruitment.Show False
+    form05_Recruitment.Show False
 End Sub
 
 Private Sub tglEthics_Click()
     'PURPOSE: Closes current form and open Ethics form
-    Unload form043_Governance
+    Unload form07_Governance
     
-    form042_Ethics.Show False
-    form042_Ethics.multiEthics.Value = 0
+    form06_Ethics.Show False
+End Sub
+
+Private Sub tglStudyDetail_Click()
+    'PURPOSE: Closes current form and open Study Detail form
+    Unload form07_Governance
+    
+    form01_StudyDetail.Show False
 End Sub
 
 Private Sub tglBudget_Click()
     'PURPOSE: Closes current form and open Budget form
-    Unload form043_Governance
+    Unload form07_Governance
     
-    form044_Budget.Show False
+    form08_Budget.Show False
 End Sub
 
 Private Sub tglIndemnity_Click()
     'PURPOSE: Closes current form and open Indemnity form
-    Unload form043_Governance
+    Unload form07_Governance
     
-    form045_Indemnity.Show False
+    form09_Indemnity.Show False
 End Sub
 
 Private Sub tglCTRA_Click()
     'PURPOSE: Closes current form and open CTRA form
-    Unload form043_Governance
+    Unload form07_Governance
     
-    form05_CTRA.Show False
+    form10_CTRA.Show False
 End Sub
 
 Private Sub tglFinDisc_Click()
     'PURPOSE: Closes current form and open Fin. Disc. form
-    Unload form043_Governance
+    Unload form07_Governance
     
-    form06_FinDisc.Show False
+    form11_FinDisc.Show False
 End Sub
 
 Private Sub tglSIV_Click()
     'PURPOSE: Closes current form and open SIV form
-    Unload form043_Governance
+    Unload form07_Governance
     
-    form07_SIV.Show False
+    form12_SIV.Show False
 End Sub
