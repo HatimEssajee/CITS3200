@@ -3,8 +3,8 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form13_ChangeLog
    Caption         =   "Change Log"
    ClientHeight    =   10320
    ClientLeft      =   -360
-   ClientTop       =   -1548
-   ClientWidth     =   9228.001
+   ClientTop       =   -1545
+   ClientWidth     =   9225.001
    OleObjectBlob   =   "form13_ChangeLog.frx":0000
 End
 Attribute VB_Name = "form13_ChangeLog"

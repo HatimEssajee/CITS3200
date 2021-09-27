@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form00_Nav 
    Caption         =   "Vaccine Trial Study Start-up Tracker"
    ClientHeight    =   9096.001
-   ClientLeft      =   -36
+   ClientLeft      =   -30
    ClientTop       =   -360
-   ClientWidth     =   12768
+   ClientWidth     =   12765
    OleObjectBlob   =   "form00_Nav.frx":0000
 End
 Attribute VB_Name = "form00_Nav"

@@ -2,8 +2,8 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form12_SIV 
    Caption         =   "Financial Disclosure"
    ClientHeight    =   6684
-   ClientLeft      =   -444
-   ClientTop       =   -1992
+   ClientLeft      =   -450
+   ClientTop       =   -1995
    ClientWidth     =   10980
    OleObjectBlob   =   "form12_SIV.frx":0000
 End
@@ -200,6 +200,7 @@ Private Sub tglEthics_Click()
     Unload form12_SIV
     
     form06_Ethics.Show False
+    form06_Ethics.multiEthics.Value = 0
 End Sub
 
 Private Sub tglGov_Click()
@@ -207,6 +208,7 @@ Private Sub tglGov_Click()
     Unload form12_SIV
     
     form07_Governance.Show False
+    form07_Governance.multiGov.Value = 0
 End Sub
 
 Private Sub tglBudget_Click()
@@ -214,6 +216,7 @@ Private Sub tglBudget_Click()
     Unload form12_SIV
     
     form08_Budget.Show False
+    form08_Budget.multiBudget.Value = 0
 End Sub
 
 Private Sub tglIndemnity_Click()

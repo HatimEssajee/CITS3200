@@ -3,8 +3,8 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form04_SiteSelect
    Caption         =   "Site Selection"
    ClientHeight    =   7284
    ClientLeft      =   -480
-   ClientTop       =   -2052
-   ClientWidth     =   10224
+   ClientTop       =   -2055
+   ClientWidth     =   10230
    OleObjectBlob   =   "form04_SiteSelect.frx":0000
 End
 Attribute VB_Name = "form04_SiteSelect"
@@ -231,6 +231,7 @@ Private Sub tglEthics_Click()
     Unload form04_SiteSelect
     
     form06_Ethics.Show False
+    form06_Ethics.multiEthics.Value = 0
 End Sub
 
 Private Sub tglGov_Click()
@@ -238,6 +239,7 @@ Private Sub tglGov_Click()
     Unload form04_SiteSelect
     
     form07_Governance.Show False
+    form07_Governance.multiGov.Value = 0
 End Sub
 
 Private Sub tglBudget_Click()
@@ -245,6 +247,7 @@ Private Sub tglBudget_Click()
     Unload form04_SiteSelect
     
     form08_Budget.Show False
+    form08_Budget.multiBudget.Value = 0
 End Sub
 
 Private Sub tglIndemnity_Click()

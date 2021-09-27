@@ -1,9 +1,9 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form08_Budget 
    Caption         =   "Budget Review"
-   ClientHeight    =   7836
-   ClientLeft      =   -372
-   ClientTop       =   -1896
+   ClientHeight    =   7830
+   ClientLeft      =   -375
+   ClientTop       =   -1890
    ClientWidth     =   13200
    OleObjectBlob   =   "form08_Budget.frx":0000
 End
@@ -304,6 +304,7 @@ Private Sub tglEthics_Click()
     Unload form08_Budget
     
     form06_Ethics.Show False
+    form06_Ethics.multiEthics.Value = 0
 End Sub
 
 Private Sub tglGov_Click()
@@ -311,6 +312,7 @@ Private Sub tglGov_Click()
     Unload form08_Budget
     
     form07_Governance.Show False
+    form07_Governance.multiGov.Value = 0
 End Sub
 
 Private Sub tglStudyDetail_Click()

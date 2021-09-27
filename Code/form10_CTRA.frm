@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form10_CTRA 
    Caption         =   "CTRA"
    ClientHeight    =   6612
-   ClientLeft      =   -432
-   ClientTop       =   -2184
-   ClientWidth     =   10344
+   ClientLeft      =   -435
+   ClientTop       =   -2190
+   ClientWidth     =   10350
    OleObjectBlob   =   "form10_CTRA.frx":0000
 End
 Attribute VB_Name = "form10_CTRA"
@@ -300,6 +300,7 @@ Private Sub tglEthics_Click()
     Unload form10_CTRA
     
     form06_Ethics.Show False
+    form06_Ethics.multiEthics.Value = 0
 End Sub
 
 Private Sub tglGov_Click()
@@ -307,6 +308,7 @@ Private Sub tglGov_Click()
     Unload form10_CTRA
     
     form07_Governance.Show False
+    form07_Governance.multiGov.Value = 0
 End Sub
 
 Private Sub tglBudget_Click()
@@ -314,6 +316,7 @@ Private Sub tglBudget_Click()
     Unload form10_CTRA
     
     form08_Budget.Show False
+    form08_Budget.multiBudget.Value = 0
 End Sub
 
 Private Sub tglIndemnity_Click()

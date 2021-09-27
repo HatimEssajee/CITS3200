@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form11_FinDisc 
    Caption         =   "Financial Disclosure"
    ClientHeight    =   6504
-   ClientLeft      =   -504
-   ClientTop       =   -2064
-   ClientWidth     =   12336
+   ClientLeft      =   -510
+   ClientTop       =   -2070
+   ClientWidth     =   12345
    OleObjectBlob   =   "form11_FinDisc.frx":0000
 End
 Attribute VB_Name = "form11_FinDisc"
@@ -178,6 +178,7 @@ Private Sub tglEthics_Click()
     Unload form11_FinDisc
     
     form06_Ethics.Show False
+    form06_Ethics.multiEthics.Value = 0
 End Sub
 
 Private Sub tglGov_Click()
@@ -185,6 +186,7 @@ Private Sub tglGov_Click()
     Unload form11_FinDisc
     
     form07_Governance.Show False
+    form07_Governance.multiGov.Value = 0
 End Sub
 
 Private Sub tglBudget_Click()
@@ -192,6 +194,7 @@ Private Sub tglBudget_Click()
     Unload form11_FinDisc
     
     form08_Budget.Show False
+    form08_Budget.multiBudget.Value = 0
 End Sub
 
 Private Sub tglIndemnity_Click()

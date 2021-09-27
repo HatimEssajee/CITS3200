@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form05_Recruitment 
    Caption         =   "Recruitment Plan"
    ClientHeight    =   8004
-   ClientLeft      =   -516
-   ClientTop       =   -2196
-   ClientWidth     =   14016
+   ClientLeft      =   -510
+   ClientTop       =   -2190
+   ClientWidth     =   14010
    OleObjectBlob   =   "form05_Recruitment.frx":0000
 End
 Attribute VB_Name = "form05_Recruitment"
@@ -179,6 +179,7 @@ Private Sub tglEthics_Click()
     Unload form05_Recruitment
     
     form06_Ethics.Show False
+    form06_Ethics.multiEthics.Value = 0
 End Sub
 
 Private Sub tglGov_Click()
@@ -186,6 +187,7 @@ Private Sub tglGov_Click()
     Unload form05_Recruitment
     
     form07_Governance.Show False
+    form07_Governance.multiGov.Value = 0
 End Sub
 
 Private Sub tglBudget_Click()
@@ -193,6 +195,7 @@ Private Sub tglBudget_Click()
     Unload form05_Recruitment
     
     form08_Budget.Show False
+    form08_Budget.multiBudget.Value = 0
 End Sub
 
 Private Sub tglIndemnity_Click()

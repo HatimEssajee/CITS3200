@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form01_StudyDetail 
    Caption         =   "Study Details"
    ClientHeight    =   8628.001
-   ClientLeft      =   -432
-   ClientTop       =   -1848
-   ClientWidth     =   13344
+   ClientLeft      =   -435
+   ClientTop       =   -1845
+   ClientWidth     =   13350
    OleObjectBlob   =   "form01_StudyDetail.frx":0000
 End
 Attribute VB_Name = "form01_StudyDetail"
@@ -169,6 +169,7 @@ Private Sub tglEthics_Click()
     Unload form01_StudyDetail
     
     form06_Ethics.Show False
+    form06_Ethics.multiEthics.Value = 0
 End Sub
 
 Private Sub tglGov_Click()
@@ -176,6 +177,7 @@ Private Sub tglGov_Click()
     Unload form01_StudyDetail
     
     form07_Governance.Show False
+    form07_Governance.multiGov.Value = 0
 End Sub
 
 Private Sub tglBudget_Click()
@@ -183,6 +185,7 @@ Private Sub tglBudget_Click()
     Unload form01_StudyDetail
     
     form08_Budget.Show False
+    form08_Budget.multiBudget.Value = 0
 End Sub
 
 Private Sub tglIndemnity_Click()

@@ -3,8 +3,8 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form06_Ethics
    Caption         =   "Ethics Review"
    ClientHeight    =   7752
    ClientLeft      =   -420
-   ClientTop       =   -1992
-   ClientWidth     =   12816
+   ClientTop       =   -1995
+   ClientWidth     =   12810
    OleObjectBlob   =   "form06_Ethics.frx":0000
 End
 Attribute VB_Name = "form06_Ethics"
@@ -444,6 +444,7 @@ Private Sub tglGov_Click()
     Unload form06_Ethics
     
     form07_Governance.Show False
+    form07_Governance.multiGov.Value = 0
 End Sub
 
 Private Sub tglBudget_Click()
@@ -451,6 +452,7 @@ Private Sub tglBudget_Click()
     Unload form06_Ethics
     
     form08_Budget.Show False
+    form08_Budget.multiBudget.Value = 0
 End Sub
 
 Private Sub tglIndemnity_Click()

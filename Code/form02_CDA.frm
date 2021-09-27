@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form02_CDA 
    Caption         =   "CDA & Feasibility"
    ClientHeight    =   8424.001
-   ClientLeft      =   -396
-   ClientTop       =   -1752
-   ClientWidth     =   15804
+   ClientLeft      =   -390
+   ClientTop       =   -1755
+   ClientWidth     =   15795
    OleObjectBlob   =   "form02_CDA.frx":0000
 End
 Attribute VB_Name = "form02_CDA"
@@ -261,6 +261,7 @@ Private Sub tglEthics_Click()
     Unload form02_CDA
     
     form06_Ethics.Show False
+    form06_Ethics.multiEthics.Value = 0
 End Sub
 
 Private Sub tglGov_Click()
@@ -268,6 +269,7 @@ Private Sub tglGov_Click()
     Unload form02_CDA
     
     form07_Governance.Show False
+    form07_Governance.multiGov.Value = 0
 End Sub
 
 Private Sub tglBudget_Click()
@@ -275,6 +277,7 @@ Private Sub tglBudget_Click()
     Unload form02_CDA
     
     form08_Budget.Show False
+    form08_Budget.multiBudget.Value = 0
 End Sub
 
 Private Sub tglIndemnity_Click()

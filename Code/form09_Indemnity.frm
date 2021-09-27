@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form09_Indemnity 
    Caption         =   "Indemnity Review"
    ClientHeight    =   8448.001
-   ClientLeft      =   -528
-   ClientTop       =   -2172
-   ClientWidth     =   14556
+   ClientLeft      =   -525
+   ClientTop       =   -2175
+   ClientWidth     =   14550
    OleObjectBlob   =   "form09_Indemnity.frx":0000
 End
 Attribute VB_Name = "form09_Indemnity"
@@ -219,6 +219,7 @@ Private Sub tglEthics_Click()
     Unload form09_Indemnity
     
     form06_Ethics.Show False
+    form06_Ethics.multiEthics.Value = 0
 End Sub
 
 Private Sub tglGov_Click()
@@ -226,6 +227,7 @@ Private Sub tglGov_Click()
     Unload form09_Indemnity
     
     form07_Governance.Show False
+    form07_Governance.multiGov.Value = 0
 End Sub
 
 Private Sub tglBudget_Click()
@@ -233,6 +235,7 @@ Private Sub tglBudget_Click()
     Unload form09_Indemnity
     
     form08_Budget.Show False
+    form08_Budget.multiBudget.Value = 0
 End Sub
 
 Private Sub tglStudyDetail_Click()
