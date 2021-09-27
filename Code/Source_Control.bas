@@ -35,7 +35,7 @@ Sub ImportCode()
     End If
     
     'Check if vb project already has other modules
-    If ThisWorkbook.VBProject.VBComponents.Count > 10 Then
+    If ThisWorkbook.VBProject.VBComponents.count > 10 Then
         MsgBox "Can't continue--already have code imported!"
         Exit Sub
     End If

@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form10_CTRA 
    Caption         =   "CTRA"
-   ClientHeight    =   8268.001
-   ClientLeft      =   -408
-   ClientTop       =   -2088
-   ClientWidth     =   12936
+   ClientHeight    =   6612
+   ClientLeft      =   -432
+   ClientTop       =   -2184
+   ClientWidth     =   10344
    OleObjectBlob   =   "form10_CTRA.frx":0000
 End
 Attribute VB_Name = "form10_CTRA"
@@ -239,15 +239,15 @@ Private Sub cmdEdit_Click()
         .Range(116) = String_to_Date(Me.txtDate_Company.Value)
         .Range(117) = String_to_Date(Me.txtDate_Finalised.Value)
         .Range(118) = Me.txtReminder.Value
-           
-        'Apply completion status
-        If IsDate(.Range(111).Value) And IsDate(.Range(117).Value) Then
-            .Range(150).Value = True
-        End If
     
         'Update version control
         .Range(119) = Now
         .Range(120) = Username
+        
+        'Apply completion status
+        Call Fill_Completion_Status
+        DoEvents
+        
     End With
     
     'Access version control

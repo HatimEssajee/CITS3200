@@ -563,60 +563,14 @@ Private Sub cmdEdit_Click()
         .Range(90) = String_to_Date(Me.txtOthers_Date_Approved.Value)
         .Range(91) = Me.txtOthers_Reminder.Value
         
-        'Apply completion status
-        'PCH Governance
-        If .Range(65).Value = vbNullString Then
-            .Range(139).Value = vbNullString
-        ElseIf IsDate(.Range(65).Value) Then
-            .Range(139).Value = True
-        End If
-        
-        'TKI Governance
-        If .Range(69).Value = vbNullString Then
-            .Range(140).Value = vbNullString
-        ElseIf IsDate(.Range(69).Value) Then
-            .Range(140).Value = True
-        End If
-        
-        'KEMH Governance
-        If .Range(73).Value = vbNullString Then
-            .Range(141).Value = vbNullString
-        ElseIf IsDate(.Range(73).Value) Then
-            .Range(141).Value = True
-        End If
-        
-        'SJOG Subiaco Governance
-        If .Range(77).Value = vbNullString Then
-            .Range(142).Value = vbNullString
-        ElseIf IsDate(.Range(77).Value) Then
-            .Range(142).Value = True
-        End If
-        
-        'SJOG Mt Lawley Governance
-        If .Range(81).Value = vbNullString Then
-            .Range(143).Value = vbNullString
-        ElseIf IsDate(.Range(81).Value) Then
-            .Range(143).Value = True
-        End If
-        
-        'SJOG Murdoch Governance
-        If .Range(85).Value = vbNullString Then
-            .Range(144).Value = vbNullString
-        ElseIf IsDate(.Range(85).Value) Then
-            .Range(144).Value = True
-        End If
-        
-        'Others Governance
-        If .Range(87).Value = vbNullString Or .Range(90).Value = vbNullString Then
-            .Range(145).Value = vbNullString
-        ElseIf IsDate(.Range(90).Value) Then
-            .Range(145).Value = True
-        End If
-
         'Update version control
         .Range(92) = Now
         .Range(93) = Username
         
+        'Apply completion status
+        Call Fill_Completion_Status
+        DoEvents
+
     End With
     
     'Access version control

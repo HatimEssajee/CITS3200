@@ -124,11 +124,8 @@ Private Sub cmdEdit_Click()
         .Range(41) = Username
         
         'Apply completion status
-        If .Range(38).Value = vbNullString Then
-            .Range(133).Value = vbNullString
-        Else
-            .Range(133).Value = IsDate(.Range(38).Value)
-        End If
+        Call Fill_Completion_Status
+        DoEvents
 
     End With
     

@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form12_SIV 
    Caption         =   "Financial Disclosure"
-   ClientHeight    =   8364.001
-   ClientLeft      =   -432
-   ClientTop       =   -1896
-   ClientWidth     =   13728
+   ClientHeight    =   6684
+   ClientLeft      =   -444
+   ClientTop       =   -1992
+   ClientWidth     =   10980
    OleObjectBlob   =   "form12_SIV.frx":0000
 End
 Attribute VB_Name = "form12_SIV"
@@ -122,31 +122,31 @@ Private Sub cmdEdit_Click()
         .Range(128) = Username
         
         'Change study status based on SIV date saved
-        If Me.txtSIV_Date.Value <> vbNullString And String_to_Date(Me.txtSIV_Date.Value) > Now _
-            And .Range(7).Value = "Commenced" Then
-            
-            .Range(7) = "Pre-commencement"
-            
-            'Update version control
-            .Range(14) = .Range(127).Value
-            .Range(15) = .Range(128).Value
         
-        ElseIf Me.txtSIV_Date.Value <> vbNullString And String_to_Date(Me.txtSIV_Date.Value) < Now _
-            And .Range(7).Value = "Pre-commencement" Then
+        'Check if all states other than SIV complete
+        If .Range(156) And Me.txtSIV_Date.Value <> vbNullString Then
             
-            .Range(7) = "Commenced"
+            If String_to_Date(Me.txtSIV_Date.Value) > Now And .Range(7).Value = "Commenced" Then
+                
+                .Range(7) = "Pre-commencement"
+                
+                'Update version control
+                .Range(14) = .Range(127).Value
+                .Range(15) = .Range(128).Value
             
-            'Update version control
-            .Range(14) = .Range(127).Value
-            .Range(15) = .Range(128).Valu
+            ElseIf String_to_Date(Me.txtSIV_Date.Value) < Now And .Range(7).Value = "Pre-commencement" Then
+                
+                .Range(7) = "Commenced"
+                
+                'Update version control
+                .Range(14) = .Range(127).Value
+                .Range(15) = .Range(128).Value
+            End If
         End If
         
         'Apply completion status
-        If .Range(125).Value = vbNullString Then
-            .Range(152).Value = vbNullString
-        Else
-            .Range(152).Value = IsDate(.Range(125).Value)
-        End If
+        Call Fill_Completion_Status
+        DoEvents
         
     End With
     

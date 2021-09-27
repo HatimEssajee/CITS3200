@@ -115,12 +115,8 @@ Private Sub cmdEdit_Click()
         .Range(15) = Username
         
         'Apply completion status
-        If Application.CountA(Range(RegTable.DataBodyRange.Cells(RowIndex, 8), _
-            RegTable.DataBodyRange.Cells(RowIndex, 12))) = 5 Then
-            .Range(129).Value = True
-        Else
-            .Range(129).Value = False
-        End If
+        Call Fill_Completion_Status
+        DoEvents
 
     End With
     

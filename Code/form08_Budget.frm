@@ -244,23 +244,13 @@ Private Sub cmdEdit_Click()
         .Range(101) = String_to_Date(Me.txtPharm_Date_Finalised.Value)
         .Range(102) = Me.txtPharm_Reminder.Value
         
-        'Apply completion status
-        'VTG Budget
-        If IsDate(.Range(94).Value) And IsDate(.Range(96).Value) Then
-            .Range(146).Value = True
-        End If
-        
-        'TKI Budget
-        .Range(147).Value = IsDate(.Range(98).Value)
-        
-        'Pharm Budget
-        If IsDate(.Range(100).Value) And IsDate(.Range(101).Value) Then
-            .Range(148).Value = True
-        End If
-        
         'Update version control
         .Range(103) = Now
         .Range(104) = Username
+        
+        'Apply completion status
+        Call Fill_Completion_Status
+        DoEvents
         
     End With
     

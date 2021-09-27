@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form11_FinDisc 
    Caption         =   "Financial Disclosure"
-   ClientHeight    =   8136
-   ClientLeft      =   -480
-   ClientTop       =   -1980
-   ClientWidth     =   15432
+   ClientHeight    =   6504
+   ClientLeft      =   -504
+   ClientTop       =   -2064
+   ClientWidth     =   12336
    OleObjectBlob   =   "form11_FinDisc.frx":0000
 End
 Attribute VB_Name = "form11_FinDisc"
@@ -118,16 +118,14 @@ Private Sub cmdEdit_Click()
         .Range(121) = String_to_Date(Me.txtFinDisc_Complete.Value)
         .Range(122) = Me.txtReminder.Value
         
-        'Apply completion status
-        If .Range(121).Value = vbNullString Then
-            .Range(151).Value = vbNullString
-        Else
-            .Range(151).Value = IsDate(.Range(121).Value)
-        End If
-    
         'Update version control
         .Range(123) = Now
         .Range(124) = Username
+        
+        'Apply completion status
+        Call Fill_Completion_Status
+        DoEvents
+        
     End With
     
     'Access version control

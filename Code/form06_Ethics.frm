@@ -377,45 +377,14 @@ Private Sub cmdEdit_Click()
         .Range(59) = String_to_Date(Me.txtOthers_Date_Approved.Value)
         .Range(60) = Me.txtOthers_Reminder.Value
         
-        'Apply completion status
-         'CAHS Ethics
-        If .Range(45).Value = vbNullString Then
-            .Range(134).Value = vbNullString
-        ElseIf IsDate(.Range(45).Value) Then
-            .Range(134).Value = True
-        End If
-        
-        'NMA Ethics
-        If .Range(47).Value = vbNullString Or .Range(49).Value = vbNullString Then
-            .Range(135).Value = vbNullString
-        ElseIf IsDate(.Range(49).Value) Then
-            .Range(135).Value = True
-        End If
-        
-        'WNHS Review
-        If .Range(52).Value = vbNullString Then
-            .Range(136).Value = vbNullString
-        ElseIf IsDate(.Range(52).Value) Then
-            .Range(136).Value = True
-        End If
-        
-        'SJOG Ethics
-        If .Range(55).Value = vbNullString Then
-            .Range(137).Value = vbNullString
-        ElseIf IsDate(.Range(55).Value) Then
-            .Range(137).Value = True
-        End If
-        
-        'Others Ethics
-        If .Range(57).Value = vbNullString Or .Range(59).Value = vbNullString Then
-            .Range(138).Value = vbNullString
-        ElseIf IsDate(.Range(59).Value) Then
-            .Range(138).Value = True
-        End If
-       
         'Update version control
         .Range(61) = Now
         .Range(62) = Username
+        
+        'Apply completion status
+         Call Fill_Completion_Status
+         DoEvents
+       
     End With
     
     'Access version control

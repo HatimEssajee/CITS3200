@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form04_SiteSelect 
    Caption         =   "Site Selection"
-   ClientHeight    =   9108.001
-   ClientLeft      =   -456
-   ClientTop       =   -1956
-   ClientWidth     =   12792
+   ClientHeight    =   7284
+   ClientLeft      =   -480
+   ClientTop       =   -2052
+   ClientWidth     =   10224
    OleObjectBlob   =   "form04_SiteSelect.frx":0000
 End
 Attribute VB_Name = "form04_SiteSelect"
@@ -177,11 +177,8 @@ Private Sub cmdEdit_Click()
         .Range(37) = Username
         
         'Apply completion status
-        If .Range(34).Value = vbNullString Then
-            .Range(132).Value = vbNullString
-        Else
-            .Range(132).Value = IsDate(.Range(34).Value)
-        End If
+        Call Fill_Completion_Status
+        DoEvents
         
     End With
     

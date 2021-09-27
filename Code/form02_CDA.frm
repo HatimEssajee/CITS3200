@@ -191,6 +191,7 @@ End Sub
 
 Private Sub cmdEdit_Click()
     'PURPOSE: Apply changes into Register table
+
     With RegTable.ListRows(RowIndex)
         
         .Range(16) = String_to_Date(Me.txtCDA_Recv_Sponsor.Value)
@@ -206,11 +207,8 @@ Private Sub cmdEdit_Click()
         .Range(23) = Username
         
         'Apply completion status
-        If .Range(20).Value = vbNullString Then
-            .Range(130).Value = vbNullString
-        Else
-            .Range(130).Value = IsDate(.Range(20).Value)
-        End If
+        Call Fill_Completion_Status
+        DoEvents
         
     End With
     

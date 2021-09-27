@@ -159,14 +159,14 @@ Private Sub cmdEdit_Click()
         .Range(107) = String_to_Date(Me.txtDate_Comp.Value)
         .Range(108) = Me.txtReminder.Value
         
-        'Apply completion status
-        If IsDate(.Range(105).Value) And IsDate(.Range(107).Value) Then
-            .Range(149).Value = True
-        End If
-    
         'Update version control
         .Range(109) = Now
         .Range(110) = Username
+        
+        'Apply completion status
+        Call Fill_Completion_Status
+        DoEvents
+    
     End With
     
     'Access version control
