@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form01_StudyDetail 
    Caption         =   "Study Details"
-   ClientHeight    =   8628.001
+   ClientHeight    =   8625.001
    ClientLeft      =   -435
    ClientTop       =   -1845
    ClientWidth     =   13350
@@ -44,12 +44,21 @@ Private Sub UserForm_Initialize()
     'Source: https://www.contextures.com/Excel-VBA-ComboBox-Lists.html
     Dim ctrl As MSForms.Control
     
+    'Turn off Settings to speed up
+    'source: https://www.automateexcel.com/vba/turn-off-screen-updating/
+    Application.ScreenUpdating = False
+    Application.Calculation = xlManual
+    Application.DisplayStatusBar = False
+    Application.EnableEvents = False
+    
+    'Erase and initialise arrays
+    ReDim OldValues(1 To 6)
+    ReDim NxtOldValues(1 To 6)
+    
     'Clear user form
     'source: https://www.mrexcel.com/board/threads/loop-through-controls-on-a-userform.427103/
     For Each ctrl In Me.Controls
         Select Case True
-                Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = False
                 Case TypeOf ctrl Is MSForms.TextBox
                     ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.Label
@@ -81,49 +90,240 @@ Private Sub UserForm_Initialize()
         
     End With
     
+    'Populate Old Values Array - for undo
+    OldValues(1) = Me.txtProtocolNum.Value
+    OldValues(2) = Me.txtStudyName.Value
+    OldValues(3) = Me.txtSponsor.Value
+    OldValues(4) = Me.txtCRO.Value
+    OldValues(5) = Me.txtAgeRange.Value
+    OldValues(6) = Me.txtReminder.Value
+    
+    'Initialize NxtOldValues
+    NxtOldValues = OldValues
+    
     'Edit LastAccess log
     Call LogLastAccess
     
     'Depress and make toggle green on nav bar
     Me.tglStudyDetail.Value = True
     Me.tglStudyDetail.BackColor = vbGreen
-            
+       
+    'Allocate tick box values
+    Me.cbSaveonUnload.Value = SAG_Tick
+    
+    'Reinstate Settings
+    Application.ScreenUpdating = True
+    Application.Calculation = xlAutomatic
+    Application.DisplayStatusBar = True
+    Application.EnableEvents = True
+    
+End Sub
+
+Private Sub cmdUndo_Click()
+    'PURPOSE: Recall values read from register table when the form was loaded initially
+    
+    Me.txtProtocolNum.Value = OldValues(1)
+    Me.txtStudyName.Value = OldValues(2)
+    Me.txtSponsor.Value = OldValues(3)
+    Me.txtCRO.Value = OldValues(4)
+    Me.txtAgeRange.Value = OldValues(5)
+    Me.txtReminder.Value = OldValues(6)
+    
+End Sub
+
+Private Sub cmdRedo_Click()
+    'PURPOSE: Recall values replaced by undo
+    
+    Me.txtProtocolNum.Value = NxtOldValues(1)
+    Me.txtStudyName.Value = NxtOldValues(2)
+    Me.txtSponsor.Value = NxtOldValues(3)
+    Me.txtCRO.Value = NxtOldValues(4)
+    Me.txtAgeRange.Value = NxtOldValues(5)
+    Me.txtReminder.Value = NxtOldValues(6)
+    
 End Sub
 
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form
-    
-    'Edit LastAccess log
-    Call LogLastAccess
     
     Unload Me
     
 End Sub
 
 Private Sub cmdEdit_Click()
-    'PURPOSE: Apply changes into Register table
-    With RegTable.ListRows(RowIndex)
-        .Range(8) = Me.txtProtocolNum.Value
-        .Range(9) = Me.txtStudyName.Value
-        .Range(10) = Me.txtSponsor.Value
-        .Range(11) = Me.txtCRO.Value
-        .Range(12) = Me.txtAgeRange.Value
-        .Range(13) = Me.txtReminder.Value
-        
-        'Update version control
-        .Range(14) = Now
-        .Range(15) = Username
-        
-        'Apply completion status
-        Call Fill_Completion_Status
-        DoEvents
+    'PURPOSE: Apply changes into Register table when edit button clicked
+    
+    'Overwrite prev. old values with new backup values
+    OldValues = NxtOldValues
+    
+    'Apply changes
+    Call UpdateRegister
+    DoEvents
+    
+    'Access version control
+    Call LogLastAccess
+                    
+End Sub
 
-    End With
+Private Sub Userform_Terminate()
+    'PURPOSE: Update register when unloaded
+        
+    If cbSaveonUnload.Value Then
+        'Apply changes
+        Call UpdateRegister
+        DoEvents
+    End If
     
     'Access version control
     Call LogLastAccess
     
-    Call UserForm_Initialize
+End Sub
+
+Private Sub UpdateRegister()
+    'PURPOSE: Apply changes into Register table
+    
+    Dim ReadRow(1 To 6) As Variant
+     
+    'Turn off Settings to speed up
+    'source: https://www.automateexcel.com/vba/turn-off-screen-updating/
+    Application.ScreenUpdating = False
+    Application.Calculation = xlManual
+    Application.DisplayStatusBar = False
+    Application.EnableEvents = False
+    
+    With RegTable.ListRows(RowIndex)
+        
+        'Populate ReadRow Array - faster than double transpose
+        ReadRow(1) = Me.txtProtocolNum.Value
+        ReadRow(2) = Me.txtStudyName.Value
+        ReadRow(3) = Me.txtSponsor.Value
+        ReadRow(4) = Me.txtCRO.Value
+        ReadRow(5) = Me.txtAgeRange.Value
+        ReadRow(6) = Me.txtReminder.Value
+        
+        'Write to Register table
+        .Range(8) = ReadRow(1)
+        .Range(9) = ReadRow(2)
+        .Range(10) = ReadRow(3)
+        .Range(11) = ReadRow(4)
+        .Range(12) = ReadRow(5)
+        .Range(13) = ReadRow(6)
+        
+        'Store next old values
+        NxtOldValues = ReadRow
+    
+        'Check if values changed
+        If Not ArraysSame(ReadRow, OldValues) Then
+        
+            'Update version control
+            .Range(14) = Now
+            .Range(15) = Username
+            
+            'Apply completion status
+            Call Fill_Completion_Status
+            DoEvents
+            
+        End If
+        
+        'Clear array elements
+        Erase ReadRow
+        
+    End With
+    
+    'Reinstate Settings
+    Application.ScreenUpdating = True
+    Application.Calculation = xlAutomatic
+    Application.DisplayStatusBar = True
+    Application.EnableEvents = True
+    
+End Sub
+
+Private Sub Fill_Completion_Status()
+    'PURPOSE: Evaluate entry completion status
+    
+    Dim db As Range
+    Dim ReadRow As Variant
+    Dim i As Integer, cntTrue As Integer, cntEmpty As Integer
+    
+    'Turn off Settings to speed up
+    'source: https://www.automateexcel.com/vba/turn-off-screen-updating/
+    Application.ScreenUpdating = False
+    Application.Calculation = xlManual
+    Application.DisplayStatusBar = False
+    Application.EnableEvents = False
+    
+    'Exit if register is empty
+    If RegTable.DataBodyRange Is Nothing Then
+        GoTo ErrHandler
+    End If
+    
+    Set db = RegTable.DataBodyRange
+    
+    'Tranpose twice to get 1D Array
+    ReadRow = Application.Transpose(Application.Transpose(Range(db.Cells(RowIndex, 8), db.Cells(RowIndex, 12))))
+                    
+    'Apply correct test on each field
+    For i = LBound(ReadRow) To UBound(ReadRow)
+        If ReadRow(i) <> vbNullString Then
+    
+            Select Case Correct(i)
+                Case 0
+                    ReadRow(i) = "Skip"
+                Case 1
+                    ReadRow(i) = Not (IsEmpty(ReadRow(i)))
+                Case 2
+                    ReadRow(i) = WorksheetFunction.IsText(ReadRow(i))
+                Case 3
+                    ReadRow(i) = IsDate(Format(ReadRow(i), "dd-mmm-yyyy"))
+            End Select
+            
+        End If
+    Next i
+    
+    'Completion status
+    
+    'Study Details
+    'Criteria - all fields filled
+    cntTrue = 0
+    cntEmpty = 0
+    For i = 1 To 5
+        If ReadRow(i) = vbNullString Then
+            cntEmpty = cntEmpty + 1
+        ElseIf ReadRow(i) Then
+            cntTrue = cntTrue + 1
+        End If
+    Next i
+    
+    If cntEmpty = 5 Then
+        db.Cells(RowIndex, 129) = vbNullString
+    ElseIf cntTrue = 5 Then
+        db.Cells(RowIndex, 129) = True
+    Else
+        db.Cells(RowIndex, 129) = False
+    End If
+    
+ErrHandler:
+    'Clear array
+    Erase ReadRow
+    
+    'Reinstate Settings
+    Application.ScreenUpdating = True
+    Application.Calculation = xlAutomatic
+    Application.DisplayStatusBar = True
+    Application.EnableEvents = True
+    
+End Sub
+
+Private Sub cbSaveonUnload_Click()
+    'PURPOSE: Change value of SAG_Tick variable
+    SAG_Tick = Me.cbSaveonUnload.Value
+    
+    If SAG_Tick Then
+        Me.cbSaveonUnload.Caption = "Save via Navigation"
+    Else
+        Me.cbSaveonUnload.Caption = "Save via Button"
+    End If
+    
 End Sub
 
 
@@ -215,6 +415,5 @@ Private Sub tglSIV_Click()
     
     form12_SIV.Show False
 End Sub
-
 
 

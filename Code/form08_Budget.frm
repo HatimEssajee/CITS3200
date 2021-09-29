@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form08_Budget 
    Caption         =   "Budget Review"
-   ClientHeight    =   7830
+   ClientHeight    =   8610.001
    ClientLeft      =   -375
    ClientTop       =   -1890
-   ClientWidth     =   13200
+   ClientWidth     =   13695
    OleObjectBlob   =   "form08_Budget.frx":0000
 End
 Attribute VB_Name = "form08_Budget"
@@ -45,12 +45,21 @@ Private Sub UserForm_Initialize()
     Dim ctrl As MSForms.Control
     Dim pPage As MSForms.Page
        
+    'Turn off Settings to speed up
+    'source: https://www.automateexcel.com/vba/turn-off-screen-updating/
+    Application.ScreenUpdating = False
+    Application.Calculation = xlManual
+    Application.DisplayStatusBar = False
+    Application.EnableEvents = False
+    
+    'Erase and initialise arrays
+    ReDim OldValues(1 To 9)
+    ReDim NxtOldValues(1 To 9)
+                    
     'Clear user form
     'SOURCE: https://www.mrexcel.com/board/threads/loop-through-controls-on-a-userform.427103/
     For Each ctrl In Me.Controls
         Select Case True
-                Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = False
                 Case TypeOf ctrl Is MSForms.TextBox
                     ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.Label
@@ -100,12 +109,31 @@ Private Sub UserForm_Initialize()
         
     End With
     
+    'Populate Old Values Array - for undo
+    OldValues(1) = String_to_Date(Me.txtVTG_Date_Finalised.Value)
+    OldValues(2) = String_to_Date(Me.txtVTG_Date_Submitted.Value)
+    OldValues(3) = String_to_Date(Me.txtVTG_Date_Approved.Value)
+    OldValues(4) = Me.txtVTG_Reminder.Value
+    
+    OldValues(5) = String_to_Date(Me.txtTKI_Date_Approved.Value)
+    OldValues(6) = Me.txtTKI_Reminder.Value
+    
+    OldValues(7) = String_to_Date(Me.txtPharm_Date_Quote.Value)
+    OldValues(8) = String_to_Date(Me.txtPharm_Date_Finalised.Value)
+    OldValues(9) = Me.txtPharm_Reminder.Value
+    
+    'Initialize NxtOldValues
+    NxtOldValues = OldValues
+    
     'Access version control
     Call LogLastAccess
     
     'Depress and make toggle green on nav bar
     Me.tglBudget.Value = True
     Me.tglBudget.BackColor = vbGreen
+    
+    'Allocate tick box values
+    Me.cbSaveonUnload.Value = SAG_Tick
     
     'Run date validation on data entered
     Call txtVTG_Date_Submitted_AfterUpdate
@@ -116,6 +144,12 @@ Private Sub UserForm_Initialize()
     
     Call txtPharm_Date_Quote_AfterUpdate
     Call txtPharm_Date_Finalised_AfterUpdate
+    
+    'Reinstate Settings
+    Application.ScreenUpdating = True
+    Application.Calculation = xlAutomatic
+    Application.DisplayStatusBar = True
+    Application.EnableEvents = True
     
 End Sub
 
@@ -218,49 +252,267 @@ Private Sub txtPharm_Date_Finalised_AfterUpdate()
      
 End Sub
 
+Private Sub cmdUndo_Click()
+    'PURPOSE: Recall values read from register table when the form was loaded initially
+    
+    Me.txtVTG_Date_Finalised.Value = Format(OldValues(1), "dd-mmm-yyyy")
+    Me.txtVTG_Date_Submitted.Value = Format(OldValues(2), "dd-mmm-yyyy")
+    Me.txtVTG_Date_Approved.Value = Format(OldValues(3), "dd-mmm-yyyy")
+    Me.txtVTG_Reminder.Value = OldValues(4)
+    
+    Me.txtTKI_Date_Approved.Value = Format(OldValues(5), "dd-mmm-yyyy")
+    Me.txtTKI_Reminder.Value = OldValues(6)
+    
+    Me.txtPharm_Date_Quote.Value = Format(OldValues(7), "dd-mmm-yyyy")
+    Me.txtPharm_Date_Finalised.Value = Format(OldValues(8), "dd-mmm-yyyy")
+    Me.txtPharm_Reminder.Value = OldValues(9)
+    
+End Sub
+
+Private Sub cmdRedo_Click()
+    'PURPOSE: Recall values replaced by undo
+    
+    Me.txtVTG_Date_Finalised.Value = Format(NxtOldValues(1), "dd-mmm-yyyy")
+    Me.txtVTG_Date_Submitted.Value = Format(NxtOldValues(2), "dd-mmm-yyyy")
+    Me.txtVTG_Date_Approved.Value = Format(NxtOldValues(3), "dd-mmm-yyyy")
+    Me.txtVTG_Reminder.Value = NxtOldValues(4)
+    
+    Me.txtTKI_Date_Approved.Value = Format(NxtOldValues(5), "dd-mmm-yyyy")
+    Me.txtTKI_Reminder.Value = NxtOldValues(6)
+    
+    Me.txtPharm_Date_Quote.Value = Format(NxtOldValues(7), "dd-mmm-yyyy")
+    Me.txtPharm_Date_Finalised.Value = Format(NxtOldValues(8), "dd-mmm-yyyy")
+    Me.txtPharm_Reminder.Value = NxtOldValues(9)
+    
+End Sub
+
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form
-    
-    'Access version control
-    Call LogLastAccess
     
     Unload Me
     
 End Sub
 
 Private Sub cmdEdit_Click()
-    'PURPOSE: Apply changes into Register table
-    With RegTable.ListRows(RowIndex)
-        
-        .Range(94) = String_to_Date(Me.txtVTG_Date_Finalised.Value)
-        .Range(95) = String_to_Date(Me.txtVTG_Date_Submitted.Value)
-        .Range(96) = String_to_Date(Me.txtVTG_Date_Approved.Value)
-        .Range(97) = Me.txtVTG_Reminder.Value
-        
-        .Range(98) = String_to_Date(Me.txtTKI_Date_Approved.Value)
-        .Range(99) = Me.txtTKI_Reminder.Value
-        
-        .Range(100) = String_to_Date(Me.txtPharm_Date_Quote.Value)
-        .Range(101) = String_to_Date(Me.txtPharm_Date_Finalised.Value)
-        .Range(102) = Me.txtPharm_Reminder.Value
-        
-        'Update version control
-        .Range(103) = Now
-        .Range(104) = Username
-        
-        'Apply completion status
-        Call Fill_Completion_Status
-        DoEvents
-        
-    End With
+    'PURPOSE: Apply changes into Register table when edit button clicked
+    
+    'Overwrite prev. old values with new backup values
+    OldValues = NxtOldValues
+    
+    'Apply changes
+    Call UpdateRegister
+    DoEvents
     
     'Access version control
     Call LogLastAccess
     
-    Call UserForm_Initialize
-
+    'Run date validation on data entered
+    Call txtVTG_Date_Submitted_AfterUpdate
+    Call txtVTG_Date_Finalised_AfterUpdate
+    Call txtVTG_Date_Approved_AfterUpdate
+    
+    Call txtTKI_Date_Approved_AfterUpdate
+    
+    Call txtPharm_Date_Quote_AfterUpdate
+    Call txtPharm_Date_Finalised_AfterUpdate
+    
 End Sub
 
+Private Sub Userform_Terminate()
+    'PURPOSE: Update register when unloaded
+        
+    If cbSaveonUnload.Value Then
+        'Apply changes
+        Call UpdateRegister
+        DoEvents
+    End If
+    
+    'Access version control
+    Call LogLastAccess
+    
+End Sub
+
+Private Sub UpdateRegister()
+    'PURPOSE: Apply changes into Register table
+    Dim ReadRow(1 To 9) As Variant
+    
+    'Turn off Settings to speed up
+    'source: https://www.automateexcel.com/vba/turn-off-screen-updating/
+    Application.ScreenUpdating = False
+    Application.Calculation = xlManual
+    Application.DisplayStatusBar = False
+    Application.EnableEvents = False
+    
+    With RegTable.ListRows(RowIndex)
+        
+        'Populate ReadRow Array - faster than double transpose
+        ReadRow(1) = String_to_Date(Me.txtVTG_Date_Finalised.Value)
+        ReadRow(2) = String_to_Date(Me.txtVTG_Date_Submitted.Value)
+        ReadRow(3) = String_to_Date(Me.txtVTG_Date_Approved.Value)
+        ReadRow(4) = Me.txtVTG_Reminder.Value
+        
+        ReadRow(5) = String_to_Date(Me.txtTKI_Date_Approved.Value)
+        ReadRow(6) = Me.txtTKI_Reminder.Value
+        
+        ReadRow(7) = String_to_Date(Me.txtPharm_Date_Quote.Value)
+        ReadRow(8) = String_to_Date(Me.txtPharm_Date_Finalised.Value)
+        ReadRow(9) = Me.txtPharm_Reminder.Value
+        
+         'Write to Register table
+        .Range(94) = ReadRow(1)
+        .Range(95) = ReadRow(2)
+        .Range(96) = ReadRow(3)
+        .Range(97) = ReadRow(4)
+        
+        .Range(98) = ReadRow(5)
+        .Range(99) = ReadRow(6)
+        
+        .Range(100) = ReadRow(7)
+        .Range(101) = ReadRow(8)
+        .Range(102) = ReadRow(9)
+        
+        'Store next old values
+        NxtOldValues = ReadRow
+        
+        'Check if values changed
+        If Not ArraysSame(ReadRow, OldValues) Then
+                
+            'Update version control
+            .Range(103) = Now
+            .Range(104) = Username
+            
+            'Apply completion status
+            Call Fill_Completion_Status
+            DoEvents
+        
+        End If
+        
+        'Clear array elements
+        Erase ReadRow
+        
+    End With
+    
+    'Reinstate Settings
+    Application.ScreenUpdating = True
+    Application.Calculation = xlAutomatic
+    Application.DisplayStatusBar = True
+    Application.EnableEvents = True
+    
+End Sub
+
+Private Sub Fill_Completion_Status()
+
+    'PURPOSE: Evaluate entry completion status
+    
+    Dim db As Range
+    Dim ReadRow As Variant
+    Dim i As Integer, cntTrue As Integer, cntEmpty As Integer
+    
+    'Turn off Settings to speed up
+    'source: https://www.automateexcel.com/vba/turn-off-screen-updating/
+    Application.ScreenUpdating = False
+    Application.Calculation = xlManual
+    Application.DisplayStatusBar = False
+    Application.EnableEvents = False
+    
+    'Exit if register is empty
+    If RegTable.DataBodyRange Is Nothing Then
+        GoTo ErrHandler
+    End If
+    
+    Set db = RegTable.DataBodyRange
+    
+    'Tranpose twice to get 1D Array
+    ReadRow = Application.Transpose(Application.Transpose(Range(db.Cells(RowIndex, 94), db.Cells(RowIndex, 101))))
+                   
+    'Apply correct test on each field
+    For i = LBound(ReadRow) To UBound(ReadRow)
+        If ReadRow(i) <> vbNullString Then
+    
+            Select Case Correct(i + 86)
+                Case 0
+                    ReadRow(i) = "Skip"
+                Case 1
+                    ReadRow(i) = Not (IsEmpty(ReadRow(i)))
+                Case 2
+                    ReadRow(i) = WorksheetFunction.IsText(ReadRow(i))
+                Case 3
+                    ReadRow(i) = IsDate(Format(ReadRow(i), "dd-mmm-yyyy"))
+            End Select
+            
+        End If
+    Next i
+    
+    'Completion status
+    
+    'VTG Budget
+    'Criteria - all fields filled with dates
+    cntTrue = 0
+    cntEmpty = 0
+    For i = 1 To 3
+        If ReadRow(i) = vbNullString Then
+            cntEmpty = cntEmpty + 1
+        ElseIf ReadRow(i) Then
+            cntTrue = cntTrue + 1
+        End If
+    Next i
+    
+    If cntEmpty = 3 Then
+        db.Cells(RowIndex, 146) = vbNullString
+    ElseIf cntTrue = 3 Then
+        db.Cells(RowIndex, 146) = True
+    Else
+        db.Cells(RowIndex, 146) = False
+    End If
+    
+    'TKI Budget
+    'Criteria - has to be date
+    db.Cells(RowIndex, 147) = ReadRow(5)
+    
+    
+    'Pharmacy Budget
+    'Criteria - all fields filled with dates
+    cntTrue = 0
+    cntEmpty = 0
+    For i = 7 To 8
+        If ReadRow(i) = vbNullString Then
+            cntEmpty = cntEmpty + 1
+        ElseIf ReadRow(i) Then
+            cntTrue = cntTrue + 1
+        End If
+    Next i
+    
+    If cntEmpty = 2 Then
+        db.Cells(RowIndex, 148) = vbNullString
+    ElseIf cntTrue = 2 Then
+        db.Cells(RowIndex, 148) = True
+    Else
+        db.Cells(RowIndex, 148) = False
+    End If
+    
+ErrHandler:
+    'Clear array
+    Erase ReadRow
+    
+    'Reinstate Settings
+    Application.ScreenUpdating = True
+    Application.Calculation = xlAutomatic
+    Application.DisplayStatusBar = True
+    Application.EnableEvents = True
+     
+End Sub
+
+Private Sub cbSaveonUnload_Click()
+    'PURPOSE: Change value of SAG_Tick variable
+    SAG_Tick = Me.cbSaveonUnload.Value
+    
+    If SAG_Tick Then
+        Me.cbSaveonUnload.Caption = "Save via Navigation"
+    Else
+        Me.cbSaveonUnload.Caption = "Save via Button"
+    End If
+    
+End Sub
 
 '----------------- Navigation section Toggles ----------------
 
@@ -350,5 +602,26 @@ Private Sub tglSIV_Click()
     form12_SIV.Show False
 End Sub
 
-
-
+Private Function ArraysSame(ArrX As Variant, ArrY As Variant) As Boolean
+    'PURPOSE: Compare values of two 1D arrays
+    
+    Dim Check As Boolean
+    Dim Upper As Long, i As Long
+    
+    Check = True
+    Upper = UBound(ArrX)
+    
+    'Shift upper bound to smaller array
+    If UBound(ArrX) >= UBound(ArrY) Then
+        Upper = UBound(ArrY)
+    End If
+    
+    For i = LBound(ArrX) To Upper
+        If ArrX(i) <> ArrY(i) Then
+            Check = False
+            Exit For
+        End If
+    Next i
+    
+    ArraysSame = Check
+End Function

@@ -132,36 +132,36 @@ Sub ExportCode()
         Unload myForm
     Next
     
-    'Save backup file
-    If ThisWorkbook.Name <> "Backup_File.xlsm" Then
-        Call Save_Backup
-    End If
+'    'Save backup file
+'    If ThisWorkbook.Name <> "Backup_File.xlsm" Then
+'        Call Save_Backup
+'    End If
     
 End Sub
 
-Sub Save_Backup()
-    'PURPOSE: Save a copy of workbook
-    
-    Dim BackupFile As String
-    
-    On Error GoTo ErrHandler
-    
-    Application.EnableEvents = False
-    Application.ScreenUpdating = False
-    Application.DisplayAlerts = False
-    
-    BackupFile = Source_Control.GetWorkbookPath & "Backup_File.xlsm"
-    
-    If Len(Dir(BackupFile)) <> 0 Then Kill (BackupFile)
-        ThisWorkbook.SaveCopyAs BackupFile
-        DoEvents
-    
-ErrHandler:
-    Application.EnableEvents = True
-    Application.ScreenUpdating = True
-    Application.DisplayAlerts = True
-    
-End Sub
+'Sub Save_Backup()
+'    'PURPOSE: Save a copy of workbook
+'
+'    Dim BackupFile As String
+'
+'    On Error GoTo ErrHandler
+'
+'    Application.EnableEvents = False
+'    Application.ScreenUpdating = False
+'    Application.DisplayAlerts = False
+'
+'    BackupFile = Source_Control.GetWorkbookPath & "Backup_File.xlsm"
+'
+'    If Len(Dir(BackupFile)) <> 0 Then Kill (BackupFile)
+'        ThisWorkbook.SaveCopyAs BackupFile
+'        DoEvents
+'
+'ErrHandler:
+'    Application.EnableEvents = True
+'    Application.ScreenUpdating = True
+'    Application.DisplayAlerts = True
+'
+'End Sub
 
 Function CanAccessVBOM() As Boolean
     
