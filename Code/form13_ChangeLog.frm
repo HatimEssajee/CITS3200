@@ -40,6 +40,13 @@ Private Sub UserForm_Initialize()
     Dim ctrl As MSForms.Control
     Dim ReadRow As Variant
     
+    'Turn off Settings to speed up
+    'source: https://www.automateexcel.com/vba/turn-off-screen-updating/
+    Application.ScreenUpdating = False
+    Application.Calculation = xlManual
+    Application.DisplayStatusBar = False
+    Application.EnableEvents = False
+    
     'Clear user form
     'source: https://www.mrexcel.com/board/threads/loop-through-controls-on-a-userform.427103/
     For Each ctrl In Me.Controls
@@ -103,6 +110,12 @@ Private Sub UserForm_Initialize()
     Me.timeSIV.Value = Format(ReadRow(1, 127), "dd-mmm-yyyy hh:mm:ss AM/PM")
     Me.perSIV.Value = ReadRow(1, 128)
     
+    'Reinstate Settings
+    Application.ScreenUpdating = True
+    Application.Calculation = xlAutomatic
+    Application.DisplayStatusBar = True
+    Application.EnableEvents = True
+    
 End Sub
 
 Private Sub cmdCloseLog_Click()
@@ -110,5 +123,3 @@ Private Sub cmdCloseLog_Click()
     Unload form13_ChangeLog
     
 End Sub
-
-

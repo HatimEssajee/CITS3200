@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form02_CDA 
    Caption         =   "CDA & Feasibility"
-   ClientHeight    =   8424.001
+   ClientHeight    =   8430.001
    ClientLeft      =   -390
    ClientTop       =   -1755
    ClientWidth     =   15795
@@ -45,12 +45,21 @@ Private Sub UserForm_Initialize()
     Dim ctrl As MSForms.Control
     Dim pPage As MSForms.Page
     
+    'Turn off Settings to speed up
+    'source: https://www.automateexcel.com/vba/turn-off-screen-updating/
+    Application.ScreenUpdating = False
+    Application.Calculation = xlManual
+    Application.DisplayStatusBar = False
+    Application.EnableEvents = False
+    
+    'Erase and initialise arrays
+    ReDim OldValues(1 To 6)
+    ReDim NxtOldValues(1 To 6)
+                    
     'Clear user form
     'SOURCE: https://www.mrexcel.com/board/threads/loop-through-controls-on-a-userform.427103/
     For Each ctrl In Me.Controls
         Select Case True
-                Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = False
                 Case TypeOf ctrl Is MSForms.TextBox
                     ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.Label
@@ -79,6 +88,17 @@ Private Sub UserForm_Initialize()
         Me.txtReminder.Value = .Range(21).Value
     End With
     
+    'Populate Old Values Array - for undo
+    OldValues(1) = String_to_Date(Me.txtCDA_Recv_Sponsor.Value)
+    OldValues(2) = String_to_Date(Me.txtCDA_Sent_Contracts.Value)
+    OldValues(3) = String_to_Date(Me.txtCDA_Recv_Contracts.Value)
+    OldValues(4) = String_to_Date(Me.txtCDA_Sent_Sponsor.Value)
+    OldValues(5) = String_to_Date(Me.txtCDA_Finalised.Value)
+    OldValues(6) = Me.txtReminder.Value
+    
+    'Initialize NxtOldValues
+    NxtOldValues = OldValues
+    
     'Access version control
     Call LogLastAccess
     
@@ -86,12 +106,21 @@ Private Sub UserForm_Initialize()
     Me.tglCDA.Value = True
     Me.tglCDA.BackColor = vbGreen
     
+    'Allocate tick box values
+    Me.cbSaveonUnload.Value = SAG_Tick
+    
     'Run date validation on data entered
     Call txtCDA_Recv_Sponsor_AfterUpdate
     Call txtCDA_Sent_Contracts_AfterUpdate
     Call txtCDA_Recv_Contracts_AfterUpdate
     Call txtCDA_Sent_Sponsor_AfterUpdate
     Call txtCDA_Finalised_AfterUpdate
+    
+    'Reinstate Settings
+    Application.ScreenUpdating = True
+    Application.Calculation = xlAutomatic
+    Application.DisplayStatusBar = True
+    Application.EnableEvents = True
     
 End Sub
 
@@ -179,43 +208,217 @@ Private Sub txtCDA_Finalised_AfterUpdate()
     
 End Sub
 
+Private Sub cmdUndo_Click()
+    'PURPOSE: Recall values read from register table when the form was loaded initially
+    
+    Me.txtCDA_Recv_Sponsor.Value = Format(OldValues(1), "dd-mmm-yyyy")
+    Me.txtCDA_Sent_Contracts.Value = Format(OldValues(2), "dd-mmm-yyyy")
+    Me.txtCDA_Recv_Contracts.Value = Format(OldValues(3), "dd-mmm-yyyy")
+    Me.txtCDA_Sent_Sponsor.Value = Format(OldValues(4), "dd-mmm-yyyy")
+    Me.txtCDA_Finalised.Value = Format(OldValues(5), "dd-mmm-yyyy")
+    
+    Me.txtReminder.Value = OldValues(6)
+    
+End Sub
+
+Private Sub cmdRedo_Click()
+    'PURPOSE: Recall values replaced by undo
+
+    Me.txtCDA_Recv_Sponsor.Value = Format(NxtOldValues(1), "dd-mmm-yyyy")
+    Me.txtCDA_Sent_Contracts.Value = Format(NxtOldValues(2), "dd-mmm-yyyy")
+    Me.txtCDA_Recv_Contracts.Value = Format(NxtOldValues(3), "dd-mmm-yyyy")
+    Me.txtCDA_Sent_Sponsor.Value = Format(NxtOldValues(4), "dd-mmm-yyyy")
+    Me.txtCDA_Finalised.Value = Format(NxtOldValues(5), "dd-mmm-yyyy")
+    
+    Me.txtReminder.Value = NxtOldValues(6)
+    
+End Sub
+
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form
-    
-    'Access version control
-    Call LogLastAccess
     
     Unload Me
     
 End Sub
 
 Private Sub cmdEdit_Click()
-    'PURPOSE: Apply changes into Register table
-
-    With RegTable.ListRows(RowIndex)
-        
-        .Range(16) = String_to_Date(Me.txtCDA_Recv_Sponsor.Value)
-        .Range(17) = String_to_Date(Me.txtCDA_Sent_Contracts.Value)
-        .Range(18) = String_to_Date(Me.txtCDA_Recv_Contracts.Value)
-        .Range(19) = String_to_Date(Me.txtCDA_Sent_Sponsor.Value)
-        .Range(20) = String_to_Date(Me.txtCDA_Finalised.Value)
-        
-        .Range(21) = Me.txtReminder.Value
-        
-        'Update version control
-        .Range(22) = Now
-        .Range(23) = Username
-        
-        'Apply completion status
-        Call Fill_Completion_Status
-        DoEvents
-        
-    End With
+    'PURPOSE: Apply changes into Register table when edit button clicked
+    
+    'Overwrite prev. old values with new backup values
+    OldValues = NxtOldValues
+    
+    'Apply changes
+    Call UpdateRegister
+    DoEvents
     
     'Access version control
     Call LogLastAccess
     
-    Call UserForm_Initialize
+    'Run date validation on data entered
+    Call txtCDA_Recv_Sponsor_AfterUpdate
+    Call txtCDA_Sent_Contracts_AfterUpdate
+    Call txtCDA_Recv_Contracts_AfterUpdate
+    Call txtCDA_Sent_Sponsor_AfterUpdate
+    Call txtCDA_Finalised_AfterUpdate
+    
+End Sub
+
+Private Sub Userform_Terminate()
+    'PURPOSE: Update register when unloaded
+        
+    If cbSaveonUnload.Value Then
+        'Apply changes
+        Call UpdateRegister
+        DoEvents
+    End If
+    
+    'Access version control
+    Call LogLastAccess
+    
+End Sub
+
+Private Sub UpdateRegister()
+    'PURPOSE: Apply changes into Register table
+    Dim ReadRow(1 To 6) As Variant
+    
+    'Turn off Settings to speed up
+    'source: https://www.automateexcel.com/vba/turn-off-screen-updating/
+    Application.ScreenUpdating = False
+    Application.Calculation = xlManual
+    Application.DisplayStatusBar = False
+    Application.EnableEvents = False
+    
+    With RegTable.ListRows(RowIndex)
+        
+        'Populate ReadRow Array - faster than double transpose
+        ReadRow(1) = String_to_Date(Me.txtCDA_Recv_Sponsor.Value)
+        ReadRow(2) = String_to_Date(Me.txtCDA_Sent_Contracts.Value)
+        ReadRow(3) = String_to_Date(Me.txtCDA_Recv_Contracts.Value)
+        ReadRow(4) = String_to_Date(Me.txtCDA_Sent_Sponsor.Value)
+        ReadRow(5) = String_to_Date(Me.txtCDA_Finalised.Value)
+        ReadRow(6) = Me.txtReminder.Value
+        
+        'Write to Register table
+        .Range(16) = ReadRow(1)
+        .Range(17) = ReadRow(2)
+        .Range(18) = ReadRow(3)
+        .Range(19) = ReadRow(4)
+        .Range(20) = ReadRow(5)
+        .Range(21) = ReadRow(6)
+        
+        'Store next old values
+        NxtOldValues = ReadRow
+        
+        'Check if values changed
+        If Not ArraysSame(ReadRow, OldValues) Then
+            'Update version control
+            .Range(22) = Now
+            .Range(23) = Username
+            
+            'Apply completion status
+            Call Fill_Completion_Status
+            DoEvents
+        End If
+        
+        'Clear array elements
+        Erase ReadRow
+        
+    End With
+       
+    'Reinstate Settings
+    Application.ScreenUpdating = True
+    Application.Calculation = xlAutomatic
+    Application.DisplayStatusBar = True
+    Application.EnableEvents = True
+    
+End Sub
+
+
+Private Sub Fill_Completion_Status()
+
+    'PURPOSE: Evaluate entry completion status
+    
+    Dim db As Range
+    Dim ReadRow As Variant
+    Dim i As Integer, cntTrue As Integer, cntEmpty As Integer
+    
+    'Turn off Settings to speed up
+    'source: https://www.automateexcel.com/vba/turn-off-screen-updating/
+    Application.ScreenUpdating = False
+    Application.Calculation = xlManual
+    Application.DisplayStatusBar = False
+    Application.EnableEvents = False
+    
+    'Exit if register is empty
+    If RegTable.DataBodyRange Is Nothing Then
+        GoTo ErrHandler
+    End If
+    
+    Set db = RegTable.DataBodyRange
+    
+    'Tranpose twice to get 1D Array
+    ReadRow = Application.Transpose(Application.Transpose(Range(db.Cells(RowIndex, 16), db.Cells(RowIndex, 20))))
+                   
+    'Apply correct test on each field
+    For i = LBound(ReadRow) To UBound(ReadRow)
+        If ReadRow(i) <> vbNullString Then
+    
+            Select Case Correct(i + 8)
+                Case 0
+                    ReadRow(i) = "Skip"
+                Case 1
+                    ReadRow(i) = Not (IsEmpty(ReadRow(i)))
+                Case 2
+                    ReadRow(i) = WorksheetFunction.IsText(ReadRow(i))
+                Case 3
+                    ReadRow(i) = IsDate(Format(ReadRow(i), "dd-mmm-yyyy"))
+            End Select
+            
+        End If
+    Next i
+    
+    'Completion status
+    'CDA
+    'Criteria - all fields filled with dates
+    cntTrue = 0
+    cntEmpty = 0
+    For i = 1 To 5
+        If ReadRow(i) = vbNullString Then
+            cntEmpty = cntEmpty + 1
+        ElseIf ReadRow(i) Then
+            cntTrue = cntTrue + 1
+        End If
+    Next i
+    
+    If cntEmpty = 5 Then
+        db.Cells(RowIndex, 130) = vbNullString
+    ElseIf cntTrue = 5 Then
+        db.Cells(RowIndex, 130) = True
+    Else
+        db.Cells(RowIndex, 130) = False
+    End If
+    
+ErrHandler:
+    'Clear array
+    Erase ReadRow
+    
+    'Reinstate Settings
+    Application.ScreenUpdating = True
+    Application.Calculation = xlAutomatic
+    Application.DisplayStatusBar = True
+    Application.EnableEvents = True
+        
+End Sub
+
+Private Sub cbSaveonUnload_Click()
+    'PURPOSE: Change value of SAG_Tick variable
+    SAG_Tick = Me.cbSaveonUnload.Value
+    
+    If SAG_Tick Then
+        Me.cbSaveonUnload.Caption = "Save via Navigation"
+    Else
+        Me.cbSaveonUnload.Caption = "Save via Button"
+    End If
     
 End Sub
 
@@ -307,4 +510,3 @@ Private Sub tglSIV_Click()
     
     form12_SIV.Show False
 End Sub
-

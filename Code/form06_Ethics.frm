@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form06_Ethics 
    Caption         =   "Ethics Review"
-   ClientHeight    =   7752
+   ClientHeight    =   8445.001
    ClientLeft      =   -420
    ClientTop       =   -1995
-   ClientWidth     =   12810
+   ClientWidth     =   13545
    OleObjectBlob   =   "form06_Ethics.frx":0000
 End
 Attribute VB_Name = "form06_Ethics"
@@ -45,12 +45,21 @@ Private Sub UserForm_Initialize()
     Dim ctrl As MSForms.Control
     Dim pPage As MSForms.Page
        
+    'Turn off Settings to speed up
+    'source: https://www.automateexcel.com/vba/turn-off-screen-updating/
+    Application.ScreenUpdating = False
+    Application.Calculation = xlManual
+    Application.DisplayStatusBar = False
+    Application.EnableEvents = False
+    
+    'Erase and initialise arrays
+    ReDim OldValues(1 To 19)
+    ReDim NxtOldValues(1 To 19)
+                    
     'Clear user form
     'SOURCE: https://www.mrexcel.com/board/threads/loop-through-controls-on-a-userform.427103/
     For Each ctrl In Me.Controls
         Select Case True
-                Case TypeOf ctrl Is MSForms.CheckBox
-                    ctrl.Value = False
                 Case TypeOf ctrl Is MSForms.TextBox
                     ctrl.Value = ""
                 Case TypeOf ctrl Is MSForms.Label
@@ -113,12 +122,43 @@ Private Sub UserForm_Initialize()
         
     End With
     
+    'Populate Old Values Array - for undo
+    OldValues(1) = String_to_Date(Me.txtCAHS_Date_Submitted.Value)
+    OldValues(2) = String_to_Date(Me.txtCAHS_Date_Responded.Value)
+    OldValues(3) = String_to_Date(Me.txtCAHS_Date_Resubmitted.Value)
+    OldValues(4) = String_to_Date(Me.txtCAHS_Date_Approved.Value)
+    OldValues(5) = Me.txtCAHS_Reminder.Value
+    
+    OldValues(6) = Me.txtNMA_Committee.Value
+    OldValues(7) = String_to_Date(Me.txtNMA_Date_Submitted.Value)
+    OldValues(8) = String_to_Date(Me.txtNMA_Date_Approved.Value)
+    OldValues(9) = Me.txtNMA_Reminder.Value
+    
+    OldValues(10) = String_to_Date(Me.txtWNHS_Date_Submitted.Value)
+    OldValues(11) = String_to_Date(Me.txtWNHS_Date_Approved.Value)
+    OldValues(12) = Me.txtWNHS_Reminder.Value
+    
+    OldValues(13) = String_to_Date(Me.txtSJOG_Date_Submitted.Value)
+    OldValues(14) = String_to_Date(Me.txtSJOG_Date_Approved.Value)
+    OldValues(15) = Me.txtSJOG_Reminder.Value
+    
+    OldValues(16) = Me.txtOthers_Committee.Value
+    OldValues(17) = String_to_Date(Me.txtOthers_Date_Submitted.Value)
+    OldValues(18) = String_to_Date(Me.txtOthers_Date_Approved.Value)
+    OldValues(19) = Me.txtOthers_Reminder.Value
+    
+    'Initialize NxtOldValues
+    NxtOldValues = OldValues
+    
     'Access version control
     Call LogLastAccess
     
     'Depress and make toggle green on nav bar
     Me.tglEthics.Value = True
     Me.tglEthics.BackColor = vbGreen
+    
+    'Allocate tick box values
+    Me.cbSaveonUnload.Value = SAG_Tick
     
     'Run date validation on data entered
     Call txtCAHS_Date_Submitted_AfterUpdate
@@ -137,6 +177,12 @@ Private Sub UserForm_Initialize()
     
     Call txtOthers_Date_Submitted_AfterUpdate
     Call txtOthers_Date_Approved_AfterUpdate
+    
+    'Reinstate Settings
+    Application.ScreenUpdating = True
+    Application.Calculation = xlAutomatic
+    Application.DisplayStatusBar = True
+    Application.EnableEvents = True
     
 End Sub
 
@@ -339,59 +385,375 @@ Private Sub txtOthers_Date_Approved_AfterUpdate()
      
 End Sub
 
+Private Sub cmdUndo_Click()
+    'PURPOSE: Recall values read from register table when the form was loaded initially
+    
+    Me.txtCAHS_Date_Submitted.Value = Format(OldValues(1), "dd-mmm-yyyy")
+    Me.txtCAHS_Date_Responded.Value = Format(OldValues(2), "dd-mmm-yyyy")
+    Me.txtCAHS_Date_Resubmitted.Value = Format(OldValues(3), "dd-mmm-yyyy")
+    Me.txtCAHS_Date_Approved.Value = Format(OldValues(4), "dd-mmm-yyyy")
+    Me.txtCAHS_Reminder.Value = OldValues(5)
+    
+    Me.txtNMA_Committee.Value = OldValues(6)
+    Me.txtNMA_Date_Submitted.Value = Format(OldValues(7), "dd-mmm-yyyy")
+    Me.txtNMA_Date_Approved.Value = Format(OldValues(8), "dd-mmm-yyyy")
+    Me.txtNMA_Reminder.Value = OldValues(9)
+    
+    Me.txtWNHS_Date_Submitted.Value = Format(OldValues(10), "dd-mmm-yyyy")
+    Me.txtWNHS_Date_Approved.Value = Format(OldValues(11), "dd-mmm-yyyy")
+    Me.txtWNHS_Reminder.Value = OldValues(12)
+    
+    Me.txtSJOG_Date_Submitted.Value = Format(OldValues(13), "dd-mmm-yyyy")
+    Me.txtSJOG_Date_Approved.Value = Format(OldValues(14), "dd-mmm-yyyy")
+    Me.txtSJOG_Reminder.Value = OldValues(15)
+    
+    Me.txtOthers_Committee.Value = OldValues(16)
+    Me.txtOthers_Date_Submitted.Value = Format(OldValues(17), "dd-mmm-yyyy")
+    Me.txtOthers_Date_Approved.Value = Format(OldValues(18), "dd-mmm-yyyy")
+    Me.txtOthers_Reminder.Value = OldValues(19)
+    
+End Sub
+
+Private Sub cmdRedo_Click()
+    'PURPOSE: Recall values replaced by undo
+    
+    Me.txtCAHS_Date_Submitted.Value = Format(NxtOldValues(1), "dd-mmm-yyyy")
+    Me.txtCAHS_Date_Responded.Value = Format(NxtOldValues(2), "dd-mmm-yyyy")
+    Me.txtCAHS_Date_Resubmitted.Value = Format(NxtOldValues(3), "dd-mmm-yyyy")
+    Me.txtCAHS_Date_Approved.Value = Format(NxtOldValues(4), "dd-mmm-yyyy")
+    Me.txtCAHS_Reminder.Value = NxtOldValues(5)
+    
+    Me.txtNMA_Committee.Value = NxtOldValues(6)
+    Me.txtNMA_Date_Submitted.Value = Format(NxtOldValues(7), "dd-mmm-yyyy")
+    Me.txtNMA_Date_Approved.Value = Format(NxtOldValues(8), "dd-mmm-yyyy")
+    Me.txtNMA_Reminder.Value = NxtOldValues(9)
+    
+    Me.txtWNHS_Date_Submitted.Value = Format(NxtOldValues(10), "dd-mmm-yyyy")
+    Me.txtWNHS_Date_Approved.Value = Format(NxtOldValues(11), "dd-mmm-yyyy")
+    Me.txtWNHS_Reminder.Value = NxtOldValues(12)
+    
+    Me.txtSJOG_Date_Submitted.Value = Format(NxtOldValues(13), "dd-mmm-yyyy")
+    Me.txtSJOG_Date_Approved.Value = Format(NxtOldValues(14), "dd-mmm-yyyy")
+    Me.txtSJOG_Reminder.Value = NxtOldValues(15)
+    
+    Me.txtOthers_Committee.Value = NxtOldValues(16)
+    Me.txtOthers_Date_Submitted.Value = Format(NxtOldValues(17), "dd-mmm-yyyy")
+    Me.txtOthers_Date_Approved.Value = Format(NxtOldValues(18), "dd-mmm-yyyy")
+    Me.txtOthers_Reminder.Value = NxtOldValues(19)
+    
+End Sub
+
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form
-    
-    'Access version control
-    Call LogLastAccess
     
     Unload Me
     
 End Sub
 
 Private Sub cmdEdit_Click()
-    'PURPOSE: Apply changes into Register table
-    With RegTable.ListRows(RowIndex)
+    'PURPOSE: Apply changes into Register table when edit button clicked
+    
+    'Overwrite prev. old values with new backup values
+    OldValues = NxtOldValues
+    
+    'Apply changes
+    Call UpdateRegister
+    DoEvents
+    
+    'Access version control
+    Call LogLastAccess
+                    
+    'Run date validation on data entered
+    Call txtCAHS_Date_Submitted_AfterUpdate
+    Call txtCAHS_Date_Responded_AfterUpdate
+    Call txtCAHS_Date_Resubmitted_AfterUpdate
+    Call txtCAHS_Date_Approved_AfterUpdate
+    
+    Call txtNMA_Date_Submitted_AfterUpdate
+    Call txtNMA_Date_Approved_AfterUpdate
+    
+    Call txtWNHS_Date_Submitted_AfterUpdate
+    Call txtWNHS_Date_Approved_AfterUpdate
+    
+    Call txtSJOG_Date_Submitted_AfterUpdate
+    Call txtSJOG_Date_Approved_AfterUpdate
+    
+    Call txtOthers_Date_Submitted_AfterUpdate
+    Call txtOthers_Date_Approved_AfterUpdate
+    
+End Sub
+
+Private Sub Userform_Terminate()
+    'PURPOSE: Update register when unloaded
         
-        .Range(42) = String_to_Date(Me.txtCAHS_Date_Submitted.Value)
-        .Range(43) = String_to_Date(Me.txtCAHS_Date_Responded.Value)
-        .Range(44) = String_to_Date(Me.txtCAHS_Date_Resubmitted.Value)
-        .Range(45) = String_to_Date(Me.txtCAHS_Date_Approved.Value)
-        .Range(46) = Me.txtCAHS_Reminder.Value
-        
-        .Range(47) = Me.txtNMA_Committee.Value
-        .Range(48) = String_to_Date(Me.txtNMA_Date_Submitted.Value)
-        .Range(49) = String_to_Date(Me.txtNMA_Date_Approved.Value)
-        .Range(50) = Me.txtNMA_Reminder.Value
-        
-        .Range(51) = String_to_Date(Me.txtWNHS_Date_Submitted.Value)
-        .Range(52) = String_to_Date(Me.txtWNHS_Date_Approved.Value)
-        .Range(53) = Me.txtWNHS_Reminder.Value
-        
-        .Range(54) = String_to_Date(Me.txtSJOG_Date_Submitted.Value)
-        .Range(55) = String_to_Date(Me.txtSJOG_Date_Approved.Value)
-        .Range(56) = Me.txtSJOG_Reminder.Value
-        
-        .Range(57) = Me.txtOthers_Committee.Value
-        .Range(58) = String_to_Date(Me.txtOthers_Date_Submitted.Value)
-        .Range(59) = String_to_Date(Me.txtOthers_Date_Approved.Value)
-        .Range(60) = Me.txtOthers_Reminder.Value
-        
-        'Update version control
-        .Range(61) = Now
-        .Range(62) = Username
-        
-        'Apply completion status
-         Call Fill_Completion_Status
-         DoEvents
-       
-    End With
+    If cbSaveonUnload.Value Then
+        'Apply changes
+        Call UpdateRegister
+        DoEvents
+    End If
     
     'Access version control
     Call LogLastAccess
     
-    Call UserForm_Initialize
+End Sub
 
+Private Sub UpdateRegister()
+    'PURPOSE: Apply changes into Register table
+    Dim ReadRow(1 To 19) As Variant
+    
+    'Turn off Settings to speed up
+    'source: https://www.automateexcel.com/vba/turn-off-screen-updating/
+    Application.ScreenUpdating = False
+    Application.Calculation = xlManual
+    Application.DisplayStatusBar = False
+    Application.EnableEvents = False
+    
+    With RegTable.ListRows(RowIndex)
+        
+        'Populate ReadRow Array - faster than double transpose
+        ReadRow(1) = String_to_Date(Me.txtCAHS_Date_Submitted.Value)
+        ReadRow(2) = String_to_Date(Me.txtCAHS_Date_Responded.Value)
+        ReadRow(3) = String_to_Date(Me.txtCAHS_Date_Resubmitted.Value)
+        ReadRow(4) = String_to_Date(Me.txtCAHS_Date_Approved.Value)
+        ReadRow(5) = Me.txtCAHS_Reminder.Value
+        
+        ReadRow(6) = Me.txtNMA_Committee.Value
+        ReadRow(7) = String_to_Date(Me.txtNMA_Date_Submitted.Value)
+        ReadRow(8) = String_to_Date(Me.txtNMA_Date_Approved.Value)
+        ReadRow(9) = Me.txtNMA_Reminder.Value
+        
+        ReadRow(10) = String_to_Date(Me.txtWNHS_Date_Submitted.Value)
+        ReadRow(11) = String_to_Date(Me.txtWNHS_Date_Approved.Value)
+        ReadRow(12) = Me.txtWNHS_Reminder.Value
+        
+        ReadRow(13) = String_to_Date(Me.txtSJOG_Date_Submitted.Value)
+        ReadRow(14) = String_to_Date(Me.txtSJOG_Date_Approved.Value)
+        ReadRow(15) = Me.txtSJOG_Reminder.Value
+        
+        ReadRow(16) = Me.txtOthers_Committee.Value
+        ReadRow(17) = String_to_Date(Me.txtOthers_Date_Submitted.Value)
+        ReadRow(18) = String_to_Date(Me.txtOthers_Date_Approved.Value)
+        ReadRow(19) = Me.txtOthers_Reminder.Value
+        
+        'Write to Register Table
+        .Range(42) = ReadRow(1)
+        .Range(43) = ReadRow(2)
+        .Range(44) = ReadRow(3)
+        .Range(45) = ReadRow(4)
+        .Range(46) = ReadRow(5)
+        
+        .Range(47) = ReadRow(6)
+        .Range(48) = ReadRow(7)
+        .Range(49) = ReadRow(8)
+        .Range(50) = ReadRow(9)
+        
+        .Range(51) = ReadRow(10)
+        .Range(52) = ReadRow(11)
+        .Range(53) = ReadRow(12)
+        
+        .Range(54) = ReadRow(13)
+        .Range(55) = ReadRow(14)
+        .Range(56) = ReadRow(15)
+        
+        .Range(57) = ReadRow(16)
+        .Range(58) = ReadRow(17)
+        .Range(59) = ReadRow(18)
+        .Range(60) = ReadRow(19)
+           
+        'Store next old values
+        NxtOldValues = ReadRow
+        
+        'Check if values changed
+        If Not ArraysSame(ReadRow, OldValues) Then
+            'Update version control
+            .Range(61) = Now
+            .Range(62) = Username
+            
+            'Apply completion status
+             Call Fill_Completion_Status
+             DoEvents
+        End If
+        
+        'Clear array elements
+        Erase ReadRow
+        
+    End With
+    
+    'Reinstate Settings
+    Application.ScreenUpdating = True
+    Application.Calculation = xlAutomatic
+    Application.DisplayStatusBar = True
+    Application.EnableEvents = True
+    
+End Sub
+
+Private Sub Fill_Completion_Status()
+
+    'PURPOSE: Evaluate entry completion status
+    
+    Dim db As Range
+    Dim ReadRow As Variant
+    Dim i As Integer, cntTrue As Integer, cntEmpty As Integer
+    
+    'Turn off Settings to speed up
+    'source: https://www.automateexcel.com/vba/turn-off-screen-updating/
+    Application.ScreenUpdating = False
+    Application.Calculation = xlManual
+    Application.DisplayStatusBar = False
+    Application.EnableEvents = False
+    
+    'Exit if register is empty
+    If RegTable.DataBodyRange Is Nothing Then
+        GoTo ErrHandler
+    End If
+    
+    Set db = RegTable.DataBodyRange
+    
+    'Tranpose twice to get 1D Array
+    ReadRow = Application.Transpose(Application.Transpose(Range(db.Cells(RowIndex, 42), db.Cells(RowIndex, 59))))
+                   
+    'Apply correct test on each field
+    For i = LBound(ReadRow) To UBound(ReadRow)
+        If ReadRow(i) <> vbNullString Then
+    
+            Select Case Correct(i + 34)
+                Case 0
+                    ReadRow(i) = "Skip"
+                Case 1
+                    ReadRow(i) = Not (IsEmpty(ReadRow(i)))
+                Case 2
+                    ReadRow(i) = WorksheetFunction.IsText(ReadRow(i))
+                Case 3
+                    ReadRow(i) = IsDate(Format(ReadRow(i), "dd-mmm-yyyy"))
+            End Select
+            
+        End If
+    Next i
+    
+    'Completion status
+    
+    'CAHS Ethics
+    'Criteria - all fields filled with dates
+    cntTrue = 0
+    cntEmpty = 0
+    For i = 1 To 4
+        If ReadRow(i) = vbNullString Then
+            cntEmpty = cntEmpty + 1
+        ElseIf ReadRow(i) Then
+            cntTrue = cntTrue + 1
+        End If
+    Next i
+    
+    If cntEmpty = 4 Then
+        db.Cells(RowIndex, 134) = vbNullString
+    ElseIf cntTrue = 4 Then
+        db.Cells(RowIndex, 134) = True
+    Else
+        db.Cells(RowIndex, 134) = False
+    End If
+    
+    'NMA Ethics
+    'Criteria - all fields filled with dates
+    cntTrue = 0
+    cntEmpty = 0
+    For i = 6 To 8
+        If ReadRow(i) = vbNullString Then
+            cntEmpty = cntEmpty + 1
+        ElseIf ReadRow(i) Then
+            cntTrue = cntTrue + 1
+        End If
+    Next i
+    
+    If cntEmpty = 3 Then
+        db.Cells(RowIndex, 135) = vbNullString
+    ElseIf cntTrue = 3 Then
+        db.Cells(RowIndex, 135) = True
+    Else
+        db.Cells(RowIndex, 135) = False
+    End If
+    
+    'WNHS Ethics
+    'Criteria - all fields filled with dates
+    cntTrue = 0
+    cntEmpty = 0
+    For i = 10 To 11
+        If ReadRow(i) = vbNullString Then
+            cntEmpty = cntEmpty + 1
+        ElseIf ReadRow(i) Then
+            cntTrue = cntTrue + 1
+        End If
+    Next i
+    
+    If cntEmpty = 2 Then
+        db.Cells(RowIndex, 136) = vbNullString
+    ElseIf cntTrue = 2 Then
+        db.Cells(RowIndex, 136) = True
+    Else
+        db.Cells(RowIndex, 136) = False
+    End If
+    
+    'SJOG Ethics
+    'Criteria - all fields filled with dates
+    cntTrue = 0
+    cntEmpty = 0
+    For i = 13 To 14
+        If ReadRow(i) = vbNullString Then
+            cntEmpty = cntEmpty + 1
+        ElseIf ReadRow(i) Then
+            cntTrue = cntTrue + 1
+        End If
+    Next i
+    
+    If cntEmpty = 2 Then
+        db.Cells(RowIndex, 137) = vbNullString
+    ElseIf cntTrue = 2 Then
+        db.Cells(RowIndex, 137) = True
+    Else
+        db.Cells(RowIndex, 137) = False
+    End If
+    
+    'Other Ethics
+    'Criteria - all fields filled with text (for committeee) and dates
+    cntTrue = 0
+    cntEmpty = 0
+    For i = 16 To 18
+        If ReadRow(i) = vbNullString Then
+            cntEmpty = cntEmpty + 1
+        ElseIf ReadRow(i) Then
+            cntTrue = cntTrue + 1
+        End If
+    Next i
+    
+    If cntEmpty = 3 Then
+        db.Cells(RowIndex, 138) = vbNullString
+    ElseIf cntTrue = 3 Then
+        db.Cells(RowIndex, 138) = True
+    Else
+        db.Cells(RowIndex, 138) = False
+    End If
+   
+ErrHandler:
+    'Clear array
+    Erase ReadRow
+    
+    'Reinstate Settings
+    Application.ScreenUpdating = True
+    Application.Calculation = xlAutomatic
+    Application.DisplayStatusBar = True
+    Application.EnableEvents = True
+    
+End Sub
+
+Private Sub cbSaveonUnload_Click()
+    'PURPOSE: Change value of SAG_Tick variable
+    SAG_Tick = Me.cbSaveonUnload.Value
+    
+    If SAG_Tick Then
+        Me.cbSaveonUnload.Caption = "Save via Navigation"
+    Else
+        Me.cbSaveonUnload.Caption = "Save via Button"
+    End If
+    
 End Sub
 
 
@@ -483,5 +845,26 @@ Private Sub tglSIV_Click()
     form12_SIV.Show False
 End Sub
 
-
-
+Private Function ArraysSame(ArrX As Variant, ArrY As Variant) As Boolean
+    'PURPOSE: Compare values of two 1D arrays
+    
+    Dim Check As Boolean
+    Dim Upper As Long, i As Long
+    
+    Check = True
+    Upper = UBound(ArrX)
+    
+    'Shift upper bound to smaller array
+    If UBound(ArrX) >= UBound(ArrY) Then
+        Upper = UBound(ArrY)
+    End If
+    
+    For i = LBound(ArrX) To Upper
+        If ArrX(i) <> ArrY(i) Then
+            Check = False
+            Exit For
+        End If
+    Next i
+    
+    ArraysSame = Check
+End Function
