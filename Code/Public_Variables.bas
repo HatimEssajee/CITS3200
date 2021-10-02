@@ -115,3 +115,13 @@ Public Function ArraysSame(ArrX As Variant, ArrY As Variant) As Boolean
     
     ArraysSame = Check
 End Function
+
+Public Function ReadDate(dstr As String) As String
+
+    If IsDate(dstr) Then
+       dstr = Format(dstr, "dd-mmm-yyyy")
+    End If
+    
+    ReadDate = dstr
+    
+End Function

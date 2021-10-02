@@ -22,7 +22,8 @@ Private Sub UserForm_Activate()
     Me.Left = UserFormLeftPos
     Me.Height = UHeight
     Me.Width = UWidth
-
+    
+    'Call ResizeForms.ResizeWindowSettings(Me, True)
 End Sub
 
 Private Sub UserForm_Deactivate()
@@ -202,7 +203,8 @@ Private Sub cmdNew_Click()
                               "[@[Fin Disc Complete]]=TRUE,[@[SIV Complete]]=TRUE),TRUE,FALSE)"
 
         'Fast cycle location based on last incomplete form. If none found then reverts to starting position
-        .Range(157).Formula = "=IFERROR(MATCH(FALSE,Register[@[Study Details Complete]:[SIV Complete]],0),1)"
+        .Range(157).FormulaArray = "=IFERROR(MATCH(FALSE,Register[@[Study Details Complete]:[SIV Complete]],0)," & _
+                                    "IFERROR(MATCH(TRUE,ISBLANK(Register[@[Study Details Complete]:[SIV Complete]]),0),1))"
 
         'Update version control
         .Range(14) = .Range(1).Value
@@ -211,7 +213,7 @@ Private Sub cmdNew_Click()
         
     Unload form00_Nav
     
-    form01_StudyDetail.Show False
+    form01_StudyDetail.show False
     
     'Empty Array as no longer needed
     EraseIfArray (StudyStatus)
@@ -335,7 +337,7 @@ Private Sub cmdChangeLog_Click()
     If RowIndex < 0 Then
         errSearch.Caption = "Need study entry identified to view log"
     Else
-        form13_ChangeLog.Show False
+        form13_ChangeLog.show False
     End If
     
     'Store form position
@@ -353,7 +355,7 @@ Private Sub cmdReminders_Click()
     If RowIndex < 0 Then
         errSearch.Caption = "Need study entry identified to view log"
     Else
-        form14_ReminderLog.Show False
+        form14_ReminderLog.show False
     End If
     
     'Store form position
@@ -892,7 +894,8 @@ Private Sub Fill_Completion_Status()
                                         "[@[Fin Disc Complete]]=TRUE,[@[SIV Complete]]=TRUE),TRUE,FALSE)"
     
     'Fast cycle location based on last incomplete form. If none found then reverts to starting position
-    db.Cells(RowIndex, 157).Formula = "=IFERROR(MATCH(FALSE,Register[@[Study Details Complete]:[SIV Complete]],0),1)"
+    db.Cells(RowIndex, 157).FormulaArray = "=IFERROR(MATCH(FALSE,Register[@[Study Details Complete]:[SIV Complete]],0)," & _
+                                            "IFERROR(MATCH(TRUE,ISBLANK(Register[@[Study Details Complete]:[SIV Complete]]),0),1))"
         
 ErrHandler:
     'Clear array
@@ -919,74 +922,74 @@ Private Sub Apply_FastCycle()
         If FC_Tick Then
             Select Case loc
                 Case 1
-                    form01_StudyDetail.Show False
+                    form01_StudyDetail.show False
                 Case 2
-                    form02_CDA.Show False
+                    form02_CDA.show False
                 Case 3
-                    form03_FS.Show False
+                    form03_FS.show False
                 Case 4
-                    form04_SiteSelect.Show False
+                    form04_SiteSelect.show False
                 Case 5
-                    form05_Recruitment.Show False
+                    form05_Recruitment.show False
                 Case 6
-                    form06_Ethics.Show False
+                    form06_Ethics.show False
                     form06_Ethics.multiEthics.Value = 0
                 Case 7
-                    form06_Ethics.Show False
+                    form06_Ethics.show False
                     form06_Ethics.multiEthics.Value = 1
                 Case 8
-                    form06_Ethics.Show False
+                    form06_Ethics.show False
                     form06_Ethics.multiEthics.Value = 2
                 Case 9
-                    form06_Ethics.Show False
+                    form06_Ethics.show False
                     form06_Ethics.multiEthics.Value = 3
                 Case 10
-                    form06_Ethics.Show False
+                    form06_Ethics.show False
                     form06_Ethics.multiEthics.Value = 4
                 Case 11
-                    form07_Governance.Show False
+                    form07_Governance.show False
                     form07_Governance.multiGov.Value = 0
                 Case 12
-                    form07_Governance.Show False
+                    form07_Governance.show False
                     form07_Governance.multiGov.Value = 1
                 Case 13
-                    form07_Governance.Show False
+                    form07_Governance.show False
                     form07_Governance.multiGov.Value = 2
                 Case 14
-                    form07_Governance.Show False
+                    form07_Governance.show False
                     form07_Governance.multiGov.Value = 3
                 Case 15
-                    form07_Governance.Show False
+                    form07_Governance.show False
                     form07_Governance.multiGov.Value = 4
                 Case 16
-                    form07_Governance.Show False
+                    form07_Governance.show False
                     form07_Governance.multiGov.Value = 5
                 Case 17
-                    form07_Governance.Show False
+                    form07_Governance.show False
                     form07_Governance.multiGov.Value = 6
                 Case 18
-                    form08_Budget.Show False
+                    form08_Budget.show False
                     form08_Budget.multiBudget.Value = 0
                 Case 19
-                    form08_Budget.Show False
+                    form08_Budget.show False
                     form08_Budget.multiBudget.Value = 1
                 Case 20
-                    form08_Budget.Show False
+                    form08_Budget.show False
                     form08_Budget.multiBudget.Value = 2
                 Case 21
-                    form09_Indemnity.Show False
+                    form09_Indemnity.show False
                 Case 22
-                    form10_CTRA.Show False
+                    form10_CTRA.show False
                 Case 23
-                    form11_FinDisc.Show False
+                    form11_FinDisc.show False
                 Case 24
-                    form12_SIV.Show False
+                    form12_SIV.show False
                 Case Else
-                    form01_StudyDetail.Show False
+                    form01_StudyDetail.show False
                 End Select
                 
         Else
-            form01_StudyDetail.Show False
+            form01_StudyDetail.show False
         End If
         
 End Sub

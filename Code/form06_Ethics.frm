@@ -96,28 +96,28 @@ Private Sub UserForm_Initialize()
     With RegTable.ListRows(RowIndex)
         Me.txtStudyName.Value = .Range(9).Value
         
-        Me.txtCAHS_Date_Submitted.Value = Format(.Range(42).Value, "dd-mmm-yyyy")
-        Me.txtCAHS_Date_Responded.Value = Format(.Range(43).Value, "dd-mmm-yyyy")
-        Me.txtCAHS_Date_Resubmitted.Value = Format(.Range(44).Value, "dd-mmm-yyyy")
-        Me.txtCAHS_Date_Approved.Value = Format(.Range(45).Value, "dd-mmm-yyyy")
+        Me.txtCAHS_Date_Submitted.Value = ReadDate(.Range(42).Value)
+        Me.txtCAHS_Date_Responded.Value = ReadDate(.Range(43).Value)
+        Me.txtCAHS_Date_Resubmitted.Value = ReadDate(.Range(44).Value)
+        Me.txtCAHS_Date_Approved.Value = ReadDate(.Range(45).Value)
         Me.txtCAHS_Reminder.Value = .Range(46).Value
         
         Me.txtNMA_Committee.Value = .Range(47).Value
-        Me.txtNMA_Date_Submitted.Value = Format(.Range(48).Value, "dd-mmm-yyyy")
-        Me.txtNMA_Date_Approved.Value = Format(.Range(49).Value, "dd-mmm-yyyy")
+        Me.txtNMA_Date_Submitted.Value = ReadDate(.Range(48).Value)
+        Me.txtNMA_Date_Approved.Value = ReadDate(.Range(49).Value)
         Me.txtNMA_Reminder.Value = .Range(50).Value
         
-        Me.txtWNHS_Date_Submitted.Value = Format(.Range(51).Value, "dd-mmm-yyyy")
-        Me.txtWNHS_Date_Approved.Value = Format(.Range(52).Value, "dd-mmm-yyyy")
+        Me.txtWNHS_Date_Submitted.Value = ReadDate(.Range(51).Value)
+        Me.txtWNHS_Date_Approved.Value = ReadDate(.Range(52).Value)
         Me.txtWNHS_Reminder.Value = .Range(53).Value
         
-        Me.txtSJOG_Date_Submitted.Value = Format(.Range(54).Value, "dd-mmm-yyyy")
-        Me.txtSJOG_Date_Approved.Value = Format(.Range(55).Value, "dd-mmm-yyyy")
+        Me.txtSJOG_Date_Submitted.Value = ReadDate(.Range(54).Value)
+        Me.txtSJOG_Date_Approved.Value = ReadDate(.Range(55).Value)
         Me.txtSJOG_Reminder.Value = .Range(56).Value
         
         Me.txtOthers_Committee.Value = .Range(57).Value
-        Me.txtOthers_Date_Submitted.Value = Format(.Range(58).Value, "dd-mmm-yyyy")
-        Me.txtOthers_Date_Approved.Value = Format(.Range(59).Value, "dd-mmm-yyyy")
+        Me.txtOthers_Date_Submitted.Value = ReadDate(.Range(58).Value)
+        Me.txtOthers_Date_Approved.Value = ReadDate(.Range(59).Value)
         Me.txtOthers_Reminder.Value = .Range(60).Value
         
     End With
@@ -388,28 +388,28 @@ End Sub
 Private Sub cmdUndo_Click()
     'PURPOSE: Recall values read from register table when the form was loaded initially
     
-    Me.txtCAHS_Date_Submitted.Value = Format(OldValues(1), "dd-mmm-yyyy")
-    Me.txtCAHS_Date_Responded.Value = Format(OldValues(2), "dd-mmm-yyyy")
-    Me.txtCAHS_Date_Resubmitted.Value = Format(OldValues(3), "dd-mmm-yyyy")
-    Me.txtCAHS_Date_Approved.Value = Format(OldValues(4), "dd-mmm-yyyy")
+    Me.txtCAHS_Date_Submitted.Value = ReadDate(CStr(OldValues(1)))
+    Me.txtCAHS_Date_Responded.Value = ReadDate(CStr(OldValues(2)))
+    Me.txtCAHS_Date_Resubmitted.Value = ReadDate(CStr(OldValues(3)))
+    Me.txtCAHS_Date_Approved.Value = ReadDate(CStr(OldValues(4)))
     Me.txtCAHS_Reminder.Value = OldValues(5)
     
     Me.txtNMA_Committee.Value = OldValues(6)
-    Me.txtNMA_Date_Submitted.Value = Format(OldValues(7), "dd-mmm-yyyy")
-    Me.txtNMA_Date_Approved.Value = Format(OldValues(8), "dd-mmm-yyyy")
+    Me.txtNMA_Date_Submitted.Value = ReadDate(CStr(OldValues(7)))
+    Me.txtNMA_Date_Approved.Value = ReadDate(CStr(OldValues(8)))
     Me.txtNMA_Reminder.Value = OldValues(9)
     
-    Me.txtWNHS_Date_Submitted.Value = Format(OldValues(10), "dd-mmm-yyyy")
-    Me.txtWNHS_Date_Approved.Value = Format(OldValues(11), "dd-mmm-yyyy")
+    Me.txtWNHS_Date_Submitted.Value = ReadDate(CStr(OldValues(10)))
+    Me.txtWNHS_Date_Approved.Value = ReadDate(CStr(OldValues(11)))
     Me.txtWNHS_Reminder.Value = OldValues(12)
     
-    Me.txtSJOG_Date_Submitted.Value = Format(OldValues(13), "dd-mmm-yyyy")
-    Me.txtSJOG_Date_Approved.Value = Format(OldValues(14), "dd-mmm-yyyy")
+    Me.txtSJOG_Date_Submitted.Value = ReadDate(CStr(OldValues(13)))
+    Me.txtSJOG_Date_Approved.Value = ReadDate(CStr(OldValues(14)))
     Me.txtSJOG_Reminder.Value = OldValues(15)
     
     Me.txtOthers_Committee.Value = OldValues(16)
-    Me.txtOthers_Date_Submitted.Value = Format(OldValues(17), "dd-mmm-yyyy")
-    Me.txtOthers_Date_Approved.Value = Format(OldValues(18), "dd-mmm-yyyy")
+    Me.txtOthers_Date_Submitted.Value = ReadDate(CStr(OldValues(17)))
+    Me.txtOthers_Date_Approved.Value = ReadDate(CStr(OldValues(18)))
     Me.txtOthers_Reminder.Value = OldValues(19)
     
 End Sub
@@ -417,28 +417,28 @@ End Sub
 Private Sub cmdRedo_Click()
     'PURPOSE: Recall values replaced by undo
     
-    Me.txtCAHS_Date_Submitted.Value = Format(NxtOldValues(1), "dd-mmm-yyyy")
-    Me.txtCAHS_Date_Responded.Value = Format(NxtOldValues(2), "dd-mmm-yyyy")
-    Me.txtCAHS_Date_Resubmitted.Value = Format(NxtOldValues(3), "dd-mmm-yyyy")
-    Me.txtCAHS_Date_Approved.Value = Format(NxtOldValues(4), "dd-mmm-yyyy")
+    Me.txtCAHS_Date_Submitted.Value = ReadDate(CStr(NxtOldValues(1)))
+    Me.txtCAHS_Date_Responded.Value = ReadDate(CStr(NxtOldValues(2)))
+    Me.txtCAHS_Date_Resubmitted.Value = ReadDate(CStr(NxtOldValues(3)))
+    Me.txtCAHS_Date_Approved.Value = ReadDate(CStr(NxtOldValues(4)))
     Me.txtCAHS_Reminder.Value = NxtOldValues(5)
     
     Me.txtNMA_Committee.Value = NxtOldValues(6)
-    Me.txtNMA_Date_Submitted.Value = Format(NxtOldValues(7), "dd-mmm-yyyy")
-    Me.txtNMA_Date_Approved.Value = Format(NxtOldValues(8), "dd-mmm-yyyy")
+    Me.txtNMA_Date_Submitted.Value = ReadDate(CStr(NxtOldValues(7)))
+    Me.txtNMA_Date_Approved.Value = ReadDate(CStr(NxtOldValues(8)))
     Me.txtNMA_Reminder.Value = NxtOldValues(9)
     
-    Me.txtWNHS_Date_Submitted.Value = Format(NxtOldValues(10), "dd-mmm-yyyy")
-    Me.txtWNHS_Date_Approved.Value = Format(NxtOldValues(11), "dd-mmm-yyyy")
+    Me.txtWNHS_Date_Submitted.Value = ReadDate(CStr(NxtOldValues(10)))
+    Me.txtWNHS_Date_Approved.Value = ReadDate(CStr(NxtOldValues(11)))
     Me.txtWNHS_Reminder.Value = NxtOldValues(12)
     
-    Me.txtSJOG_Date_Submitted.Value = Format(NxtOldValues(13), "dd-mmm-yyyy")
-    Me.txtSJOG_Date_Approved.Value = Format(NxtOldValues(14), "dd-mmm-yyyy")
+    Me.txtSJOG_Date_Submitted.Value = ReadDate(CStr(NxtOldValues(13)))
+    Me.txtSJOG_Date_Approved.Value = ReadDate(CStr(NxtOldValues(14)))
     Me.txtSJOG_Reminder.Value = NxtOldValues(15)
     
     Me.txtOthers_Committee.Value = NxtOldValues(16)
-    Me.txtOthers_Date_Submitted.Value = Format(NxtOldValues(17), "dd-mmm-yyyy")
-    Me.txtOthers_Date_Approved.Value = Format(NxtOldValues(18), "dd-mmm-yyyy")
+    Me.txtOthers_Date_Submitted.Value = ReadDate(CStr(NxtOldValues(17)))
+    Me.txtOthers_Date_Approved.Value = ReadDate(CStr(NxtOldValues(18)))
     Me.txtOthers_Reminder.Value = NxtOldValues(19)
     
 End Sub
@@ -763,49 +763,49 @@ Private Sub tglNav_Click()
     'PURPOSE: Closes current form and open Nav form
     Unload form06_Ethics
     
-    form00_Nav.Show False
+    form00_Nav.show False
 End Sub
 
 Private Sub tglCDA_Click()
     'PURPOSE: Closes current form and open CDA form
     Unload form06_Ethics
     
-    form02_CDA.Show False
+    form02_CDA.show False
 End Sub
 
 Private Sub tglFS_Click()
     'PURPOSE: Closes current form and open Feasibility form
     Unload form06_Ethics
     
-    form03_FS.Show False
+    form03_FS.show False
 End Sub
 
 Private Sub tglSiteSelect_Click()
     'PURPOSE: Closes current form and open Site Select form
     Unload form06_Ethics
     
-    form04_SiteSelect.Show False
+    form04_SiteSelect.show False
 End Sub
 
 Private Sub tglRecruit_Click()
     'PURPOSE: Closes current form and open Recruitment form
     Unload form06_Ethics
     
-    form05_Recruitment.Show False
+    form05_Recruitment.show False
 End Sub
 
 Private Sub tglStudyDetail_Click()
     'PURPOSE: Closes current form and open Study Detail form
     Unload form06_Ethics
     
-    form01_StudyDetail.Show False
+    form01_StudyDetail.show False
 End Sub
 
 Private Sub tglGov_Click()
     'PURPOSE: Closes current form and open Governance form
     Unload form06_Ethics
     
-    form07_Governance.Show False
+    form07_Governance.show False
     form07_Governance.multiGov.Value = 0
 End Sub
 
@@ -813,7 +813,7 @@ Private Sub tglBudget_Click()
     'PURPOSE: Closes current form and open Budget form
     Unload form06_Ethics
     
-    form08_Budget.Show False
+    form08_Budget.show False
     form08_Budget.multiBudget.Value = 0
 End Sub
 
@@ -821,28 +821,28 @@ Private Sub tglIndemnity_Click()
     'PURPOSE: Closes current form and open Indemnity form
     Unload form06_Ethics
     
-    form09_Indemnity.Show False
+    form09_Indemnity.show False
 End Sub
 
 Private Sub tglCTRA_Click()
     'PURPOSE: Closes current form and open CTRA form
     Unload form06_Ethics
     
-    form10_CTRA.Show False
+    form10_CTRA.show False
 End Sub
 
 Private Sub tglFinDisc_Click()
     'PURPOSE: Closes current form and open Fin. Disc. form
     Unload form06_Ethics
     
-    form11_FinDisc.Show False
+    form11_FinDisc.show False
 End Sub
 
 Private Sub tglSIV_Click()
     'PURPOSE: Closes current form and open SIV form
     Unload form06_Ethics
     
-    form12_SIV.Show False
+    form12_SIV.show False
 End Sub
 
 Private Function ArraysSame(ArrX As Variant, ArrY As Variant) As Boolean

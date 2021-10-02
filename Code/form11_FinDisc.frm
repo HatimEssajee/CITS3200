@@ -78,7 +78,7 @@ Private Sub UserForm_Initialize()
     'Read information from register table
     With RegTable.ListRows(RowIndex)
         Me.txtStudyName.Value = .Range(9).Value
-        Me.txtFinDisc_Complete.Value = Format(.Range(121).Value, "dd-mmm-yyyy")
+        Me.txtFinDisc_Complete.Value = ReadDate(.Range(121).Value)
         Me.txtReminder.Value = .Range(122).Value
     End With
     
@@ -129,7 +129,7 @@ End Sub
 Private Sub cmdUndo_Click()
     'PURPOSE: Recall values read from register table when the form was loaded initially
     
-    Me.txtFinDisc_Complete.Value = Format(OldValues(1), "dd-mmm-yyyy")
+    Me.txtFinDisc_Complete.Value = ReadDate(CStr(OldValues(1)))
     Me.txtReminder.Value = OldValues(2)
     
 End Sub
@@ -137,7 +137,7 @@ End Sub
 Private Sub cmdRedo_Click()
     'PURPOSE: Recall values replaced by undo
     
-    Me.txtFinDisc_Complete.Value = Format(NxtOldValues(1), "dd-mmm-yyyy")
+    Me.txtFinDisc_Complete.Value = ReadDate(CStr(NxtOldValues(1)))
     Me.txtReminder.Value = NxtOldValues(2)
     
 End Sub
@@ -293,42 +293,42 @@ Private Sub tglNav_Click()
     'PURPOSE: Closes current form and open Nav form
     Unload form11_FinDisc
     
-    form00_Nav.Show False
+    form00_Nav.show False
 End Sub
 
 Private Sub tglCDA_Click()
     'PURPOSE: Closes current form and open CDA form
     Unload form11_FinDisc
     
-    form02_CDA.Show False
+    form02_CDA.show False
 End Sub
 
 Private Sub tglFS_Click()
     'PURPOSE: Closes current form and open Feasibility form
     Unload form11_FinDisc
     
-    form03_FS.Show False
+    form03_FS.show False
 End Sub
 
 Private Sub tglSiteSelect_Click()
     'PURPOSE: Closes current form and open Site Select form
     Unload form11_FinDisc
     
-    form04_SiteSelect.Show False
+    form04_SiteSelect.show False
 End Sub
 
 Private Sub tglRecruit_Click()
     'PURPOSE: Closes current form and open Recruitment form
     Unload form11_FinDisc
     
-    form05_Recruitment.Show False
+    form05_Recruitment.show False
 End Sub
 
 Private Sub tglEthics_Click()
     'PURPOSE: Closes current form and open Ethics form
     Unload form11_FinDisc
     
-    form06_Ethics.Show False
+    form06_Ethics.show False
     form06_Ethics.multiEthics.Value = 0
 End Sub
 
@@ -336,7 +336,7 @@ Private Sub tglGov_Click()
     'PURPOSE: Closes current form and open Governance form
     Unload form11_FinDisc
     
-    form07_Governance.Show False
+    form07_Governance.show False
     form07_Governance.multiGov.Value = 0
 End Sub
 
@@ -344,7 +344,7 @@ Private Sub tglBudget_Click()
     'PURPOSE: Closes current form and open Budget form
     Unload form11_FinDisc
     
-    form08_Budget.Show False
+    form08_Budget.show False
     form08_Budget.multiBudget.Value = 0
 End Sub
 
@@ -352,28 +352,28 @@ Private Sub tglIndemnity_Click()
     'PURPOSE: Closes current form and open Indemnity form
     Unload form11_FinDisc
     
-    form09_Indemnity.Show False
+    form09_Indemnity.show False
 End Sub
 
 Private Sub tglCTRA_Click()
     'PURPOSE: Closes current form and open CTRA form
     Unload form11_FinDisc
     
-    form10_CTRA.Show False
+    form10_CTRA.show False
 End Sub
 
 Private Sub tglStudyDetail_Click()
     'PURPOSE: Closes current form and open Study Detail form
     Unload form11_FinDisc
     
-    form01_StudyDetail.Show False
+    form01_StudyDetail.show False
 End Sub
 
 Private Sub tglSIV_Click()
     'PURPOSE: Closes current form and open SIV form
     Unload form11_FinDisc
     
-    form12_SIV.Show False
+    form12_SIV.show False
 End Sub
 
 Private Function ArraysSame(ArrX As Variant, ArrY As Variant) As Boolean

@@ -79,9 +79,9 @@ Private Sub UserForm_Initialize()
     'Read information from register table
     With RegTable.ListRows(RowIndex)
         Me.txtStudyName.Value = .Range(9).Value
-        Me.txtDate_Recv.Value = Format(.Range(105).Value, "dd-mmm-yyyy")
-        Me.txtDate_Sent_Contracts.Value = Format(.Range(106).Value, "dd-mmm-yyyy")
-        Me.txtDate_Comp.Value = Format(.Range(107).Value, "dd-mmm-yyyy")
+        Me.txtDate_Recv.Value = ReadDate(.Range(105).Value)
+        Me.txtDate_Sent_Contracts.Value = ReadDate(.Range(106).Value)
+        Me.txtDate_Comp.Value = ReadDate(.Range(107).Value)
         Me.txtReminder.Value = .Range(108).Value
     End With
     
@@ -170,9 +170,9 @@ End Sub
 Private Sub cmdUndo_Click()
     'PURPOSE: Recall values read from register table when the form was loaded initially
     
-    Me.txtDate_Recv.Value = Format(OldValues(1), "dd-mmm-yyyy")
-    Me.txtDate_Sent_Contracts.Value = Format(OldValues(2), "dd-mmm-yyyy")
-    Me.txtDate_Comp.Value = Format(OldValues(3), "dd-mmm-yyyy")
+    Me.txtDate_Recv.Value = ReadDate(CStr(OldValues(1)))
+    Me.txtDate_Sent_Contracts.Value = ReadDate(CStr(OldValues(2)))
+    Me.txtDate_Comp.Value = ReadDate(CStr(OldValues(3)))
     Me.txtReminder.Value = OldValues(4)
     
 End Sub
@@ -180,9 +180,9 @@ End Sub
 Private Sub cmdRedo_Click()
     'PURPOSE: Recall values replaced by undo
     
-    Me.txtDate_Recv.Value = Format(NxtOldValues(1), "dd-mmm-yyyy")
-    Me.txtDate_Sent_Contracts.Value = Format(NxtOldValues(2), "dd-mmm-yyyy")
-    Me.txtDate_Comp.Value = Format(NxtOldValues(3), "dd-mmm-yyyy")
+    Me.txtDate_Recv.Value = ReadDate(CStr(NxtOldValues(1)))
+    Me.txtDate_Sent_Contracts.Value = ReadDate(CStr(NxtOldValues(2)))
+    Me.txtDate_Comp.Value = ReadDate(CStr(NxtOldValues(3)))
     Me.txtReminder.Value = NxtOldValues(4)
     
 End Sub
@@ -377,42 +377,42 @@ Private Sub tglNav_Click()
     'PURPOSE: Closes current form and open Nav form
     Unload form09_Indemnity
     
-    form00_Nav.Show False
+    form00_Nav.show False
 End Sub
 
 Private Sub tglCDA_Click()
     'PURPOSE: Closes current form and open CDA form
     Unload form09_Indemnity
     
-    form02_CDA.Show False
+    form02_CDA.show False
 End Sub
 
 Private Sub tglFS_Click()
     'PURPOSE: Closes current form and open Feasibility form
     Unload form09_Indemnity
     
-    form03_FS.Show False
+    form03_FS.show False
 End Sub
 
 Private Sub tglSiteSelect_Click()
     'PURPOSE: Closes current form and open Site Select form
     Unload form09_Indemnity
     
-    form04_SiteSelect.Show False
+    form04_SiteSelect.show False
 End Sub
 
 Private Sub tglRecruit_Click()
     'PURPOSE: Closes current form and open Recruitment form
     Unload form09_Indemnity
     
-    form05_Recruitment.Show False
+    form05_Recruitment.show False
 End Sub
 
 Private Sub tglEthics_Click()
     'PURPOSE: Closes current form and open Ethics form
     Unload form09_Indemnity
     
-    form06_Ethics.Show False
+    form06_Ethics.show False
     form06_Ethics.multiEthics.Value = 0
 End Sub
 
@@ -420,7 +420,7 @@ Private Sub tglGov_Click()
     'PURPOSE: Closes current form and open Governance form
     Unload form09_Indemnity
     
-    form07_Governance.Show False
+    form07_Governance.show False
     form07_Governance.multiGov.Value = 0
 End Sub
 
@@ -428,7 +428,7 @@ Private Sub tglBudget_Click()
     'PURPOSE: Closes current form and open Budget form
     Unload form09_Indemnity
     
-    form08_Budget.Show False
+    form08_Budget.show False
     form08_Budget.multiBudget.Value = 0
 End Sub
 
@@ -436,28 +436,28 @@ Private Sub tglStudyDetail_Click()
     'PURPOSE: Closes current form and open Study Detail form
     Unload form09_Indemnity
     
-    form01_StudyDetail.Show False
+    form01_StudyDetail.show False
 End Sub
 
 Private Sub tglCTRA_Click()
     'PURPOSE: Closes current form and open CTRA form
     Unload form09_Indemnity
     
-    form10_CTRA.Show False
+    form10_CTRA.show False
 End Sub
 
 Private Sub tglFinDisc_Click()
     'PURPOSE: Closes current form and open Fin. Disc. form
     Unload form09_Indemnity
     
-    form11_FinDisc.Show False
+    form11_FinDisc.show False
 End Sub
 
 Private Sub tglSIV_Click()
     'PURPOSE: Closes current form and open SIV form
     Unload form09_Indemnity
     
-    form12_SIV.Show False
+    form12_SIV.show False
 End Sub
 
 Private Function ArraysSame(ArrX As Variant, ArrY As Variant) As Boolean

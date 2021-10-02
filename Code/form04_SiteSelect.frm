@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form04_SiteSelect 
    Caption         =   "Site Selection"
-   ClientHeight    =   8130
-   ClientLeft      =   -480
-   ClientTop       =   -2055
-   ClientWidth     =   15765
+   ClientHeight    =   10155
+   ClientLeft      =   -450
+   ClientTop       =   -1950
+   ClientWidth     =   19695
    OleObjectBlob   =   "form04_SiteSelect.frx":0000
 End
 Attribute VB_Name = "form04_SiteSelect"
@@ -87,11 +87,11 @@ Private Sub UserForm_Initialize()
     'Read information from register table
     With RegTable.ListRows(RowIndex)
         Me.txtStudyName = .Range(9).Value
-        Me.txtPrestudy_Date.Value = Format(.Range(30).Value, "dd-mmm-yyyy")
+        Me.txtPrestudy_Date.Value = ReadDate(.Range(30).Value)
         Me.cboPrestudy_Type.Value = .Range(31).Value
-        Me.txtValidation_Date.Value = Format(.Range(32).Value, "dd-mmm-yyyy")
+        Me.txtValidation_Date.Value = ReadDate(.Range(32).Value)
         Me.cboValidation_Type.Value = .Range(33).Value
-        Me.txtSiteSelect.Value = Format(.Range(34).Value, "dd-mmm-yyyy")
+        Me.txtSiteSelect.Value = ReadDate(.Range(34).Value)
         
         Me.txtReminder.Value = .Range(35).Value
     End With
@@ -183,11 +183,11 @@ End Sub
 Private Sub cmdUndo_Click()
     'PURPOSE: Recall values read from register table when the form was loaded initially
     
-    Me.txtPrestudy_Date.Value = Format(OldValues(1), "dd-mmm-yyyy")
+    Me.txtPrestudy_Date.Value = ReadDate(CStr(OldValues(1)))
     Me.cboPrestudy_Type.Value = OldValues(2)
-    Me.txtValidation_Date.Value = Format(OldValues(3), "dd-mmm-yyyy")
+    Me.txtValidation_Date.Value = ReadDate(CStr(OldValues(3)))
     Me.cboValidation_Type.Value = OldValues(4)
-    Me.txtSiteSelect.Value = Format(OldValues(5), "dd-mmm-yyyy")
+    Me.txtSiteSelect.Value = ReadDate(CStr(OldValues(5)))
     
     Me.txtReminder.Value = OldValues(6)
     
@@ -196,11 +196,11 @@ End Sub
 Private Sub cmdRedo_Click()
     'PURPOSE: Recall values replaced by undo
     
-    Me.txtPrestudy_Date.Value = Format(NxtOldValues(1), "dd-mmm-yyyy")
+    Me.txtPrestudy_Date.Value = ReadDate(CStr(NxtOldValues(1)))
     Me.cboPrestudy_Type.Value = NxtOldValues(2)
-    Me.txtValidation_Date.Value = Format(NxtOldValues(3), "dd-mmm-yyyy")
+    Me.txtValidation_Date.Value = ReadDate(CStr(NxtOldValues(3)))
     Me.cboValidation_Type.Value = NxtOldValues(4)
-    Me.txtSiteSelect.Value = Format(NxtOldValues(5), "dd-mmm-yyyy")
+    Me.txtSiteSelect.Value = ReadDate(CStr(NxtOldValues(5)))
     
     Me.txtReminder.Value = NxtOldValues(6)
     
@@ -399,42 +399,42 @@ Private Sub tglNav_Click()
     'PURPOSE: Closes current form and open Nav form
     Unload form04_SiteSelect
     
-    form00_Nav.Show False
+    form00_Nav.show False
 End Sub
 
 Private Sub tglCDA_Click()
     'PURPOSE: Closes current form and open CDA form
     Unload form04_SiteSelect
     
-    form02_CDA.Show False
+    form02_CDA.show False
 End Sub
 
 Private Sub tglFS_Click()
     'PURPOSE: Closes current form and open Feasibility form
     Unload form04_SiteSelect
     
-    form03_FS.Show False
+    form03_FS.show False
 End Sub
 
 Private Sub tglStudyDetail_Click()
     'PURPOSE: Closes current form and open Study Detail form
     Unload form04_SiteSelect
     
-    form01_StudyDetail.Show False
+    form01_StudyDetail.show False
 End Sub
 
 Private Sub tglRecruit_Click()
     'PURPOSE: Closes current form and open Recruitment form
     Unload form04_SiteSelect
     
-    form05_Recruitment.Show False
+    form05_Recruitment.show False
 End Sub
 
 Private Sub tglEthics_Click()
     'PURPOSE: Closes current form and open Ethics form
     Unload form04_SiteSelect
     
-    form06_Ethics.Show False
+    form06_Ethics.show False
     form06_Ethics.multiEthics.Value = 0
 End Sub
 
@@ -442,7 +442,7 @@ Private Sub tglGov_Click()
     'PURPOSE: Closes current form and open Governance form
     Unload form04_SiteSelect
     
-    form07_Governance.Show False
+    form07_Governance.show False
     form07_Governance.multiGov.Value = 0
 End Sub
 
@@ -450,7 +450,7 @@ Private Sub tglBudget_Click()
     'PURPOSE: Closes current form and open Budget form
     Unload form04_SiteSelect
     
-    form08_Budget.Show False
+    form08_Budget.show False
     form08_Budget.multiBudget.Value = 0
 End Sub
 
@@ -458,28 +458,28 @@ Private Sub tglIndemnity_Click()
     'PURPOSE: Closes current form and open Indemnity form
     Unload form04_SiteSelect
     
-    form09_Indemnity.Show False
+    form09_Indemnity.show False
 End Sub
 
 Private Sub tglCTRA_Click()
     'PURPOSE: Closes current form and open CTRA form
     Unload form04_SiteSelect
     
-    form10_CTRA.Show False
+    form10_CTRA.show False
 End Sub
 
 Private Sub tglFinDisc_Click()
     'PURPOSE: Closes current form and open Fin. Disc. form
     Unload form04_SiteSelect
     
-    form11_FinDisc.Show False
+    form11_FinDisc.show False
 End Sub
 
 Private Sub tglSIV_Click()
     'PURPOSE: Closes current form and open SIV form
     Unload form04_SiteSelect
     
-    form12_SIV.Show False
+    form12_SIV.show False
 End Sub
 
 Private Function ArraysSame(ArrX As Variant, ArrY As Variant) As Boolean

@@ -42,7 +42,7 @@ Sub OpenForm()
                     
     'Display Project Form UserForm
     'Source: https://www.contextures.com/xlUserForm02.html
-    form00_Nav.Show False
+    form00_Nav.show False
     
 End Sub
 

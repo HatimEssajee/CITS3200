@@ -51,7 +51,16 @@ Private Sub Workbook_BeforeSave(ByVal SaveAsUI As Boolean, Cancel As Boolean)
         Set oldfile = Nothing
     Loop
     
+    Application.EnableEvents = True
+    Application.ScreenUpdating = True
+    Application.DisplayAlerts = True
+
+    Exit Sub
+    
 ErrHandler:
+    
+    MsgBox ("Failed to save backup file")
+    
     Application.EnableEvents = True
     Application.ScreenUpdating = True
     Application.DisplayAlerts = True
