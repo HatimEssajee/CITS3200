@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form04_SiteSelect 
    Caption         =   "Site Selection"
-   ClientHeight    =   8124
-   ClientLeft      =   -480
-   ClientTop       =   -2052
-   ClientWidth     =   15756
+   ClientHeight    =   6492
+   ClientLeft      =   -504
+   ClientTop       =   -2136
+   ClientWidth     =   12600
    OleObjectBlob   =   "form04_SiteSelect.frx":0000
 End
 Attribute VB_Name = "form04_SiteSelect"

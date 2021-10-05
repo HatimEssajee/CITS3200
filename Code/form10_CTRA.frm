@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form10_CTRA 
    Caption         =   "CTRA"
-   ClientHeight    =   6948
-   ClientLeft      =   -456
-   ClientTop       =   -2280
-   ClientWidth     =   11868
+   ClientHeight    =   6852
+   ClientLeft      =   -468
+   ClientTop       =   -2376
+   ClientWidth     =   11460
    OleObjectBlob   =   "form10_CTRA.frx":0000
 End
 Attribute VB_Name = "form10_CTRA"

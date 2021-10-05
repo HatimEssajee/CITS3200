@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form09_Indemnity 
    Caption         =   "Indemnity Review"
-   ClientHeight    =   6756
-   ClientLeft      =   -552
-   ClientTop       =   -2268
-   ClientWidth     =   11640
+   ClientHeight    =   5400
+   ClientLeft      =   -576
+   ClientTop       =   -2352
+   ClientWidth     =   9312.001
    OleObjectBlob   =   "form09_Indemnity.frx":0000
 End
 Attribute VB_Name = "form09_Indemnity"

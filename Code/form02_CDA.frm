@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form02_CDA 
    Caption         =   "CDA"
-   ClientHeight    =   6732
-   ClientLeft      =   -420
-   ClientTop       =   -1848
-   ClientWidth     =   12636
+   ClientHeight    =   5376
+   ClientLeft      =   -444
+   ClientTop       =   -1944
+   ClientWidth     =   10104
    OleObjectBlob   =   "form02_CDA.frx":0000
 End
 Attribute VB_Name = "form02_CDA"

@@ -82,7 +82,8 @@ Sub Bring_Data()
                 .Cells(j, 6) = ReadRow(i, 10)
                 .Cells(j, 7) = ReadRow(i, 11)
                 .Cells(j, 8) = ReadRow(i, 12)
-                 
+                .Cells(j, 35) = i
+                
                 For k = 5 To 8
                     If .Cells(j, k).Value = vbNullString Then
                         Call AddFormat(.Cells(j, k), cRed)
@@ -473,6 +474,26 @@ Sub Bring_Data()
                     End If
                 End If
                 
+                  
+                'Indemnity
+                If ReadRow(i, 149) <> vbNullString Then
+                    .Cells(j, 27).Value = "Date Received = " & Format(ReadRow(i, 105), "dd-mmm-yy") & Chr(10) & _
+                                         "Date Sent Contracts = " & Format(ReadRow(i, 106), "dd-mmm-yy") & Chr(10) & _
+                                         "Date Completed = " & Format(ReadRow(i, 107), "dd-mmm-yy")
+                    If ReadRow(i, 149) Then
+                        Call AddFormat(.Cells(j, 27), cGreen)
+                    Else
+                        Call AddFormat(.Cells(j, 27), cRed)
+                        
+                        'Add reminder if incomplete
+                        If ReadRow(i, 108) <> vbNullString Then
+                            .Cells(j, 27).Value = .Cells(j, 27).Value & Chr(10) & Chr(10) & "Reminder:" & Chr(10) & _
+                                                ReadRow(i, 108)
+                        End If
+                        
+                    End If
+                End If
+                
                 'Overall Budget
                 If ReadRow(i, 155) = True Then
                     tempStr = ""
@@ -486,10 +507,10 @@ Sub Bring_Data()
                         End If
                     Next k
                     
-                    .Cells(j, 27) = tempStr
-                    Call AddFormat(.Cells(j, 27), cGreen)
+                    .Cells(j, 28) = tempStr
+                    Call AddFormat(.Cells(j, 28), cGreen)
                     
-                ElseIf ReadRow(i, 55) <> vbNullString Then
+                ElseIf ReadRow(i, 155) <> vbNullString Then
                     tempStr = ""
                     For k = 146 To 148
                         If ReadRow(i, k) <> vbNullString And Not ReadRow(i, k) Then
@@ -500,23 +521,23 @@ Sub Bring_Data()
                             tempStr = tempStr + Mid(Header.Cells(1, k), 10, Len(Header.Cells(1, k)) - 18) + " Incomplete"
                         End If
                     Next k
-                    .Cells(j, 27) = tempStr
-                    Call AddFormat(.Cells(j, 27), cRed)
+                    .Cells(j, 28) = tempStr
+                    Call AddFormat(.Cells(j, 28), cRed)
                 End If
                 
                 'VTG Budget
                 If ReadRow(i, 146) <> vbNullString Then
-                    .Cells(j, 28).Value = "Date Finalised = " & Format(ReadRow(i, 94), "dd-mmm-yy") & Chr(10) & _
+                    .Cells(j, 29).Value = "Date Finalised = " & Format(ReadRow(i, 94), "dd-mmm-yy") & Chr(10) & _
                                          "Date Submitted Finance = " & Format(ReadRow(i, 95), "dd-mmm-yy") & Chr(10) & _
                                          "Date Approved = " & Format(ReadRow(i, 96), "dd-mmm-yy")
                     If ReadRow(i, 146) Then
-                        Call AddFormat(.Cells(j, 28), cGreen)
+                        Call AddFormat(.Cells(j, 29), cGreen)
                     Else
-                        Call AddFormat(.Cells(j, 28), cRed)
+                        Call AddFormat(.Cells(j, 29), cRed)
                         
                         'Add reminder if incomplete
                         If ReadRow(i, 97) <> vbNullString Then
-                            .Cells(j, 28).Value = .Cells(j, 28).Value & Chr(10) & Chr(10) & "Reminder:" & Chr(10) & _
+                            .Cells(j, 29).Value = .Cells(j, 29).Value & Chr(10) & Chr(10) & "Reminder:" & Chr(10) & _
                                                 ReadRow(i, 97)
                         End If
                         
@@ -525,16 +546,16 @@ Sub Bring_Data()
                 
                 'TKI Budget
                 If ReadRow(i, 147) <> vbNullString Then
-                    .Cells(j, 29).Value = "Date Approved = " & Format(ReadRow(i, 98), "dd-mmm-yy")
+                    .Cells(j, 30).Value = "Date Approved = " & Format(ReadRow(i, 98), "dd-mmm-yy")
                     
                     If ReadRow(i, 147) Then
-                        Call AddFormat(.Cells(j, 29), cGreen)
+                        Call AddFormat(.Cells(j, 30), cGreen)
                     Else
-                        Call AddFormat(.Cells(j, 29), cRed)
+                        Call AddFormat(.Cells(j, 30), cRed)
                         
                         'Add reminder if incomplete
                         If ReadRow(i, 99) <> vbNullString Then
-                            .Cells(j, 29).Value = .Cells(j, 29).Value & Chr(10) & Chr(10) & "Reminder:" & Chr(10) & _
+                            .Cells(j, 30).Value = .Cells(j, 30).Value & Chr(10) & Chr(10) & "Reminder:" & Chr(10) & _
                                                 ReadRow(i, 99)
                         End If
                         
@@ -543,36 +564,17 @@ Sub Bring_Data()
                 
                 'Pharmacy Budget
                 If ReadRow(i, 148) <> vbNullString Then
-                    .Cells(j, 30).Value = "Date Quote Recv. = " & Format(ReadRow(i, 100), "dd-mmm-yy") & Chr(10) & _
+                    .Cells(j, 31).Value = "Date Quote Recv. = " & Format(ReadRow(i, 100), "dd-mmm-yy") & Chr(10) & _
                                          "Date PO Finalised = " & Format(ReadRow(i, 101), "dd-mmm-yy")
                     If ReadRow(i, 148) Then
-                        Call AddFormat(.Cells(j, 30), cGreen)
-                    Else
-                        Call AddFormat(.Cells(j, 30), cRed)
-                        
-                        'Add reminder if incomplete
-                        If ReadRow(i, 102) <> vbNullString Then
-                            .Cells(j, 30).Value = .Cells(j, 30).Value & Chr(10) & Chr(10) & "Reminder:" & Chr(10) & _
-                                                ReadRow(i, 102)
-                        End If
-                        
-                    End If
-                End If
-                
-                'Indemnity
-                If ReadRow(i, 149) <> vbNullString Then
-                    .Cells(j, 31).Value = "Date Received = " & Format(ReadRow(i, 105), "dd-mmm-yy") & Chr(10) & _
-                                         "Date Sent Contracts = " & Format(ReadRow(i, 106), "dd-mmm-yy") & Chr(10) & _
-                                         "Date Completed = " & Format(ReadRow(i, 107), "dd-mmm-yy")
-                    If ReadRow(i, 149) Then
                         Call AddFormat(.Cells(j, 31), cGreen)
                     Else
                         Call AddFormat(.Cells(j, 31), cRed)
                         
                         'Add reminder if incomplete
-                        If ReadRow(i, 108) <> vbNullString Then
+                        If ReadRow(i, 102) <> vbNullString Then
                             .Cells(j, 31).Value = .Cells(j, 31).Value & Chr(10) & Chr(10) & "Reminder:" & Chr(10) & _
-                                                ReadRow(i, 108)
+                                                ReadRow(i, 102)
                         End If
                         
                     End If
@@ -684,3 +686,47 @@ Private Function ArrayCountIf(arr As Variant, RowIndex As Integer, lCol As Long,
     ArrayCountIf = count
 End Function
 
+
+Sub OpenFromTable(RIndex As Long)
+    'PURPOSE: Determines dimensions of register table and loads first userform when report table is clicked
+    
+    'Reference register table
+    Set RegTable = ThisWorkbook.Sheets("Register").ListObjects("Register")
+    
+    'Store current username in memory
+    'Source: https://www.excelsirji.com/vba-code-to-get-logged-in-user-name/
+    Username = Application.Username
+    
+    'Source: https://officetricks.com/excel-vba-get-username-windows-system/
+    'Username = ThisWorkbook.BuiltinDocumentProperties("Author")
+    
+    
+    'Force default starting rowIndex for empty form and tickbox checked
+    RowIndex = RIndex
+    Tick = True
+    FC_Tick = True
+    SAG_Tick = True
+    
+    'Set initial location
+    UserFormTopPos = Application.Top + 25
+    UserFormLeftPos = Application.Left + Application.Width / 3
+    
+    'Correct array used to guide what test to apply for each register field
+    '0 if skip, 1 has to be filled, 2 if has to be text, 3 if has to be date
+    Correct = Array(2, 1, 1, 1, 1, 1, 0, 0, 0, _
+                    3, 3, 3, 3, 3, 0, 0, 0, _
+                    3, 3, 2, 0, 0, 0, _
+                    3, 2, 3, 2, 3, 0, 0, 0, _
+                    3, 0, 0, 0, _
+                    3, 3, 3, 3, 0, 2, 3, 3, 0, 3, 3, 0, 3, 3, 0, 2, 3, 3, 0, 0, 0, _
+                    3, 3, 3, 0, 3, 3, 3, 0, 3, 3, 3, 0, 3, 3, 3, 0, 3, 3, 3, 0, 3, 3, 3, 0, 2, 3, 3, 3, 0, 0, 0, _
+                    3, 3, 3, 0, 3, 0, 3, 3, 0, 0, 0, _
+                    3, 3, 3, 0, 0, 0, _
+                    3, 3, 3, 3, 3, 3, 3, 0, 0, 0, _
+                    3, 0, 0, 0, _
+                    3)
+    'Display Project Form UserForm
+    'Source: https://www.contextures.com/xlUserForm02.html
+    form00_Nav.show False
+    
+End Sub
