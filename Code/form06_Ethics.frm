@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form06_Ethics 
    Caption         =   "Ethics Review"
    ClientHeight    =   5400
-   ClientLeft      =   -468
-   ClientTop       =   -2184
-   ClientWidth     =   8664.001
+   ClientLeft      =   -465
+   ClientTop       =   -2190
+   ClientWidth     =   8655.001
    OleObjectBlob   =   "form06_Ethics.frx":0000
 End
 Attribute VB_Name = "form06_Ethics"
@@ -540,25 +540,25 @@ Private Sub UpdateRegister()
         .Range(43) = ReadRow(2)
         .Range(44) = ReadRow(3)
         .Range(45) = ReadRow(4)
-        .Range(46) = ReadRow(5)
+        .Range(46) = WriteText(ReadRow(5))
         
-        .Range(47) = ReadRow(6)
+        .Range(47) = WriteText(ReadRow(6))
         .Range(48) = ReadRow(7)
         .Range(49) = ReadRow(8)
-        .Range(50) = ReadRow(9)
+        .Range(50) = WriteText(ReadRow(9))
         
         .Range(51) = ReadRow(10)
         .Range(52) = ReadRow(11)
-        .Range(53) = ReadRow(12)
+        .Range(53) = WriteText(ReadRow(12))
         
         .Range(54) = ReadRow(13)
         .Range(55) = ReadRow(14)
-        .Range(56) = ReadRow(15)
+        .Range(56) = WriteText(ReadRow(15))
         
-        .Range(57) = ReadRow(16)
+        .Range(57) = WriteText(ReadRow(16))
         .Range(58) = ReadRow(17)
         .Range(59) = ReadRow(18)
-        .Range(60) = ReadRow(19)
+        .Range(60) = WriteText(ReadRow(19))
            
         'Store next old values
         NxtOldValues = ReadRow

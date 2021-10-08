@@ -2,8 +2,8 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form10_CTRA 
    Caption         =   "CTRA"
    ClientHeight    =   6852
-   ClientLeft      =   -468
-   ClientTop       =   -2376
+   ClientLeft      =   -465
+   ClientTop       =   -2370
    ClientWidth     =   11460
    OleObjectBlob   =   "form10_CTRA.frx":0000
 End
@@ -352,7 +352,7 @@ Private Sub UpdateRegister()
         .Range(115) = ReadRow(5)
         .Range(116) = ReadRow(6)
         .Range(117) = ReadRow(7)
-        .Range(118) = ReadRow(8)
+        .Range(118) = WriteText(ReadRow(8))
         
         'Store next old values
         NxtOldValues = ReadRow

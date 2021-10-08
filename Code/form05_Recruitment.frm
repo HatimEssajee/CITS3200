@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form05_Recruitment 
    Caption         =   "Recruitment Plan"
    ClientHeight    =   6384
-   ClientLeft      =   -516
-   ClientTop       =   -2256
-   ClientWidth     =   11196
+   ClientLeft      =   -510
+   ClientTop       =   -2250
+   ClientWidth     =   11190
    OleObjectBlob   =   "form05_Recruitment.frx":0000
 End
 Attribute VB_Name = "form05_Recruitment"
@@ -201,7 +201,7 @@ Private Sub UpdateRegister()
         
         'Write to Register Table
         .Range(38) = ReadRow(1)
-        .Range(39) = ReadRow(2)
+        .Range(39) = WriteText(ReadRow(2))
          
         'Store next old values
         NxtOldValues = ReadRow

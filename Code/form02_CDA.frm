@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form02_CDA 
    Caption         =   "CDA"
    ClientHeight    =   5376
-   ClientLeft      =   -444
-   ClientTop       =   -1944
-   ClientWidth     =   10104
+   ClientLeft      =   -450
+   ClientTop       =   -1950
+   ClientWidth     =   10110
    OleObjectBlob   =   "form02_CDA.frx":0000
 End
 Attribute VB_Name = "form02_CDA"
@@ -304,7 +304,7 @@ Private Sub UpdateRegister()
         .Range(18) = ReadRow(3)
         .Range(19) = ReadRow(4)
         .Range(20) = ReadRow(5)
-        .Range(21) = ReadRow(6)
+        .Range(21) = WriteText(ReadRow(6))
         
         'Store next old values
         NxtOldValues = ReadRow

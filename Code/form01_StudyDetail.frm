@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form01_StudyDetail 
    Caption         =   "Study Details"
    ClientHeight    =   5520
-   ClientLeft      =   -468
-   ClientTop       =   -2016
-   ClientWidth     =   8532.001
+   ClientLeft      =   -465
+   ClientTop       =   -2010
+   ClientWidth     =   8535.001
    OleObjectBlob   =   "form01_StudyDetail.frx":0000
 End
 Attribute VB_Name = "form01_StudyDetail"
@@ -202,12 +202,12 @@ Private Sub UpdateRegister()
         ReadRow(6) = Me.txtReminder.Value
         
         'Write to Register table
-        .Range(8) = ReadRow(1)
+        .Range(8) = WriteText(ReadRow(1))
         .Range(9) = ReadRow(2)
         .Range(10) = ReadRow(3)
         .Range(11) = ReadRow(4)
-        .Range(12) = ReadRow(5)
-        .Range(13) = ReadRow(6)
+        .Range(12) = WriteText(ReadRow(5))
+        .Range(13) = WriteText(ReadRow(6))
         
         'Store next old values
         NxtOldValues = ReadRow

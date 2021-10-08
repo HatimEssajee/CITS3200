@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form03_FS 
    Caption         =   "Feasibility"
    ClientHeight    =   5292
-   ClientLeft      =   -432
-   ClientTop       =   -1932
-   ClientWidth     =   11904
+   ClientLeft      =   -435
+   ClientTop       =   -1935
+   ClientWidth     =   11910
    OleObjectBlob   =   "form03_FS.frx":0000
 End
 Attribute VB_Name = "form03_FS"
@@ -234,8 +234,8 @@ Private Sub UpdateRegister()
         'Write to Register Table
         .Range(24) = ReadRow(1)
         .Range(25) = ReadRow(2)
-        .Range(26) = ReadRow(3)
-        .Range(27) = ReadRow(4)
+        .Range(26) = WriteText(ReadRow(3))
+        .Range(27) = WriteText(ReadRow(4))
         
         'Store next old values
         NxtOldValues = ReadRow

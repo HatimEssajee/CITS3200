@@ -117,11 +117,26 @@ Public Function ArraysSame(ArrX As Variant, ArrY As Variant) As Boolean
 End Function
 
 Public Function ReadDate(dstr As String) As String
-
+    
+    'PURPOSE: Check date fields are valid dates and not numbers when read from excel table
     If IsDate(dstr) Then
        dstr = Format(dstr, "dd-mmm-yyyy")
     End If
     
     ReadDate = dstr
+    
+End Function
+
+Public Function WriteText(Field As Variant) As String
+    
+    Dim str As String
+    'PURPOSE: Check field is a number and add an apostrophe infront to store as text when written into userform
+    If IsNumeric(Field) Then
+        str = "'" & CStr(Field)
+    Else
+        str = CStr(Field)
+    End If
+    
+    WriteText = str
     
 End Function

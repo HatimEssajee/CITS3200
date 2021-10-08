@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form09_Indemnity 
    Caption         =   "Indemnity Review"
    ClientHeight    =   5400
-   ClientLeft      =   -576
-   ClientTop       =   -2352
-   ClientWidth     =   9312.001
+   ClientLeft      =   -570
+   ClientTop       =   -2355
+   ClientWidth     =   9300.001
    OleObjectBlob   =   "form09_Indemnity.frx":0000
 End
 Attribute VB_Name = "form09_Indemnity"
@@ -251,7 +251,7 @@ Private Sub UpdateRegister()
         .Range(105) = ReadRow(1)
         .Range(106) = ReadRow(2)
         .Range(107) = ReadRow(3)
-        .Range(108) = ReadRow(4)
+        .Range(108) = WriteText(ReadRow(4))
         
         'Store next old values
         NxtOldValues = ReadRow

@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form11_FinDisc 
    Caption         =   "Financial Disclosure"
    ClientHeight    =   7212
-   ClientLeft      =   -564
-   ClientTop       =   -2268
-   ClientWidth     =   13392
+   ClientLeft      =   -570
+   ClientTop       =   -2265
+   ClientWidth     =   13395
    OleObjectBlob   =   "form11_FinDisc.frx":0000
 End
 Attribute VB_Name = "form11_FinDisc"
@@ -200,7 +200,7 @@ Private Sub UpdateRegister()
         
         'Write to Register Table
         .Range(121) = ReadRow(1)
-        .Range(122) = ReadRow(2)
+        .Range(122) = WriteText(ReadRow(2))
         
         'Store next old values
         NxtOldValues = ReadRow

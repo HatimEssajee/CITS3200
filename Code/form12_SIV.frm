@@ -2,7 +2,7 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form12_SIV 
    Caption         =   "Site Initiation Visit"
    ClientHeight    =   6420
-   ClientLeft      =   -492
+   ClientLeft      =   -495
    ClientTop       =   -2160
    ClientWidth     =   14100
    OleObjectBlob   =   "form12_SIV.frx":0000
@@ -200,7 +200,7 @@ Private Sub UpdateRegister()
         
         'Write to Register table
         .Range(125) = ReadRow(1)
-        .Range(126) = ReadRow(2)
+        .Range(126) = WriteText(ReadRow(2))
         
         'Store next old values
         NxtOldValues = ReadRow

@@ -3,8 +3,8 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form08_Budget
    Caption         =   "Budget Review"
    ClientHeight    =   5508
    ClientLeft      =   -420
-   ClientTop       =   -2088
-   ClientWidth     =   8748.001
+   ClientTop       =   -2085
+   ClientWidth     =   8745.001
    OleObjectBlob   =   "form08_Budget.frx":0000
 End
 Attribute VB_Name = "form08_Budget"
@@ -362,14 +362,14 @@ Private Sub UpdateRegister()
         .Range(94) = ReadRow(1)
         .Range(95) = ReadRow(2)
         .Range(96) = ReadRow(3)
-        .Range(97) = ReadRow(4)
+        .Range(97) = WriteText(ReadRow(4))
         
         .Range(98) = ReadRow(5)
-        .Range(99) = ReadRow(6)
+        .Range(99) = WriteText(ReadRow(6))
         
         .Range(100) = ReadRow(7)
         .Range(101) = ReadRow(8)
-        .Range(102) = ReadRow(9)
+        .Range(102) = WriteText(ReadRow(9))
         
         'Store next old values
         NxtOldValues = ReadRow

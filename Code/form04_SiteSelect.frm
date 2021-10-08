@@ -2,8 +2,8 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form04_SiteSelect 
    Caption         =   "Site Selection"
    ClientHeight    =   6492
-   ClientLeft      =   -504
-   ClientTop       =   -2136
+   ClientLeft      =   -510
+   ClientTop       =   -2130
    ClientWidth     =   12600
    OleObjectBlob   =   "form04_SiteSelect.frx":0000
 End
@@ -275,7 +275,7 @@ Private Sub UpdateRegister()
         .Range(32) = ReadRow(3)
         .Range(33) = ReadRow(4)
         .Range(34) = ReadRow(5)
-        .Range(35) = ReadRow(6)
+        .Range(35) = WriteText(ReadRow(6))
          
         'Store next old values
         NxtOldValues = ReadRow

@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form07_Governance 
    Caption         =   "Governance Review"
    ClientHeight    =   6540
-   ClientLeft      =   -552
-   ClientTop       =   -2484
-   ClientWidth     =   10584
+   ClientLeft      =   -555
+   ClientTop       =   -2490
+   ClientWidth     =   10590
    OleObjectBlob   =   "form07_Governance.frx":0000
 End
 Attribute VB_Name = "form07_Governance"
@@ -772,38 +772,38 @@ Private Sub UpdateRegister()
         .Range(63) = ReadRow(1)
         .Range(64) = ReadRow(2)
         .Range(65) = ReadRow(3)
-        .Range(66) = ReadRow(4)
+        .Range(66) = WriteText(ReadRow(4))
         
         .Range(67) = ReadRow(5)
         .Range(68) = ReadRow(6)
         .Range(69) = ReadRow(7)
-        .Range(70) = ReadRow(8)
+        .Range(70) = WriteText(ReadRow(8))
         
         .Range(71) = ReadRow(9)
         .Range(72) = ReadRow(10)
         .Range(73) = ReadRow(11)
-        .Range(74) = ReadRow(12)
+        .Range(74) = WriteText(ReadRow(12))
         
         .Range(75) = ReadRow(13)
         .Range(76) = ReadRow(14)
         .Range(77) = ReadRow(15)
-        .Range(78) = ReadRow(16)
+        .Range(78) = WriteText(ReadRow(16))
         
         .Range(79) = ReadRow(17)
         .Range(80) = ReadRow(18)
         .Range(81) = ReadRow(19)
-        .Range(82) = ReadRow(20)
+        .Range(82) = WriteText(ReadRow(20))
         
         .Range(83) = ReadRow(21)
         .Range(84) = ReadRow(22)
         .Range(85) = ReadRow(23)
-        .Range(86) = ReadRow(24)
+        .Range(86) = WriteText(ReadRow(24))
     
-        .Range(87) = ReadRow(25)
+        .Range(87) = WriteText(ReadRow(25))
         .Range(88) = ReadRow(26)
         .Range(89) = ReadRow(27)
         .Range(90) = ReadRow(28)
-        .Range(91) = ReadRow(29)
+        .Range(91) = WriteText(ReadRow(29))
         
         'Store next old values
         NxtOldValues = ReadRow
