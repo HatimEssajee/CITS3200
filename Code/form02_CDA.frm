@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form02_CDA 
    Caption         =   "CDA"
-   ClientHeight    =   5376
-   ClientLeft      =   -450
-   ClientTop       =   -1950
-   ClientWidth     =   10110
+   ClientHeight    =   4296
+   ClientLeft      =   -456
+   ClientTop       =   -2040
+   ClientWidth     =   8076
    OleObjectBlob   =   "form02_CDA.frx":0000
 End
 Attribute VB_Name = "form02_CDA"
@@ -339,7 +339,7 @@ Private Sub Fill_Completion_Status()
     'PURPOSE: Evaluate entry completion status
     
     Dim db As Range
-    Dim ReadRow As Variant
+    Dim ReadRow(1 To 5) As Variant
     Dim i As Integer, cntTrue As Integer, cntEmpty As Integer
     
     'Turn off Settings to speed up
@@ -357,7 +357,10 @@ Private Sub Fill_Completion_Status()
     Set db = RegTable.DataBodyRange
     
     'Tranpose twice to get 1D Array
-    ReadRow = Application.Transpose(Application.Transpose(Range(db.Cells(RowIndex, 16), db.Cells(RowIndex, 20))))
+    For i = 1 To 5
+        ReadRow(i) = db.Cells(RowIndex, 15 + i).Value
+    Next i
+    'ReadRow = Application.Transpose(Application.Transpose(Range(db.Cells(RowIndex, 16), db.Cells(RowIndex, 20))))
                    
     'Apply correct test on each field
     For i = LBound(ReadRow) To UBound(ReadRow)
@@ -390,7 +393,9 @@ Private Sub Fill_Completion_Status()
         End If
     Next i
     
-    If cntEmpty = 5 Then
+    If cntEmpty = 5 And db.Cells(RowIndex, 21).Value <> vbNullString Then
+        db.Cells(RowIndex, 130) = False
+    ElseIf cntEmpty = 5 Then
         db.Cells(RowIndex, 130) = vbNullString
     ElseIf cntTrue = 5 Then
         db.Cells(RowIndex, 130) = True

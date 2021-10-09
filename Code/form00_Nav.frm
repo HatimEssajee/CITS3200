@@ -3,8 +3,8 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form00_Nav
    Caption         =   "Vaccine Trial Study Start-ups"
    ClientHeight    =   9024.001
    ClientLeft      =   -60
-   ClientTop       =   -450
-   ClientWidth     =   12945
+   ClientTop       =   -456
+   ClientWidth     =   12948
    OleObjectBlob   =   "form00_Nav.frx":0000
 End
 Attribute VB_Name = "form00_Nav"
@@ -536,6 +536,7 @@ Private Sub Fill_Completion_Status()
     
     'Recruitment
     'Criteria - has to be date
+    If db.Cells(RowIndex, 39) <> vbNullString Then ReadRow(32) = False
     db.Cells(RowIndex, 133) = ReadRow(32)
     
     

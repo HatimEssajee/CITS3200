@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form05_Recruitment 
    Caption         =   "Recruitment Plan"
    ClientHeight    =   6384
-   ClientLeft      =   -510
-   ClientTop       =   -2250
-   ClientWidth     =   11190
+   ClientLeft      =   -516
+   ClientTop       =   -2256
+   ClientWidth     =   11196
    OleObjectBlob   =   "form05_Recruitment.frx":0000
 End
 Attribute VB_Name = "form05_Recruitment"
@@ -235,7 +235,7 @@ Private Sub Fill_Completion_Status()
     'PURPOSE: Evaluate entry completion status
     
     Dim db As Range
-    Dim ReadRow As Variant
+    Dim ReadRow(1 To 2) As Variant
     Dim i As Integer, cntTrue As Integer, cntEmpty As Integer
     
     'Turn off Settings to speed up
@@ -252,18 +252,23 @@ Private Sub Fill_Completion_Status()
     
     Set db = RegTable.DataBodyRange
     
-    ReadRow = db.Cells(RowIndex, 38)
+    For i = 1 To 2
+        ReadRow(i) = db.Cells(RowIndex, 37 + i).Value
+    Next i
+    'ReadRow = Application.Transpose(Application.Transpose(db.Range(Cells(RowIndex, 38), Cells(RowIndex, 39))))
     
     'Apply test for completeness
-    If ReadRow <> vbNullString Then
-        ReadRow = IsDate(Format(ReadRow, "dd-mmm-yyyy"))
+    If ReadRow(1) <> vbNullString Then
+        ReadRow(1) = IsDate(Format(ReadRow, "dd-mmm-yyyy"))
+    ElseIf ReadRow(2) <> vbNullString Then
+        ReadRow(1) = False
     End If
     
     'Completion status
     
     'Recruitment
     'Criteria - has to be date
-    db.Cells(RowIndex, 133) = ReadRow
+    db.Cells(RowIndex, 133) = ReadRow(1)
    
 ErrHandler:
     'Reinstate Settings

@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form08_Budget 
    Caption         =   "Budget Review"
-   ClientHeight    =   5508
-   ClientLeft      =   -420
-   ClientTop       =   -2085
-   ClientWidth     =   8745.001
+   ClientHeight    =   4404
+   ClientLeft      =   -432
+   ClientTop       =   -2184
+   ClientWidth     =   6996
    OleObjectBlob   =   "form08_Budget.frx":0000
 End
 Attribute VB_Name = "form08_Budget"
@@ -405,7 +405,7 @@ Private Sub Fill_Completion_Status()
     'PURPOSE: Evaluate entry completion status
     
     Dim db As Range
-    Dim ReadRow As Variant
+    Dim ReadRow(1 To 8) As Variant
     Dim i As Integer, cntTrue As Integer, cntEmpty As Integer
     
     'Turn off Settings to speed up
@@ -423,7 +423,10 @@ Private Sub Fill_Completion_Status()
     Set db = RegTable.DataBodyRange
     
     'Tranpose twice to get 1D Array
-    ReadRow = Application.Transpose(Application.Transpose(Range(db.Cells(RowIndex, 94), db.Cells(RowIndex, 101))))
+    For i = 1 To 8
+        ReadRow(i) = db.Cells(RowIndex, 93 + i).Value
+    Next i
+    'ReadRow = Application.Transpose(Application.Transpose(Range(db.Cells(RowIndex, 94), db.Cells(RowIndex, 101))))
                    
     'Apply correct test on each field
     For i = LBound(ReadRow) To UBound(ReadRow)
@@ -457,7 +460,9 @@ Private Sub Fill_Completion_Status()
         End If
     Next i
     
-    If cntEmpty = 3 Then
+    If cntEmpty = 3 And db.Cells(RowIndex, 97).Value <> vbNullString Then
+        db.Cells(RowIndex, 146) = False
+    ElseIf cntEmpty = 3 Then
         db.Cells(RowIndex, 146) = vbNullString
     ElseIf cntTrue = 3 Then
         db.Cells(RowIndex, 146) = True
@@ -467,6 +472,10 @@ Private Sub Fill_Completion_Status()
     
     'TKI Budget
     'Criteria - has to be date
+    
+    If db.Cells(RowIndex, 99).Value <> vbNullString Then
+        ReadRow(5) = False
+    End If
     db.Cells(RowIndex, 147) = ReadRow(5)
     
     
@@ -482,7 +491,9 @@ Private Sub Fill_Completion_Status()
         End If
     Next i
     
-    If cntEmpty = 2 Then
+    If cntEmpty = 2 And db.Cells(RowIndex, 102).Value <> vbNullString Then
+        db.Cells(RowIndex, 148) = False
+    ElseIf cntEmpty = 2 Then
         db.Cells(RowIndex, 148) = vbNullString
     ElseIf cntTrue = 2 Then
         db.Cells(RowIndex, 148) = True

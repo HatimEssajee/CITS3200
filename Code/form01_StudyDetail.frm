@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form01_StudyDetail 
    Caption         =   "Study Details"
    ClientHeight    =   5520
-   ClientLeft      =   -465
-   ClientTop       =   -2010
-   ClientWidth     =   8535.001
+   ClientLeft      =   -468
+   ClientTop       =   -2016
+   ClientWidth     =   8532.001
    OleObjectBlob   =   "form01_StudyDetail.frx":0000
 End
 Attribute VB_Name = "form01_StudyDetail"
@@ -242,7 +242,7 @@ Private Sub Fill_Completion_Status()
     'PURPOSE: Evaluate entry completion status
     
     Dim db As Range
-    Dim ReadRow As Variant
+    Dim ReadRow(1 To 5) As Variant
     Dim i As Integer, cntTrue As Integer, cntEmpty As Integer
     
     'Turn off Settings to speed up
@@ -260,7 +260,10 @@ Private Sub Fill_Completion_Status()
     Set db = RegTable.DataBodyRange
     
     'Tranpose twice to get 1D Array
-    ReadRow = Application.Transpose(Application.Transpose(Range(db.Cells(RowIndex, 8), db.Cells(RowIndex, 12))))
+    For i = 1 To 5
+        ReadRow(i) = db.Cells(RowIndex, 7 + i).Value
+    Next i
+    'ReadRow = Application.Transpose(Application.Transpose(Range(db.Cells(RowIndex, 8), db.Cells(RowIndex, 12))))
                     
     'Apply correct test on each field
     For i = LBound(ReadRow) To UBound(ReadRow)

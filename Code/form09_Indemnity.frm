@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form09_Indemnity 
    Caption         =   "Indemnity Review"
    ClientHeight    =   5400
-   ClientLeft      =   -570
-   ClientTop       =   -2355
-   ClientWidth     =   9300.001
+   ClientLeft      =   -576
+   ClientTop       =   -2352
+   ClientWidth     =   9312.001
    OleObjectBlob   =   "form09_Indemnity.frx":0000
 End
 Attribute VB_Name = "form09_Indemnity"
@@ -286,7 +286,7 @@ Private Sub Fill_Completion_Status()
     'PURPOSE: Evaluate entry completion status
     
     Dim db As Range
-    Dim ReadRow As Variant
+    Dim ReadRow(1 To 3) As Variant
     Dim i As Integer, cntTrue As Integer, cntEmpty As Integer
     
     'Turn off Settings to speed up
@@ -304,7 +304,10 @@ Private Sub Fill_Completion_Status()
     Set db = RegTable.DataBodyRange
     
     'Tranpose twice to get 1D Array
-    ReadRow = Application.Transpose(Application.Transpose(Range(db.Cells(RowIndex, 105), db.Cells(RowIndex, 107))))
+    For i = 1 To 3
+        ReadRow(i) = db.Cells(RowIndex, 104 + i).Value
+    Next i
+    'ReadRow = Application.Transpose(Application.Transpose(Range(db.Cells(RowIndex, 105), db.Cells(RowIndex, 107))))
                    
     'Apply correct test on each field
     For i = LBound(ReadRow) To UBound(ReadRow)
@@ -338,7 +341,9 @@ Private Sub Fill_Completion_Status()
         End If
     Next i
     
-    If cntEmpty = 3 Then
+    If cntEmpty = 3 And db.Cells(RowIndex, 108).Value <> vbNullString Then
+        db.Cells(RowIndex, 149) = False
+    ElseIf cntEmpty = 3 Then
         db.Cells(RowIndex, 149) = vbNullString
     ElseIf cntTrue = 3 Then
         db.Cells(RowIndex, 149) = True

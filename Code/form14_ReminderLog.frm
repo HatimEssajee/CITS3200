@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form14_ReminderLog 
    Caption         =   "Reminder Log"
-   ClientHeight    =   10350
-   ClientLeft      =   -390
-   ClientTop       =   -1815
-   ClientWidth     =   25920
+   ClientHeight    =   8268.001
+   ClientLeft      =   -396
+   ClientTop       =   -1812
+   ClientWidth     =   25932
    OleObjectBlob   =   "form14_ReminderLog.frx":0000
 End
 Attribute VB_Name = "form14_ReminderLog"
@@ -82,10 +82,26 @@ Private Sub UserForm_Initialize()
     Me.remRecruitment.Value = ReadRow(1, 39)
 
     Me.remCAHS_Ethics.Value = ReadRow(1, 46)
+    
+    'Swap caption if Ethics committee known
+    If ReadRow(1, 47) <> vbNullString Then
+        Me.lblRLNMA_Ethics.Caption = ReadRow(1, 47)
+    Else
+        Me.lblRLNMA_Ethics.Caption = "NMA"
+    End If
+    
+    
     Me.remNMA_Ethics.Value = ReadRow(1, 50)
     Me.remWNHS_Ethics.Value = ReadRow(1, 53)
     Me.remSJOG_Ethics.Value = ReadRow(1, 56)
     Me.remOthers_Ethics.Value = ReadRow(1, 60)
+    
+    'Swap caption if Ethics committee known
+    If ReadRow(1, 57) <> vbNullString Then
+        Me.lblRLOthers_Ethics.Caption = ReadRow(1, 57)
+    Else
+        Me.lblRLOthers_Ethics.Caption = "Other"
+    End If
     
     Me.remPCH_Gov.Value = ReadRow(1, 66)
     Me.remTKI_Gov.Value = ReadRow(1, 70)
@@ -93,6 +109,14 @@ Private Sub UserForm_Initialize()
     Me.remSJOG_S_Gov.Value = ReadRow(1, 78)
     Me.remSJOG_L_Gov.Value = ReadRow(1, 82)
     Me.remSJOG_M_Gov.Value = ReadRow(1, 86)
+    
+    'Swap caption if Ethics committee known
+    If ReadRow(1, 87) <> vbNullString Then
+        Me.lblRLOthers_Gov.Caption = ReadRow(1, 87)
+    Else
+        Me.lblRLOthers_Gov.Caption = "Other"
+    End If
+        
     Me.remOthers_Gov.Value = ReadRow(1, 91)
 
     Me.remVTG_Budget.Value = ReadRow(1, 97)
@@ -107,175 +131,271 @@ Private Sub UserForm_Initialize()
 
     Me.remSIV.Value = ReadRow(1, 126)
 
-
+    
     'Assess stage status
     
     'Study Details
     If ReadRow(1, 129) Then
-        Me.remStudyDetails.BackColor = &H80FF80
+        Me.compStudyDetails.Visible = True
+        Me.compStudyDetails.BackColor = &H80FF80
+        Me.compStudyDetails.Caption = "Sponsor, CRO, Protocol & Age Range filled"
     Else
-        Me.remStudyDetails.BackColor = &H80000005
+        Me.compStudyDetails.Visible = False
+        'Me.compStudyDetails.BackColor = &H80000005
+        'Me.compStudyDetails.Caption = vbNullString
     End If
     
     'CDA
     If ReadRow(1, 130) Then
-        Me.remCDA.BackColor = &H80FF80
+        Me.compCDA.Visible = True
+        Me.compCDA.BackColor = &H80FF80
+        Me.compCDA.Caption = "Date Finalised = " & Format(ReadRow(1, 20), "DD-MMM-YYYY")
     Else
-        Me.remCDA.BackColor = &H80000005
+        Me.compCDA.Visible = False
+        'Me.compCDA.BackColor = &H80000005
+        'Me.compCDA.Caption = vbNullString
     End If
     
     'Feasibility
     If ReadRow(1, 131) Then
-        Me.remFS.BackColor = &H80FF80
+        Me.compFS.Visible = True
+        Me.compFS.BackColor = &H80FF80
+        Me.compFS.Caption = "Date Completed = " & Format(ReadRow(1, 25), "DD-MMM-YYYY")
     Else
-        Me.remFS.BackColor = &H80000005
+        Me.compFS.Visible = False
+        'Me.compFS.BackColor = &H80000005
+        'Me.compFS.Caption = vbNullString
     End If
     
     'Site Selection
     If ReadRow(1, 132) Then
-        Me.remSiteSelect.BackColor = &H80FF80
+        Me.compSiteSelect.Visible = True
+        Me.compSiteSelect.BackColor = &H80FF80
+        Me.compSiteSelect.Caption = "Site Selected = " & Format(ReadRow(1, 34), "DD-MMM-YYYY")
     Else
-        Me.remSiteSelect.BackColor = &H80000005
+        Me.compSiteSelect.Visible = False
+        'Me.compSiteSelect.BackColor = &H80000005
+        'Me.compSiteSelect.Caption = vbNullString
     End If
     
     'Recruitment
     If ReadRow(1, 133) Then
-        Me.remRecruitment.BackColor = &H80FF80
+        Me.compRecruitment.Visible = True
+        Me.compRecruitment.BackColor = &H80FF80
+        Me.compRecruitment.Caption = "Planning Date = " & Format(ReadRow(1, 38), "DD-MMM-YYYY")
     Else
-        Me.remRecruitment.BackColor = &H80000005
+        Me.compRecruitment.Visible = False
+        'Me.compRecruitment.BackColor = &H80000005
+        'Me.compRecruitment.Caption = vbNullString
     End If
     
     'CAHS Ethics
     If ReadRow(1, 134) Then
-        Me.remCAHS_Ethics.BackColor = &H80FF80
+        Me.compCAHS_Ethics.Visible = True
+        Me.compCAHS_Ethics.BackColor = &H80FF80
+        Me.compCAHS_Ethics.Caption = "Date Approved = " & Format(ReadRow(1, 45), "DD-MMM-YYYY")
     Else
-        Me.remCAHS_Ethics.BackColor = &H80000005
+        Me.compCAHS_Ethics.Visible = False
+        'Me.compCAHS_Ethics.BackColor = &H80000005
+        'Me.compCAHS_Ethics.Caption = vbNullString
     End If
     
     'NMA Ethics
     If ReadRow(1, 135) Then
-        Me.remNMA_Ethics.BackColor = &H80FF80
+        Me.compNMA_Ethics.Visible = True
+        Me.compNMA_Ethics.BackColor = &H80FF80
+        Me.compNMA_Ethics.Caption = "Date Approved = " & Format(ReadRow(1, 49), "DD-MMM-YYYY")
     Else
-        Me.remNMA_Ethics.BackColor = &H80000005
+        Me.compNMA_Ethics.Visible = False
+        'Me.compNMA_Ethics.BackColor = &H80000005
+        'Me.compNMA_Ethics.Caption = vbNullString
     End If
     
     'WNHS Ethics
     If ReadRow(1, 136) Then
-        Me.remWNHS_Ethics.BackColor = &H80FF80
+        Me.compWNHS_Ethics.Visible = True
+        Me.compWNHS_Ethics.BackColor = &H80FF80
+        Me.compWNHS_Ethics.Caption = "Date Approved = " & Format(ReadRow(1, 52), "DD-MMM-YYYY")
     Else
-        Me.remWNHS_Ethics.BackColor = &H80000005
+        Me.compWNHS_Ethics.Visible = False
+        'Me.compWNHS_Ethics.BackColor = &H80000005
+        'Me.compWNHS_Ethics.Caption = vbNullString
     End If
     
     'SJOG Ethics
     If ReadRow(1, 137) Then
-        Me.remSJOG_Ethics.BackColor = &H80FF80
+        Me.compSJOG_Ethics.Visible = True
+        Me.compSJOG_Ethics.BackColor = &H80FF80
+        Me.compSJOG_Ethics.Caption = "Date Approved = " & Format(ReadRow(1, 55), "DD-MMM-YYYY")
     Else
-        Me.remSJOG_Ethics.BackColor = &H80000005
+        Me.compSJOG_Ethics.Visible = False
+        'Me.compSJOG_Ethics.BackColor = &H80000005
+        'Me.compSJOG_Ethics.Caption = vbNullString
     End If
     
     'Others Ethics
     If ReadRow(1, 138) Then
-        Me.remOthers_Ethics.BackColor = &H80FF80
+        Me.compOthers_Ethics.Visible = True
+        Me.compOthers_Ethics.BackColor = &H80FF80
+        Me.compOthers_Ethics.Caption = "Date Approved = " & Format(ReadRow(1, 59), "DD-MMM-YYYY")
     Else
-        Me.remOthers_Ethics.BackColor = &H80000005
+        Me.compOthers_Ethics.Visible = False
+        'Me.compOthers_Ethics.BackColor = &H80000005
+        'Me.compOthers_Ethics.Caption = vbNullString
     End If
     
     'PCH Governance
     If ReadRow(1, 139) Then
-        Me.remPCH_Gov.BackColor = &H80FF80
+        Me.compPCH_Gov.Visible = True
+        Me.compPCH_Gov.BackColor = &H80FF80
+        Me.compPCH_Gov.Caption = "Date Approved = " & Format(ReadRow(1, 65), "DD-MMM-YYYY")
     Else
-        Me.remPCH_Gov.BackColor = &H80000005
+        Me.compPCH_Gov.Visible = False
+        'Me.compPCH_Gov.BackColor = &H80000005
+        'Me.compPCH_Gov.Caption = vbNullString
     End If
     
     'TKI Governance
     If ReadRow(1, 140) Then
-        Me.remTKI_Gov.BackColor = &H80FF80
+        Me.compTKI_Gov.Visible = True
+        Me.compTKI_Gov.BackColor = &H80FF80
+        Me.compTKI_Gov.Caption = "Date Approved = " & Format(ReadRow(1, 69), "DD-MMM-YYYY")
     Else
-        Me.remTKI_Gov.BackColor = &H80000005
+        Me.compTKI_Gov.Visible = False
+        'Me.compTKI_Gov.BackColor = &H80000005
+        'Me.compTKI_Gov.Caption = vbNullString
     End If
     
     'KEMH Governance
     If ReadRow(1, 141) Then
-        Me.remKEMH_Gov.BackColor = &H80FF80
+        Me.compKEMH_Gov.Visible = True
+        Me.compKEMH_Gov.BackColor = &H80FF80
+        Me.compKEMH_Gov.Caption = "Date Approved = " & Format(ReadRow(1, 73), "DD-MMM-YYYY")
     Else
-        Me.remKEMH_Gov.BackColor = &H80000005
+        Me.compKEMH_Gov.Visible = False
+        'Me.compKEMH_Gov.BackColor = &H80000005
+        'Me.compKEMH_Gov.Caption = vbNullString
     End If
     
     'SJOG_S Governance
     If ReadRow(1, 142) Then
-        Me.remSJOG_S_Gov.BackColor = &H80FF80
+        Me.compSJOG_S_Gov.Visible = True
+        Me.compSJOG_S_Gov.BackColor = &H80FF80
+        Me.compSJOG_S_Gov.Caption = "Date Approved = " & Format(ReadRow(1, 77), "DD-MMM-YYYY")
     Else
-        Me.remSJOG_S_Gov.BackColor = &H80000005
+        Me.compSJOG_S_Gov.Visible = False
+        'Me.compSJOG_S_Gov.BackColor = &H80000005
+        'Me.compSJOG_S_Gov.Caption = vbNullString
     End If
     
     'SJOG_L Governance
     If ReadRow(1, 143) Then
-        Me.remSJOG_L_Gov.BackColor = &H80FF80
+        Me.compSJOG_L_Gov.Visible = True
+        Me.compSJOG_L_Gov.BackColor = &H80FF80
+        Me.compSJOG_L_Gov.Caption = "Date Approved = " & Format(ReadRow(1, 81), "DD-MMM-YYYY")
     Else
-        Me.remSJOG_L_Gov.BackColor = &H80000005
+        Me.compSJOG_L_Gov.Visible = False
+        'Me.compSJOG_L_Gov.BackColor = &H80000005
+        'Me.compSJOG_L_Gov.Caption = vbNullString
     End If
     
     'SJOG_M Governance
     If ReadRow(1, 144) Then
-        Me.remSJOG_M_Gov.BackColor = &H80FF80
+        Me.compSJOG_M_Gov.Visible = True
+        Me.compSJOG_M_Gov.BackColor = &H80FF80
+        Me.compSJOG_M_Gov.Caption = "Date Approved = " & Format(ReadRow(1, 85), "DD-MMM-YYYY")
     Else
-        Me.remSJOG_M_Gov.BackColor = &H80000005
+        Me.compSJOG_M_Gov.Visible = False
+        'Me.compSJOG_M_Gov.BackColor = &H80000005
+        'Me.compSJOG_M_Gov.Caption = vbNullString
     End If
     
     'Others Governance
     If ReadRow(1, 145) Then
-        Me.remOthers_Gov.BackColor = &H80FF80
+        Me.compOthers_Gov.Visible = True
+        Me.compOthers_Gov.BackColor = &H80FF80
+        Me.compOthers_Gov.Caption = "Date Approved = " & Format(ReadRow(1, 90), "DD-MMM-YYYY")
     Else
-        Me.remOthers_Gov.BackColor = &H80000005
+        Me.compOthers_Gov.Visible = False
+        'Me.compOthers_Gov.BackColor = &H80000005
+        'Me.compOthers_Gov.Caption = vbNullString
     End If
     
     'VTG Budget
     If ReadRow(1, 146) Then
-        Me.remVTG_Budget.BackColor = &H80FF80
+        Me.compVTG_Budget.Visible = True
+        Me.compVTG_Budget.BackColor = &H80FF80
+        Me.compVTG_Budget.Caption = "Date Approved = " & Format(ReadRow(1, 96), "DD-MMM-YYYY")
     Else
-        Me.remVTG_Budget.BackColor = &H80000005
+        Me.compVTG_Budget.Visible = False
+        'Me.compVTG_Budget.BackColor = &H80000005
+        'Me.compVTG_Budget.Caption = vbNullString
     End If
     
     'TKI Budget
     If ReadRow(1, 147) Then
-        Me.remTKI_Budget.BackColor = &H80FF80
+        Me.compTKI_Budget.Visible = True
+        Me.compTKI_Budget.BackColor = &H80FF80
+        Me.compTKI_Budget.Caption = "Date Approved = " & Format(ReadRow(1, 98), "DD-MMM-YYYY")
     Else
-        Me.remTKI_Budget.BackColor = &H80000005
+        Me.compTKI_Budget.Visible = False
+        'Me.compTKI_Budget.BackColor = &H80000005
+        'Me.compTKI_Budget.Caption = vbNullString
     End If
     
     'Pharmacy Budget
     If ReadRow(1, 148) Then
-        Me.remPharm_Budget.BackColor = &H80FF80
+        Me.compPharm_Budget.Visible = True
+        Me.compPharm_Budget.BackColor = &H80FF80
+        Me.compPharm_Budget.Caption = "PO Finalised = " & Format(ReadRow(1, 101), "DD-MMM-YYYY")
     Else
-        Me.remPharm_Budget.BackColor = &H80000005
+        Me.compPharm_Budget.Visible = False
+        'Me.compPharm_Budget.BackColor = &H80000005
+        'Me.compPharm_Budget.Caption = vbNullString
     End If
     
     'Indemnity
     If ReadRow(1, 149) Then
-        Me.remIndemnity.BackColor = &H80FF80
+        Me.compIndemnity.Visible = True
+        Me.compIndemnity.BackColor = &H80FF80
+        Me.compIndemnity.Caption = "Date Completed = " & Format(ReadRow(1, 107), "DD-MMM-YYYY")
     Else
-        Me.remIndemnity.BackColor = &H80000005
+        Me.compIndemnity.Visible = False
+        Me.compIndemnity.BackColor = &H80000005
+        Me.compIndemnity.Caption = vbNullString
     End If
     
     'CTRA
     If ReadRow(1, 150) Then
-        Me.remCTRA.BackColor = &H80FF80
+        Me.compCTRA.Visible = True
+        Me.compCTRA.BackColor = &H80FF80
+        Me.compCTRA.Caption = "Date Finalised = " & Format(ReadRow(1, 117), "DD-MMM-YYYY")
     Else
-        Me.remCTRA.BackColor = &H80000005
+        Me.compCTRA.Visible = False
+        'Me.compCTRA.BackColor = &H80000005
+        'Me.compCTRA.Caption = vbNullString
     End If
 
     'Financial Disclosure
     If ReadRow(1, 151) Then
-        Me.remFinDisc.BackColor = &H80FF80
+        Me.compFinDisc.Visible = True
+        Me.compFinDisc.BackColor = &H80FF80
+        Me.compFinDisc.Caption = "Date Completed = " & Format(ReadRow(1, 121), "DD-MMM-YYYY")
     Else
-        Me.remFinDisc.BackColor = &H80000005
+        Me.compFinDisc.Visible = False
+        'Me.compFinDisc.BackColor = &H80000005
+        'Me.compFinDisc.Caption = vbNullString
     End If
 
     'Site Initiation Visit
     If ReadRow(1, 152) Then
-        Me.remSIV.BackColor = &H80FF80
+        Me.compSIV.Visible = True
+        Me.compSIV.BackColor = &H80FF80
+        Me.compSIV.Caption = "SIV Date = " & Format(ReadRow(1, 125), "DD-MMM-YYYY")
     Else
-        Me.remSIV.BackColor = &H80000005
+        Me.compSIV.Visible = False
+        'Me.compSIV.BackColor = &H80000005
+        'Me.compSIV.Caption = vbNullString
     End If
     
     'Reinstate Settings

@@ -2,8 +2,8 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form04_SiteSelect 
    Caption         =   "Site Selection"
    ClientHeight    =   6492
-   ClientLeft      =   -510
-   ClientTop       =   -2130
+   ClientLeft      =   -504
+   ClientTop       =   -2136
    ClientWidth     =   12600
    OleObjectBlob   =   "form04_SiteSelect.frx":0000
 End
@@ -309,7 +309,7 @@ Private Sub Fill_Completion_Status()
     'PURPOSE: Evaluate entry completion status
     
     Dim db As Range
-    Dim ReadRow As Variant
+    Dim ReadRow(1 To 5) As Variant
     Dim i As Integer, cntTrue As Integer, cntEmpty As Integer
     
     'Turn off Settings to speed up
@@ -327,7 +327,10 @@ Private Sub Fill_Completion_Status()
     Set db = RegTable.DataBodyRange
     
     'Tranpose twice to get 1D Array
-    ReadRow = Application.Transpose(Application.Transpose(Range(db.Cells(RowIndex, 30), db.Cells(RowIndex, 34))))
+    For i = 1 To 5
+        ReadRow(i) = db.Cells(RowIndex, 29 + i).Value
+    Next i
+    'ReadRow = Application.Transpose(Application.Transpose(Range(db.Cells(RowIndex, 30), db.Cells(RowIndex, 34))))
                    
     'Apply correct test on each field
     For i = LBound(ReadRow) To UBound(ReadRow)
@@ -361,7 +364,9 @@ Private Sub Fill_Completion_Status()
         End If
     Next i
     
-    If cntEmpty = 5 Then
+    If cntEmpty = 5 And db.Cells(RowIndex, 35).Value <> vbNullString Then
+        db.Cells(RowIndex, 132) = False
+    ElseIf cntEmpty = 5 Then
         db.Cells(RowIndex, 132) = vbNullString
     ElseIf cntTrue = 5 Then
         db.Cells(RowIndex, 132) = True

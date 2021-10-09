@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form12_SIV 
    Caption         =   "Site Initiation Visit"
-   ClientHeight    =   6420
-   ClientLeft      =   -495
-   ClientTop       =   -2160
-   ClientWidth     =   14100
+   ClientHeight    =   5136
+   ClientLeft      =   -516
+   ClientTop       =   -2244
+   ClientWidth     =   11280
    OleObjectBlob   =   "form12_SIV.frx":0000
 End
 Attribute VB_Name = "form12_SIV"
@@ -258,7 +258,7 @@ Private Sub Fill_Completion_Status()
     'PURPOSE: Evaluate entry completion status
     
     Dim db As Range
-    Dim ReadRow As Variant
+    Dim ReadRow(1 To 2) As Variant
     Dim i As Integer, cntTrue As Integer, cntEmpty As Integer
     
     'Turn off Settings to speed up
@@ -275,18 +275,23 @@ Private Sub Fill_Completion_Status()
     
     Set db = RegTable.DataBodyRange
     
-    ReadRow = db.Cells(RowIndex, 125)
+    For i = 1 To 2
+        ReadRow(i) = db.Cells(RowIndex, 124 + i).Value
+    Next i
+    'ReadRow = db.Cells(RowIndex, 125)
     
     'Apply test for completeness
-    If ReadRow <> vbNullString Then
-        ReadRow = IsDate(Format(ReadRow, "dd-mmm-yyyy"))
+    If ReadRow(1) <> vbNullString Then
+        ReadRow(1) = IsDate(Format(ReadRow, "dd-mmm-yyyy"))
+    ElseIf ReadRow(2) <> vbNullString Then
+        ReadRow(1) = False
     End If
     
     'Completion status
     
     'SIV
     'Criteria - has to be date
-    db.Cells(RowIndex, 152) = ReadRow
+    db.Cells(RowIndex, 152) = ReadRow(1)
     
 ErrHandler:
     'Reinstate Settings

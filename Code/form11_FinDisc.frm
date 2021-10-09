@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form11_FinDisc 
    Caption         =   "Financial Disclosure"
    ClientHeight    =   7212
-   ClientLeft      =   -570
-   ClientTop       =   -2265
-   ClientWidth     =   13395
+   ClientLeft      =   -564
+   ClientTop       =   -2268
+   ClientWidth     =   13392
    OleObjectBlob   =   "form11_FinDisc.frx":0000
 End
 Attribute VB_Name = "form11_FinDisc"
@@ -235,7 +235,7 @@ Private Sub Fill_Completion_Status()
     'PURPOSE: Evaluate entry completion status
     
     Dim db As Range
-    Dim ReadRow As Variant
+    Dim ReadRow(1 To 2) As Variant
     Dim i As Integer, cntTrue As Integer, cntEmpty As Integer
     
     'Turn off Settings to speed up
@@ -252,18 +252,23 @@ Private Sub Fill_Completion_Status()
     
     Set db = RegTable.DataBodyRange
     
-    ReadRow = db.Cells(RowIndex, 121)
+    For i = 1 To 2
+        ReadRow(i) = db.Cells(RowIndex, 120 + i).Value
+    Next i
+    'ReadRow = db.Cells(RowIndex, 121)
     
     'Apply test for completeness
-    If ReadRow <> vbNullString Then
-        ReadRow = IsDate(Format(ReadRow, "dd-mmm-yyyy"))
+    If ReadRow(1) <> vbNullString Then
+        ReadRow(1) = IsDate(Format(ReadRow, "dd-mmm-yyyy"))
+    ElseIf ReadRow(2) <> vbNullString Then
+        ReadRow(1) = False
     End If
     
     'Completion status
     
     'Financial Disclosure
     'Criteria - has to be date
-    db.Cells(RowIndex, 151) = ReadRow
+    db.Cells(RowIndex, 151) = ReadRow(1)
     
 ErrHandler:
     'Reinstate Settings

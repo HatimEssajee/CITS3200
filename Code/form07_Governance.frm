@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form07_Governance 
    Caption         =   "Governance Review"
    ClientHeight    =   6540
-   ClientLeft      =   -555
-   ClientTop       =   -2490
-   ClientWidth     =   10590
+   ClientLeft      =   -552
+   ClientTop       =   -2484
+   ClientWidth     =   10584
    OleObjectBlob   =   "form07_Governance.frx":0000
 End
 Attribute VB_Name = "form07_Governance"
@@ -838,7 +838,7 @@ Private Sub Fill_Completion_Status()
     'PURPOSE: Evaluate entry completion status
     
     Dim db As Range
-    Dim ReadRow As Variant
+    Dim ReadRow(1 To 28) As Variant
     Dim i As Integer, cntTrue As Integer, cntEmpty As Integer
     
     'Turn off Settings to speed up
@@ -856,7 +856,10 @@ Private Sub Fill_Completion_Status()
     Set db = RegTable.DataBodyRange
     
     'Tranpose twice to get 1D Array
-    ReadRow = Application.Transpose(Application.Transpose(Range(db.Cells(RowIndex, 63), db.Cells(RowIndex, 90))))
+    For i = 1 To 28
+        ReadRow(i) = db.Cells(RowIndex, 62 + i).Value
+    Next i
+    'ReadRow = Application.Transpose(Application.Transpose(Range(db.Cells(RowIndex, 63), db.Cells(RowIndex, 90))))
                    
     'Apply correct test on each field
     For i = LBound(ReadRow) To UBound(ReadRow)
@@ -890,7 +893,9 @@ Private Sub Fill_Completion_Status()
         End If
     Next i
     
-    If cntEmpty = 3 Then
+    If cntEmpty = 3 And db.Cells(RowIndex, 66).Value <> vbNullString Then
+        db.Cells(RowIndex, 139) = False
+    ElseIf cntEmpty = 3 Then
         db.Cells(RowIndex, 139) = vbNullString
     ElseIf cntTrue = 3 Then
         db.Cells(RowIndex, 139) = True
@@ -910,7 +915,9 @@ Private Sub Fill_Completion_Status()
         End If
     Next i
     
-    If cntEmpty = 3 Then
+    If cntEmpty = 3 And db.Cells(RowIndex, 70).Value <> vbNullString Then
+        db.Cells(RowIndex, 140) = False
+    ElseIf cntEmpty = 3 Then
         db.Cells(RowIndex, 140) = vbNullString
     ElseIf cntTrue = 3 Then
         db.Cells(RowIndex, 140) = True
@@ -930,7 +937,9 @@ Private Sub Fill_Completion_Status()
         End If
     Next i
     
-    If cntEmpty = 3 Then
+    If cntEmpty = 3 And db.Cells(RowIndex, 74).Value <> vbNullString Then
+        db.Cells(RowIndex, 141) = False
+    ElseIf cntEmpty = 3 Then
         db.Cells(RowIndex, 141) = vbNullString
     ElseIf cntTrue = 3 Then
         db.Cells(RowIndex, 141) = True
@@ -950,7 +959,9 @@ Private Sub Fill_Completion_Status()
         End If
     Next i
     
-    If cntEmpty = 3 Then
+    If cntEmpty = 3 And db.Cells(RowIndex, 78).Value <> vbNullString Then
+        db.Cells(RowIndex, 142) = False
+    ElseIf cntEmpty = 3 Then
         db.Cells(RowIndex, 142) = vbNullString
     ElseIf cntTrue = 3 Then
         db.Cells(RowIndex, 142) = True
@@ -970,7 +981,9 @@ Private Sub Fill_Completion_Status()
         End If
     Next i
     
-    If cntEmpty = 3 Then
+    If cntEmpty = 3 And db.Cells(RowIndex, 82).Value <> vbNullString Then
+        db.Cells(RowIndex, 143) = False
+    ElseIf cntEmpty = 3 Then
         db.Cells(RowIndex, 143) = vbNullString
     ElseIf cntTrue = 3 Then
         db.Cells(RowIndex, 143) = True
@@ -990,7 +1003,9 @@ Private Sub Fill_Completion_Status()
         End If
     Next i
     
-    If cntEmpty = 3 Then
+    If cntEmpty = 3 And db.Cells(RowIndex, 86).Value <> vbNullString Then
+        db.Cells(RowIndex, 144) = False
+    ElseIf cntEmpty = 3 Then
         db.Cells(RowIndex, 144) = vbNullString
     ElseIf cntTrue = 3 Then
         db.Cells(RowIndex, 144) = True
@@ -1010,7 +1025,9 @@ Private Sub Fill_Completion_Status()
         End If
     Next i
     
-    If cntEmpty = 4 Then
+    If cntEmpty = 4 And db.Cells(RowIndex, 91).Value <> vbNullString Then
+        db.Cells(RowIndex, 145) = False
+    ElseIf cntEmpty = 4 Then
         db.Cells(RowIndex, 145) = vbNullString
     ElseIf cntTrue = 4 Then
         db.Cells(RowIndex, 145) = True

@@ -2,8 +2,8 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form10_CTRA 
    Caption         =   "CTRA"
    ClientHeight    =   6852
-   ClientLeft      =   -465
-   ClientTop       =   -2370
+   ClientLeft      =   -468
+   ClientTop       =   -2376
    ClientWidth     =   11460
    OleObjectBlob   =   "form10_CTRA.frx":0000
 End
@@ -439,7 +439,9 @@ Private Sub Fill_Completion_Status()
         End If
     Next i
     
-    If cntEmpty = 7 Then
+    If cntEmpty = 7 And db.Cells(RowIndex, 118).Value <> vbNullString Then
+        db.Cells(RowIndex, 150) = False
+    ElseIf cntEmpty = 7 Then
         db.Cells(RowIndex, 150) = vbNullString
     ElseIf cntTrue = 7 Then
         db.Cells(RowIndex, 150) = True

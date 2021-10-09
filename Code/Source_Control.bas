@@ -89,7 +89,7 @@ Sub ExportCode()
 '        Exit Sub ' Exit if VBA window is not open
 '    End If
 
-    Dim comp As VBComponent
+    Dim Comp As VBComponent
     Dim codeFolder As String
     Dim myForm As UserForm
     
@@ -99,30 +99,30 @@ Sub ExportCode()
     On Error GoTo 0
     Dim filename As String
 
-    For Each comp In ThisWorkbook.VBProject.VBComponents
-        Select Case comp.Type
+    For Each Comp In ThisWorkbook.VBProject.VBComponents
+        Select Case Comp.Type
             Case vbext_ct_ClassModule
-                filename = CombinePaths(codeFolder, comp.Name & ".cls")
+                filename = CombinePaths(codeFolder, Comp.Name & ".cls")
                 DeleteFile filename
-                comp.Export filename
+                Comp.Export filename
                 DoEvents
                 
             Case vbext_ct_StdModule
-                filename = CombinePaths(codeFolder, comp.Name & ".bas")
+                filename = CombinePaths(codeFolder, Comp.Name & ".bas")
                 DeleteFile filename
-                comp.Export filename
+                Comp.Export filename
                 DoEvents
                 
             Case vbext_ct_MSForm
-                filename = CombinePaths(codeFolder, comp.Name & ".frm")
+                filename = CombinePaths(codeFolder, Comp.Name & ".frm")
                 DeleteFile filename
-                comp.Export filename
+                Comp.Export filename
                 DoEvents
                 
             Case vbext_ct_Document
-                filename = CombinePaths(codeFolder, comp.Name & ".cls")
+                filename = CombinePaths(codeFolder, Comp.Name & ".cls")
                 DeleteFile filename
-                comp.Export filename
+                Comp.Export filename
                 DoEvents
         End Select
     Next
