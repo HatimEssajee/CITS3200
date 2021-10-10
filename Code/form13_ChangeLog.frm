@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form13_ChangeLog 
    Caption         =   "Change Log"
    ClientHeight    =   6600
-   ClientLeft      =   -408
-   ClientTop       =   -1728
-   ClientWidth     =   5904
+   ClientLeft      =   -405
+   ClientTop       =   -1725
+   ClientWidth     =   5895
    OleObjectBlob   =   "form13_ChangeLog.frx":0000
 End
 Attribute VB_Name = "form13_ChangeLog"
@@ -23,7 +23,7 @@ Private Sub UserForm_Activate()
     Me.Height = 520 'UHeight
     Me.Width = 500 'UWidth
     
-    Call UserForm_Initialize
+    Call Userform_Initialize
     
 End Sub
 
@@ -33,7 +33,7 @@ Private Sub UserForm_Deactivate()
     UserFormLeftPosC = Me.Left
 End Sub
 
-Private Sub UserForm_Initialize()
+Private Sub Userform_Initialize()
     'PURPOSE: Clear form on initialization
     'Source: https://www.contextures.com/xlUserForm02.html
     'Source: https://www.contextures.com/Excel-VBA-ComboBox-Lists.html

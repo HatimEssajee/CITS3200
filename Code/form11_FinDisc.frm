@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form11_FinDisc 
    Caption         =   "Financial Disclosure"
    ClientHeight    =   7212
-   ClientLeft      =   -564
-   ClientTop       =   -2268
-   ClientWidth     =   13392
+   ClientLeft      =   -570
+   ClientTop       =   -2265
+   ClientWidth     =   13395
    OleObjectBlob   =   "form11_FinDisc.frx":0000
 End
 Attribute VB_Name = "form11_FinDisc"
@@ -38,7 +38,7 @@ Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
     UserFormLeftPos = Me.Left
 End Sub
 
-Private Sub UserForm_Initialize()
+Private Sub Userform_Initialize()
     'PURPOSE: Clear form on initialization
     'Source: https://www.contextures.com/xlUserForm02.html
     'Source: https://www.contextures.com/Excel-VBA-ComboBox-Lists.html

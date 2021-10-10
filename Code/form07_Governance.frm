@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form07_Governance 
    Caption         =   "Governance Review"
    ClientHeight    =   6540
-   ClientLeft      =   -552
-   ClientTop       =   -2484
-   ClientWidth     =   10584
+   ClientLeft      =   -555
+   ClientTop       =   -2490
+   ClientWidth     =   10590
    OleObjectBlob   =   "form07_Governance.frx":0000
 End
 Attribute VB_Name = "form07_Governance"
@@ -38,7 +38,7 @@ Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
     UserFormLeftPos = Me.Left
 End Sub
 
-Private Sub UserForm_Initialize()
+Private Sub Userform_Initialize()
     'PURPOSE: Clear form on initialization
     'Source: https://www.contextures.com/xlUserForm02.html
     'Source: https://www.contextures.com/Excel-VBA-ComboBox-Lists.html

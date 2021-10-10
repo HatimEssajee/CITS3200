@@ -11,10 +11,6 @@ Sub OpenForm()
     'Source: https://www.excelsirji.com/vba-code-to-get-logged-in-user-name/
     Username = Application.Username
     
-    'Source: https://officetricks.com/excel-vba-get-username-windows-system/
-    'Username = ThisWorkbook.BuiltinDocumentProperties("Author")
-    
-    
     'Force default starting rowIndex for empty form and tickbox checked
     RowIndex = -1
     Tick = True

@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form05_Recruitment 
    Caption         =   "Recruitment Plan"
    ClientHeight    =   6384
-   ClientLeft      =   -516
-   ClientTop       =   -2256
-   ClientWidth     =   11196
+   ClientLeft      =   -510
+   ClientTop       =   -2250
+   ClientWidth     =   11190
    OleObjectBlob   =   "form05_Recruitment.frx":0000
 End
 Attribute VB_Name = "form05_Recruitment"
@@ -38,7 +38,7 @@ Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
     UserFormLeftPos = Me.Left
 End Sub
 
-Private Sub UserForm_Initialize()
+Private Sub Userform_Initialize()
     'PURPOSE: Clear form on initialization
     'Source: https://www.contextures.com/xlUserForm02.html
     'Source: https://www.contextures.com/Excel-VBA-ComboBox-Lists.html

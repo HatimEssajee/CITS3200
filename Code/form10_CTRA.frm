@@ -2,8 +2,8 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form10_CTRA 
    Caption         =   "CTRA"
    ClientHeight    =   6852
-   ClientLeft      =   -468
-   ClientTop       =   -2376
+   ClientLeft      =   -465
+   ClientTop       =   -2370
    ClientWidth     =   11460
    OleObjectBlob   =   "form10_CTRA.frx":0000
 End
@@ -38,7 +38,7 @@ Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
     UserFormLeftPos = Me.Left
 End Sub
 
-Private Sub UserForm_Initialize()
+Private Sub Userform_Initialize()
     'PURPOSE: Clear form on initialization
     'Source: https://www.contextures.com/xlUserForm02.html
     'Source: https://www.contextures.com/Excel-VBA-ComboBox-Lists.html

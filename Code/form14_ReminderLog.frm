@@ -2,9 +2,9 @@ VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form14_ReminderLog 
    Caption         =   "Reminder Log"
    ClientHeight    =   8268.001
-   ClientLeft      =   -396
-   ClientTop       =   -1812
-   ClientWidth     =   25932
+   ClientLeft      =   -390
+   ClientTop       =   -1815
+   ClientWidth     =   25920
    OleObjectBlob   =   "form14_ReminderLog.frx":0000
 End
 Attribute VB_Name = "form14_ReminderLog"
@@ -23,7 +23,7 @@ Private Sub UserForm_Activate()
     Me.Height = 550 '435 'UHeight
     Me.Width = 980 '940 'UWidth
     
-    Call UserForm_Initialize
+    Call Userform_Initialize
 End Sub
 
 Private Sub UserForm_Deactivate()
@@ -32,7 +32,7 @@ Private Sub UserForm_Deactivate()
     UserFormLeftPosR = Me.Left
 End Sub
 
-Private Sub UserForm_Initialize()
+Private Sub Userform_Initialize()
     'PURPOSE: Clear form on initialization
     'Source: https://www.contextures.com/xlUserForm02.html
     'Source: https://www.contextures.com/Excel-VBA-ComboBox-Lists.html
@@ -141,8 +141,6 @@ Private Sub UserForm_Initialize()
         Me.compStudyDetails.Caption = "Sponsor, CRO, Protocol & Age Range filled"
     Else
         Me.compStudyDetails.Visible = False
-        'Me.compStudyDetails.BackColor = &H80000005
-        'Me.compStudyDetails.Caption = vbNullString
     End If
     
     'CDA
@@ -152,8 +150,6 @@ Private Sub UserForm_Initialize()
         Me.compCDA.Caption = "Date Finalised = " & Format(ReadRow(1, 20), "DD-MMM-YYYY")
     Else
         Me.compCDA.Visible = False
-        'Me.compCDA.BackColor = &H80000005
-        'Me.compCDA.Caption = vbNullString
     End If
     
     'Feasibility
@@ -163,8 +159,6 @@ Private Sub UserForm_Initialize()
         Me.compFS.Caption = "Date Completed = " & Format(ReadRow(1, 25), "DD-MMM-YYYY")
     Else
         Me.compFS.Visible = False
-        'Me.compFS.BackColor = &H80000005
-        'Me.compFS.Caption = vbNullString
     End If
     
     'Site Selection
@@ -174,8 +168,6 @@ Private Sub UserForm_Initialize()
         Me.compSiteSelect.Caption = "Site Selected = " & Format(ReadRow(1, 34), "DD-MMM-YYYY")
     Else
         Me.compSiteSelect.Visible = False
-        'Me.compSiteSelect.BackColor = &H80000005
-        'Me.compSiteSelect.Caption = vbNullString
     End If
     
     'Recruitment
@@ -185,8 +177,6 @@ Private Sub UserForm_Initialize()
         Me.compRecruitment.Caption = "Planning Date = " & Format(ReadRow(1, 38), "DD-MMM-YYYY")
     Else
         Me.compRecruitment.Visible = False
-        'Me.compRecruitment.BackColor = &H80000005
-        'Me.compRecruitment.Caption = vbNullString
     End If
     
     'CAHS Ethics
@@ -196,8 +186,6 @@ Private Sub UserForm_Initialize()
         Me.compCAHS_Ethics.Caption = "Date Approved = " & Format(ReadRow(1, 45), "DD-MMM-YYYY")
     Else
         Me.compCAHS_Ethics.Visible = False
-        'Me.compCAHS_Ethics.BackColor = &H80000005
-        'Me.compCAHS_Ethics.Caption = vbNullString
     End If
     
     'NMA Ethics
@@ -207,8 +195,6 @@ Private Sub UserForm_Initialize()
         Me.compNMA_Ethics.Caption = "Date Approved = " & Format(ReadRow(1, 49), "DD-MMM-YYYY")
     Else
         Me.compNMA_Ethics.Visible = False
-        'Me.compNMA_Ethics.BackColor = &H80000005
-        'Me.compNMA_Ethics.Caption = vbNullString
     End If
     
     'WNHS Ethics
@@ -218,8 +204,6 @@ Private Sub UserForm_Initialize()
         Me.compWNHS_Ethics.Caption = "Date Approved = " & Format(ReadRow(1, 52), "DD-MMM-YYYY")
     Else
         Me.compWNHS_Ethics.Visible = False
-        'Me.compWNHS_Ethics.BackColor = &H80000005
-        'Me.compWNHS_Ethics.Caption = vbNullString
     End If
     
     'SJOG Ethics
@@ -229,8 +213,6 @@ Private Sub UserForm_Initialize()
         Me.compSJOG_Ethics.Caption = "Date Approved = " & Format(ReadRow(1, 55), "DD-MMM-YYYY")
     Else
         Me.compSJOG_Ethics.Visible = False
-        'Me.compSJOG_Ethics.BackColor = &H80000005
-        'Me.compSJOG_Ethics.Caption = vbNullString
     End If
     
     'Others Ethics
@@ -240,8 +222,6 @@ Private Sub UserForm_Initialize()
         Me.compOthers_Ethics.Caption = "Date Approved = " & Format(ReadRow(1, 59), "DD-MMM-YYYY")
     Else
         Me.compOthers_Ethics.Visible = False
-        'Me.compOthers_Ethics.BackColor = &H80000005
-        'Me.compOthers_Ethics.Caption = vbNullString
     End If
     
     'PCH Governance
@@ -251,8 +231,6 @@ Private Sub UserForm_Initialize()
         Me.compPCH_Gov.Caption = "Date Approved = " & Format(ReadRow(1, 65), "DD-MMM-YYYY")
     Else
         Me.compPCH_Gov.Visible = False
-        'Me.compPCH_Gov.BackColor = &H80000005
-        'Me.compPCH_Gov.Caption = vbNullString
     End If
     
     'TKI Governance
@@ -262,8 +240,6 @@ Private Sub UserForm_Initialize()
         Me.compTKI_Gov.Caption = "Date Approved = " & Format(ReadRow(1, 69), "DD-MMM-YYYY")
     Else
         Me.compTKI_Gov.Visible = False
-        'Me.compTKI_Gov.BackColor = &H80000005
-        'Me.compTKI_Gov.Caption = vbNullString
     End If
     
     'KEMH Governance
@@ -273,8 +249,6 @@ Private Sub UserForm_Initialize()
         Me.compKEMH_Gov.Caption = "Date Approved = " & Format(ReadRow(1, 73), "DD-MMM-YYYY")
     Else
         Me.compKEMH_Gov.Visible = False
-        'Me.compKEMH_Gov.BackColor = &H80000005
-        'Me.compKEMH_Gov.Caption = vbNullString
     End If
     
     'SJOG_S Governance
@@ -284,8 +258,6 @@ Private Sub UserForm_Initialize()
         Me.compSJOG_S_Gov.Caption = "Date Approved = " & Format(ReadRow(1, 77), "DD-MMM-YYYY")
     Else
         Me.compSJOG_S_Gov.Visible = False
-        'Me.compSJOG_S_Gov.BackColor = &H80000005
-        'Me.compSJOG_S_Gov.Caption = vbNullString
     End If
     
     'SJOG_L Governance
@@ -295,8 +267,6 @@ Private Sub UserForm_Initialize()
         Me.compSJOG_L_Gov.Caption = "Date Approved = " & Format(ReadRow(1, 81), "DD-MMM-YYYY")
     Else
         Me.compSJOG_L_Gov.Visible = False
-        'Me.compSJOG_L_Gov.BackColor = &H80000005
-        'Me.compSJOG_L_Gov.Caption = vbNullString
     End If
     
     'SJOG_M Governance
@@ -306,8 +276,6 @@ Private Sub UserForm_Initialize()
         Me.compSJOG_M_Gov.Caption = "Date Approved = " & Format(ReadRow(1, 85), "DD-MMM-YYYY")
     Else
         Me.compSJOG_M_Gov.Visible = False
-        'Me.compSJOG_M_Gov.BackColor = &H80000005
-        'Me.compSJOG_M_Gov.Caption = vbNullString
     End If
     
     'Others Governance
@@ -317,8 +285,6 @@ Private Sub UserForm_Initialize()
         Me.compOthers_Gov.Caption = "Date Approved = " & Format(ReadRow(1, 90), "DD-MMM-YYYY")
     Else
         Me.compOthers_Gov.Visible = False
-        'Me.compOthers_Gov.BackColor = &H80000005
-        'Me.compOthers_Gov.Caption = vbNullString
     End If
     
     'VTG Budget
@@ -328,8 +294,6 @@ Private Sub UserForm_Initialize()
         Me.compVTG_Budget.Caption = "Date Approved = " & Format(ReadRow(1, 96), "DD-MMM-YYYY")
     Else
         Me.compVTG_Budget.Visible = False
-        'Me.compVTG_Budget.BackColor = &H80000005
-        'Me.compVTG_Budget.Caption = vbNullString
     End If
     
     'TKI Budget
@@ -339,8 +303,6 @@ Private Sub UserForm_Initialize()
         Me.compTKI_Budget.Caption = "Date Approved = " & Format(ReadRow(1, 98), "DD-MMM-YYYY")
     Else
         Me.compTKI_Budget.Visible = False
-        'Me.compTKI_Budget.BackColor = &H80000005
-        'Me.compTKI_Budget.Caption = vbNullString
     End If
     
     'Pharmacy Budget
@@ -350,8 +312,6 @@ Private Sub UserForm_Initialize()
         Me.compPharm_Budget.Caption = "PO Finalised = " & Format(ReadRow(1, 101), "DD-MMM-YYYY")
     Else
         Me.compPharm_Budget.Visible = False
-        'Me.compPharm_Budget.BackColor = &H80000005
-        'Me.compPharm_Budget.Caption = vbNullString
     End If
     
     'Indemnity
@@ -372,8 +332,6 @@ Private Sub UserForm_Initialize()
         Me.compCTRA.Caption = "Date Finalised = " & Format(ReadRow(1, 117), "DD-MMM-YYYY")
     Else
         Me.compCTRA.Visible = False
-        'Me.compCTRA.BackColor = &H80000005
-        'Me.compCTRA.Caption = vbNullString
     End If
 
     'Financial Disclosure
@@ -383,8 +341,6 @@ Private Sub UserForm_Initialize()
         Me.compFinDisc.Caption = "Date Completed = " & Format(ReadRow(1, 121), "DD-MMM-YYYY")
     Else
         Me.compFinDisc.Visible = False
-        'Me.compFinDisc.BackColor = &H80000005
-        'Me.compFinDisc.Caption = vbNullString
     End If
 
     'Site Initiation Visit
@@ -394,8 +350,6 @@ Private Sub UserForm_Initialize()
         Me.compSIV.Caption = "SIV Date = " & Format(ReadRow(1, 125), "DD-MMM-YYYY")
     Else
         Me.compSIV.Visible = False
-        'Me.compSIV.BackColor = &H80000005
-        'Me.compSIV.Caption = vbNullString
     End If
     
     'Reinstate Settings

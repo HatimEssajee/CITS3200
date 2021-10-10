@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form00_Nav 
-   Caption         =   "Vaccine Trial Study Start-ups"
-   ClientHeight    =   9024.001
+   Caption         =   "Vaccine Trials Group Study Start-ups"
+   ClientHeight    =   9015.001
    ClientLeft      =   -60
-   ClientTop       =   -456
-   ClientWidth     =   12948
+   ClientTop       =   -450
+   ClientWidth     =   12945
    OleObjectBlob   =   "form00_Nav.frx":0000
 End
 Attribute VB_Name = "form00_Nav"
@@ -38,7 +38,7 @@ Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
     UserFormLeftPos = Me.Left
 End Sub
 
-Private Sub UserForm_Initialize()
+Private Sub Userform_Initialize()
     'PURPOSE: Clear form on initialization and fill combo box with data from array
     'Source: https://www.contextures.com/xlUserForm02.html
     'Source: https://www.contextures.com/Excel-VBA-ComboBox-Lists.html
@@ -133,7 +133,7 @@ Private Sub cmdClear_Click()
     SAG_Tick = True
     
     'PURPOSE: Reinitialise form
-    Call UserForm_Initialize
+    Call Userform_Initialize
     
 End Sub
 
@@ -1064,6 +1064,7 @@ Private Sub cmdSearch_Click()
         .Width = 540
         .IntegralHeight = False 'needed to stop list box changing position
         .List = DisplayArr
+        .TopIndex = .ListCount - 1 'start at bottom of list as newest record found here
     End With
          
 End Sub
@@ -1124,7 +1125,7 @@ Private Sub cmdJumpForw_Click()
 
 CallForm:
     'Clear form before bringing in new data
-    Call UserForm_Initialize
+    Call Userform_Initialize
     DoEvents
     
     
@@ -1167,7 +1168,7 @@ Private Sub cmdNext_Click()
     End If
         
     'Clear form before bringing in new data
-    Call UserForm_Initialize
+    Call Userform_Initialize
     DoEvents
     
 End Sub
@@ -1202,7 +1203,7 @@ Private Sub cmdJumpBack_Click()
     End If
     
     'Clear form before bringing in new data
-    Call UserForm_Initialize
+    Call Userform_Initialize
     DoEvents
     
     
@@ -1250,7 +1251,7 @@ Private Sub cmdPrevious_Click()
     End If
     
     'Clear form before bringing in new data
-    Call UserForm_Initialize
+    Call Userform_Initialize
     DoEvents
     
 End Sub
