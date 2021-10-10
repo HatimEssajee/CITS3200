@@ -1,0 +1,90 @@
+* cde5c22 : Optimised report REQ10.0; removed source control modules and cleaned up worksheet look
+* a39429b : completed REQ 30.0, added dummy entries for stress test
+* 060a85d : updated format of reminder form to meet REQ 30.0 and added bug fix for test 38
+* 4d7e807 : added updated code files
+* c0fda55 : Completed req 27.0, 28.0 and 29.0 and added to prototype
+* ea75577 : update local git
+*   95bd8ba : Merge branch 'main' of https://github.com/idkHow2Code/CITS3200_22 into hatim
+|\  
+| * fad4f5e : Delete Test Log (130921).pdf
+| * 3632834 : Create Prototype_2021-10-04.xlsm
+| * 71448b7 : Create Prototype_2021-10-03.xlsm
+| * 382f802 : updated git repo prototype
+* | a5b1126 : store changes to Working file
+* | fd83b3a : fixed incorrect labelling of feasibility
+|/  
+* f04121e : correct bug with undo and redo where numbers are treated as dates, corrected bug with fast cycle where only complete entries defaulted to column 1
+* 359f78b : minor bug fix with report function to remove error values in calculations
+* 57a585d : Attempted REQ 26.0 resize window. Can make window resize but need more thoughts on label relocation or expansion. Consider discussion with client.
+*   84e7515 : Attempted REQ 26.0 resize window. Can make window resize but need more thoughts on label relocation or expansion. Consider discussion with client.
+|\  
+| * 06b2f14 : Completed REQ 25.0 and REQ 26.0. Testing still ongoing to ensure obvious bugs are resolved
+* | 28d906f : Attempted REQ 26.0 resize window. Can make window resize but need more thoughts on label relocation or expansion. Consider discussion with client.
+* | 71645e7 : Completed REQ 24.0 and REQ 25.0. Testing still ongoing to ensure obvious bugs are resolved
+|/  
+* 6470a8b : minor edit to nav so first multitab is selected
+* a809bcc : added new prototype file
+* 4525833 : added REQ 10.0, fixed REQ 12.0, added REQ 13.0
+* 317c6c7 : full study example test with fix
+* 8aa26d9 : small syntax error in SIV form that was causing error
+* 3c1784c : applied all edits requested by the client and made changes to make userform work - report still needs edits
+* 33c86ce : applied REQ 23.0 and fixing up table ref in Nav form
+* 89c9722 : Completed REQ 18.0, 18.1, 19.1,20.0, 22.0
+* b8dd2be : fixed minor navigation bugs, added fast cycle functionality
+* 6d15efa : Test log 13/09/21
+* f77b70c : bug fixed empty table loadout and navigation, created nbew client prototype
+* 8e9e79b : Fixed bugs identified with userform positioning, search functionality, version control
+*   4ebace9 : something
+|\  
+| * 0f29809 : New Backup
+| * 644ab65 : exported code + other
+| * 9f1d6d5 : Code changes from meeting
+| * e58297f : Few variables added due to variable compiler bugs
+| *   f02bb94 : Merge branch 'main' of https://github.com/idkHow2code/CITS3200_22 into AnferneeAlviar
+| |\  
+| * \   1e55229 : Merge branch 'main' into AnferneeAlviar
+| |\ \  
+| * | | 90019a1 : Anfernee branch
+* | | | d1afc63 : Updating file and code tested by Anfernee
+* | | | 44285f7 : removed activate ref library function
+* | | | 456a147 : bug fix openform module
+| |_|/  
+|/| |   
+* | | 793ded6 : Completed date validation, fixed bugs associated with data entry and form loadout, added more smarts to cover study status based on SIV date and ability to undo deletion
+* | | 90411e8 : completed data read and write in all user forms
+* | | e7e904b : updated date validation to cover corner case inputs and streamline - added changes to CTRA, FinDisc, SIV, Indemnity forms
+* | | fbab7ac : created new prototype file
+* | | c819ebe : removed unneeded code files
+* | | 11a1361 : added date validation, toggle for study status, read functionality in 7/9 forms
+* | | 96b9564 : Updated UX for change log and improved code for userform positioning
+* | | 5400d05 : Created dummy form for changelog, added search functionality, fixed navigation bugs
+| |/  
+|/|   
+* | 1e7292e : added navigation functionality in nav form
+* | 90eec08 : updated to include data table, read, delete functionality
+* |   a1dc2e8 : Merge branch 'hatim'
+|\ \  
+| * | 5ceb37a : added source control code to open immediate, locals and prop windows too
+* | | 4ed87eb : Merge branch 'hatim'
+|\| | 
+| |/  
+|/|   
+| * dcde928 : update source control macros to streamline process
+| * ddfce4c : test source control
+| * 0e5916e : test source control
+* | 906c46c : Merge branch 'hatim'
+|\| 
+| * 6683513 : updated missing code for linkages
+* | 6a91324 : Merge branch 'hatim'
+|\| 
+| * 83481e2 : testing git source control
+* | 3cea153 : Merge branch 'hatim'
+|\| 
+| * cbd8fb9 : Upload code files extracted from working file
+| * 3b679eb : Uploaded first prototype form with all linkages setup between userforms
+* | e3d5db3 : Delete nick test
+* | 9a0bb1a : Create nick test
+|/  
+* 1b9c163 : testing git
+* f67fbbb : testing
+* 5fe2587 : Initial commit
