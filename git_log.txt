@@ -1,0 +1,449 @@
+commit e122e2791837605d7074ea586f8ad410a69fb500
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Sun Oct 10 13:53:54 2021 +0800
+
+    uploaded git log
+
+commit cde5c2285aa03f8d8a8be78f640e287b08522330
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Sun Oct 10 13:04:25 2021 +0800
+
+    Optimised report REQ10.0; removed source control modules and cleaned up worksheet look
+
+commit a39429b0fc8578e88dcf91faf8ffb85674fc12d1
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Sat Oct 9 08:32:32 2021 +0800
+
+    completed REQ 30.0, added dummy entries for stress test
+
+commit 060a85d75ffde4c5c5ee1def4c12455a3fcece87
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Fri Oct 8 10:42:25 2021 +0800
+
+    updated format of reminder form to meet REQ 30.0 and added bug fix for test 38
+
+commit 4d7e80777d5c9fb52e7fe400f6f999f6efc2070b
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Wed Oct 6 06:32:46 2021 +0800
+
+    added updated code files
+
+commit c0fda55cb2ec99518bf16f6e8252c3c18415f3cd
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Wed Oct 6 06:31:22 2021 +0800
+
+    Completed req 27.0, 28.0 and 29.0 and added to prototype
+
+commit ea75577d90b2a3c9771402522c636f50bd852040
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Oct 4 16:45:48 2021 +0800
+
+    update local git
+
+commit 95bd8bad1f04f0fd357fc4dbe503c7eedcf4b761
+Merge: a5b1126 fad4f5e
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Oct 4 16:42:04 2021 +0800
+
+    Merge branch 'main' of https://github.com/idkHow2Code/CITS3200_22 into hatim
+
+commit a5b1126df23d073e4196c52a7c6b2cc5fb1dad8d
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Oct 4 16:35:38 2021 +0800
+
+    store changes to Working file
+
+commit fad4f5e77170bd14441f97367f46f79f75e62f25
+Author: EeZher <eezher@gmail.com>
+Date:   Mon Oct 4 15:25:05 2021 +0800
+
+    Delete Test Log (130921).pdf
+    
+    removed test log
+
+commit 3632834b599cacbc00df58ed184777661cdd6aae
+Author: EeZher <eezher@gmail.com>
+Date:   Mon Oct 4 15:24:21 2021 +0800
+
+    Create Prototype_2021-10-04.xlsm
+    
+    Done by EeZher: renamed Undo All recent changes --> Undo and Redo All recent changes --> Redo
+
+commit 71448b7d82b8338feb14264011f3b9dc6f95d41c
+Author: EeZher <eezher@gmail.com>
+Date:   Mon Oct 4 15:21:51 2021 +0800
+
+    Create Prototype_2021-10-03.xlsm
+    
+    Done by Chris: Added User Guide to prototype
+
+commit 382f80231f7b675ea6c5c69c7f2dd5f85225113c
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Sat Oct 2 17:16:58 2021 +0800
+
+    updated git repo prototype
+
+commit fd83b3a9cd903de688d9d5f8356bb4189699c9c0
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Sat Oct 2 16:39:48 2021 +0800
+
+    fixed incorrect labelling of feasibility
+
+commit f04121ee5fb6d9e785051c12d49dfb6ef5052994
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Sat Oct 2 15:32:20 2021 +0800
+
+    correct bug with undo and redo where numbers are treated as dates, corrected bug with fast cycle where only complete entries defaulted to column 1
+
+commit 359f78bea3eafe9f8f074657744079ac92d096c0
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Wed Sep 29 21:42:05 2021 +0800
+
+    minor bug fix with report function to remove error values in calculations
+
+commit 57a585d2b359e3d0408f4a5baaaf228e6fbb66d3
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Wed Sep 29 21:29:37 2021 +0800
+
+    Attempted REQ 26.0 resize window. Can make window resize but need more thoughts on label relocation or expansion. Consider discussion with client.
+
+commit 84e751548ef9cff48801be12b62ab2e20bee0567
+Merge: 28d906f 06b2f14
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Wed Sep 29 21:28:34 2021 +0800
+
+    Attempted REQ 26.0 resize window. Can make window resize but need more thoughts on label relocation or expansion. Consider discussion with client.
+
+commit 28d906f6b4f1946e1d000f3af8fc4be97011449d
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Wed Sep 29 21:25:35 2021 +0800
+
+    Attempted REQ 26.0 resize window. Can make window resize but need more thoughts on label relocation or expansion. Consider discussion with client.
+
+commit 71645e7bd4a1d7272e0b82e4761bfbdb035842fe
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Wed Sep 29 20:38:06 2021 +0800
+
+    Completed REQ 24.0 and REQ 25.0. Testing still ongoing to ensure obvious bugs are resolved
+
+commit 06b2f146cd8cc9315b9d0f854282d303127e2110
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Wed Sep 29 20:38:06 2021 +0800
+
+    Completed REQ 25.0 and REQ 26.0. Testing still ongoing to ensure obvious bugs are resolved
+
+commit 6470a8b378e8a273aaa3cb575deed8723941301a
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Tue Sep 28 01:11:30 2021 +0800
+
+    minor edit to nav so first multitab is selected
+
+commit a809bcc1f7c499873d810b5e27f4589215983528
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Tue Sep 28 00:54:36 2021 +0800
+
+    added new prototype file
+
+commit 45258331e473285e0085c4f8d3331840589441bc
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Tue Sep 28 00:53:34 2021 +0800
+
+    added REQ 10.0, fixed REQ 12.0, added REQ 13.0
+
+commit 317c6c7fcac5839c2c9d4b49cb1e5de2c6726181
+Author: anferneealviar99 <anferneealviar99@hotmail.com>
+Date:   Sat Sep 25 20:57:33 2021 +0800
+
+    full study example test with fix
+
+commit 8aa26d9006caa27dc4887913b817d5e1b9b75be8
+Author: anferneealviar99 <anferneealviar99@hotmail.com>
+Date:   Sat Sep 25 20:55:12 2021 +0800
+
+    small syntax error in SIV form that was causing error
+
+commit 3c1784cf6b25452c9ab5d2286853dba1662c8fff
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Fri Sep 24 13:59:33 2021 +0800
+
+    applied all edits requested by the client and made changes to make userform work - report still needs edits
+
+commit 33c86ceef413f79a38f46269719166b125e9c9ce
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Fri Sep 24 05:57:52 2021 +0800
+
+    applied REQ 23.0 and fixing up table ref in Nav form
+
+commit 89c9722f9ee1e89c922d5e98b00dbcf12398f9d8
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Fri Sep 24 02:50:39 2021 +0800
+
+    Completed REQ 18.0, 18.1, 19.1,20.0, 22.0
+
+commit b8dd2be51e3877a7709b670640ee464ed33ec222
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Sep 20 01:29:08 2021 +0800
+
+    fixed minor navigation bugs, added fast cycle functionality
+
+commit 6d15efac6716f90a380c9e02f45e3490eea628a9
+Author: Nick-Dawg <82442356+Nick-Dawg@users.noreply.github.com>
+Date:   Mon Sep 13 17:32:11 2021 +0800
+
+    Test log 13/09/21
+    
+    Tested most of the features of the program, certain areas will need to be fixed, and certain things will require substantially more testing.
+
+commit f77b70ca922038cc0a40bb0c6d756dbd0e4f3097
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Sep 13 09:28:58 2021 +0800
+
+    bug fixed empty table loadout and navigation, created nbew client prototype
+
+commit 8e9e79b607dfd10dc2653527f670616253119f43
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Sep 6 21:08:45 2021 +0800
+
+    Fixed bugs identified with userform positioning, search functionality, version control
+
+commit 4ebace94435d047c2978c7b429a399dea56ab38f
+Merge: d1afc63 0f29809
+Author: anferneealviar99 <anferneealviar99@hotmail.com>
+Date:   Mon Sep 6 14:27:35 2021 +0800
+
+    something
+
+commit d1afc6318b29a9bf761dd0a8b182ee8a4be0819b
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Sep 6 14:14:59 2021 +0800
+
+    Updating file and code tested by Anfernee
+
+commit 0f29809accbe25ab6d0d4dcbfa69b8084d8b9492
+Author: anferneealviar99 <anferneealviar99@hotmail.com>
+Date:   Mon Sep 6 14:13:01 2021 +0800
+
+    New Backup
+
+commit 644ab6518da17c75d8c31ec65caff31dcbad3ab9
+Author: anferneealviar99 <anferneealviar99@hotmail.com>
+Date:   Mon Sep 6 14:12:15 2021 +0800
+
+    exported code + other
+
+commit 9f1d6d58ada6227d2e9db48f57731cc5eedc9798
+Author: anferneealviar99 <anferneealviar99@hotmail.com>
+Date:   Mon Sep 6 14:10:06 2021 +0800
+
+    Code changes from meeting
+
+commit e58297fbbfe111b972cfb912548f657e9c7815fd
+Author: anferneealviar99 <anferneealviar99@hotmail.com>
+Date:   Mon Sep 6 13:01:50 2021 +0800
+
+    Few variables added due to variable compiler bugs
+
+commit 44285f768534bc82f7b496f187878a1616bcbfcc
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Sep 6 11:32:18 2021 +0800
+
+    removed activate ref library function
+
+commit 456a1477e66cce543fe5dd7ee3ff8893fd236de8
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Sep 6 11:17:13 2021 +0800
+
+    bug fix openform module
+
+commit f02bb9434e986d690f3301a728b23c3419e06c00
+Merge: 1e55229 793ded6
+Author: anferneealviar99 <anferneealviar99@hotmail.com>
+Date:   Mon Sep 6 09:47:28 2021 +0800
+
+    Merge branch 'main' of https://github.com/idkHow2code/CITS3200_22 into AnferneeAlviar
+
+commit 793ded6d6569d7191d814df3cfa5aa4150ad0c93
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Sun Sep 5 12:59:01 2021 +0800
+
+    Completed date validation, fixed bugs associated with data entry and form loadout, added more smarts to cover study status based on SIV date and ability to undo deletion
+
+commit 90411e8e42cc93b105bf4c9c4cbb2202da26d213
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Sun Sep 5 10:43:37 2021 +0800
+
+    completed data read and write in all user forms
+
+commit e7e904bef31e54cd6b249dcebdd3f0018271ff68
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Sun Sep 5 07:58:28 2021 +0800
+
+    updated date validation to cover corner case inputs and streamline - added changes to CTRA, FinDisc, SIV, Indemnity forms
+
+commit fbab7acdcc12bee8e8cb64491b7e7f6459a02bd2
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Sat Sep 4 18:07:58 2021 +0800
+
+    created new prototype file
+
+commit c819ebe22b07c67174bd863791535560387602a4
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Sat Sep 4 18:04:39 2021 +0800
+
+    removed unneeded code files
+
+commit 11a1361ff1095ed5d4bf1c93837d52240f0769a5
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Sat Sep 4 18:03:26 2021 +0800
+
+    added date validation, toggle for study status, read functionality in 7/9 forms
+
+commit 96b9564f31e0285ce46701f157965e69c1cecc8b
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Sat Sep 4 07:19:52 2021 +0800
+
+    Updated UX for change log and improved code for userform positioning
+
+commit 5400d0526ed0a6d3190fb33fe9fe7c563c49a10d
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Sat Sep 4 02:20:56 2021 +0800
+
+    Created dummy form for changelog, added search functionality, fixed navigation bugs
+
+commit 1e55229e08891adb78393294ce16febbbc8d839c
+Merge: 90019a1 1e7292e
+Author: anferneealviar99 <anferneealviar99@hotmail.com>
+Date:   Fri Sep 3 14:17:29 2021 +0800
+
+    Merge branch 'main' into AnferneeAlviar
+
+commit 1e7292ebd9410031b91cab5deabdd1d6f4cbff80
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Fri Sep 3 14:00:13 2021 +0800
+
+    added navigation functionality in nav form
+
+commit 90eec08419dcabe4db3789764761b8ba312ce942
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Fri Sep 3 12:13:23 2021 +0800
+
+    updated to include data table, read, delete functionality
+
+commit a1dc2e88b4f80811491fe9eeeaa162f9a6f0615d
+Merge: 4ed87eb 5ceb37a
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Aug 30 23:02:33 2021 +0800
+
+    Merge branch 'hatim'
+
+commit 5ceb37a69f026577a8e3fe687eb737e6b755cbed
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Aug 30 23:02:01 2021 +0800
+
+    added source control code to open immediate, locals and prop windows too
+
+commit 4ed87ebf6d83c5a2f793b6dea36188e1a81187da
+Merge: 906c46c dcde928
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Aug 30 22:21:22 2021 +0800
+
+    Merge branch 'hatim'
+
+commit dcde928f0059a1e5bf0c1dc9e3fd2d32babce35e
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Aug 30 22:20:36 2021 +0800
+
+    update source control macros to streamline process
+
+commit ddfce4ccbf7641210e4f5bdc0084fab720cfd9a2
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Aug 30 19:31:55 2021 +0800
+
+    test source control
+
+commit 90019a19a4c90eb39e9852a179e837ab5fdc17d8
+Author: anferneealviar99 <anferneealviar99@hotmail.com>
+Date:   Mon Aug 30 19:31:25 2021 +0800
+
+    Anfernee branch
+
+commit 0e5916eade9763eb9a34b8e263740f670d4279ca
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Aug 30 19:22:56 2021 +0800
+
+    test source control
+
+commit 906c46cd3d358f1f74118f8ed81ff6aba8383dc2
+Merge: 6a91324 6683513
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Aug 30 16:05:19 2021 +0800
+
+    Merge branch 'hatim'
+
+commit 66835137135f2a27c6422f418829d9338904bbb1
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Aug 30 16:04:36 2021 +0800
+
+    updated missing code for linkages
+
+commit 6a91324769818a3451bd94034b21980ce2874bf8
+Merge: 3cea153 83481e2
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Aug 30 15:43:34 2021 +0800
+
+    Merge branch 'hatim'
+
+commit 83481e259825939147718872f9c1d9e29ef929f4
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Aug 30 15:42:56 2021 +0800
+
+    testing git source control
+
+commit 3cea15357ca52b620e198e60065a40a60c8b5e25
+Merge: e3d5db3 cbd8fb9
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Aug 30 15:31:01 2021 +0800
+
+    Merge branch 'hatim'
+
+commit cbd8fb99eafe8834fe8fdd713fd033a0ad27fd27
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Aug 30 15:30:04 2021 +0800
+
+    Upload code files extracted from working file
+
+commit 3b679ebbda7eba7a7abc7dbc7eb86072bb37cb2f
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Mon Aug 30 15:25:45 2021 +0800
+
+    Uploaded first prototype form with all linkages setup between userforms
+
+commit e3d5db36737c22ee2af37f6171886d9c1ff58053
+Author: Nick-Dawg <82442356+Nick-Dawg@users.noreply.github.com>
+Date:   Tue Jul 27 16:28:03 2021 +0800
+
+    Delete nick test
+
+commit 9a0bb1a04caad98902f3e3a44f514a90d86cffde
+Author: Nick-Dawg <82442356+Nick-Dawg@users.noreply.github.com>
+Date:   Tue Jul 27 16:27:11 2021 +0800
+
+    Create nick test
+
+commit 1b9c163348ae49c80f2e7846f92768e574f70302
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Tue Jul 27 16:23:08 2021 +0800
+
+    testing git
+
+commit f67fbbb7a97634a3ac275f4d9582a29ec90de487
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Tue Jul 27 16:21:28 2021 +0800
+
+    testing
+
+commit 5fe2587f2957ac698d18df35c34b79500bebaa35
+Author: Kwoh Ee Zher <eezher@gmail.com>
+Date:   Tue Jul 27 15:54:28 2021 +0800
+
+    Initial commit
