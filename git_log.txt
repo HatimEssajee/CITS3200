@@ -1,3 +1,15 @@
+commit e1afe79f5424089c350ba7f5041912a980079a14
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Sun Oct 17 10:10:22 2021 +0800
+
+    fixed bugs identified in test log, updated user guide, corrected worksheet layout for end user
+
+commit 87823a0aa6e8b5aee67f8feb43bcf0b06121f944
+Author: HatimE1 <10757234@student.uwa.edu.au>
+Date:   Sun Oct 10 13:56:44 2021 +0800
+
+    uploaded git log
+
 commit e122e2791837605d7074ea586f8ad410a69fb500
 Author: HatimE1 <10757234@student.uwa.edu.au>
 Date:   Sun Oct 10 13:53:54 2021 +0800
