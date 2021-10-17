@@ -26,7 +26,7 @@ Private Sub Workbook_BeforeSave(ByVal SaveAsUI As Boolean, Cancel As Boolean)
     Application.DisplayAlerts = False
     
     BackUpFolder = GetWorkbookPath & "Backup_Folder"
-    BackupFile = BackUpFolder & "\Back-up Study Tracker " & Format(Now, "yyyy-mm-dd hhmm") & ".xlsm"
+    BackupFile = BackUpFolder & "\VTG Study Start-ups Tracker " & Format(Now, "yyyy-mm-dd hhmm") & ".xlsm"
     
     'Create backup folder if doesn't exist
     'SOURCE: https://www.techonthenet.com/excel/formulas/mkdir.php

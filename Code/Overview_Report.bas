@@ -32,6 +32,9 @@ Sub Bring_Data()
     Set Header = RegTable.HeaderRowRange
     j = 1
     
+    'Clear report table filters
+    Rpt.AutoFilter.ShowAllData
+    
     'Reset error message
     With err
         .Value = vbNullString
@@ -47,6 +50,10 @@ Sub Bring_Data()
             .Borders.LineStyle = xlNone
             .Delete
         End With
+        
+        'Recalculate used range
+        Sheet_Report.UsedRange.Calculate
+        
     End If
     
     'Exit out if register has no data
@@ -74,7 +81,7 @@ Sub Bring_Data()
     For i = 1 To UBound(ReadRow)
         
         If ReadRow(i, 7) <> "DELETED" Then
-            Application.StatusBar = "Processing Row " & j & "out of " & cRows
+            Application.StatusBar = "Processing Row " & j & " out of " & cRows
             
             GreenRef = ""
             RedRef = ""
@@ -756,10 +763,6 @@ Sub OpenFromTable(RIndex As Long)
     'Source: https://www.excelsirji.com/vba-code-to-get-logged-in-user-name/
     Username = Application.Username
     
-    'Source: https://officetricks.com/excel-vba-get-username-windows-system/
-    'Username = ThisWorkbook.BuiltinDocumentProperties("Author")
-    
-    
     'Force default starting rowIndex for empty form and tickbox checked
     RowIndex = RIndex
     Tick = True
@@ -769,6 +772,10 @@ Sub OpenFromTable(RIndex As Long)
     'Set initial location
     UserFormTopPos = Application.Top + 25
     UserFormLeftPos = Application.Left + Application.Width / 3
+    
+    'Set default user form height
+    UHeight = 470
+    UWidth = 650
     
     'Correct array used to guide what test to apply for each register field
     '0 if skip, 1 has to be filled, 2 if has to be text, 3 if has to be date

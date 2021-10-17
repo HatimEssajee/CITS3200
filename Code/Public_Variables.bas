@@ -28,16 +28,18 @@ Public DisplayArr() As Variant
 Public OldStudyStatus As String
 
 'Userform Position storage
-Public UserFormLeftPos As Long
-Public UserFormTopPos As Long
-Public UserFormLeftPosC As Long
-Public UserFormTopPosC As Long
-Public UserFormLeftPosR As Long
-Public UserFormTopPosR As Long
+Public UserFormLeftPos As Double
+Public UserFormTopPos As Double
+Public UserFormLeftPosC As Double
+Public UserFormTopPosC As Double
+Public UserFormLeftPosR As Double
+Public UserFormTopPosR As Double
+Public UHeight As Double
+Public UWidth As Double
 
 'Userform dimension control
-Public Const UHeight As Long = 470 '610
-Public Const UWidth As Long = 650 '500
+Public Const DUHeight As Long = 470 '610
+Public Const DUWidth As Long = 650 '500
 
 
 'list of public functions to share between userforms

@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form12_SIV 
    Caption         =   "Site Initiation Visit"
-   ClientHeight    =   5136
+   ClientHeight    =   5145
    ClientLeft      =   -510
    ClientTop       =   -2250
    ClientWidth     =   11280
@@ -282,7 +282,7 @@ Private Sub Fill_Completion_Status()
     
     'Apply test for completeness
     If ReadRow(1) <> vbNullString Then
-        ReadRow(1) = IsDate(Format(ReadRow, "dd-mmm-yyyy"))
+        ReadRow(1) = IsDate(Format(ReadRow(1), "dd-mmm-yyyy"))
     ElseIf ReadRow(2) <> vbNullString Then
         ReadRow(1) = False
     End If

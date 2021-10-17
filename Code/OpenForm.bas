@@ -21,6 +21,10 @@ Sub OpenForm()
     UserFormTopPos = Application.Top + 25
     UserFormLeftPos = Application.Left + 25
     
+    'Set default user form height
+    UHeight = DUHeight
+    UWidth = DUWidth
+    
     'Correct array used to guide what test to apply for each register field
     '0 if skip, 1 has to be filled, 2 if has to be text, 3 if has to be date
     Correct = Array(2, 1, 1, 1, 1, 1, 0, 0, 0, _

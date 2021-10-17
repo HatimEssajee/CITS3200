@@ -64,6 +64,9 @@ Private Sub Userform_Initialize()
             End Select
     Next ctrl
     
+    'Exit if no data
+    If RowIndex < 1 Then Exit Sub
+    
     'Pull in data from register table
     ReadRow = RegTable.DataBodyRange.Rows(RowIndex)
     

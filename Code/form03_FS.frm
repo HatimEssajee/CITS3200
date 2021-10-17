@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form03_FS 
    Caption         =   "Feasibility"
-   ClientHeight    =   5292
-   ClientLeft      =   -435
-   ClientTop       =   -1935
-   ClientWidth     =   11910
+   ClientHeight    =   6615
+   ClientLeft      =   -405
+   ClientTop       =   -1815
+   ClientWidth     =   14880
    OleObjectBlob   =   "form03_FS.frx":0000
 End
 Attribute VB_Name = "form03_FS"

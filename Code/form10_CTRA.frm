@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form10_CTRA 
    Caption         =   "CTRA"
-   ClientHeight    =   6852
+   ClientHeight    =   6840
    ClientLeft      =   -465
    ClientTop       =   -2370
    ClientWidth     =   11460

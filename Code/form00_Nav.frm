@@ -1,10 +1,10 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} form00_Nav 
    Caption         =   "Vaccine Trials Group Study Start-ups"
-   ClientHeight    =   9015.001
-   ClientLeft      =   -60
-   ClientTop       =   -450
-   ClientWidth     =   12945
+   ClientHeight    =   10725
+   ClientLeft      =   -30
+   ClientTop       =   -345
+   ClientWidth     =   16200
    OleObjectBlob   =   "form00_Nav.frx":0000
 End
 Attribute VB_Name = "form00_Nav"
@@ -106,7 +106,6 @@ Private Sub Userform_Initialize()
     
 End Sub
 
-
 Private Sub cmdClose_Click()
     'PURPOSE: Closes current form
     
@@ -140,12 +139,17 @@ End Sub
 Private Sub cmdNew_Click()
     'PURPOSE: Closes current form and open Study Detail form
     
-    Dim FoundCell As Range
     Dim StudyName As String
     Dim ReadRow As Variant
+    Dim FoundRow As Boolean
+    Dim ReadCols() As Variant
+    Dim i As Long
     
-    'Set Public Variable
-    StudyName = Me.txtStudyName.Value
+    'Clear error meesage
+    Me.errSearch.Caption = vbNullString
+    
+    FoundRow = False
+    StudyName = Me.txtStudyName
     
     'Check if study name is entered
     If StudyName = vbNullString Then
@@ -153,71 +157,84 @@ Private Sub cmdNew_Click()
         Exit Sub
     End If
     
-    'Check if study name already in Register table
-    'Source: https://www.thespreadsheetguru.com/blog/2014/6/20/the-vba-guide-to-listobject-excel-tables
-    On Error Resume Next
-    Set FoundCell = RegTable.DataBodyRange.Columns(9).find(StudyName, LookAt:=xlWhole)
-    On Error GoTo 0
-    
-    If Not FoundCell Is Nothing Then
-        RowIndex = RegTable.ListRows(FoundCell.Row - RegTable.HeaderRowRange.Row).Index
-        Me.errSearch.Caption = "Study already exists, consider edit instead"
-        Exit Sub
+    'Check if register is empty
+    If Not RegTable.DataBodyRange Is Nothing Then
+        ReadCols = RegTable.ListColumns(8).DataBodyRange.Resize(, 3)
+        
+        For i = 1 To RegTable.DataBodyRange.Rows.count
+            If LCase(CStr(ReadCols(i, 1))) = LCase(Me.txtProtocolNum) And _
+               LCase(CStr(ReadCols(i, 2))) = LCase(StudyName) And _
+               LCase(CStr(ReadCols(i, 3))) = LCase(Me.txtSponsor) Then
+               FoundRow = True
+            End If
+        Next i
     End If
     
+    If FoundRow Then
+        Call cmdSearch_Click
+            If Me.lstSearch.ListCount > 1 Then
+                Me.errSearch.Caption = "Study already exists, select from search list and consider edit instead"
+            Else
+                Me.errSearch.Caption = "Study already exists, consider edit instead"
+            End If
+        Exit Sub
+        
+    Else
+        
     'Add Row to register table and repoint row references
     'Source: https://www.bluepecantraining.com/portfolio/excel-vba-how-to-add-rows-and-columns-to-excel-table-with-vba-macro/
-    Set ReadRow = RegTable.ListRows.Add
+        Set ReadRow = RegTable.ListRows.Add
+        
+        RowIndex = RegTable.ListRows.count
+        
+        With ReadRow
+            'Creation version control
+            .Range(1) = Now
+            .Range(2) = Username
+            
+            .Range(7) = "Pre-commencement"
+            .Range(8) = Me.txtProtocolNum.Value
+            .Range(9) = StudyName
+            .Range(10) = Me.txtSponsor.Value
+            
+            'Add table formulae
+            'Overall Ethics true if at least one ethics committee complete
+            .Range(153).Formula = "=IF(COUNTA(Register[@[Ethics - CAHS Complete]:[Ethics - Others Complete]])=0, """"," & _
+                                  "IF(COUNTIF(Register[@[Ethics - CAHS Complete]:[Ethics - Others Complete]],TRUE)>0,TRUE,FALSE))"
+            
+            'Overall Governance true if at least one governance committee complete
+            .Range(154).Formula = "=IF(COUNTA(Register[@[Gov - PCH Complete]:[Gov - Others Complete]])=0,""""," & _
+                                  "IF(COUNTIF(Register[@[Gov - PCH Complete]:[Gov - Others Complete]],TRUE)>0,TRUE,FALSE))"
+            
+            'Overall Budget true if at all budget committee approve
+            .Range(155).Formula = "=IF(COUNTA(Register[@[Budget - VTG Complete]:[Budget - Pharmacy Complete]])=0,""""," & _
+                                  "IF(COUNTIF(Register[@[Budget - VTG Complete]:[Budget - Pharmacy Complete]],TRUE)=3,TRUE,FALSE))"
+            
+            'Study complete if all core sections complete
+            .Range(156).Formula = "=IF(AND([@[Study Details Complete]]=TRUE,[@[CDA Complete]]=TRUE,[@[FS Complete]]=TRUE," & _
+                                  "[@[Site Selection Complete]]=TRUE,[@[Recruitment Complete]]=TRUE,[@[Overall Ethics]]=TRUE," & _
+                                  "[@[Overall Governance]]=TRUE,[@[Budget - VTG Complete]]=TRUE,[@[Budget - TKI Complete]]=TRUE," & _
+                                  "[@[Budget - Pharmacy Complete]]=TRUE,[@[Indemnity Complete]]=TRUE,[@[CTRA Complete]]=TRUE," & _
+                                  "[@[Fin Disc Complete]]=TRUE,[@[SIV Complete]]=TRUE),TRUE,FALSE)"
     
-    RowIndex = RegTable.ListRows.count
+            'Fast cycle location based on last incomplete form. If none found then reverts to starting position
+            .Range(157).FormulaArray = "=IFERROR(MATCH(FALSE,Register[@[Study Details Complete]:[SIV Complete]],0)," & _
+                                        "IFERROR(MATCH(TRUE,ISBLANK(Register[@[Study Details Complete]:[SIV Complete]]),0),1))"
     
-    With ReadRow
-        'Creation version control
-        .Range(1) = Now
-        .Range(2) = Username
+            'Update version control
+            .Range(14) = .Range(1).Value
+            .Range(15) = .Range(2).Value
+        End With
+            
+        Unload form00_Nav
         
-        .Range(7) = "Pre-commencement"
-        .Range(8) = Me.txtProtocolNum.Value
-        .Range(9) = StudyName
-        .Range(10) = Me.txtSponsor.Value
-        
-        'Add table formulae
-        'Overall Ethics true if at least one ethics committee complete
-        .Range(153).Formula = "=IF(COUNTA(Register[@[Ethics - CAHS Complete]:[Ethics - Others Complete]])=0, """"," & _
-                              "IF(COUNTIF(Register[@[Ethics - CAHS Complete]:[Ethics - Others Complete]],TRUE)>0,TRUE,FALSE))"
-        
-        'Overall Governance true if at least one governance committee complete
-        .Range(154).Formula = "=IF(COUNTA(Register[@[Gov - PCH Complete]:[Gov - Others Complete]])=0,""""," & _
-                              "IF(COUNTIF(Register[@[Gov - PCH Complete]:[Gov - Others Complete]],TRUE)>0,TRUE,FALSE))"
-        
-        'Overall Budget true if at all budget committee approve
-        .Range(155).Formula = "=IF(COUNTA(Register[@[Budget - VTG Complete]:[Budget - Pharmacy Complete]])=0,""""," & _
-                              "IF(COUNTIF(Register[@[Budget - VTG Complete]:[Budget - Pharmacy Complete]],TRUE)=3,TRUE,FALSE))"
-        
-        'Study complete if all core sections complete
-        .Range(156).Formula = "=IF(AND([@[Study Details Complete]]=TRUE,[@[CDA Complete]]=TRUE,[@[FS Complete]]=TRUE," & _
-                              "[@[Site Selection Complete]]=TRUE,[@[Recruitment Complete]]=TRUE,[@[Overall Ethics]]=TRUE," & _
-                              "[@[Overall Governance]]=TRUE,[@[Budget - VTG Complete]]=TRUE,[@[Budget - TKI Complete]]=TRUE," & _
-                              "[@[Budget - Pharmacy Complete]]=TRUE,[@[Indemnity Complete]]=TRUE,[@[CTRA Complete]]=TRUE," & _
-                              "[@[Fin Disc Complete]]=TRUE,[@[SIV Complete]]=TRUE),TRUE,FALSE)"
-
-        'Fast cycle location based on last incomplete form. If none found then reverts to starting position
-        .Range(157).FormulaArray = "=IFERROR(MATCH(FALSE,Register[@[Study Details Complete]:[SIV Complete]],0)," & _
-                                    "IFERROR(MATCH(TRUE,ISBLANK(Register[@[Study Details Complete]:[SIV Complete]]),0),1))"
-
-        'Update version control
-        .Range(14) = .Range(1).Value
-        .Range(15) = .Range(2).Value
-    End With
-        
-    Unload form00_Nav
-    
-    form01_StudyDetail.show False
+        form01_StudyDetail.show False
+    End If
     
     'Empty Array as no longer needed
     EraseIfArray (StudyStatus)
     EraseIfArray (DisplayArr)
-    
+    EraseIfArray (ReadCols)
 End Sub
 
 Private Sub cbOnlyCurrent_Click()
@@ -247,6 +264,13 @@ Private Sub cboStudyStatus_AfterUpdate()
     Dim SIVDate As String
 
     'Unique change events
+    'In case register is deleted with form open
+    If RegTable.DataBodyRange Is Nothing Then
+        cmdClear_Click
+        errSearch.Caption = "Register contains no records"
+        Exit Sub
+    End If
+    
     SIVDate = RegTable.DataBodyRange.Cells(RowIndex, 125).Value
     
     'Undeleting entry
@@ -293,17 +317,19 @@ Private Sub cmdDelete_Click()
     
     Dim confirm As Integer
     
-    'Confirm deletion
-    confirm = MsgBox("Are you sure you want to delete study data?", vbYesNo, "WARNING!")
-
-    'If select no then cancel deletion
-    If confirm = vbNo Then
-        Exit Sub
-    End If
-
-    'Change entry if RowIndex was found via search or new entry
-    If RowIndex > 0 Then
-        
+    Me.errSearch.Caption = vbNullString
+    
+    If RowIndex < 0 Then
+        errSearch.Caption = "Need study entry identified (via search or navigation) to be able to delete it"
+    Else
+        'Confirm deletion
+        confirm = MsgBox("Are you sure you want to delete study data?", vbYesNo, "WARNING!")
+    
+        'If select no then cancel deletion
+        If confirm = vbNo Then
+            Exit Sub
+        End If
+     
         'Update deletion log
         With RegTable.ListRows(RowIndex)
             
@@ -333,8 +359,10 @@ End Sub
 Private Sub cmdChangeLog_Click()
     'PURPOSE: Open change log form
     
+    Me.errSearch.Caption = vbNullString
+    
     If RowIndex < 0 Then
-        errSearch.Caption = "Need study entry identified to view log"
+        errSearch.Caption = "Need study entry identified (via search or navigation) to view Change Log"
     Else
         form13_ChangeLog.show False
     End If
@@ -351,8 +379,10 @@ End Sub
 Private Sub cmdReminders_Click()
     'PURPOSE: Open reminder log form
     
+    Me.errSearch.Caption = vbNullString
+    
     If RowIndex < 0 Then
-        errSearch.Caption = "Need study entry identified to view log"
+        errSearch.Caption = "Need study entry identified (via search or navigation) to view Reminder Log"
     Else
         form14_ReminderLog.show False
     End If
@@ -370,30 +400,79 @@ End Sub
 Private Sub cmdEdit_Click()
     'PURPOSE: Closes current form and open Study Detail form
     
-    'Redirect to new entry creation if no data
+    Dim StudyName As String
+    Dim ReadRow As Variant
+    Dim FoundRow As Boolean
+    Dim ReadCols() As Variant
+    Dim i As Long
+    
+    'Clear error meesage
+    Me.errSearch.Caption = vbNullString
+    
+    
+    FoundRow = False
+    StudyName = Me.txtStudyName
+    
+    'Redirect to new entry creation if no data in register
     If RegTable.DataBodyRange Is Nothing Then
         Call cmdNew_Click
         Exit Sub
     End If
     
+    'Check if study name is entered
+    If StudyName = vbNullString Then
+        Me.errSearch.Caption = "Need atleast study name entered to edit study record"
+        Exit Sub
+    End If
+    
+    'Reset the row index if field has been changed
+    With RegTable.DataBodyRange
+        If Me.txtProtocolNum <> .Cells(RowIndex, 8).Value Or _
+           StudyName <> .Cells(RowIndex, 9).Value Or _
+           Me.txtSponsor <> .Cells(RowIndex, 10).Value Then
+           
+           RowIndex = -1
+        End If
+    End With
+    
     If RowIndex < 0 Then
-        errSearch.Caption = "Could not locate entry in register, consider creating new record"
-    Else
-        
-        'Write changes to register table
-        With RegTable.ListRows(RowIndex)
-            .Range(8) = Me.txtProtocolNum.Value
-            .Range(9) = Me.txtStudyName.Value
-            .Range(10) = Me.txtSponsor.Value
+        'Check if register is empty
+        If Not RegTable.DataBodyRange Is Nothing Then
+            ReadCols = RegTable.ListColumns(8).DataBodyRange.Resize(, 3)
             
-            'Update version control
-            .Range(14) = Now
-            .Range(15) = Username
-        End With
+            For i = 1 To RegTable.DataBodyRange.Rows.count
+                If LCase(CStr(ReadCols(i, 1))) = LCase(Me.txtProtocolNum) And _
+                   LCase(CStr(ReadCols(i, 2))) = LCase(StudyName) And _
+                   LCase(CStr(ReadCols(i, 3))) = LCase(Me.txtSponsor) Then
+                   FoundRow = True
+                End If
+            Next i
+        End If
+    Else
+        FoundRow = True
+    End If
+    
+
+    If Not FoundRow Then
+        'If no record is found
+        Me.errSearch.Caption = "Record not found in the register, consider searching register or creating new record"
+        Exit Sub
+    ElseIf RowIndex < 0 Then
+        'if inital record didnt match register run search to check if another does
+        Call cmdSearch_Click
         
+        If Me.lstSearch.ListCount > 1 Then
+            'if multiple matching records are found
+            Me.errSearch.Caption = "Select record from search list and re-attempt edit"
+            Exit Sub
+        End If
+    End If
+        
+    If RowIndex > 0 Then
         'Empty Array as no longer needed
         EraseIfArray (StudyStatus)
         EraseIfArray (DisplayArr)
+        EraseIfArray (ReadCols)
         
         Call Fill_Completion_Status
         DoEvents
@@ -536,7 +615,6 @@ Private Sub Fill_Completion_Status()
     
     'Recruitment
     'Criteria - has to be date
-    If db.Cells(RowIndex, 39) <> vbNullString Then ReadRow(32) = False
     db.Cells(RowIndex, 133) = ReadRow(32)
     
     
@@ -1010,6 +1088,13 @@ Private Sub cmdSearch_Click()
     Me.lstSearch.Clear
     errSearch.Caption = vbNullString
     
+    'In case register is deleted with form open
+    If RegTable.DataBodyRange Is Nothing Then
+        cmdClear_Click
+        errSearch.Caption = "Register contains no records"
+        Exit Sub
+    End If
+    
     SearchArr = RegTable.ListColumns(7).DataBodyRange.Resize(, 4)
     If IsArrayEmpty(SearchArr) Then
         errSearch.Caption = "Study register is empty"
@@ -1025,7 +1110,7 @@ Private Sub cmdSearch_Click()
     
     
     For i = 1 To UBound(SearchArr)
-        If (Not (Tick) Or (Tick And SearchArr(i, 1) = "Pre-commencement")) And _
+        If (Not (Tick) Or (Tick And LCase(CStr(SearchArr(i, 1))) = "pre-commencement")) And _
             (StudyName = vbNullString Or (Len(StudyName) > 0 And InStr(1, SearchArr(i, 3), StudyName, vbTextCompare) > 0)) And _
             (ProtocolNum = vbNullString Or (Len(ProtocolNum) > 0 And InStr(1, SearchArr(i, 2), ProtocolNum, vbTextCompare) > 0)) And _
             (Sponsor = vbNullString Or (Len(Sponsor) > 0 And InStr(1, SearchArr(i, 4), Sponsor, vbTextCompare) > 0)) Then
@@ -1045,7 +1130,7 @@ Private Sub cmdSearch_Click()
     Next i
     
     If IsArrayEmpty(TempArr) Then
-        errSearch.Caption = "No records found matching query"
+        errSearch.Caption = "No matching records found, consider creating new entry"
         Exit Sub
     End If
     
@@ -1055,18 +1140,26 @@ Private Sub cmdSearch_Click()
     EraseIfArray (SearchArr)
     EraseIfArray (TempArr)
     
+    
     'Fill list box but retain shape and location
     'Source: https://www.mrexcel.com/board/threads/unexpected-changes-to-listbox-height.604737/
     With Me.lstSearch
-        .Top = 205.8
+        .Top = 217.8
         .Left = 12
-        .Height = 88.45
+        .Height = 79.55
         .Width = 540
         .IntegralHeight = False 'needed to stop list box changing position
         .List = DisplayArr
         .TopIndex = .ListCount - 1 'start at bottom of list as newest record found here
     End With
-         
+    
+    If Me.lstSearch.ListCount = 1 Then
+        RowIndex = DisplayArr(1, 5)
+        Call Read_Table
+    Else
+        errSearch.Caption = "Please select an entry from the search list to proceed"
+    End If
+    
 End Sub
 
 Private Sub lstSearch_Click()
@@ -1075,6 +1168,9 @@ Private Sub lstSearch_Click()
     
     'Determine no. of items in list box
     ListCount = Me.lstSearch.ListCount
+    
+    'Clear search error
+    errSearch.Caption = vbNullString
     
 
     'Loop through items in list box until selected item found
